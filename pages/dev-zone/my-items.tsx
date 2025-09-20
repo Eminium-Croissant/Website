@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Link from "next/link";
 import Certification from "../../components/common/Certification";
+import { useTranslation } from "next-i18next";
 
 const endpoint = "/api"; // Replace with your actual API endpoint
 
@@ -15,6 +16,7 @@ type Item = {
 };
 
 const MyItems = () => {
+  const { t } = useTranslation("common");
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -344,7 +346,7 @@ const MyItems = () => {
           }}
         >
           <h1 className="myitems-title">
-            <span className="myitems-title-span">My Items</span>
+            <span className="myitems-title-span">{t("myItems.title")}</span>
           </h1>
           <Link
             href="/dev-zone/create-item"
@@ -361,14 +363,14 @@ const MyItems = () => {
               cursor: "pointer",
             }}
           >
-            + Add Item
+            {t("myItems.addItem")}
           </Link>
         </div>
         {loading ? (
-          <div className="myitems-loading">Loading...</div>
+          <div className="myitems-loading">{t("myItems.loading")}</div>
         ) : (
           <>
-            {items.length === 0 && <div className="myitems-empty">No items found.</div>}
+            {items.length === 0 && <div className="myitems-empty">{t("myItems.empty")}</div>}
             <div className="myitems-grid">
               {items.map((item) => (
                 <div
@@ -400,8 +402,8 @@ const MyItems = () => {
                         e.stopPropagation();
                         handleEdit(item);
                       }}
-                    >
-                      Edit
+                      >
+                        {t("myItems.edit")}
                     </button>
                     <button
                       className="myitems-card-editbtn"
@@ -414,8 +416,8 @@ const MyItems = () => {
                           e.currentTarget.textContent = "Id";
                         }, 1000);
                       }}
-                    >
-                      Id
+                      >
+                        {t("myItems.id")}
                     </button>
                     <button
                       className="myitems-card-editbtn"
@@ -423,8 +425,8 @@ const MyItems = () => {
                         e.stopPropagation();
                         handleOwnershipTransfer(item);
                       }}
-                    >
-                      Transfer
+                      >
+                        {t("myItems.transfer")}
                     </button>
                   </div>
                 </div>
@@ -446,9 +448,10 @@ const MyItems = () => {
                 <div className="myitems-tooltip-title">{tooltip.item.name}</div>
                 <div className="myitems-tooltip-desc">{tooltip.item.description}</div>
                 <div className="myitems-tooltip-price">
-                  Price: {tooltip.item.price}
+              {t("myItems.price")}: {tooltip.item.price}
                   <img src="/assets/credit.avif" className="myitems-card-credit" />
                   <span className="myitems-tooltip-store">Show in Store: {tooltip.item.showInStore ? "Yes" : "No"}</span>
+                    <span className="myitems-tooltip-store">{t("myItems.showInStore")}: {tooltip.item.showInStore ? t("myItems.yes") : t("myItems.no")}</span>
                 </div>
               </div>
             )}
@@ -456,21 +459,26 @@ const MyItems = () => {
               <div className="myitems-modal-overlay">
                 <form onSubmit={handleSubmit} className="myitems-modal-form">
                   <h2 className="myitems-modal-title">Edit Item</h2>
+                    
                   <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="myitems-input" required />
+                    
                   <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="myitems-input" required />
+                    
                   <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="myitems-input" required />
+                    
                   <label className="myitems-label">
                     <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="myitems-checkbox" />
-                    Show in Store
+                      {t("myItems.showInStore")}
                   </label>
                   <input type="file" accept="image/*" onChange={handleIconChange} className="myitems-input" />
+                    
                   {errors.submit && <div className="myitems-error">{errors.submit}</div>}
                   <div className="myitems-modal-btns">
                     <button type="submit" disabled={submitting} className="myitems-btn-save">
-                      {submitting ? "Saving..." : "Save"}
+                 {submitting ? t("myItems.saving") : t("myItems.save")}
                     </button>
                     <button type="button" onClick={handleCancel} disabled={submitting} className="myitems-btn-cancel">
-                      Cancel
+                 {t("myItems.cancel")}
                     </button>
                   </div>
                 </form>
@@ -522,9 +530,11 @@ const MyItems = () => {
                     &times;
                   </button>
                   <h3 style={{ marginBottom: 18 }}>Transfer Item</h3>
+                    
                   <form autoComplete="off" onSubmit={handleConfirmTransfer}>
                     <div style={{ marginBottom: 12 }}>
                       <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Amount:</label>
+                        
                       <input
                         type="number"
                         min={1}
@@ -545,6 +555,7 @@ const MyItems = () => {
                     </div>
                     <div style={{ position: "relative", marginBottom: 12 }}>
                       <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
+                        
                       <input
                         ref={transferUserInputRef}
                         type="text"
@@ -559,7 +570,7 @@ const MyItems = () => {
                           if (transferUserSearch.length > 1) setTransferUserDropdownOpen(true);
                         }}
                         onBlur={() => setTimeout(() => setTransferUserDropdownOpen(false), 150)}
-                        placeholder="Search user by name..."
+                        placeholder={t("myItems.searchUser")}
                         style={{
                           marginRight: 8,
                           padding: "10px 12px",
@@ -623,8 +634,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: transferUserId ? "pointer" : "not-allowed",
                         }}
-                      >
-                        {transferLoading ? "Transferring..." : "Transfer"}
+                        >
+                          {transferLoading ? t("myItems.transferring") : t("myItems.transfer")}
                       </button>
                       <button
                         type="button"
@@ -638,8 +649,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: "pointer",
                         }}
-                      >
-                        Cancel
+                        >
+                          {t("myItems.cancel")}
                       </button>
                     </div>
                     {transferError && <div style={{ color: "red", marginTop: 12 }}>{transferError}</div>}
@@ -693,9 +704,11 @@ const MyItems = () => {
                     &times;
                   </button>
                   <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
+                    
                   <form autoComplete="off" onSubmit={handleConfirmOwnershipTransfer}>
                     <div style={{ position: "relative", marginBottom: 12 }}>
                       <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
+                        
                       <input
                         ref={ownershipUserInputRef}
                         type="text"
@@ -710,7 +723,7 @@ const MyItems = () => {
                           if (ownershipUserSearch.length > 1) setOwnershipUserDropdownOpen(true);
                         }}
                         onBlur={() => setTimeout(() => setOwnershipUserDropdownOpen(false), 150)}
-                        placeholder="Search user by name..."
+                        placeholder={t("myItems.searchUser")}
                         style={{
                           marginRight: 8,
                           padding: "10px 12px",
@@ -787,8 +800,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: ownershipUserId ? "pointer" : "not-allowed",
                         }}
-                      >
-                        {ownershipLoading ? "Transferring..." : "Transfer"}
+                        >
+                          {ownershipLoading ? t("myItems.transferring") : t("myItems.transfer")}
                       </button>
                       <button
                         type="button"
@@ -802,8 +815,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: "pointer",
                         }}
-                      >
-                        Cancel
+                        >
+                          {t("myItems.cancel")}
                       </button>
                     </div>
                     {ownershipError && <div style={{ color: "red", marginTop: 12 }}>{ownershipError}</div>}
