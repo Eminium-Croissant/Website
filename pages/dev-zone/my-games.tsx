@@ -416,235 +416,243 @@ const MyGames = () => {
                 </div>
               </div>
             )}
-            {editingId && (
-              <div className="mygames-modal-overlay">
-                <form onSubmit={handleSubmit} className="mygames-modal-form">
-                  <div className="mygames-modal-col">
-                    <h2 className="mygames-modal-title">Edit Game</h2>
-
-                    <label className="mygames-label" htmlFor="name">
-                      {t("myGames.name")}
-                    </label>
-                    <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="mygames-input" required />
-                    <label className="mygames-label" htmlFor="description">
-                      {t("myGames.description")}
-                    </label>
-                    <textarea id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="mygames-input" required />
-                    <label className="mygames-label" htmlFor="price">
-                      {t("myGames.price")}
-                    </label>
-                    <input id="price" type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="mygames-input" required />
-                    <label className="mygames-label">
-                      <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="mygames-checkbox" />
-                      {t("myGames.showInStore")}
-                    </label>
-                    <label className="mygames-label">
-                      <input type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="mygames-checkbox" />
-                      {t("myGames.multiplayer")}
-                    </label>
-                  </div>
-                  <div className="mygames-modal-col">
-                    <label className="mygames-label" htmlFor="icon">
-                      {t("myGames.icon")}
-                    </label>
-                    <input id="icon" type="file" accept="image/*" onChange={handleIconChange} className="mygames-input" />
-                    <label className="mygames-label" htmlFor="banner">
-                      {t("myGames.banner")}
-                    </label>
-                    <input id="banner" type="file" accept="image/*" onChange={handleBannerChange} className="mygames-input" />
-                    <label className="mygames-label" htmlFor="genre">
-                      {t("myGames.genre")}
-                    </label>
-                    <input id="genre" type="text" name="genre" value={formData.genre} onChange={handleChange} placeholder="Genre" className="mygames-input" />
-                    <label className="mygames-label" htmlFor="release_date">
-                      {t("myGames.releaseDate")}
-                    </label>
-                    <input id="release_date" type="date" name="release_date" value={formData.release_date} onChange={handleChange} placeholder="Release Date" className="mygames-input" />
-                    <label className="mygames-label" htmlFor="publisher">
-                      {t("myGames.publisher")}
-                    </label>
-                    <input id="publisher" type="text" name="publisher" value={formData.publisher} onChange={handleChange} placeholder="Publisher" className="mygames-input" />
-                  </div>
-                  <div className="mygames-modal-col">
-                    <label className="mygames-label" htmlFor="developer">
-                      {t("myGames.developer")}
-                    </label>
-                    <input id="developer" type="text" name="developer" value={formData.developer} onChange={handleChange} placeholder="Developer" className="mygames-input" />
-                    <label className="mygames-label" htmlFor="platforms">
-                      {t("myGames.platforms")}
-                    </label>
-                    <input id="platforms" type="text" name="platforms" value={formData.platforms} onChange={handleChange} placeholder="Platforms" className="mygames-input" />
-                    <label className="mygames-label" htmlFor="website">
-                      {t("myGames.website")}
-                    </label>
-                    <input id="website" type="url" name="website" value={formData.website} onChange={handleChange} placeholder="Website" className="mygames-input" />
-                    <label className="mygames-label" htmlFor="trailer_link">
-                      {t("myGames.trailerLink")}
-                    </label>
-                    <input id="trailer_link" type="url" name="trailer_link" value={formData.trailer_link} onChange={handleChange} placeholder="Trailer Link" className="mygames-input" />
-                  </div>
-                  <div className="mygames-modal-col">
-                    <label className="mygames-label" htmlFor="download_link">
-                      {t("myGames.downloadLink")}
-                    </label>
-                    <input id="download_link" type="url" name="download_link" value={formData.download_link} onChange={handleChange} placeholder="https://example.com/download" className="mygames-input" />
-                  </div>
-                  <div className="mygames-modal-actions">
-                    {errors.submit && <div className="mygames-error">{errors.submit}</div>}
-                    <div className="mygames-modal-btns">
-                      <button type="submit" disabled={submitting} className="mygames-btn-save">
-                        {submitting ? t("myGames.saving") : t("myGames.save")}
-                      </button>
-                      <button type="button" onClick={handleCancel} disabled={submitting} className="mygames-btn-cancel">
-                        {t("myGames.cancel")}
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            )}
-            {showOwnershipModal && (
-              <div className="modal-overlay" onClick={() => setShowOwnershipModal(false)}>
-                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                  <button
-                    className="close-modal-btn"
-                    onClick={() => setShowOwnershipModal(false)}
-                    style={{
-                      position: "absolute",
-                      top: 12,
-                      right: 16,
-                      background: "none",
-                      border: "none",
-                      color: "#fff",
-                      fontSize: 24,
-                      cursor: "pointer",
-                    }}
-                  >
-                    &times;
-                  </button>
-                  <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
-
-                  <form autoComplete="off" onSubmit={handleConfirmOwnershipTransfer}>
-                    <div style={{ position: "relative", marginBottom: 12 }}>
-                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
-
-                      <input
-                        ref={ownershipUserInputRef}
-                        type="text"
-                        value={ownershipUserSearch}
-                        onChange={async (e) => {
-                          setOwnershipUserSearch(e.target.value);
-                          setOwnershipUserDropdownOpen(true);
-                          setOwnershipUserId("");
-                          await handleOwnershipUserSearch(e.target.value);
-                        }}
-                        onFocus={() => {
-                          if (ownershipUserSearch.length > 1) setOwnershipUserDropdownOpen(true);
-                        }}
-                        onBlur={() => setTimeout(() => setOwnershipUserDropdownOpen(false), 150)}
-                        placeholder={t("myGames.searchUser")}
-                        style={{
-                          marginRight: 8,
-                          padding: "10px 12px",
-                          borderRadius: 6,
-                          border: "1px solid #444",
-                          background: "#181818",
-                          color: "#fff",
-                          fontSize: "1rem",
-                          width: "280px",
-                        }}
-                      />
-                      {ownershipUserDropdownOpen && ownershipUserResults.length > 0 && (
-                        <ul
-                          style={{
-                            position: "absolute",
-                            left: 0,
-                            right: 0,
-                            top: 40,
-                            background: "#232323",
-                            border: "1px solid #444",
-                            borderRadius: 6,
-                            maxHeight: 200,
-                            overflowY: "auto",
-                            zIndex: 1001,
-                            listStyle: "none",
-                            margin: 0,
-                            padding: 0,
-                          }}
-                        >
-                          {ownershipUserResults.map((u) => (
-                            <li
-                              key={u.userId || u.user_id || u.id}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 8,
-                                padding: "8px 12px",
-                                cursor: "pointer",
-                                borderBottom: "1px solid #333",
-                              }}
-                              onMouseDown={() => {
-                                setOwnershipUserId(u.userId || u.user_id || u.id);
-                                setOwnershipUserSearch(u.username);
-                                setOwnershipUserDropdownOpen(false);
-                              }}
-                            >
-                              <img src={`/avatar/${u.userId || u.user_id || u.id}`} alt="avatar" style={{ width: 28, height: 28, borderRadius: "50%" }} onError={(e) => (e.currentTarget.src = "/avatar/default.avif")} />
-                              <span style={{ color: "#fff" }}>{u.username}</span>
-                              <Certification
-                                user={u}
-                                style={{
-                                  width: 16,
-                                  height: 16,
-                                  verticalAlign: "middle",
-                                }}
-                              />
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                    <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                      <button
-                        type="submit"
-                        disabled={ownershipLoading || !ownershipUserId}
-                        style={{
-                          background: "#333",
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: 6,
-                          fontWeight: 500,
-                          padding: "10px 24px",
-                          fontSize: "1rem",
-                          cursor: ownershipUserId ? "pointer" : "not-allowed",
-                        }}
-                      >
-                        {ownershipLoading ? t("myGames.transferring") : t("myGames.transfer")}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setShowOwnershipModal(false)}
-                        style={{
-                          background: "#222",
-                          border: "1px solid #444",
-                          color: "#fff",
-                          borderRadius: 6,
-                          padding: "10px 24px",
-                          fontSize: "1rem",
-                          cursor: "pointer",
-                        }}
-                      >
-                        {t("myGames.cancel")}
-                      </button>
-                    </div>
-                    {ownershipError && <div style={{ color: "red", marginTop: 12 }}>{ownershipError}</div>}
-                  </form>
-                </div>
-              </div>
-            )}
           </>
         )}
       </div>
+      {/* Place le modal ici, en dehors du container */}
+      {editingId && (
+        <div className="mygames-modal-overlay">
+          <form
+            onSubmit={handleSubmit}
+            className="mygames-modal-form"
+            style={{
+              maxHeight: "90vh",
+              overflowY: "auto",
+            }}
+          >
+            <div className="mygames-modal-col">
+              <h2 className="mygames-modal-title">Edit Game</h2>
+
+              <label className="mygames-label" htmlFor="name">
+                {t("myGames.name")}
+              </label>
+              <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="mygames-input" required />
+              <label className="mygames-label" htmlFor="description">
+                {t("myGames.description")}
+              </label>
+              <textarea id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="mygames-input" required />
+              <label className="mygames-label" htmlFor="price">
+                {t("myGames.price")}
+              </label>
+              <input id="price" type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="mygames-input" required />
+              <label className="mygames-label">
+                <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="mygames-checkbox" />
+                {t("myGames.showInStore")}
+              </label>
+              <label className="mygames-label">
+                <input type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="mygames-checkbox" />
+                {t("myGames.multiplayer")}
+              </label>
+            </div>
+            <div className="mygames-modal-col">
+              <label className="mygames-label" htmlFor="icon">
+                {t("myGames.icon")}
+              </label>
+              <input id="icon" type="file" accept="image/*" onChange={handleIconChange} className="mygames-input" />
+              <label className="mygames-label" htmlFor="banner">
+                {t("myGames.banner")}
+              </label>
+              <input id="banner" type="file" accept="image/*" onChange={handleBannerChange} className="mygames-input" />
+              <label className="mygames-label" htmlFor="genre">
+                {t("myGames.genre")}
+              </label>
+              <input id="genre" type="text" name="genre" value={formData.genre} onChange={handleChange} placeholder="Genre" className="mygames-input" />
+              <label className="mygames-label" htmlFor="release_date">
+                {t("myGames.releaseDate")}
+              </label>
+              <input id="release_date" type="date" name="release_date" value={formData.release_date} onChange={handleChange} placeholder="Release Date" className="mygames-input" />
+              <label className="mygames-label" htmlFor="publisher">
+                {t("myGames.publisher")}
+              </label>
+              <input id="publisher" type="text" name="publisher" value={formData.publisher} onChange={handleChange} placeholder="Publisher" className="mygames-input" />
+            </div>
+            <div className="mygames-modal-col">
+              <label className="mygames-label" htmlFor="developer">
+                {t("myGames.developer")}
+              </label>
+              <input id="developer" type="text" name="developer" value={formData.developer} onChange={handleChange} placeholder="Developer" className="mygames-input" />
+              <label className="mygames-label" htmlFor="platforms">
+                {t("myGames.platforms")}
+              </label>
+              <input id="platforms" type="text" name="platforms" value={formData.platforms} onChange={handleChange} placeholder="Platforms" className="mygames-input" />
+              <label className="mygames-label" htmlFor="website">
+                {t("myGames.website")}
+              </label>
+              <input id="website" type="url" name="website" value={formData.website} onChange={handleChange} placeholder="Website" className="mygames-input" />
+              <label className="mygames-label" htmlFor="trailer_link">
+                {t("myGames.trailerLink")}
+              </label>
+              <input id="trailer_link" type="url" name="trailer_link" value={formData.trailer_link} onChange={handleChange} placeholder="Trailer Link" className="mygames-input" />
+            </div>
+            <div className="mygames-modal-col">
+              <label className="mygames-label" htmlFor="download_link">
+                {t("myGames.downloadLink")}
+              </label>
+              <input id="download_link" type="url" name="download_link" value={formData.download_link} onChange={handleChange} placeholder="https://example.com/download" className="mygames-input" />
+            </div>
+            <div className="mygames-modal-actions">
+              {errors.submit && <div className="mygames-error">{errors.submit}</div>}
+              <div className="mygames-modal-btns">
+                <button type="submit" disabled={submitting} className="mygames-btn-save">
+                  {submitting ? t("myGames.saving") : t("myGames.save")}
+                </button>
+                <button type="button" onClick={handleCancel} disabled={submitting} className="mygames-btn-cancel">
+                  {t("myGames.cancel")}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      )}
+      {showOwnershipModal && (
+        <div className="modal-overlay" onClick={() => setShowOwnershipModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="close-modal-btn"
+              onClick={() => setShowOwnershipModal(false)}
+              style={{
+                position: "absolute",
+                top: 12,
+                right: 16,
+                background: "none",
+                border: "none",
+                color: "#fff",
+                fontSize: 24,
+                cursor: "pointer",
+              }}
+            >
+              &times;
+            </button>
+            <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
+
+            <form autoComplete="off" onSubmit={handleConfirmOwnershipTransfer}>
+              <div style={{ position: "relative", marginBottom: 12 }}>
+                <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
+
+                <input
+                  ref={ownershipUserInputRef}
+                  type="text"
+                  value={ownershipUserSearch}
+                  onChange={async (e) => {
+                    setOwnershipUserSearch(e.target.value);
+                    setOwnershipUserDropdownOpen(true);
+                    setOwnershipUserId("");
+                    await handleOwnershipUserSearch(e.target.value);
+                  }}
+                  onFocus={() => {
+                    if (ownershipUserSearch.length > 1) setOwnershipUserDropdownOpen(true);
+                  }}
+                  onBlur={() => setTimeout(() => setOwnershipUserDropdownOpen(false), 150)}
+                  placeholder={t("myGames.searchUser")}
+                  style={{
+                    marginRight: 8,
+                    padding: "10px 12px",
+                    borderRadius: 6,
+                    border: "1px solid #444",
+                    background: "#181818",
+                    color: "#fff",
+                    fontSize: "1rem",
+                    width: "280px",
+                  }}
+                />
+                {ownershipUserDropdownOpen && ownershipUserResults.length > 0 && (
+                  <ul
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      right: 0,
+                      top: 40,
+                      background: "#232323",
+                      border: "1px solid #444",
+                      borderRadius: 6,
+                      maxHeight: 200,
+                      overflowY: "auto",
+                      zIndex: 1001,
+                      listStyle: "none",
+                      margin: 0,
+                      padding: 0,
+                    }}
+                  >
+                    {ownershipUserResults.map((u) => (
+                      <li
+                        key={u.userId || u.user_id || u.id}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          padding: "8px 12px",
+                          cursor: "pointer",
+                          borderBottom: "1px solid #333",
+                        }}
+                        onMouseDown={() => {
+                          setOwnershipUserId(u.userId || u.user_id || u.id);
+                          setOwnershipUserSearch(u.username);
+                          setOwnershipUserDropdownOpen(false);
+                        }}
+                      >
+                        <img src={`/avatar/${u.userId || u.user_id || u.id}`} alt="avatar" style={{ width: 28, height: 28, borderRadius: "50%" }} onError={(e) => (e.currentTarget.src = "/avatar/default.avif")} />
+                        <span style={{ color: "#fff" }}>{u.username}</span>
+                        <Certification
+                          user={u}
+                          style={{
+                            width: 16,
+                            height: 16,
+                            verticalAlign: "middle",
+                          }}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+                <button
+                  type="submit"
+                  disabled={ownershipLoading || !ownershipUserId}
+                  style={{
+                    background: "#333",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: 6,
+                    fontWeight: 500,
+                    padding: "10px 24px",
+                    fontSize: "1rem",
+                    cursor: ownershipUserId ? "pointer" : "not-allowed",
+                  }}
+                >
+                  {ownershipLoading ? t("myGames.transferring") : t("myGames.transfer")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowOwnershipModal(false)}
+                  style={{
+                    background: "#222",
+                    border: "1px solid #444",
+                    color: "#fff",
+                    borderRadius: 6,
+                    padding: "10px 24px",
+                    fontSize: "1rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  {t("myGames.cancel")}
+                </button>
+              </div>
+              {ownershipError && <div style={{ color: "red", marginTop: 12 }}>{ownershipError}</div>}
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

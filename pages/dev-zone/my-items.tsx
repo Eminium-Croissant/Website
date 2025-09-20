@@ -450,30 +450,6 @@ const MyItems = () => {
                 </div>
               </div>
             )}
-            {editingId && (
-              <div className="myitems-modal-overlay">
-                <form onSubmit={handleSubmit} className="myitems-modal-form">
-                  <h2 className="myitems-modal-title">Edit Item</h2>
-                  <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="myitems-input" required />
-                  <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="myitems-input" required />
-                  <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="myitems-input" required />
-                  <label className="myitems-label">
-                    <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="myitems-checkbox" />
-                    {t("myItems.showInStore")}
-                  </label>
-                  <input type="file" accept="image/*" onChange={handleIconChange} className="myitems-input" />
-                  {errors.submit && <div className="myitems-error">{errors.submit}</div>}
-                  <div className="myitems-modal-btns">
-                    <button type="submit" disabled={submitting} className="myitems-btn-save">
-                      {submitting ? t("myItems.saving") : t("myItems.save")}
-                    </button>
-                    <button type="button" onClick={handleCancel} disabled={submitting} className="myitems-btn-cancel">
-                      {t("myItems.cancel")}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            )}
             {showTransferModal && (
               <div className="modal-overlay" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.35)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setShowTransferModal(false)}>
                 <div className="modal-content" style={{ background: "#232323", borderRadius: 10, padding: 32, minWidth: 320, position: "relative", boxShadow: "0 2px 16px #0005" }} onClick={(e) => e.stopPropagation()}>
@@ -739,6 +715,38 @@ const MyItems = () => {
           </>
         )}
       </div>
+      {/* Place la modale ici, en dehors du container */}
+      {editingId && (
+        <div className="myitems-modal-overlay">
+          <form
+            onSubmit={handleSubmit}
+            className="myitems-modal-form"
+            style={{
+              maxHeight: "90vh",
+              overflowY: "auto",
+            }}
+          >
+            <h2 className="myitems-modal-title">Edit Item</h2>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="myitems-input" required />
+            <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="myitems-input" required />
+            <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="myitems-input" required />
+            <label className="myitems-label">
+              <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="myitems-checkbox" />
+              {t("myItems.showInStore")}
+            </label>
+            <input type="file" accept="image/*" onChange={handleIconChange} className="myitems-input" />
+            {errors.submit && <div className="myitems-error">{errors.submit}</div>}
+            <div className="myitems-modal-btns">
+              <button type="submit" disabled={submitting} className="myitems-btn-save">
+                {submitting ? t("myItems.saving") : t("myItems.save")}
+              </button>
+              <button type="button" onClick={handleCancel} disabled={submitting} className="myitems-btn-cancel">
+                {t("myItems.cancel")}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
