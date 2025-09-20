@@ -276,48 +276,78 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
       {/* Buy prompt overlay */}
       {prompt && (
         <div className="shop-prompt-overlay">
-          <div className="shop-prompt" style={{ display: "inline-flex", flexDirection: "column", gap: 8 }}>
+          <div
+            className="shop-prompt shop-prompt-buy"
+            style={{
+              minWidth: 340,
+              maxWidth: 420,
+              background: "#23272a",
+              borderRadius: 12,
+              boxShadow: "0 2px 16px rgba(0,0,0,0.18)",
+              padding: 24,
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+              color: "#fff",
+            }}
+          >
             {prompt.item && (
-              <div className="shop-prompt-item-details" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <CachedImage src={"/items-icons/" + (prompt.item?.iconHash || prompt.item.itemId)} alt={prompt.item.name} className="shop-prompt-item-img" />
-                <div className="shop-prompt-item-info" style={{ display: "inline-flex", flexDirection: "column", gap: 4 }}>
-                  <div className="shop-prompt-item-name">{prompt.item.name}</div>
-                  <div className="shop-prompt-item-desc">{prompt.item.description}</div>
-                  <div className="shop-prompt-item-price" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <CachedImage
+                  src={`/items-icons/${prompt.item.iconHash || prompt.item.itemId}`}
+                  alt={prompt.item.name}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 8,
+                    background: "#181a1a",
+                  }}
+                />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 600, fontSize: 17 }}>{prompt.item.name}</div>
+                  <div style={{ color: "#aaa", fontSize: 13 }}>{prompt.item.description}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 7, marginTop: 2 }}>
                     {t("profile.price")} {prompt.item.price}
-                    <CachedImage src="/assets/credit.avif" className="shop-credit-icon" />
+                    <CachedImage src="/assets/credit.avif" style={{ width: 16, height: 16 }} />
                     {prompt.item.stock !== undefined && (
-                      <span className="shop-prompt-item-stock">
+                      <span style={{ color: "#888", fontSize: 12 }}>
                         {t("profile.stockLabel")}: {prompt.item.stock}
                       </span>
                     )}
                   </div>
-                  {(prompt.item as any).owner && promptOwnerUser && (
-                    <div className="shop-prompt-item-owner" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-                      {t("profile.creatorLabel")}{" "}
-                      <Link href={`/profile?user=${(prompt.item as any).owner}`} className="shop-prompt-owner-link">
-                        <CachedImage className="shop-prompt-owner-avatar" src={"/avatar/" + (prompt.item as any).owner} />
-                        {promptOwnerUser.username} <Certification user={{ ...promptOwnerUser, verified: promptOwnerUser.verified ?? false }} style={{ marginLeft: 4, width: 16, height: 16, position: "relative", top: -2, verticalAlign: "middle" }} />
-                      </Link>
-                    </div>
-                  )}
                 </div>
               </div>
             )}
-            <div className="shop-prompt-message">{prompt.message}</div>
+            <div style={{ fontSize: 15 }}>{prompt.message}</div>
             {prompt.maxAmount !== 1 && (
-              <div className="shop-prompt-amount" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                <input type="number" min={1} max={prompt.maxAmount || undefined} value={prompt.amount} onChange={handlePromptAmountChange} className="shop-prompt-amount-input" />
-                {prompt.maxAmount && <span className="shop-prompt-amount-max">/ {prompt.maxAmount}</span>}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <input
+                  type="number"
+                  min={1}
+                  max={prompt.maxAmount || undefined}
+                  value={prompt.amount}
+                  onChange={handlePromptAmountChange}
+                  style={{
+                    width: 54,
+                    padding: "3px 7px",
+                    borderRadius: 4,
+                    border: "1px solid #36393f",
+                    background: "#181a1a",
+                    color: "#fff",
+                  }}
+                />
+                {prompt.maxAmount && (
+                  <span style={{ color: "#888", fontSize: 12 }}>/ {prompt.maxAmount}</span>
+                )}
                 {prompt.item && (
-                  <span className="shop-prompt-amount-total" style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: 4, fontWeight: 500 }}>
                     {t("profile.totalLabel")} {(prompt.amount || 1) * (prompt.item.price || 0)}
-                    <CachedImage src="/assets/credit.avif" className="shop-credit-icon" />
+                    <CachedImage src="/assets/credit.avif" style={{ width: 15, height: 15 }} />
                   </span>
                 )}
               </div>
             )}
-            <div style={{ display: "inline-flex", gap: 8 }}>
+            <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
               <button className="shop-prompt-buy-btn" onClick={() => handlePromptResult(true)}>
                 {t("profile.buy")}
               </button>
@@ -328,7 +358,6 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
           </div>
         </div>
       )}
-      {/* Alert overlay */}
       {alert && (
         <div className="shop-alert-overlay">
           <div className="shop-alert" style={{ display: "inline-flex", flexDirection: "column", gap: 8 }}>

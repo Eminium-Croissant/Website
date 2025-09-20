@@ -455,24 +455,24 @@ export default function Home() {
           <div className="glass-card mb-12 text-center relative overflow-hidden">
             {/* Étoiles scintillantes supprimées */}
             <div className="mb-8 relative z-10">
-              <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">
-                {t("index.hero.title")}
-              </h1>
+              <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">{t("index.hero.title")}</h1>
               <p className="text-xl mb-8" style={{ color: "var(--glass-text-secondary)" }}>
                 {t("index.hero.subtitle")}
               </p>
-              <button className="glass-button-neon glass-glow">
-                <span className="flex items-center gap-2">
-                  <FontAwesomeIcon icon={faStar} />
-                  {t("index.hero.startAdventure")}
-                </span>
-              </button>
-              <button className="glass-button">
-                <span className="flex items-center gap-2">
-                  <FontAwesomeIcon icon={faCode} />
-                  {t("index.hero.learnMore")}
-                </span>
-              </button>
+              <div className="flex justify-center gap-4">
+                <button className="glass-button-neon glass-glow">
+                  <span className="flex items-center gap-2">
+                    <FontAwesomeIcon icon={faStar} />
+                    {t("index.hero.startAdventure")}
+                  </span>
+                </button>
+                <button className="glass-button">
+                  <span className="flex items-center gap-2">
+                    <FontAwesomeIcon icon={faCode} />
+                    {t("index.hero.learnMore")}
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -710,9 +710,7 @@ export default function Home() {
           </div>
 
           {/* Carrousel des Jeux du Shop Mobile */}
-          <div className="!mt-4 !mx-0 mb-6">
-            {/* <GameCarousel /> */}
-          </div>
+          <div className="!mt-4 !mx-0 mb-6">{/* <GameCarousel /> */}</div>
         </div>
       </>
     );
