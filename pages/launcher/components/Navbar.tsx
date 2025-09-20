@@ -84,10 +84,9 @@ const Navbar: React.FC = () => {
       <div
         className="electron-dragbar flex items-center px-4"
         style={{
-          height: "32px",
+          top: "32px",
           width: "100vw",
           position: "fixed",
-          top: 0,
           left: 0,
           zIndex: 100,
           background: "#333", // fond uni gris
