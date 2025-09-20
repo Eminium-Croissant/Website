@@ -19,7 +19,6 @@ import { ImageCacheProvider } from "../hooks/ImageCacheContext";
 import useIsMobile from "../hooks/useIsMobile";
 import NavBarDesktop from "../components/common/NavBarDesktop";
 import NavBarMobile from "../components/common/NavBarMobile";
-import Login from "./login";
 import { LobbyProvider } from "../hooks/LobbyContext";
 import { appWithTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -90,8 +89,8 @@ function AppContent({ Component, pageProps }: AppProps) {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-dark-primary/20 to-dark-secondary/40"></div>
         {/* Champ d'étoiles statiques */}
         {/* <div className="absolute inset-0"> */}
-          {/* Étoiles blanches */}
-          {/* <div className="twinkling-star" style={{ top: "10%", left: "20%", animationDelay: "0s" }}></div>
+        {/* Étoiles blanches */}
+        {/* <div className="twinkling-star" style={{ top: "10%", left: "20%", animationDelay: "0s" }}></div>
           <div className="twinkling-star" style={{ top: "15%", left: "80%", animationDelay: "1s" }}></div>
           <div className="twinkling-star" style={{ top: "25%", left: "60%", animationDelay: "2s" }}></div>
           <div className="twinkling-star" style={{ top: "35%", left: "30%", animationDelay: "0.5s" }}></div>
@@ -102,15 +101,15 @@ function AppContent({ Component, pageProps }: AppProps) {
           <div className="twinkling-star" style={{ top: "85%", left: "85%", animationDelay: "2.2s" }}></div>
           <div className="twinkling-star" style={{ top: "95%", left: "15%", animationDelay: "0.3s" }}></div> */}
 
-          {/* Étoiles bleues */}
-          {/* <div className="twinkling-star" style={{ top: "12%", left: "45%", animationDelay: "1.2s", background: "#87CEEB" }}></div>
+        {/* Étoiles bleues */}
+        {/* <div className="twinkling-star" style={{ top: "12%", left: "45%", animationDelay: "1.2s", background: "#87CEEB" }}></div>
           <div className="twinkling-star" style={{ top: "28%", left: "75%", animationDelay: "2.8s", background: "#87CEEB" }}></div>
           <div className="twinkling-star" style={{ top: "42%", left: "25%", animationDelay: "0.7s", background: "#87CEEB" }}></div>
           <div className="twinkling-star" style={{ top: "58%", left: "55%", animationDelay: "1.9s", background: "#87CEEB" }}></div>
           <div className="twinkling-star" style={{ top: "72%", left: "95%", animationDelay: "2.1s", background: "#87CEEB" }}></div> */}
 
-          {/* Étoiles dorées */}
-          {/* <div className="twinkling-star" style={{ top: "18%", left: "35%", animationDelay: "1.6s", background: "#FFD700" }}></div>
+        {/* Étoiles dorées */}
+        {/* <div className="twinkling-star" style={{ top: "18%", left: "35%", animationDelay: "1.6s", background: "#FFD700" }}></div>
           <div className="twinkling-star" style={{ top: "38%", left: "65%", animationDelay: "0.4s", background: "#FFD700" }}></div>
           <div className="twinkling-star" style={{ top: "68%", left: "5%", animationDelay: "2.3s", background: "#FFD700" }}></div>
           <div className="twinkling-star" style={{ top: "88%", left: "50%", animationDelay: "1.4s", background: "#FFD700" }}></div> */}
@@ -143,8 +142,6 @@ function AppContent({ Component, pageProps }: AppProps) {
     <>
       <BackgroundImage />
       <MetaLinks metaLinksTitle={"Croissant Launcher"} />
-
-      {/* Précharger des images importantes */}
       <ImagePreloader images={["/assets/backgrounds/raiden-crow.webp"]} priority={true} />
       <nav className="flex px-4 py-0 border-b border-[#ddd] justify-start fixed w-full bg-[#222]">
         <img src="/assets/icons/favicon-32x32.avif" alt="Icon" className="w-6 h-6" />
@@ -155,13 +152,6 @@ function AppContent({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
       </main>
       <LauncherLobby />
-    </>
-  );
-
-  const LauncherLogin = () => (
-    <>
-      <MetaLinks metaLinksTitle={pageProps?.title} from="app" />
-      <Login />
     </>
   );
 
@@ -182,7 +172,7 @@ function AppContent({ Component, pageProps }: AppProps) {
   };
 
   if (isLauncher) {
-    return user ? <LauncherLayout /> : <LauncherLogin />;
+    return <LauncherLayout />;
   }
   return <WebsiteLayout />;
 }

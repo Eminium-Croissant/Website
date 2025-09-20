@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use, useCallback, useRef, useMemo } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import useAuth from "../../hooks/useAuth";
 import useUserCache from "../../hooks/useUserCache";
@@ -6,7 +6,9 @@ import CachedImage from "../../components/utils/CachedImage";
 import Certification from "../../components/common/Certification";
 import { DiscordRpcManager } from "../../components/discordRpcManager";
 import { useLobby } from "../../hooks/LobbyContext";
-import { io } from 'socket.io-client';
+import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
+import Login from "../../pages/login";
 
 const myUrl = "http://localhost:3333"; // Replace with your actual URL
 let discordRpcManager: DiscordRpcManager;
@@ -40,7 +42,7 @@ type Game = {
 let ws: WebSocket;
 try {
   ws = new WebSocket("ws://localhost:8081"); // Adjust if needed
-  ws.onerror = () => { };
+  ws.onerror = () => {};
   discordRpcManager = new DiscordRpcManager(ws);
 } catch {
   // Do nothing if connection fails
@@ -58,44 +60,38 @@ export function LobbyManager() {
   const pageVisible = useRef<boolean>(true);
 
   // Polling adaptatif : si la liste des users change, on réduit l'intervalle, sinon on l'augmente
-  const fetchLobby = useCallback(
-    async (showLoading = true) => {
-      if (showLoading) setLoading(true);
-      try {
-        const res = await fetch(`${ENDPOINT}/lobbies/user/@me`);
-        const data = await res.json();
-        if (data.success) {
-          const users = data.users;
-          const usersString = users
-            .map((u) => u.id)
-            .sort()
-            .join(",");
-          if (lastLobbyUsers.current !== usersString) {
-            pollingInterval.current = 2000; // 2s si changement
-          } else {
-            pollingInterval.current = Math.min(
-              pollingInterval.current + 1000,
-              10000
-            ); // max 10s
-          }
-          lastLobbyUsers.current = usersString;
-          setLobby({ lobbyId: data.lobbyId, users });
-          discordRpcManager.createLobby({
-            id: data.lobbyId,
-            size: 10,
-            max: data.maxUsers,
-            joinSecret: data.lobbyId + "secret",
-          });
+  const fetchLobby = useCallback(async (showLoading = true) => {
+    if (showLoading) setLoading(true);
+    try {
+      const res = await fetch(`${ENDPOINT}/lobbies/user/@me`);
+      const data = await res.json();
+      if (data.success) {
+        const users = data.users;
+        const usersString = users
+          .map((u) => u.id)
+          .sort()
+          .join(",");
+        if (lastLobbyUsers.current !== usersString) {
+          pollingInterval.current = 2000; // 2s si changement
         } else {
-          setLobby(null);
-          discordRpcManager.clearLobby();
+          pollingInterval.current = Math.min(pollingInterval.current + 1000, 10000); // max 10s
         }
-      } finally {
-        if (showLoading) setLoading(false);
+        lastLobbyUsers.current = usersString;
+        setLobby({ lobbyId: data.lobbyId, users });
+        discordRpcManager.createLobby({
+          id: data.lobbyId,
+          size: 10,
+          max: data.maxUsers,
+          joinSecret: data.lobbyId + "secret",
+        });
+      } else {
+        setLobby(null);
+        discordRpcManager.clearLobby();
       }
-    },
-    []
-  );
+    } finally {
+      if (showLoading) setLoading(false);
+    }
+  }, []);
 
   // Gestion de la visibilité de l'onglet
   useEffect(() => {
@@ -108,8 +104,7 @@ export function LobbyManager() {
       }
     };
     document.addEventListener("visibilitychange", handleVisibility);
-    return () =>
-      document.removeEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
   }, []);
 
   // Fonction pour démarrer le polling
@@ -143,12 +138,20 @@ export function LobbyManager() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <></>
-  );
+  return <></>;
 }
 
 const Library: React.FC = () => {
+  const { user, token } = useAuth();
+  const router = useRouter();
+  const { t } = useTranslation("common");
+
+  useEffect(() => {
+    if (!token) {
+      router.replace("/login");
+    }
+  }, [token, router]);
+
   const [games, setGames] = useState<Game[]>([]);
   const [selected, setSelected] = useState<Game | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -166,8 +169,8 @@ const Library: React.FC = () => {
   const [transferLoading, setTransferLoading] = useState(false);
   const [transferError, setTransferError] = useState<string | null>(null);
 
-  const { user, token } = useAuth(); // Assuming useAuth is defined and provides user info
   const { getUser: getUserFromCache } = useUserCache();
+  const { t: commonT } = useTranslation("common");
 
   useEffect(() => {
     if (typeof location !== "undefined") {
@@ -179,10 +182,12 @@ const Library: React.FC = () => {
 
   useEffect(() => {
     if (user && user.id) {
-      ws.send(JSON.stringify({
-        action: "updateState",
-        state: user.username,
-      }));
+      ws.send(
+        JSON.stringify({
+          action: "updateState",
+          state: user.username,
+        })
+      );
     }
   }, [user]);
 
@@ -248,21 +253,12 @@ const Library: React.FC = () => {
         if (message.action === "downloadProgress" && message.gameId === selected?.gameId) {
           setDownloadPercent(message.percent);
         }
-        if (
-          message.action === "downloadComplete" ||
-          message.action === "alreadyInstalled"
-        ) {
+        if (message.action === "downloadComplete" || message.action === "alreadyInstalled") {
           setDownloadPercent(0); // Reset progress
           setGames((prevGames) => {
-            const updatedGames = prevGames.map((game) =>
-              game.gameId === message.gameId
-                ? { ...game, state: "installed" as Game["state"] }
-                : game
-            );
+            const updatedGames = prevGames.map((game) => (game.gameId === message.gameId ? { ...game, state: "installed" as Game["state"] } : game));
             if (selected && selected.gameId === message.gameId) {
-              const updatedSelected = updatedGames.find(
-                (g) => g.gameId === selected.gameId
-              );
+              const updatedSelected = updatedGames.find((g) => g.gameId === selected.gameId);
               if (updatedSelected) setSelected(updatedSelected);
             }
             return updatedGames;
@@ -273,51 +269,27 @@ const Library: React.FC = () => {
             prevGames.map((game) =>
               game.gameId === message.gameId
                 ? {
-                  ...game,
-                  state:
-                    message.status === "installed" ||
-                      message.status === "not_installed" ||
-                      message.status === "playing" ||
-                      message.status === "to_update"
-                      ? (message.status as Game["state"])
-                      : game.state,
-                }
+                    ...game,
+                    state: message.status === "installed" || message.status === "not_installed" || message.status === "playing" || message.status === "to_update" ? (message.status as Game["state"]) : game.state,
+                  }
                 : game
             )
           );
           if (selected && selected.gameId === message.gameId) {
             setSelected({
               ...selected,
-              state:
-                message.status === "installed" ||
-                  message.status === "not_installed" ||
-                  message.status === "playing" ||
-                  message.status === "to_update"
-                  ? (message.status as Game["state"])
-                  : selected.state,
+              state: message.status === "installed" || message.status === "not_installed" || message.status === "playing" || message.status === "to_update" ? (message.status as Game["state"]) : selected.state,
             });
           }
         }
         if (message.action === "updateComplete") {
-          setGames((prevGames) =>
-            prevGames.map((game) =>
-              game.gameId === message.gameId
-                ? { ...game, state: "installed" }
-                : game
-            )
-          );
+          setGames((prevGames) => prevGames.map((game) => (game.gameId === message.gameId ? { ...game, state: "installed" } : game)));
           if (selected && selected.gameId === message.gameId) {
             setSelected({ ...selected, state: "installed" });
           }
         }
         if (message.action === "closeGame" || message.action === "closed") {
-          setGames((prevGames) =>
-            prevGames.map((game) =>
-              game.gameId === message.gameId
-                ? { ...game, state: "installed" }
-                : game
-            )
-          );
+          setGames((prevGames) => prevGames.map((game) => (game.gameId === message.gameId ? { ...game, state: "installed" } : game)));
           if (selected && selected.gameId === message.gameId) {
             setSelected({ ...selected, state: "installed" });
           }
@@ -325,26 +297,14 @@ const Library: React.FC = () => {
           setIsPlaying(false);
         }
         if (message.action === "playing") {
-          setGames((prevGames) =>
-            prevGames.map((game) =>
-              game.gameId === message.gameId
-                ? { ...game, state: "playing" }
-                : game
-            )
-          );
+          setGames((prevGames) => prevGames.map((game) => (game.gameId === message.gameId ? { ...game, state: "playing" } : game)));
           if (selected && selected.gameId === message.gameId) {
             setSelected({ ...selected, state: "playing" });
           }
           setIsPlaying(true);
         }
         if (message.action === "deleteComplete") {
-          setGames((prevGames) =>
-            prevGames.map((game) =>
-              game.gameId === message.gameId
-                ? { ...game, state: "not_installed" }
-                : game
-            )
-          );
+          setGames((prevGames) => prevGames.map((game) => (game.gameId === message.gameId ? { ...game, state: "not_installed" } : game)));
           if (selected && selected.gameId === message.gameId) {
             setSelected({ ...selected, state: "not_installed" });
           }
@@ -352,7 +312,7 @@ const Library: React.FC = () => {
         if (message.action === "notFound" && message.gameId) {
           setError(`Game ${message.gameId} not found for deletion.`);
         }
-      } catch (e) { }
+      } catch (e) {}
     };
     return () => {
       ws.onmessage = null;
@@ -373,20 +333,20 @@ const Library: React.FC = () => {
   function setPlayingGame(game) {
     discordRpcManager.setActivity({
       details: `Playing ${game.name}`,
-      largeImageKey: 'game_icon',
+      largeImageKey: "game_icon",
       largeImageText: `Playing ${game.name}`,
-      smallImageKey: 'play',
-      smallImageText: 'In game',
+      smallImageKey: "play",
+      smallImageText: "In game",
     });
   }
 
   function clearGameActivity() {
     discordRpcManager.setActivity({
-      details: 'Ready to play',
-      state: 'In launcher',
-      largeImageKey: 'launcher_icon',
-      largeImageText: 'Croissant Launcher',
-      smallImageText: 'Ready to play',
+      details: "Ready to play",
+      state: "In launcher",
+      largeImageKey: "launcher_icon",
+      largeImageText: "Croissant Launcher",
+      smallImageText: "Ready to play",
       instance: true,
     });
   }
@@ -395,20 +355,14 @@ const Library: React.FC = () => {
     if (selected && selected.state === "not_installed") {
       setDownloadPercent(0); // Reset progress
       // Met à jour l'état local en "installing"
-      setGames((prevGames) =>
-        prevGames.map((game) =>
-          game.gameId === selected.gameId
-            ? { ...game, state: "installing" }
-            : game
-        )
-      );
+      setGames((prevGames) => prevGames.map((game) => (game.gameId === selected.gameId ? { ...game, state: "installing" } : game)));
       setSelected({ ...selected, state: "installing" });
       ws.send(
         JSON.stringify({
           action: "downloadGame",
           gameId: selected.gameId,
           downloadUrl: selected.download_link,
-          token
+          token,
         })
       );
     }
@@ -431,17 +385,13 @@ const Library: React.FC = () => {
 
   const handleUpdate = () => {
     if (selected && selected.state === "to_update") {
-      ws.send(
-        JSON.stringify({ action: "updateGame", gameId: selected.gameId })
-      );
+      ws.send(JSON.stringify({ action: "updateGame", gameId: selected.gameId }));
     }
   };
 
   const handleDelete = () => {
     if (selected && selected.state === "installed") {
-      ws.send(
-        JSON.stringify({ action: "deleteGame", gameId: selected.gameId })
-      );
+      ws.send(JSON.stringify({ action: "deleteGame", gameId: selected.gameId }));
     }
   };
 
@@ -451,9 +401,7 @@ const Library: React.FC = () => {
     localStorage.setItem("lastSelectedGameId", game.gameId);
   };
 
-  const filteredGames = games.filter((game) =>
-    game.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredGames = games.filter((game) => game.name.toLowerCase().includes(search.toLowerCase()));
 
   // User search for transfer
   const handleTransferUserSearch = async (query: string) => {
@@ -499,7 +447,7 @@ const Library: React.FC = () => {
       }
 
       // Supprimer le jeu de la liste locale
-      setGames(prevGames => prevGames.filter(g => g.gameId !== selected.gameId));
+      setGames((prevGames) => prevGames.filter((g) => g.gameId !== selected.gameId));
       setSelected(null);
       setShowTransferModal(false);
       setTransferTarget("");
@@ -534,17 +482,15 @@ const Library: React.FC = () => {
           <div className="flex items-center justify-center py-12">
             {error ? (
               <div className="glass-card p-8 text-center">
-                <div className="text-2xl mb-4" style={{color: 'var(--glass-text)'}}>
+                <div className="text-2xl mb-4" style={{ color: "var(--glass-text)" }}>
                   ⚠️ Erreur
                 </div>
-                <div style={{color: 'var(--glass-text-secondary)'}}>
-                  {error}
-                </div>
+                <div style={{ color: "var(--glass-text-secondary)" }}>{error}</div>
               </div>
             ) : (
               <div className="flex items-center gap-4">
                 <div className="w-8 h-8 border-4 border-glass-border border-t-neon-blue rounded-full animate-spin"></div>
-                <span style={{color: 'var(--glass-text)'}}>Chargement des jeux...</span>
+                <span style={{ color: "var(--glass-text)" }}>Chargement des jeux...</span>
               </div>
             )}
           </div>
@@ -559,15 +505,9 @@ const Library: React.FC = () => {
       <div className="flex gap-6 h-screen">
         {/* Sidebar */}
         <aside className="glass-content-card w-80 flex-shrink-0 p-6">
-          <input
-            type="text"
-            placeholder="Rechercher des jeux..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="glass-input w-full mb-6"
-          />
+          <input type="text" placeholder="Rechercher des jeux..." value={search} onChange={(e) => setSearch(e.target.value)} className="glass-input w-full mb-6" />
           {filteredGames.length === 0 ? (
-            <div className="text-center py-8" style={{color: 'var(--glass-text-secondary)'}}>
+            <div className="text-center py-8" style={{ color: "var(--glass-text-secondary)" }}>
               Aucun jeu trouvé.
             </div>
           ) : (
@@ -575,9 +515,7 @@ const Library: React.FC = () => {
               {filteredGames.map((game) => (
                 <div
                   key={game.gameId}
-                  className={`glass-card p-4 cursor-pointer transition-all duration-300 hover:scale-105 ${
-                    selected && selected.gameId === game.gameId ? 'ring-2 ring-neon-blue' : ''
-                  }`}
+                  className={`glass-card p-4 cursor-pointer transition-all duration-300 hover:scale-105 ${selected && selected.gameId === game.gameId ? "ring-2 ring-neon-blue" : ""}`}
                   onClick={() => handleSelect(game)}
                   onDoubleClick={() => {
                     if (game.state === "installed") {
@@ -588,16 +526,12 @@ const Library: React.FC = () => {
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <CachedImage
-                      src={`/games-icons/${game.iconHash}`}
-                      alt={game.name}
-                      className="w-12 h-12 rounded-lg object-cover"
-                    />
+                    <CachedImage src={`/games-icons/${game.iconHash}`} alt={game.name} className="w-12 h-12 rounded-lg object-cover" />
                     <div className="flex-1">
-                      <div className="font-medium" style={{color: 'var(--glass-text)'}}>
+                      <div className="font-medium" style={{ color: "var(--glass-text)" }}>
                         {game.name}
                       </div>
-                      <div className="text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+                      <div className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
                         {game.state === "not_installed" && "Non installé"}
                         {game.state === "installed" && "Installé"}
                         {game.state === "to_update" && "Mise à jour disponible"}
@@ -617,10 +551,10 @@ const Library: React.FC = () => {
           {!selected ? (
             <div className="glass-content-card h-full flex items-center justify-center">
               <div className="text-center">
-                <div className="text-4xl mb-4" style={{color: 'var(--glass-text)'}}>
+                <div className="text-4xl mb-4" style={{ color: "var(--glass-text)" }}>
                   🎮
                 </div>
-                <div className="text-xl" style={{color: 'var(--glass-text-secondary)'}}>
+                <div className="text-xl" style={{ color: "var(--glass-text-secondary)" }}>
                   Sélectionnez un jeu pour commencer
                 </div>
               </div>
@@ -629,42 +563,22 @@ const Library: React.FC = () => {
             <div className="glass-content-card h-full">
               {/* Game Banner */}
               <div className="relative h-64 mb-6 rounded-xl overflow-hidden">
-                <img
-                  src={`/banners-icons/${selected.bannerHash}`}
-                  alt={selected.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+                <img src={`/banners-icons/${selected.bannerHash}`} alt={selected.name} className="w-full h-full object-cover" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
                 <div className="absolute bottom-4 left-4 flex items-center gap-4">
-                  <img
-                    src={`/games-icons/${selected.iconHash}`}
-                    alt={selected.name}
-                    className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border"
-                    loading="lazy"
-                  />
+                  <img src={`/games-icons/${selected.iconHash}`} alt={selected.name} className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border" loading="lazy" />
                   <div>
-                    <h2 className="text-3xl font-bold" style={{color: 'var(--glass-text)'}}>
+                    <h2 className="text-3xl font-bold" style={{ color: "var(--glass-text)" }}>
                       {selected.name}
                     </h2>
                     {ownerInfo && (
                       <div className="flex items-center gap-2 mt-2">
-                        <Link
-                          href={`/profile?user=${ownerInfo.id}`}
-                          className="flex items-center gap-2 no-underline"
-                        >
-                          <CachedImage
-                            src={`/avatar/${ownerInfo.id}`}
-                            alt={ownerInfo.username}
-                            className="w-8 h-8 rounded-full object-cover border-2 border-glass-border"
-                          />
-                          <span className="text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+                        <Link href={`/profile?user=${ownerInfo.id}`} className="flex items-center gap-2 no-underline">
+                          <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} className="w-8 h-8 rounded-full object-cover border-2 border-glass-border" />
+                          <span className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
                             {ownerInfo.username}
                           </span>
-                          <Certification
-                            user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }}
-                            className="w-4 h-4"
-                          />
+                          <Certification user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }} className="w-4 h-4" />
                         </Link>
                       </div>
                     )}
@@ -676,10 +590,7 @@ const Library: React.FC = () => {
               <div className="glass-card p-6">
                 <div className="flex gap-4 flex-wrap">
                   {selected.state === "not_installed" && (
-                    <button
-                      className="glass-button-neon"
-                      onClick={handleInstall}
-                    >
+                    <button className="glass-button-neon" onClick={handleInstall}>
                       Installer
                     </button>
                   )}
@@ -689,35 +600,21 @@ const Library: React.FC = () => {
                         Installation... {downloadPercent > 0 ? `${downloadPercent}%` : ""}
                       </button>
                       <div className="w-full h-2 bg-glass-border rounded-full mt-2 overflow-hidden">
-                        <div 
-                          className="h-full bg-neon-green transition-all duration-300"
-                          style={{ width: `${downloadPercent}%` }}
-                        />
+                        <div className="h-full bg-neon-green transition-all duration-300" style={{ width: `${downloadPercent}%` }} />
                       </div>
                     </div>
                   )}
                   {selected.state === "to_update" && (
-                    <button
-                      className="glass-button-neon"
-                      onClick={handleUpdate}
-                    >
+                    <button className="glass-button-neon" onClick={handleUpdate}>
                       Mettre à jour
                     </button>
                   )}
                   {selected.state === "installed" && (
                     <>
-                      <button
-                        className="glass-button-neon"
-                        onClick={handlePlay}
-                        disabled={isPlaying}
-                      >
+                      <button className="glass-button-neon" onClick={handlePlay} disabled={isPlaying}>
                         {isPlaying ? "En cours de jeu" : "Jouer"}
                       </button>
-                      <button
-                        className="glass-button"
-                        onClick={handleDelete}
-                        disabled={isPlaying}
-                      >
+                      <button className="glass-button" onClick={handleDelete} disabled={isPlaying}>
                         Supprimer
                       </button>
                     </>
@@ -728,15 +625,9 @@ const Library: React.FC = () => {
                     </button>
                   )}
                   <Link href={`/game?gameId=${selected.gameId}`}>
-                    <button className="glass-button">
-                      Voir les détails
-                    </button>
+                    <button className="glass-button">Voir les détails</button>
                   </Link>
-                  <button
-                    className="glass-button"
-                    onClick={() => setShowTransferModal(true)}
-                    disabled={isPlaying}
-                  >
+                  <button className="glass-button" onClick={() => setShowTransferModal(true)} disabled={isPlaying}>
                     Transférer
                   </button>
                 </div>
@@ -750,18 +641,18 @@ const Library: React.FC = () => {
       {showTransferModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={handleCloseTransferModal}>
           <div className="glass-card p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-2xl font-bold mb-4" style={{color: 'var(--glass-text)'}}>
+            <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--glass-text)" }}>
               Transférer le jeu
             </h3>
-            <p className="mb-4" style={{color: 'var(--glass-text-secondary)'}}>
+            <p className="mb-4" style={{ color: "var(--glass-text-secondary)" }}>
               Transférez votre copie de "{selected?.name}" à un autre utilisateur.
             </p>
-            <p className="text-sm mb-6" style={{color: 'var(--glass-text-muted)'}}>
+            <p className="text-sm mb-6" style={{ color: "var(--glass-text-muted)" }}>
               ⚠️ Attention : Vous perdrez l'accès à ce jeu de façon permanente.
             </p>
 
             <div className="relative mb-6">
-              <label className="block mb-2" style={{color: 'var(--glass-text)'}}>
+              <label className="block mb-2" style={{ color: "var(--glass-text)" }}>
                 Sélectionner un utilisateur :
               </label>
               <input
@@ -801,11 +692,8 @@ const Library: React.FC = () => {
                           e.currentTarget.src = "/avatar/default.avif";
                         }}
                       />
-                      <span style={{color: 'var(--glass-text)'}}>{user.username}</span>
-                      <Certification
-                        user={{ ...user, verified: user.verified ?? false }}
-                        className="w-4 h-4"
-                      />
+                      <span style={{ color: "var(--glass-text)" }}>{user.username}</span>
+                      <Certification user={{ ...user, verified: user.verified ?? false }} className="w-4 h-4" />
                     </div>
                   ))}
                 </div>
@@ -813,26 +701,18 @@ const Library: React.FC = () => {
             </div>
 
             {transferError && (
-              <div className="glass-card p-3 mb-4" style={{backgroundColor: 'rgba(255, 68, 68, 0.1)', border: '1px solid rgba(255, 68, 68, 0.3)'}}>
-                <div className="text-sm" style={{color: '#ff4444'}}>
+              <div className="glass-card p-3 mb-4" style={{ backgroundColor: "rgba(255, 68, 68, 0.1)", border: "1px solid rgba(255, 68, 68, 0.3)" }}>
+                <div className="text-sm" style={{ color: "#ff4444" }}>
                   {transferError}
                 </div>
               </div>
             )}
 
             <div className="flex gap-4">
-              <button
-                onClick={handleCloseTransferModal}
-                disabled={transferLoading}
-                className="glass-button flex-1"
-              >
+              <button onClick={handleCloseTransferModal} disabled={transferLoading} className="glass-button flex-1">
                 Annuler
               </button>
-              <button
-                onClick={handleTransferGame}
-                disabled={transferLoading || !transferTargetId.trim()}
-                className="glass-button-neon flex-1"
-              >
+              <button onClick={handleTransferGame} disabled={transferLoading || !transferTargetId.trim()} className="glass-button-neon flex-1">
                 {transferLoading ? "Transfert..." : "Transférer"}
               </button>
             </div>
@@ -843,12 +723,17 @@ const Library: React.FC = () => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ locale }) {
   return {
     props: {
+      ...(await import("next-i18next/serverSideTranslations").then((mod) => mod.serverSideTranslations(locale, ["common"]))),
       isLauncher: true,
     },
   };
 }
 
-export default Library;
+const ExportedComponent = (props) => {
+  return <Library {...props} />;
+};
+
+export default ExportedComponent;
