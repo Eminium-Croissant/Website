@@ -610,13 +610,13 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                 <Link href="/my-market-listings">
                   <button className="shop-prompt-buy-btn">{t("profile.myMarketListings")}</button>
                 </Link>
-                <Link href="/settings" title={t("profile.settings")}>
+                {/* <Link href="/settings" title={t("profile.settings")}>
                   <button className="shop-prompt-buy-btn" style={{ padding: 0, background: "none", border: "none" }}>
                     <span style={{ display: "inline-flex", alignItems: "center", fontSize: 24, color: "#888" }}>
                       <i className="fa fa-cog" aria-hidden="true"></i>
                     </span>
                   </button>
-                </Link>
+                </Link> */}
                 {hasShopItems ? (
                   <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
                     {t("profile.shop")}
@@ -798,13 +798,13 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                     {t("profile.myListings")}
                   </button>
                 </Link>
-                <Link href="/settings" title={t("profile.settings")}>
+                {/* <Link href="/settings" title={t("profile.settings")}>
                   <button className="shop-prompt-buy-btn" style={{ minWidth: 90, padding: 0, background: "none", border: "none" }}>
                     <span style={{ display: "inline-flex", alignItems: "center", fontSize: 24, color: "#888" }}>
                       <i className="fa fa-cog" aria-hidden="true"></i>
                     </span>
                   </button>
-                </Link>
+                </Link> */}
                 {hasShopItems ? (
                   <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
                     {t("profile.shop")}
