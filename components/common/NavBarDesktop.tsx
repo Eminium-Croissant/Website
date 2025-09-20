@@ -18,11 +18,11 @@ export default function NavBarDesktop() {
 
   // Bloc crédits + avatar + sélecteur de rôle
   const UserBlock = ({ loading, user }: any) => (
-    <div className="inline-flex items-center gap-4 ml-4">
+    <div className="inline-flex items-center gap-2 ml-2"> {/* gap-2 au lieu de gap-4, ml-2 au lieu de ml-4 */}
       <Link href="/buy-credits" className="no-underline">
-        <div className="flex items-center glass-card rounded-xl px-4 py-2 transition-all duration-300 hover:scale-105 hover:shadow-glass-glow">
-          <CachedImage src="/assets/credit.avif" className="w-5 h-5 mr-2" />
-          <div className="text-glass-text-secondary text-sm font-semibold">
+        <div className="flex items-center glass-card rounded-xl px-2 py-1 transition-all duration-300 hover:scale-105 hover:shadow-glass-glow"> {/* px-2 py-1 au lieu de px-4 py-2 */}
+          <CachedImage src="/assets/credit.avif" className="w-4 h-4 mr-1" /> {/* w-4 h-4 au lieu de w-5 h-5 mr-2 */}
+          <div className="text-glass-text-secondary text-xs font-semibold"> {/* text-xs au lieu de text-sm */}
             <span className="bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
               {loading ? "..." : user?.balance}
             </span>
@@ -38,13 +38,13 @@ export default function NavBarDesktop() {
                 : `/avatar/${user.role || user.id}`
             }
             alt="avatar"
-            className="w-10 h-10 rounded-full object-cover border-2 border-glass-border transition-all duration-300 group-hover:border-neon-blue group-hover:shadow-glass-glow"
+            className="w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300 group-hover:border-neon-blue group-hover:shadow-glass-glow" // w-8 h-8 au lieu de w-10 h-10
           />
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
         </div>
       </Link>
       <button
-        className="text-glass-text-secondary px-4 py-2 rounded-xl cursor-pointer glass-card border-none inline-flex items-center font-semibold gap-2 transition-all duration-300 hover:shadow-glass-glow"
+        className="text-glass-text-secondary px-2 py-1 rounded-xl cursor-pointer glass-card border-none inline-flex items-center font-semibold gap-1 transition-all duration-300 hover:shadow-glass-glow" // px-2 py-1, gap-1
         onClick={(e) => {
           e.preventDefault();
           setShow((prev) => (prev === "roles" ? "" : "roles"));
@@ -58,7 +58,7 @@ export default function NavBarDesktop() {
   // Menu déroulant des rôles
   const RolesDropdown = ({ user }: any) => (
     <div
-      className="glass-dropdown min-w-[180px] w-[340px]"
+      className="glass-dropdown min-w-[140px] w-[220px]" // largeur réduite
       onMouseLeave={() => setShow("")}
     >
       {user?.roles.map((role: any) => {
@@ -67,7 +67,7 @@ export default function NavBarDesktop() {
         );
         return (
           <button
-            className="w-full text-left p-4 flex items-center gap-3 text-glass-text-secondary hover:bg-glass-accent rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-glass-glow"
+            className="w-full text-left p-2 flex items-center gap-2 text-glass-text-secondary hover:bg-glass-accent rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-glass-glow" // p-2, gap-2
             key={role}
             onClick={() => {
               fetch("/api/users/change-role", {
@@ -95,15 +95,15 @@ export default function NavBarDesktop() {
               <CachedImage
                 src={"/avatar/" + role}
                 alt="avatar"
-                className="w-10 h-10 rounded-full object-cover border-2 border-glass-border transition-all duration-300"
+                className="w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300" // w-8 h-8
               />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
             </div>
-            <span className="whitespace-nowrap font-medium text-glass-text">
+            <span className="whitespace-nowrap font-medium text-glass-text text-xs"> {/* text-xs */}
               {studio?.me.username || "Me"}
               <Certification
                 user={studio ? { ...studio, isStudio: true } : studio}
-                className="w-4 h-4 ml-2 relative -top-0.5 align-middle"
+                className="w-3 h-3 ml-1 relative -top-0.5 align-middle" // w-3 h-3 ml-1
               />
             </span>
           </button>
@@ -117,13 +117,13 @@ export default function NavBarDesktop() {
     const { t } = useTranslation("common");
     return (
       <>
-        <Link href="/api-docs" className="no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow">
+        <Link href="/api-docs" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs"> {/* px-2 py-1, text-xs */}
           {t("navbar.docs")}
         </Link>
-        <Link href="/game-shop" className="no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow">
+        <Link href="/game-shop" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs">
           {t("navbar.shop")}
         </Link>
-        <Link href="/marketplace" className="no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow">
+        <Link href="/marketplace" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs">
           {t("navbar.marketplace")}
         </Link>
         <DropdownButton label={t("navbar.install")} showKey="install">
