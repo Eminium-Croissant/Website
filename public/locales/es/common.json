@@ -572,5 +572,33 @@
       "integrationTitle": "Código del botón de integración:",
       "deleteConfirm": "¿Estás seguro de que quieres eliminar esta aplicación?"
     }
-  }
+  },
+
+  "index.hero.title": "Bienvenido al universo Croissant",
+  "index.hero.subtitle": "Sumérgete en el universo gaming definitivo con una experiencia inmersiva única",
+  "index.hero.startAdventure": "Comenzar la aventura",
+  "index.hero.learnMore": "Saber más",
+
+  "index.openSource.title": "Proyecto Open Source",
+  "index.openSource.subtitle": "Contribuye a la evolución",
+  "index.openSource.description.desktop": "Croissant es un proyecto <strong>open source</strong> donde cada contribución cuenta. Únete a nuestra comunidad de desarrolladores apasionados y ayúdanos a dar forma al futuro del gaming.",
+  "index.openSource.description.mobile": "Croissant es un proyecto <strong>open source</strong> donde cada contribución cuenta. Únete a nuestra comunidad de desarrolladores apasionados.",
+  "index.openSource.development.title": "Desarrollo",
+  "index.openSource.development.desc.desktop": "Código, funcionalidades, corrección de bugs",
+  "index.openSource.development.desc.mobile": "Código, funcionalidades, bugs",
+  "index.openSource.design.title": "Diseño",
+  "index.openSource.design.desc.desktop": "UI/UX, gráficos, animaciones",
+  "index.openSource.design.desc.mobile": "UI/UX, gráficos",
+  "index.openSource.documentation.title": "Documentación",
+  "index.openSource.documentation.desc.desktop": "Guías, tutoriales, traducciones",
+  "index.openSource.documentation.desc.mobile": "Guías, traducciones",
+  "index.openSource.tests.title": "Tests",
+  "index.openSource.tests.desc.desktop": "QA, feedback, sugerencias",
+  "index.openSource.tests.desc.mobile": "QA, feedback",
+  "index.openSource.joinCommunity": "Unirse a la comunidad",
+
+  "index.carousel.popularGames": "Juegos populares",
+  "index.carousel.loading": "Cargando...",
+  "index.carousel.noGames": "No hay juegos disponibles por ahora.",
+  "index.carousel.discoverAllGames": "Descubrir todos los juegos"
 }
