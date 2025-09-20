@@ -484,7 +484,8 @@ export default function Home() {
               </h2>
               {overviewDetails.map(({ summary, content }) => (
                 <div className="glass-details mb-4" key={summary}>
-                  <summary className="glass-details-summary">{summary}</summary>
+                  {/* On enlève le style de puce devant le titre bleu */}
+                  <summary className="glass-details-summary list-none pl-0">{summary}</summary>
                   <div className="mt-4">{content}</div>
                 </div>
               ))}
@@ -496,7 +497,7 @@ export default function Home() {
               </h2>
               {aboutDetails.map(({ summary, content }) => (
                 <div className="glass-details mb-4" key={summary}>
-                  <summary className="glass-details-summary">{summary}</summary>
+                  <summary className="glass-details-summary list-none pl-0">{summary}</summary>
                   <div className="mt-4">{content}</div>
                 </div>
               ))}
@@ -576,7 +577,7 @@ export default function Home() {
           </div>
 
           {/* Carrousel des Jeux du Shop */}
-          <GameCarousel />
+          {/* <GameCarousel /> */}
         </div>
       </>
     );
@@ -618,7 +619,7 @@ export default function Home() {
             </h2>
             {overviewDetails.map(({ summary, content }) => (
               <div className="glass-details !mb-3 !p-3" key={summary}>
-                <summary className="glass-details-summary !text-base !py-2">{summary}</summary>
+                <summary className="glass-details-summary !text-base !py-2 list-none pl-0">{summary}</summary>
                 <div className="mt-3">{content}</div>
               </div>
             ))}
@@ -710,7 +711,7 @@ export default function Home() {
 
           {/* Carrousel des Jeux du Shop Mobile */}
           <div className="!mt-4 !mx-0 mb-6">
-            <GameCarousel />
+            {/* <GameCarousel /> */}
           </div>
         </div>
       </>
