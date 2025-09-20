@@ -336,8 +336,8 @@ const MyItems = () => {
   };
 
   return (
-    <>
-      <div className="myitems-container">
+    <div className="glass-page-container min-h-screen py-10">
+      <div className="glass-content-card max-w-5xl w-full mx-auto p-8 rounded-xl">
         <div
           style={{
             display: "flex",
@@ -349,21 +349,7 @@ const MyItems = () => {
           <h1 className="myitems-title">
             <span className="myitems-title-span">{t("myItems.title")}</span>
           </h1>
-          <Link
-            href="/dev-zone/create-item"
-            className="myitems-add-btn"
-            style={{
-              background: "#333",
-              color: "#fff",
-              border: "none",
-              borderRadius: 6,
-              fontWeight: 500,
-              padding: "10px 18px",
-              fontSize: "1rem",
-              textDecoration: "none",
-              cursor: "pointer",
-            }}
-          >
+          <Link href="/dev-zone/create-item" className="glass-button">
             {t("myItems.addItem")}
           </Link>
         </div>
@@ -372,7 +358,15 @@ const MyItems = () => {
         ) : (
           <>
             {items.length === 0 && <div className="myitems-empty">{t("myItems.empty")}</div>}
-            <div className="myitems-grid">
+            <div
+              className="myitems-grid"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gap: "28px",
+                marginBottom: "32px",
+              }}
+            >
               {items.map((item) => (
                 <div
                   key={`item-${item.itemId}`}
@@ -403,22 +397,21 @@ const MyItems = () => {
                         e.stopPropagation();
                         handleEdit(item);
                       }}
-                      >
-                        {t("myItems.edit")}
+                    >
+                      {t("myItems.edit")}
                     </button>
                     <button
                       className="myitems-card-editbtn"
                       onClick={(e) => {
                         e.stopPropagation();
                         navigator.clipboard.writeText(item.itemId);
-                        // Optional: Add visual feedback
                         e.currentTarget.textContent = "Copied!";
                         setTimeout(() => {
                           e.currentTarget.textContent = "Id";
                         }, 1000);
                       }}
-                      >
-                        {t("myItems.id")}
+                    >
+                      {t("myItems.id")}
                     </button>
                     <button
                       className="myitems-card-editbtn"
@@ -426,14 +419,14 @@ const MyItems = () => {
                         e.stopPropagation();
                         handleOwnershipTransfer(item);
                       }}
-                      >
-                        {t("myItems.transfer")}
+                    >
+                      {t("myItems.transfer")}
                     </button>
                   </div>
                 </div>
               ))}
               {Array.from({
-                length: Math.max(0, 6 * Math.ceil(items.length / 6) - items.length),
+                length: Math.max(0, 3 * Math.ceil(items.length / 3) - items.length),
               }).map((_, idx) => (
                 <div key={`empty-${idx}`} className="myitems-card-empty" />
               ))}
@@ -449,10 +442,11 @@ const MyItems = () => {
                 <div className="myitems-tooltip-title">{tooltip.item.name}</div>
                 <div className="myitems-tooltip-desc">{tooltip.item.description}</div>
                 <div className="myitems-tooltip-price">
-              {t("myItems.price")}: {tooltip.item.price}
+                  {t("myItems.price")}: {tooltip.item.price}
                   <img src="/assets/credit.avif" className="myitems-card-credit" />
-                  <span className="myitems-tooltip-store">Show in Store: {tooltip.item.showInStore ? "Yes" : "No"}</span>
-                    <span className="myitems-tooltip-store">{t("myItems.showInStore")}: {tooltip.item.showInStore ? t("myItems.yes") : t("myItems.no")}</span>
+                  <span className="myitems-tooltip-store">
+                    {t("myItems.showInStore")}: {tooltip.item.showInStore ? t("myItems.yes") : t("myItems.no")}
+                  </span>
                 </div>
               </div>
             )}
@@ -460,82 +454,38 @@ const MyItems = () => {
               <div className="myitems-modal-overlay">
                 <form onSubmit={handleSubmit} className="myitems-modal-form">
                   <h2 className="myitems-modal-title">Edit Item</h2>
-                    
                   <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="myitems-input" required />
-                    
                   <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="myitems-input" required />
-                    
                   <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="myitems-input" required />
-                    
                   <label className="myitems-label">
                     <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="myitems-checkbox" />
-                      {t("myItems.showInStore")}
+                    {t("myItems.showInStore")}
                   </label>
                   <input type="file" accept="image/*" onChange={handleIconChange} className="myitems-input" />
-                    
                   {errors.submit && <div className="myitems-error">{errors.submit}</div>}
                   <div className="myitems-modal-btns">
                     <button type="submit" disabled={submitting} className="myitems-btn-save">
-                 {submitting ? t("myItems.saving") : t("myItems.save")}
+                      {submitting ? t("myItems.saving") : t("myItems.save")}
                     </button>
                     <button type="button" onClick={handleCancel} disabled={submitting} className="myitems-btn-cancel">
-                 {t("myItems.cancel")}
+                      {t("myItems.cancel")}
                     </button>
                   </div>
                 </form>
               </div>
             )}
             {showTransferModal && (
-              <div
-                className="modal-overlay"
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: "rgba(0,0,0,0.35)",
-                  zIndex: 1000,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                onClick={() => setShowTransferModal(false)}
-              >
-                <div
-                  className="modal-content"
-                  style={{
-                    background: "#232323",
-                    borderRadius: 10,
-                    padding: 32,
-                    minWidth: 320,
-                    position: "relative",
-                    boxShadow: "0 2px 16px #0005",
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button
-                    className="close-modal-btn"
-                    onClick={() => setShowTransferModal(false)}
-                    style={{
-                      position: "absolute",
-                      top: 12,
-                      right: 16,
-                      background: "none",
-                      border: "none",
-                      color: "#fff",
-                      fontSize: 24,
-                      cursor: "pointer",
-                    }}
-                  >
+              <div className="modal-overlay" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.35)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setShowTransferModal(false)}>
+                <div className="modal-content" style={{ background: "#232323", borderRadius: 10, padding: 32, minWidth: 320, position: "relative", boxShadow: "0 2px 16px #0005" }} onClick={(e) => e.stopPropagation()}>
+                  <button className="close-modal-btn" onClick={() => setShowTransferModal(false)} style={{ position: "absolute", top: 12, right: 16, background: "none", border: "none", color: "#fff", fontSize: 24, cursor: "pointer" }}>
                     &times;
                   </button>
                   <h3 style={{ marginBottom: 18 }}>Transfer Item</h3>
-                    
+
                   <form autoComplete="off" onSubmit={handleConfirmTransfer}>
                     <div style={{ marginBottom: 12 }}>
                       <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Amount:</label>
-                        
+
                       <input
                         type="number"
                         min={1}
@@ -556,7 +506,7 @@ const MyItems = () => {
                     </div>
                     <div style={{ position: "relative", marginBottom: 12 }}>
                       <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
-                        
+
                       <input
                         ref={transferUserInputRef}
                         type="text"
@@ -635,8 +585,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: transferUserId ? "pointer" : "not-allowed",
                         }}
-                        >
-                          {transferLoading ? t("myItems.transferring") : t("myItems.transfer")}
+                      >
+                        {transferLoading ? t("myItems.transferring") : t("myItems.transfer")}
                       </button>
                       <button
                         type="button"
@@ -650,8 +600,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: "pointer",
                         }}
-                        >
-                          {t("myItems.cancel")}
+                      >
+                        {t("myItems.cancel")}
                       </button>
                     </div>
                     {transferError && <div style={{ color: "red", marginTop: 12 }}>{transferError}</div>}
@@ -660,56 +610,17 @@ const MyItems = () => {
               </div>
             )}
             {showOwnershipModal && (
-              <div
-                className="modal-overlay"
-                style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: "rgba(0,0,0,0.35)",
-                  zIndex: 1000,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                onClick={() => setShowOwnershipModal(false)}
-              >
-                <div
-                  className="modal-content"
-                  style={{
-                    background: "#232323",
-                    borderRadius: 10,
-                    padding: 32,
-                    minWidth: 320,
-                    position: "relative",
-                    boxShadow: "0 2px 16px #0005",
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <button
-                    className="close-modal-btn"
-                    onClick={() => setShowOwnershipModal(false)}
-                    style={{
-                      position: "absolute",
-                      top: 12,
-                      right: 16,
-                      background: "none",
-                      border: "none",
-                      color: "#fff",
-                      fontSize: 24,
-                      cursor: "pointer",
-                    }}
-                  >
+              <div className="modal-overlay" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, background: "rgba(0,0,0,0.35)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setShowOwnershipModal(false)}>
+                <div className="modal-content" style={{ background: "#232323", borderRadius: 10, padding: 32, minWidth: 320, position: "relative", boxShadow: "0 2px 16px #0005" }} onClick={(e) => e.stopPropagation()}>
+                  <button className="close-modal-btn" onClick={() => setShowOwnershipModal(false)} style={{ position: "absolute", top: 12, right: 16, background: "none", border: "none", color: "#fff", fontSize: 24, cursor: "pointer" }}>
                     &times;
                   </button>
                   <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
-                    
+
                   <form autoComplete="off" onSubmit={handleConfirmOwnershipTransfer}>
                     <div style={{ position: "relative", marginBottom: 12 }}>
                       <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
-                        
+
                       <input
                         ref={ownershipUserInputRef}
                         type="text"
@@ -801,8 +712,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: ownershipUserId ? "pointer" : "not-allowed",
                         }}
-                        >
-                          {ownershipLoading ? t("myItems.transferring") : t("myItems.transfer")}
+                      >
+                        {ownershipLoading ? t("myItems.transferring") : t("myItems.transfer")}
                       </button>
                       <button
                         type="button"
@@ -816,8 +727,8 @@ const MyItems = () => {
                           fontSize: "1rem",
                           cursor: "pointer",
                         }}
-                        >
-                          {t("myItems.cancel")}
+                      >
+                        {t("myItems.cancel")}
                       </button>
                     </div>
                     {ownershipError && <div style={{ color: "red", marginTop: 12 }}>{ownershipError}</div>}
@@ -828,7 +739,7 @@ const MyItems = () => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

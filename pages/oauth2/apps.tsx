@@ -211,10 +211,9 @@ function OAuth2AppsDesktop(props: ReturnType<typeof useOAuth2AppsLogic>) {
   const { apps, name, setName, redirectUrls, setRedirectUrls, iframeCode, setIframeCode, editing, showForm, setShowForm, showEditForm, handleCreate, handleIframe, handleEdit, handleCancelEdit, handleDelete, spoilers, toggleSpoiler, setEditing } = props;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      {/* Header */}
-      <div className="w-full flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-white">{t("oauth2.apps.title")}</h1>
+    <div className="glass-page-container">
+      <div className="glass-content-card mb-8 flex justify-between items-center">
+        <h1 className="text-3xl font-bold" style={{color: 'var(--glass-text)'}}>{t("oauth2.apps.title")}</h1>
         <div className="flex items-center gap-4">
           <Link href="/oauth2/test" className="text-sm text-gray-400 hover:text-gray-300 transition-colors underline">
             {t("oauth2.apps.testLink")}
@@ -226,19 +225,20 @@ function OAuth2AppsDesktop(props: ReturnType<typeof useOAuth2AppsLogic>) {
               setName("");
               setRedirectUrls("");
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+            className="glass-button-neon"
           >
             {t("oauth2.apps.addButton")}
           </button>
         </div>
       </div>
 
-      {/* Apps Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">{apps && apps.map((app) => <AppCard key={app.client_id} app={app} onIframe={handleIframe} onEdit={handleEdit} onDelete={handleDelete} spoilers={spoilers} toggleSpoiler={toggleSpoiler} />)}</div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {apps && apps.map((app) => (
+          <AppCard key={app.client_id} app={app} onIframe={handleIframe} onEdit={handleEdit} onDelete={handleDelete} spoilers={spoilers} toggleSpoiler={toggleSpoiler} />
+        ))}
+      </div>
 
-      {/* Modaux */}
       {(showForm || showEditForm) && <OAuth2AppModal title={editing ? t("Edit Application") : t("Create Application")} name={name} setName={setName} redirectUrls={redirectUrls} setRedirectUrls={setRedirectUrls} onSubmit={handleCreate} onCancel={handleCancelEdit} submitLabel={editing ? t("Save Changes") : t("Create")} />}
-
       {iframeCode && <OAuth2CodeModal code={iframeCode} onClose={() => setIframeCode(null)} />}
     </div>
   );
@@ -250,9 +250,9 @@ function OAuth2AppsMobile(props: ReturnType<typeof useOAuth2AppsLogic>) {
   const { apps, name, setName, redirectUrls, setRedirectUrls, iframeCode, setIframeCode, editing, showForm, setShowForm, showEditForm, handleCreate, handleIframe, handleEdit, handleCancelEdit, handleDelete, spoilers, toggleSpoiler, setEditing } = props;
 
   return (
-    <div className="container mx-auto px-2 py-4 max-w-lg">
-      <div className="flex flex-col items-center gap-2 mb-6">
-        <h2 className="text-lg font-semibold mb-2">{t("My OAuth2 Applications")}</h2>
+    <div className="glass-page-container">
+      <div className="glass-content-card mb-6 flex flex-col items-center gap-2">
+        <h2 className="text-lg font-semibold mb-2" style={{color: 'var(--glass-text)'}}>{t("My OAuth2 Applications")}</h2>
         <div className="flex gap-3">
           <Link href="/oauth2/test" className="text-sm text-gray-400 hover:text-gray-300 transition-colors underline">
             {t("Test OAuth2")} ↗
@@ -264,7 +264,7 @@ function OAuth2AppsMobile(props: ReturnType<typeof useOAuth2AppsLogic>) {
               setName("");
               setRedirectUrls("");
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+            className="glass-button-neon text-sm"
           >
             {t("+ Add")}
           </button>
@@ -277,9 +277,7 @@ function OAuth2AppsMobile(props: ReturnType<typeof useOAuth2AppsLogic>) {
         ))}
       </div>
 
-      {/* Modaux */}
       {(showForm || showEditForm) && <OAuth2AppModal title={editing ? t("Edit Application") : t("Create Application")} name={name} setName={setName} redirectUrls={redirectUrls} setRedirectUrls={setRedirectUrls} onSubmit={handleCreate} onCancel={handleCancelEdit} submitLabel={editing ? t("Save Changes") : t("Create")} />}
-
       {iframeCode && <OAuth2CodeModal code={iframeCode} onClose={() => setIframeCode(null)} />}
     </div>
   );
