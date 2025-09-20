@@ -298,8 +298,8 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     return rarityColors[rarity] || "#9E9E9E";
   }
 
-  const columns = 8;
-  const minRows = Math.ceil(48 / columns);
+  const columns = 12;
+  const minRows = Math.ceil( 48 / 8);
   const totalItems = items.length;
   const rows = Math.max(minRows, Math.ceil(totalItems / columns));
   const totalCells = rows * columns;

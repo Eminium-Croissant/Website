@@ -20,6 +20,20 @@ export async function getStaticProps({ locale }) {
 }
 const endpoint = "/api";
 
+function ProfileShopModal({ open, onClose, user, onBuySuccess }) {
+  if (!open) return null;
+  return (
+    <div className="shop-prompt-overlay">
+      <div className="shop-prompt" style={{ minWidth: 400, maxWidth: 600 }}>
+        <button style={{ float: "right" }} onClick={onClose}>
+          ✕
+        </button>
+        <ProfileShop user={user} onBuySuccess={onBuySuccess} />
+      </div>
+    </div>
+  );
+}
+
 // --- Give Credits Modal ---
 function GiveCreditsModal({ open, onClose, onSubmit, maxAmount, username }) {
   const { t } = useTranslation("common");
@@ -123,6 +137,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
   } | null>(null);
   const [promptOwnerUser, setPromptOwnerUser] = useState<any | null>(null);
   const [alert, setAlert] = useState<{ message: string } | null>(null);
+  const [shopModalOpen, setShopModalOpen] = useState(false);
 
   useEffect(() => {
     setItems(user.ownedItems || []);
@@ -353,6 +368,7 @@ function useProfileLogic(userId: string) {
   const [currentTradeId, setCurrentTradeId] = useState<string | null>(null);
   const [inventoryReloadFlag, setInventoryReloadFlag] = useState(0);
   const [isProfileReloading, setIsProfileReloading] = useState(false);
+  const [shopModalOpen, setShopModalOpen] = useState(false);
 
   const reloadInventory = () => setInventoryReloadFlag((f) => f + 1);
 
@@ -489,7 +505,7 @@ function useProfileLogic(userId: string) {
     }
   };
 
-  return { showTradeModal, setShowTradeModal, search, profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, setLoading, reloadProfile, setProfile, setError, setGiveCreditsSuccess, setGiveCreditsError, setGiveCreditsLoading, setIsProfileReloading, setInventoryReloadFlag };
+  return { showTradeModal, setShowTradeModal, search, profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, setLoading, reloadProfile, setProfile, setError, setGiveCreditsSuccess, setGiveCreditsError, setGiveCreditsLoading, setIsProfileReloading, setInventoryReloadFlag, shopModalOpen, setShopModalOpen };
 }
 
 // Version Desktop
@@ -530,6 +546,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
 
   // Only show give credits if not our own profile
   const isMe = !search || search === user?.id;
+  const hasShopItems = profile.ownedItems && profile.ownedItems.length > 0;
 
   return (
     <div className="profile-root">
@@ -555,17 +572,17 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
           <>
             {!isMe ? (
               <div style={{ display: "inline-flex", gap: 8, marginTop: 8 }}>
-                {user.admin && profile.disabled && (
+                {user.admin && profile.disabled ? (
                   <button className="shop-prompt-buy-btn" style={{ background: "#4c7aafff" }} onClick={handleReenableAccount}>
                     {t("profile.reenable")}
                   </button>
-                )}
-                {user.admin && !profile.disabled && (
+                ) : null}
+                {user.admin && !profile.disabled ? (
                   <button className="shop-prompt-buy-btn" style={{ background: "#f44336" }} onClick={handleDisableAccount}>
                     {t("profile.disable")}
                   </button>
-                )}
-                {!profile.disabled && (
+                ) : null}
+                {!profile.disabled ? (
                   <>
                     <button
                       className="shop-prompt-buy-btn"
@@ -580,8 +597,13 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                     <button className="shop-prompt-buy-btn" onClick={handleStartTrade}>
                       {t("profile.trade")}
                     </button>
+                    {hasShopItems ? (
+                      <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+                        {t("profile.shop")}
+                      </button>
+                    ) : null}
                   </>
-                )}
+                ) : null}
               </div>
             ) : (
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 8 }}>
@@ -595,20 +617,22 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                     </span>
                   </button>
                 </Link>
+                {hasShopItems ? (
+                  <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+                    {t("profile.shop")}
+                  </button>
+                ) : null}
               </div>
             )}
           </>
         )}
       </div>
       <div style={{ display: "flex", flexDirection: "row", width: "100%", gap: 0 }}>
-        <div style={{ flex: "0 0 70%" }}>
+        <div style={{ flex: "0 0 100%" }}>
           <div className="profile-shop-section">
             <h2 className="profile-inventory-title">{t("profile.inventoryTitle")}</h2>
             <Inventory profile={{ ...profile, inventory: profile.inventory ? profile.inventory.map((item) => ({ ...item, item_id: item.itemId, icon_hash: item.iconHash })) : [] }} isMe={isMe} reloadFlag={inventoryReloadFlag} />
           </div>
-        </div>
-        <div style={{ flex: "0 0 30%" }}>
-          <ProfileShop user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
         </div>
       </div>
       {/* Trade Panel - only show if not our own profile */}
@@ -666,6 +690,12 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
           </div>
         </div>
       )}
+      {/* {hasShopItems && (
+        <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+          {t("profile.shop")}
+        </button>
+      )} */}
+      <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
     </div>
   );
 }
@@ -706,6 +736,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
     );
 
   const isMe = !search || search === user?.id;
+  const hasShopItems = profile.ownedItems && profile.ownedItems.length > 0;
 
   return (
     <div className="profile-root">
@@ -723,19 +754,19 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
           </div>
           <BadgesBox badges={profile.badges || []} studio={profile.isStudio} />
           <div style={{ display: "inline-flex", flexWrap: "wrap", gap: 8, justifyContent: "center", marginTop: 8, marginBottom: 8 }}>
-            {user && !isMe && (
+            {user && !isMe ? (
               <>
-                {user.admin && profile.disabled && (
+                {user.admin && profile.disabled ? (
                   <button className="shop-prompt-buy-btn" style={{ background: "#4c7aafff", minWidth: 90 }} onClick={handleReenableAccount}>
                     {t("profile.reenable")}
                   </button>
-                )}
-                {user.admin && !profile.disabled && (
+                ) : null}
+                {user.admin && !profile.disabled ? (
                   <button className="shop-prompt-buy-btn" style={{ background: "#f44336", minWidth: 90 }} onClick={handleDisableAccount}>
                     {t("profile.disable")}
                   </button>
-                )}
-                {!profile.disabled && (
+                ) : null}
+                {!profile.disabled ? (
                   <>
                     <button
                       className="shop-prompt-buy-btn"
@@ -751,11 +782,16 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                     <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }} onClick={handleStartTrade}>
                       {t("profile.trade")}
                     </button>
+                    {hasShopItems ? (
+                      <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
+                        {t("profile.shop")}
+                      </button>
+                    ) : null}
                   </>
-                )}
+                ) : null}
               </>
-            )}
-            {user && isMe && (
+            ) : null}
+            {user && isMe ? (
               <>
                 <Link href="/my-market-listings">
                   <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }}>
@@ -769,17 +805,19 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                     </span>
                   </button>
                 </Link>
+                {hasShopItems ? (
+                  <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
+                    {t("profile.shop")}
+                  </button>
+                ) : null}
               </>
-            )}
+            ) : null}
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column", width: "100%", padding: "0 8px" }}>
           <div className="profile-shop-section">
             <h2 className="profile-inventory-title">{t("profile.inventoryTitle")}</h2>
             <Inventory profile={{ ...profile, inventory: profile.inventory ? profile.inventory.map((item) => ({ ...item, item_id: item.itemId, icon_hash: item.iconHash })) : [] }} isMe={isMe} reloadFlag={inventoryReloadFlag} />
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: 8 }}>
-            <ProfileShop user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
           </div>
         </div>
       </div>
@@ -838,6 +876,12 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
           </div>
         </div>
       )}
+      {/* {hasShopItems && (
+        <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+          {t("profile.shop")}
+        </button>
+      )} */}
+      <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
     </div>
   );
 }
