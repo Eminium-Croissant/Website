@@ -22,7 +22,7 @@ export default function Searchbar() {
   return (
     <div className="relative">
       <input
-        className="glass-input w-72"
+        className="glass-input"
         placeholder={t("searchbar.placeholder")}
         value={value}
         onChange={handleChange}

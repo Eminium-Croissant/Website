@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useApiCache as useBaseApiCache } from './useClientCache';
 
 interface ApiCacheOptions {
@@ -14,6 +14,9 @@ interface ApiCacheState<T> {
   error: Error | null;
   fromCache: boolean;
 }
+
+// Variable globale pour suivre les requêtes en cours par endpoint
+const globalFetchingMap: Record<string, boolean> = {};
 
 export function useApiCache<T = any>(
   endpoint: string,
@@ -33,8 +36,15 @@ export function useApiCache<T = any>(
     error: null,
     fromCache: false
   });
+  const [fetching, setFetching] = useState(false); // Ajout d'un flag pour suivre la requête en cours
 
   const fetchData = useCallback(async () => {
+    // Empêche le refetch globalement pour cet endpoint
+    if (state.loading || fetching || globalFetchingMap[endpoint]) return;
+
+    setFetching(true);
+    globalFetchingMap[endpoint] = true;
+
     // Vérifier le cache si pas de force refresh
     if (!forceRefresh && cache.hasCachedApiResponse(endpoint)) {
       const cachedData = cache.getCachedApiResponse(endpoint);
@@ -45,6 +55,8 @@ export function useApiCache<T = any>(
         fromCache: true
       });
       onSuccess?.(cachedData);
+      setFetching(false);
+      globalFetchingMap[endpoint] = false;
       return;
     }
 
@@ -52,23 +64,23 @@ export function useApiCache<T = any>(
 
     try {
       const response = await fetch(endpoint);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
-      
+
       // Mettre en cache la réponse
       cache.cacheApiResponse(endpoint, data, ttl);
-      
+
       setState({
         data,
         loading: false,
         error: null,
         fromCache: false
       });
-      
+
       onSuccess?.(data);
     } catch (error) {
       const errorObj = error instanceof Error ? error : new Error('Erreur inconnue');
@@ -79,8 +91,11 @@ export function useApiCache<T = any>(
         fromCache: false
       }));
       onError?.(errorObj);
+    } finally {
+      setFetching(false);
+      globalFetchingMap[endpoint] = false;
     }
-  }, [endpoint, ttl, forceRefresh, cache, onSuccess, onError]);
+  }, [endpoint, ttl, forceRefresh, cache, onSuccess, onError, state.loading, fetching]);
 
   const refresh = useCallback(() => {
     fetchData();
@@ -104,10 +119,22 @@ export function useApiCache<T = any>(
 
 // Hook spécialisé pour les jeux
 export function useGamesCache() {
-  return useApiCache('/api/games', {
+  // Utilise un ref pour éviter de refetch plusieurs fois
+  const hasFetchedRef = useRef(false);
+  const apiCache = useApiCache('/api/games', {
     ttl: 300000, // 5 minutes
     onError: (error) => console.error('Erreur lors du chargement des jeux:', error)
   });
+
+  useEffect(() => {
+    // Si déjà fetch, ne rien faire
+    if (hasFetchedRef.current || apiCache.data || apiCache.loading) return;
+    hasFetchedRef.current = true;
+    apiCache.refresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return apiCache;
 }
 
 // Hook spécialisé pour les utilisateurs

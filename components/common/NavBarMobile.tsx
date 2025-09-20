@@ -189,7 +189,7 @@ export default function NavBarMobile() {
   }
 
   return (
-    <header className="w-full bg-primary text-[#e2e8f0] border-b border-secondary py-0.5 shadow-sm relative z-10">
+    <header className="w-full bg-[#23242a] text-[#e2e8f0] border-b border-secondary py-0.5 shadow-sm relative z-10"> {/* bg-[#23242a] = fond uni */}
       <div className="flex flex-col w-full">
         <div className="flex items-center justify-between w-full px-4 h-14 relative">
           {/* Hamburger menu */}
@@ -231,7 +231,7 @@ export default function NavBarMobile() {
           <>
             {/* Drawer content */}
             <div
-              className={`fixed top-0 left-0 w-[85vw] max-w-[380px] h-screen bg-secondary z-[9999] shadow-lg flex flex-col transition-transform duration-250 ease-[cubic-bezier(.4,0,.2,1)] ${
+              className={`fixed top-0 left-0 w-[85vw] max-w-[380px] h-screen bg-[#23242a] z-[9999] shadow-lg flex flex-col transition-transform duration-250 ease-[cubic-bezier(.4,0,.2,1)] ${
                 drawerVisible
                   ? "translate-x-0 opacity-100"
                   : "-translate-x-full opacity-0"
