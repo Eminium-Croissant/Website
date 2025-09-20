@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import Link from "next/link";
 import Certification from "../../components/common/Certification";
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const endpoint = "/api"; // Replace with your actual API endpoint
 
@@ -832,3 +833,10 @@ const MyItems = () => {
 };
 
 export default MyItems;
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}

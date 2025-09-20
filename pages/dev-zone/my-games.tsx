@@ -4,6 +4,7 @@ import Link from "next/link";
 import useIsMobile from "../../hooks/useIsMobile";
 import Certification from "../../components/common/Certification";
 import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const endpoint = "/api"; // Replace with your actual API endpoint
 
@@ -705,3 +706,10 @@ const MyGames = () => {
 };
 
 export default MyGames;
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
