@@ -71,9 +71,12 @@ export default function NavBarDesktop() {
             )}
           </DropdownButton>
         )}
-        <Link href="/login" className="glass-button-neon text-white no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-xs font-medium">
-          {t("navbar.login")}
-        </Link>
+        {/* Afficher le bouton de connexion seulement si l'utilisateur n'est pas connecté */}
+        {!user && !loading && (
+          <Link href="/login" className="glass-button-neon text-white no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-xs font-medium">
+            {t("navbar.login")}
+          </Link>
+        )}
         {user && !loading && (
           <button
             onClick={handleLogout}
