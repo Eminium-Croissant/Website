@@ -104,9 +104,7 @@ const MyItems = () => {
   };
 
   // Handle form changes
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type, checked } = e.target as any;
     setFormData({
       ...formData,
@@ -125,8 +123,7 @@ const MyItems = () => {
   const validate = () => {
     const newErrors: any = {};
     if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.description)
-      newErrors.description = "Description is required";
+    if (!formData.description) newErrors.description = "Description is required";
     if (!formData.price) newErrors.price = "Price is required";
     return newErrors;
   };
@@ -189,11 +186,7 @@ const MyItems = () => {
       if (res.ok) {
         setSuccess("Item updated successfully!");
         // Update local list
-        setItems((items) =>
-          items.map((item) =>
-            item.itemId === editingId ? { ...item, ...data } : item
-          )
-        );
+        setItems((items) => items.map((item) => (item.itemId === editingId ? { ...item, ...data } : item)));
         setEditingId(null);
         setFormData(null);
         setIconFile(null);
@@ -375,9 +368,7 @@ const MyItems = () => {
           <div className="myitems-loading">Loading...</div>
         ) : (
           <>
-            {items.length === 0 && (
-              <div className="myitems-empty">No items found.</div>
-            )}
+            {items.length === 0 && <div className="myitems-empty">No items found.</div>}
             <div className="myitems-grid">
               {items.map((item) => (
                 <div
@@ -386,9 +377,7 @@ const MyItems = () => {
                   tabIndex={0}
                   draggable={false}
                   onMouseEnter={(e) => {
-                    const rect = (
-                      e.target as HTMLElement
-                    ).getBoundingClientRect();
+                    const rect = (e.target as HTMLElement).getBoundingClientRect();
                     setTooltip({
                       x: rect.right + 8,
                       y: rect.top,
@@ -398,12 +387,7 @@ const MyItems = () => {
                   onMouseLeave={() => setTooltip(null)}
                   onClick={() => handleEdit(item)}
                 >
-                  <img
-                    src={"/items-icons/" + (item?.iconHash || item.itemId)}
-                    alt={item.name}
-                    className="myitems-card-icon"
-                    draggable={false}
-                  />
+                  <img src={"/items-icons/" + (item?.iconHash || item.itemId)} alt={item.name} className="myitems-card-icon" draggable={false} />
                   <div className="myitems-card-name">{item.name}</div>
                   <div className="myitems-card-price">
                     {item.price}
@@ -446,10 +430,7 @@ const MyItems = () => {
                 </div>
               ))}
               {Array.from({
-                length: Math.max(
-                  0,
-                  6 * Math.ceil(items.length / 6) - items.length
-                ),
+                length: Math.max(0, 6 * Math.ceil(items.length / 6) - items.length),
               }).map((_, idx) => (
                 <div key={`empty-${idx}`} className="myitems-card-empty" />
               ))}
@@ -463,15 +444,11 @@ const MyItems = () => {
                 }}
               >
                 <div className="myitems-tooltip-title">{tooltip.item.name}</div>
-                <div className="myitems-tooltip-desc">
-                  {tooltip.item.description}
-                </div>
+                <div className="myitems-tooltip-desc">{tooltip.item.description}</div>
                 <div className="myitems-tooltip-price">
                   Price: {tooltip.item.price}
                   <img src="/assets/credit.avif" className="myitems-card-credit" />
-                  <span className="myitems-tooltip-store">
-                    Show in Store: {tooltip.item.showInStore ? "Yes" : "No"}
-                  </span>
+                  <span className="myitems-tooltip-store">Show in Store: {tooltip.item.showInStore ? "Yes" : "No"}</span>
                 </div>
               </div>
             )}
@@ -479,67 +456,20 @@ const MyItems = () => {
               <div className="myitems-modal-overlay">
                 <form onSubmit={handleSubmit} className="myitems-modal-form">
                   <h2 className="myitems-modal-title">Edit Item</h2>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="Name"
-                    className="myitems-input"
-                    required
-                  />
-                  <textarea
-                    name="description"
-                    value={formData.description}
-                    onChange={handleChange}
-                    placeholder="Description"
-                    rows={2}
-                    className="myitems-input"
-                    required
-                  />
-                  <input
-                    type="number"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleChange}
-                    placeholder="Price"
-                    min={0}
-                    className="myitems-input"
-                    required
-                  />
+                  <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="myitems-input" required />
+                  <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="myitems-input" required />
+                  <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="myitems-input" required />
                   <label className="myitems-label">
-                    <input
-                      type="checkbox"
-                      name="showInStore"
-                      checked={formData.showInStore}
-                      onChange={handleChange}
-                      className="myitems-checkbox"
-                    />
+                    <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="myitems-checkbox" />
                     Show in Store
                   </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleIconChange}
-                    className="myitems-input"
-                  />
-                  {errors.submit && (
-                    <div className="myitems-error">{errors.submit}</div>
-                  )}
+                  <input type="file" accept="image/*" onChange={handleIconChange} className="myitems-input" />
+                  {errors.submit && <div className="myitems-error">{errors.submit}</div>}
                   <div className="myitems-modal-btns">
-                    <button
-                      type="submit"
-                      disabled={submitting}
-                      className="myitems-btn-save"
-                    >
+                    <button type="submit" disabled={submitting} className="myitems-btn-save">
                       {submitting ? "Saving..." : "Save"}
                     </button>
-                    <button
-                      type="button"
-                      onClick={handleCancel}
-                      disabled={submitting}
-                      className="myitems-btn-cancel"
-                    >
+                    <button type="button" onClick={handleCancel} disabled={submitting} className="myitems-btn-cancel">
                       Cancel
                     </button>
                   </div>
@@ -594,14 +524,12 @@ const MyItems = () => {
                   <h3 style={{ marginBottom: 18 }}>Transfer Item</h3>
                   <form autoComplete="off" onSubmit={handleConfirmTransfer}>
                     <div style={{ marginBottom: 12 }}>
-                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>
-                        Amount:
-                      </label>
+                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Amount:</label>
                       <input
                         type="number"
                         min={1}
                         value={transferAmount}
-                        onChange={e => setTransferAmount(Number(e.target.value))}
+                        onChange={(e) => setTransferAmount(Number(e.target.value))}
                         style={{
                           marginRight: 8,
                           padding: "10px 12px",
@@ -616,9 +544,7 @@ const MyItems = () => {
                       />
                     </div>
                     <div style={{ position: "relative", marginBottom: 12 }}>
-                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>
-                        Select user:
-                      </label>
+                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
                       <input
                         ref={transferUserInputRef}
                         type="text"
@@ -632,9 +558,7 @@ const MyItems = () => {
                         onFocus={() => {
                           if (transferUserSearch.length > 1) setTransferUserDropdownOpen(true);
                         }}
-                        onBlur={() =>
-                          setTimeout(() => setTransferUserDropdownOpen(false), 150)
-                        }
+                        onBlur={() => setTimeout(() => setTransferUserDropdownOpen(false), 150)}
                         placeholder="Search user by name..."
                         style={{
                           marginRight: 8,
@@ -718,11 +642,7 @@ const MyItems = () => {
                         Cancel
                       </button>
                     </div>
-                    {transferError && (
-                      <div style={{ color: "red", marginTop: 12 }}>
-                        {transferError}
-                      </div>
-                    )}
+                    {transferError && <div style={{ color: "red", marginTop: 12 }}>{transferError}</div>}
                   </form>
                 </div>
               </div>
@@ -775,9 +695,7 @@ const MyItems = () => {
                   <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
                   <form autoComplete="off" onSubmit={handleConfirmOwnershipTransfer}>
                     <div style={{ position: "relative", marginBottom: 12 }}>
-                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>
-                        Select user:
-                      </label>
+                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
                       <input
                         ref={ownershipUserInputRef}
                         type="text"
@@ -791,9 +709,7 @@ const MyItems = () => {
                         onFocus={() => {
                           if (ownershipUserSearch.length > 1) setOwnershipUserDropdownOpen(true);
                         }}
-                        onBlur={() =>
-                          setTimeout(() => setOwnershipUserDropdownOpen(false), 150)
-                        }
+                        onBlur={() => setTimeout(() => setOwnershipUserDropdownOpen(false), 150)}
                         placeholder="Search user by name..."
                         style={{
                           marginRight: 8,
@@ -842,12 +758,7 @@ const MyItems = () => {
                                 setOwnershipUserDropdownOpen(false);
                               }}
                             >
-                              <img
-                                src={`/avatar/${u.userId || u.user_id || u.id}`}
-                                alt="avatar"
-                                style={{ width: 28, height: 28, borderRadius: "50%" }}
-                                onError={(e) => (e.currentTarget.src = "/avatar/default.avif")}
-                              />
+                              <img src={`/avatar/${u.userId || u.user_id || u.id}`} alt="avatar" style={{ width: 28, height: 28, borderRadius: "50%" }} onError={(e) => (e.currentTarget.src = "/avatar/default.avif")} />
                               <span style={{ color: "#fff" }}>{u.username}</span>
                               <Certification
                                 user={u}
@@ -895,11 +806,7 @@ const MyItems = () => {
                         Cancel
                       </button>
                     </div>
-                    {ownershipError && (
-                      <div style={{ color: "red", marginTop: 12 }}>
-                        {ownershipError}
-                      </div>
-                    )}
+                    {ownershipError && <div style={{ color: "red", marginTop: 12 }}>{ownershipError}</div>}
                   </form>
                 </div>
               </div>

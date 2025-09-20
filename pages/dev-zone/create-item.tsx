@@ -2,12 +2,15 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Link from "next/link";
 import useIsMobile from "../../hooks/useIsMobile";
-import { useRouter } from "next/router"; // Ajouté
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const endpoint = "/api"; // Replace with your actual API endpoint
 
 const CreateItem = () => {
   const isMobile = useIsMobile();
+  const { t } = useTranslation("common");
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -41,13 +44,13 @@ const CreateItem = () => {
   };
 
   const validate = () => {
-    const newErrors: any = {};
-    if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.description)
-      newErrors.description = "Description is required";
-    if (!formData.price) newErrors.price = "Price is required";
-    // iconFile is now optional
-    return newErrors;
+      const newErrors: any = {};
+      if (!formData.name) newErrors.name = t("createItem.error.name");
+      if (!formData.description)
+        newErrors.description = t("createItem.error.description");
+      if (!formData.price) newErrors.price = t("createItem.error.price");
+      // iconFile is now optional
+      return newErrors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -75,12 +78,12 @@ const CreateItem = () => {
           iconHash = data.hash;
         } else {
           const err = await res.json();
-          setErrors({ submit: err.error || "Failed to upload icon." });
+            setErrors({ submit: err.error || t("createItem.error.iconUpload") });
           setLoading(false);
           return;
         }
       } catch (err: any) {
-        setErrors({ submit: err.message || "Failed to upload icon." });
+          setErrors({ submit: err.message || t("createItem.error.iconUpload") });
         setLoading(false);
         return;
       }
@@ -105,7 +108,7 @@ const CreateItem = () => {
       });
 
       if (res.ok) {
-        setSuccess("Item created successfully!");
+          setSuccess(t("createItem.success"));
         setFormData({
           name: "",
           description: "",
@@ -118,10 +121,10 @@ const CreateItem = () => {
         return;
       } else {
         const err = await res.json();
-        setErrors({ submit: err.message || "Failed to create item." });
+          setErrors({ submit: err.message || t("createItem.error.submit") });
       }
     } catch (err: any) {
-      setErrors({ submit: err.message || "Failed to create item." });
+        setErrors({ submit: err.message || t("createItem.error.submit") });
     } finally {
       setLoading(false);
     }
@@ -141,12 +144,8 @@ const CreateItem = () => {
           fontSize: "1.08em",
         }}
       >
-        <h2 style={{ marginBottom: 10 }}>Not available on mobile</h2>
-        <p>
-          This page is only accessible from a computer.
-          <br />
-          Please use a PC to submit an item.
-        </p>
+          <h2 style={{ marginBottom: 10 }}>{t("createItem.mobile.title")}</h2>
+          <p>{t("createItem.mobile.desc")}</p>
       </div>
     );
   }
@@ -169,17 +168,17 @@ const CreateItem = () => {
               cursor: "pointer",
             }}
           >
-            &larr; Back to My Items
+              &larr; {t("createItem.backToMyItems")}
           </Link>
         </div>
         <h1 className="createitem-title">
-          <span>Submit an Item</span>
+            <span>{t("createItem.title")}</span>
         </h1>
         <form onSubmit={handleSubmit} className="game-form">
           <div className="form-row">
-            <label htmlFor="name">
-              Name <span className="required">*</span>
-            </label>
+              <label htmlFor="name">
+                {t("createItem.name")} <span className="required">*</span>
+              </label>
             <input
               id="name"
               type="text"
@@ -192,9 +191,9 @@ const CreateItem = () => {
           </div>
           {errors.name && <span className="error">{errors.name}</span>}
           <div className="form-row">
-            <label htmlFor="description">
-              Description <span className="required">*</span>
-            </label>
+              <label htmlFor="description">
+                {t("createItem.description")} <span className="required">*</span>
+              </label>
             <textarea
               id="description"
               name="description"
@@ -209,9 +208,9 @@ const CreateItem = () => {
             <span className="error">{errors.description}</span>
           )}
           <div className="form-row">
-            <label htmlFor="price">
-              Price <span className="required">*</span>
-            </label>
+              <label htmlFor="price">
+                {t("createItem.price")} <span className="required">*</span>
+              </label>
             <input
               id="price"
               type="number"
@@ -226,7 +225,7 @@ const CreateItem = () => {
           </div>
           {errors.price && <span className="error">{errors.price}</span>}
           <div className="form-row">
-            <label htmlFor="showInStore" className="createitem-checkbox-label">
+              <label htmlFor="showInStore" className="createitem-checkbox-label">
               <input
                 id="showInStore"
                 type="checkbox"
@@ -235,16 +234,16 @@ const CreateItem = () => {
                 onChange={handleChange}
                 className="createitem-checkbox"
               />
-              Show in Store
+                {t("createItem.showInStore")}
             </label>
           </div>
           <div className="form-row">
-            <label htmlFor="icon">Icon (optional)</label>
+              <label htmlFor="icon">{t("createItem.icon")}</label>
             <label
               htmlFor="icon"
               className="custom-file-label createitem-file-label"
             >
-              {iconFile ? "Change Icon" : "Choose Icon"}
+                {iconFile ? t("createItem.changeIcon") : t("createItem.chooseIcon")}
               <input
                 id="icon"
                 type="file"
@@ -256,9 +255,9 @@ const CreateItem = () => {
               />
             </label>
             {iconFile && (
-              <span className="createitem-ready">
-                Selected: {iconFile.name}
-              </span>
+                <span className="createitem-ready">
+                  {t("createItem.selected")}: {iconFile.name}
+                </span>
             )}
           </div>
           {errors.submit && <span className="error">{errors.submit}</span>}
@@ -268,7 +267,7 @@ const CreateItem = () => {
             className="createitem-submit-btn"
             disabled={loading}
           >
-            {loading ? "Submitting..." : "Submit"}
+          {loading ? t("createItem.submitting") : t("createItem.submit")}
           </button>
         </form>
       </div>
@@ -277,3 +276,11 @@ const CreateItem = () => {
 };
 
 export default CreateItem;
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}

@@ -93,9 +93,7 @@ const MyGames = () => {
     setSuccess(null);
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type, checked } = e.target as any;
     setFormData({
       ...formData,
@@ -118,8 +116,7 @@ const MyGames = () => {
   const validate = () => {
     const newErrors: any = {};
     if (!formData.name) newErrors.name = "Name is required";
-    if (!formData.description)
-      newErrors.description = "Description is required";
+    if (!formData.description) newErrors.description = "Description is required";
     if (!formData.price) newErrors.price = "Price is required";
     return newErrors;
   };
@@ -216,11 +213,7 @@ const MyGames = () => {
 
       if (res.ok) {
         setSuccess("Game updated successfully!");
-        setGames((games) =>
-          games.map((game) =>
-            game.gameId === editingId ? { ...game, ...data } : game
-          )
-        );
+        setGames((games) => games.map((game) => (game.gameId === editingId ? { ...game, ...data } : game)));
         setEditingId(null);
         setFormData(null);
         setIconFile(null);
@@ -325,7 +318,8 @@ const MyGames = () => {
       >
         <h2 style={{ marginBottom: 10 }}>Not available on mobile</h2>
         <p>
-          This page is only accessible from a computer.<br />
+          This page is only accessible from a computer.
+          <br />
           Please use a PC to manage your games.
         </p>
       </div>
@@ -368,9 +362,7 @@ const MyGames = () => {
           <div className="mygames-loading">Loading...</div>
         ) : (
           <>
-            {games.length === 0 && (
-              <div className="mygames-empty">No games found.</div>
-            )}
+            {games.length === 0 && <div className="mygames-empty">No games found.</div>}
             <div className="mygames-grid">
               {games.map((game) => (
                 <div
@@ -379,9 +371,7 @@ const MyGames = () => {
                   tabIndex={0}
                   draggable={false}
                   onMouseEnter={(e) => {
-                    const rect = (
-                      e.target as HTMLElement
-                    ).getBoundingClientRect();
+                    const rect = (e.target as HTMLElement).getBoundingClientRect();
                     setTooltip({
                       x: rect.right + 8,
                       y: rect.top,
@@ -391,19 +381,11 @@ const MyGames = () => {
                   onMouseLeave={() => setTooltip(null)}
                   onClick={() => handleEdit(game)}
                 >
-                  <img
-                    src={"/games-icons/" + game.iconHash}
-                    alt={game.name}
-                    className="mygames-card-icon"
-                    draggable={false}
-                  />
+                  <img src={"/games-icons/" + game.iconHash} alt={game.name} className="mygames-card-icon" draggable={false} />
                   <div className="mygames-card-name">{game.name}</div>
                   <div className="mygames-card-price">
                     {game.price}
-                    <img
-                      src="/assets/credit.avif"
-                      className="mygames-card-credit"
-                    />
+                    <img src="/assets/credit.avif" className="mygames-card-credit" />
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                     <button
@@ -439,14 +421,10 @@ const MyGames = () => {
                       Transfer
                     </button>
                   </div>
-
                 </div>
               ))}
               {Array.from({
-                length: Math.max(
-                  0,
-                  6 * Math.ceil(games.length / 6) - games.length
-                ),
+                length: Math.max(0, 6 * Math.ceil(games.length / 6) - games.length),
               }).map((_, idx) => (
                 <div key={`empty-${idx}`} className="mygames-card-empty" />
               ))}
@@ -460,18 +438,11 @@ const MyGames = () => {
                 }}
               >
                 <div className="mygames-tooltip-title">{tooltip.game.name}</div>
-                <div className="mygames-tooltip-desc">
-                  {tooltip.game.description}
-                </div>
+                <div className="mygames-tooltip-desc">{tooltip.game.description}</div>
                 <div className="mygames-tooltip-price">
                   Price: {tooltip.game.price}
-                  <img
-                    src="/assets/credit.avif"
-                    className="mygames-card-credit"
-                  />
-                  <span className="mygames-tooltip-store">
-                    Show in Store: {tooltip.game.showInStore ? "Yes" : "No"}
-                  </span>
+                  <img src="/assets/credit.avif" className="mygames-card-credit" />
+                  <span className="mygames-tooltip-store">Show in Store: {tooltip.game.showInStore ? "Yes" : "No"}</span>
                 </div>
               </div>
             )}
@@ -483,61 +454,21 @@ const MyGames = () => {
                     <label className="mygames-label" htmlFor="name">
                       Name
                     </label>
-                    <input
-                      id="name"
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Name"
-                      className="mygames-input"
-                      required
-                    />
+                    <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" className="mygames-input" required />
                     <label className="mygames-label" htmlFor="description">
                       Description
                     </label>
-                    <textarea
-                      id="description"
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      placeholder="Description"
-                      rows={2}
-                      className="mygames-input"
-                      required
-                    />
+                    <textarea id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="mygames-input" required />
                     <label className="mygames-label" htmlFor="price">
                       Price
                     </label>
-                    <input
-                      id="price"
-                      type="number"
-                      name="price"
-                      value={formData.price}
-                      onChange={handleChange}
-                      placeholder="Price"
-                      min={0}
-                      className="mygames-input"
-                      required
-                    />
+                    <input id="price" type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="mygames-input" required />
                     <label className="mygames-label">
-                      <input
-                        type="checkbox"
-                        name="showInStore"
-                        checked={formData.showInStore}
-                        onChange={handleChange}
-                        className="mygames-checkbox"
-                      />
+                      <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="mygames-checkbox" />
                       Show in Store
                     </label>
                     <label className="mygames-label">
-                      <input
-                        type="checkbox"
-                        name="multiplayer"
-                        checked={formData.multiplayer}
-                        onChange={handleChange}
-                        className="mygames-checkbox"
-                      />
+                      <input type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="mygames-checkbox" />
                       Multiplayer
                     </label>
                   </div>
@@ -545,142 +476,55 @@ const MyGames = () => {
                     <label className="mygames-label" htmlFor="icon">
                       Game Icon
                     </label>
-                    <input
-                      id="icon"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleIconChange}
-                      className="mygames-input"
-                    />
+                    <input id="icon" type="file" accept="image/*" onChange={handleIconChange} className="mygames-input" />
                     <label className="mygames-label" htmlFor="banner">
                       Banner
                     </label>
-                    <input
-                      id="banner"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleBannerChange}
-                      className="mygames-input"
-                    />
+                    <input id="banner" type="file" accept="image/*" onChange={handleBannerChange} className="mygames-input" />
                     <label className="mygames-label" htmlFor="genre">
                       Genre
                     </label>
-                    <input
-                      id="genre"
-                      type="text"
-                      name="genre"
-                      value={formData.genre}
-                      onChange={handleChange}
-                      placeholder="Genre"
-                      className="mygames-input"
-                    />
+                    <input id="genre" type="text" name="genre" value={formData.genre} onChange={handleChange} placeholder="Genre" className="mygames-input" />
                     <label className="mygames-label" htmlFor="release_date">
                       Release Date
                     </label>
-                    <input
-                      id="release_date"
-                      type="date"
-                      name="release_date"
-                      value={formData.release_date}
-                      onChange={handleChange}
-                      placeholder="Release Date"
-                      className="mygames-input"
-                    />
+                    <input id="release_date" type="date" name="release_date" value={formData.release_date} onChange={handleChange} placeholder="Release Date" className="mygames-input" />
                     <label className="mygames-label" htmlFor="publisher">
                       Publisher
                     </label>
-                    <input
-                      id="publisher"
-                      type="text"
-                      name="publisher"
-                      value={formData.publisher}
-                      onChange={handleChange}
-                      placeholder="Publisher"
-                      className="mygames-input"
-                    />
+                    <input id="publisher" type="text" name="publisher" value={formData.publisher} onChange={handleChange} placeholder="Publisher" className="mygames-input" />
                   </div>
                   <div className="mygames-modal-col">
                     <label className="mygames-label" htmlFor="developer">
                       Developer
                     </label>
-                    <input
-                      id="developer"
-                      type="text"
-                      name="developer"
-                      value={formData.developer}
-                      onChange={handleChange}
-                      placeholder="Developer"
-                      className="mygames-input"
-                    />
+                    <input id="developer" type="text" name="developer" value={formData.developer} onChange={handleChange} placeholder="Developer" className="mygames-input" />
                     <label className="mygames-label" htmlFor="platforms">
                       Platforms
                     </label>
-                    <input
-                      id="platforms"
-                      type="text"
-                      name="platforms"
-                      value={formData.platforms}
-                      onChange={handleChange}
-                      placeholder="Platforms"
-                      className="mygames-input"
-                    />
+                    <input id="platforms" type="text" name="platforms" value={formData.platforms} onChange={handleChange} placeholder="Platforms" className="mygames-input" />
                     <label className="mygames-label" htmlFor="website">
                       Website
                     </label>
-                    <input
-                      id="website"
-                      type="url"
-                      name="website"
-                      value={formData.website}
-                      onChange={handleChange}
-                      placeholder="Website"
-                      className="mygames-input"
-                    />
+                    <input id="website" type="url" name="website" value={formData.website} onChange={handleChange} placeholder="Website" className="mygames-input" />
                     <label className="mygames-label" htmlFor="trailer_link">
                       Trailer Link
                     </label>
-                    <input
-                      id="trailer_link"
-                      type="url"
-                      name="trailer_link"
-                      value={formData.trailer_link}
-                      onChange={handleChange}
-                      placeholder="Trailer Link"
-                      className="mygames-input"
-                    />
+                    <input id="trailer_link" type="url" name="trailer_link" value={formData.trailer_link} onChange={handleChange} placeholder="Trailer Link" className="mygames-input" />
                   </div>
                   <div className="mygames-modal-col">
                     <label className="mygames-label" htmlFor="download_link">
                       Download Link
                     </label>
-                    <input
-                      id="download_link"
-                      type="url"
-                      name="download_link"
-                      value={formData.download_link}
-                      onChange={handleChange}
-                      placeholder="https://example.com/download"
-                      className="mygames-input"
-                    />
+                    <input id="download_link" type="url" name="download_link" value={formData.download_link} onChange={handleChange} placeholder="https://example.com/download" className="mygames-input" />
                   </div>
                   <div className="mygames-modal-actions">
-                    {errors.submit && (
-                      <div className="mygames-error">{errors.submit}</div>
-                    )}
+                    {errors.submit && <div className="mygames-error">{errors.submit}</div>}
                     <div className="mygames-modal-btns">
-                      <button
-                        type="submit"
-                        disabled={submitting}
-                        className="mygames-btn-save"
-                      >
+                      <button type="submit" disabled={submitting} className="mygames-btn-save">
                         {submitting ? "Saving..." : "Save"}
                       </button>
-                      <button
-                        type="button"
-                        onClick={handleCancel}
-                        disabled={submitting}
-                        className="mygames-btn-cancel"
-                      >
+                      <button type="button" onClick={handleCancel} disabled={submitting} className="mygames-btn-cancel">
                         Cancel
                       </button>
                     </div>
@@ -736,9 +580,7 @@ const MyGames = () => {
                   <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
                   <form autoComplete="off" onSubmit={handleConfirmOwnershipTransfer}>
                     <div style={{ position: "relative", marginBottom: 12 }}>
-                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>
-                        Select user:
-                      </label>
+                      <label style={{ color: "#fff", marginBottom: 4, display: "block" }}>Select user:</label>
                       <input
                         ref={ownershipUserInputRef}
                         type="text"
@@ -752,9 +594,7 @@ const MyGames = () => {
                         onFocus={() => {
                           if (ownershipUserSearch.length > 1) setOwnershipUserDropdownOpen(true);
                         }}
-                        onBlur={() =>
-                          setTimeout(() => setOwnershipUserDropdownOpen(false), 150)
-                        }
+                        onBlur={() => setTimeout(() => setOwnershipUserDropdownOpen(false), 150)}
                         placeholder="Search user by name..."
                         style={{
                           marginRight: 8,
@@ -802,12 +642,7 @@ const MyGames = () => {
                                 setOwnershipUserDropdownOpen(false);
                               }}
                             >
-                              <img
-                                src={`/avatar/${u.userId || u.user_id || u.id}`}
-                                alt="avatar"
-                                style={{ width: 28, height: 28, borderRadius: "50%" }}
-                                onError={(e) => (e.currentTarget.src = "/avatar/default.avif")}
-                              />
+                              <img src={`/avatar/${u.userId || u.user_id || u.id}`} alt="avatar" style={{ width: 28, height: 28, borderRadius: "50%" }} onError={(e) => (e.currentTarget.src = "/avatar/default.avif")} />
                               <span style={{ color: "#fff" }}>{u.username}</span>
                               <Certification
                                 user={u}
@@ -855,11 +690,7 @@ const MyGames = () => {
                         Cancel
                       </button>
                     </div>
-                    {ownershipError && (
-                      <div style={{ color: "red", marginTop: 12 }}>
-                        {ownershipError}
-                      </div>
-                    )}
+                    {ownershipError && <div style={{ color: "red", marginTop: 12 }}>{ownershipError}</div>}
                   </form>
                 </div>
               </div>
