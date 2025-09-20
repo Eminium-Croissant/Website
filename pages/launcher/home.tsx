@@ -499,10 +499,10 @@ const Library: React.FC = () => {
       <div className="flex gap-6 h-screen">
         {/* Sidebar */}
         <aside className="glass-content-card w-80 flex-shrink-0 p-6">
-          <input type="text" placeholder="Rechercher des jeux..." value={search} onChange={(e) => setSearch(e.target.value)} className="glass-input w-full mb-6" />
+          <input type="text" placeholder={t("launcher.searchPlaceholder")} value={search} onChange={(e) => setSearch(e.target.value)} className="glass-input w-full mb-6" />
           {filteredGames.length === 0 ? (
             <div className="text-center py-8" style={{ color: "var(--glass-text-secondary)" }}>
-              Aucun jeu trouvé.
+              {t("launcher.noGames")}
             </div>
           ) : (
             <div className="space-y-2">
@@ -526,11 +526,11 @@ const Library: React.FC = () => {
                         {game.name}
                       </div>
                       <div className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
-                        {game.state === "not_installed" && "Non installé"}
-                        {game.state === "installed" && "Installé"}
-                        {game.state === "to_update" && "Mise à jour disponible"}
-                        {game.state === "playing" && "En cours de jeu"}
-                        {game.state === "installing" && "Installation en cours"}
+                        {game.state === "not_installed" && t("launcher.install")}
+                        {game.state === "installed" && t("launcher.play")}
+                        {game.state === "to_update" && t("launcher.update")}
+                        {game.state === "playing" && t("launcher.play")}
+                        {game.state === "installing" && t("launcher.install")}
                       </div>
                     </div>
                   </div>
@@ -585,7 +585,7 @@ const Library: React.FC = () => {
                 <div className="flex gap-4 flex-wrap">
                   {selected.state === "not_installed" && (
                     <button className="glass-button-neon" onClick={handleInstall}>
-                      Installer
+                      {t("launcher.install")}
                     </button>
                   )}
                   {selected.state === "installing" && (
@@ -600,29 +600,29 @@ const Library: React.FC = () => {
                   )}
                   {selected.state === "to_update" && (
                     <button className="glass-button-neon" onClick={handleUpdate}>
-                      Mettre à jour
+                      {t("launcher.update")}
                     </button>
                   )}
                   {selected.state === "installed" && (
                     <>
                       <button className="glass-button-neon" onClick={handlePlay} disabled={isPlaying}>
-                        {isPlaying ? "En cours de jeu" : "Jouer"}
+                        {isPlaying ? t("launcher.play") : t("launcher.play")}
                       </button>
                       <button className="glass-button" onClick={handleDelete} disabled={isPlaying}>
-                        Supprimer
+                        {t("launcher.delete")}
                       </button>
                     </>
                   )}
                   {selected.state === "playing" && (
                     <button className="glass-button" disabled>
-                      En cours de jeu
+                      {t("launcher.play")}
                     </button>
                   )}
                   <Link href={`/game?gameId=${selected.gameId}`}>
                     <button className="glass-button">Voir les détails</button>
                   </Link>
                   <button className="glass-button" onClick={() => setShowTransferModal(true)} disabled={isPlaying}>
-                    Transférer
+                    {t("launcher.transfer")}
                   </button>
                 </div>
               </div>
@@ -636,18 +636,18 @@ const Library: React.FC = () => {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={handleCloseTransferModal}>
           <div className="glass-card p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--glass-text)" }}>
-              Transférer le jeu
+              {t("launcher.transferTitle")}
             </h3>
             <p className="mb-4" style={{ color: "var(--glass-text-secondary)" }}>
-              Transférez votre copie de "{selected?.name}" à un autre utilisateur.
+              {t("launcher.transferDesc", { game: selected?.name || "" })}
             </p>
             <p className="text-sm mb-6" style={{ color: "var(--glass-text-muted)" }}>
-              ⚠️ Attention : Vous perdrez l'accès à ce jeu de façon permanente.
+              {t("launcher.transferWarning")}
             </p>
 
             <div className="relative mb-6">
               <label className="block mb-2" style={{ color: "var(--glass-text)" }}>
-                Sélectionner un utilisateur :
+                {t("launcher.selectUser")}
               </label>
               <input
                 type="text"
@@ -661,7 +661,7 @@ const Library: React.FC = () => {
                   if (transferTarget.length > 1) setTransferUserDropdownOpen(true);
                 }}
                 onBlur={() => setTimeout(() => setTransferUserDropdownOpen(false), 150)}
-                placeholder="Rechercher un utilisateur..."
+                placeholder={t("launcher.transferUserPlaceholder")}
                 className="glass-input w-full"
                 disabled={transferLoading}
               />
@@ -704,10 +704,10 @@ const Library: React.FC = () => {
 
             <div className="flex gap-4">
               <button onClick={handleCloseTransferModal} disabled={transferLoading} className="glass-button flex-1">
-                Annuler
+                {t("launcher.cancel")}
               </button>
               <button onClick={handleTransferGame} disabled={transferLoading || !transferTargetId.trim()} className="glass-button-neon flex-1">
-                {transferLoading ? "Transfert..." : "Transférer"}
+                {transferLoading ? t("launcher.transferring") : t("launcher.transfer")}
               </button>
             </div>
           </div>
