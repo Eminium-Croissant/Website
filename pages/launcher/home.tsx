@@ -529,311 +529,240 @@ const Library: React.FC = () => {
 
   if (loading || error) {
     return (
-      <div style={{ position: "relative" }}>
-        {/* Skeleton UI */}
-        <div className="steam-library-layout">
-          <aside className="steam-library-sidebar">
-            <input
-              type="text"
-              placeholder="Search games..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="library-search-input"
-              disabled
-            />
-            <ul className="sidebar-list">
-              {[...Array(5)].map((_, i) => (
-                <li key={i} className="sidebar-game not-installed">
-                  <div
-                    className="sidebar-thumb skeleton-icon"
-                    style={{ width: 36, height: 36 }}
-                  />
-                  <span
-                    className="skeleton-title"
-                    style={{ width: "60%", height: 18, margin: 0 }}
-                  />
-                </li>
-              ))}
-            </ul>
-          </aside>
-          <main className="steam-library-main launcher">
-            <div className="main-details-steam gamepage-blur">
-              <div className="banner-container">
-                <div className="main-banner-steam skeleton-banner" />
-                <div className="main-icon-steam skeleton-icon" />
+      <div className="glass-page-container">
+        <div className="glass-content-card">
+          <div className="flex items-center justify-center py-12">
+            {error ? (
+              <div className="glass-card p-8 text-center">
+                <div className="text-2xl mb-4" style={{color: 'var(--glass-text)'}}>
+                  ⚠️ Erreur
+                </div>
+                <div style={{color: 'var(--glass-text-secondary)'}}>
+                  {error}
+                </div>
               </div>
-              <div className="main-details-content">
-                <div className="skeleton-title" />
-                <div className="skeleton-desc" />
-                <div className="skeleton-properties" />
+            ) : (
+              <div className="flex items-center gap-4">
+                <div className="w-8 h-8 border-4 border-glass-border border-t-neon-blue rounded-full animate-spin"></div>
+                <span style={{color: 'var(--glass-text)'}}>Chargement des jeux...</span>
               </div>
-            </div>
-          </main>
+            )}
+          </div>
         </div>
-        {/* Loading spinner or error overlay */}
-        {error ? (
-          <div
-            className="gamepage-loading-overlay"
-            style={{
-              background: "rgba(34,34,34,0.92)",
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <div
-              style={{
-                color: "#fff",
-                fontSize: 18,
-                fontWeight: 500,
-                textAlign: "center",
-                padding: "32px 0",
-              }}
-            >
-              {error}
-            </div>
-          </div>
-        ) : (
-          <div className="gamepage-loading-overlay">
-            <div className="inventory-loading-spinner" />
-          </div>
-        )}
-        {showFetchError && (
-          <div
-            style={{
-              position: "fixed",
-              top: 24,
-              right: 24,
-              background: "#222",
-              color: "#fff",
-              padding: "16px 28px",
-              borderRadius: 8,
-              boxShadow: "0 2px 12px rgba(0,0,0,0.18)",
-              zIndex: 9999,
-              fontSize: 16,
-              fontWeight: 500,
-              letterSpacing: 0.2,
-              minWidth: 220,
-              textAlign: "center",
-            }}
-          >
-            Failed to fetch games. Please check your connection or try again
-            later.
-          </div>
-        )}
       </div>
     );
   }
 
   return (
-    <div className="steam-library-layout">
+    <div className="glass-page-container">
       <LobbyManager></LobbyManager>
-      <aside className="steam-library-sidebar">
-        <input
-          type="text"
-          placeholder="Search games..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="library-search-input"
-        />
-        {filteredGames.length === 0 ? (
-          <div className="sidebar-empty">No games found.</div>
-        ) : (
-          <ul className="sidebar-list">
-            {filteredGames.map((game) => (
-              <li
-                key={game.gameId}
-                className={[
-                  `sidebar-game`,
-                  selected && selected.gameId === game.gameId ? "selected" : "",
-                  game.state === "not_installed" ? "not-installed" : "",
-                  game.state === "installed" ? "installed" : "",
-                  game.state === "to_update" ? "to-update" : "",
-                  game.state === "playing" ? "playing" : "",
-                ]
-                  .filter((i) => !!i)
-                  .join(" ")
-                  .trim()}
-                onClick={() => handleSelect(game)}
-                onDoubleClick={() => {
-                  if (game.state === "installed") {
-                    handlePlay();
-                  } else if (game.state === "to_update") {
-                    handleUpdate();
-                  }
-                }}
-              >
-                <CachedImage
-                  src={`/games-icons/${game.iconHash}`}
-                  alt={game.name}
-                  className="sidebar-thumb"
-                />
-                <span>{game.name}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </aside>
-      <main className="steam-library-main launcher">
-        {!selected ? (
-          <div className="main-empty">Please select a game.</div>
-        ) : (
-          <div className="main-details-steam">
-            <div className="banner-container">
-              <img
-                src={`/banners-icons/${selected.bannerHash}`}
-                alt={selected.name}
-                className="main-banner-steam"
-                loading="lazy"
-              />
-              <img
-                src={`/games-icons/${selected.iconHash}`}
-                alt={selected.name}
-                className="main-icon-steam"
-                loading="lazy"
-              />
+      <div className="flex gap-6 h-screen">
+        {/* Sidebar */}
+        <aside className="glass-content-card w-80 flex-shrink-0 p-6">
+          <input
+            type="text"
+            placeholder="Rechercher des jeux..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="glass-input w-full mb-6"
+          />
+          {filteredGames.length === 0 ? (
+            <div className="text-center py-8" style={{color: 'var(--glass-text-secondary)'}}>
+              Aucun jeu trouvé.
             </div>
-            <div className="main-details-content">
-              <h2>{selected.name}</h2>
-              {/* --- Ajout du propriétaire sous le nom du jeu --- */}
-              {ownerInfo && (
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                  <Link
-                    href={`/profile?user=${ownerInfo.id}`}
-                    style={{ display: "flex", alignItems: "center", textDecoration: "none", color: "#fff" }}
-                  >
+          ) : (
+            <div className="space-y-2">
+              {filteredGames.map((game) => (
+                <div
+                  key={game.gameId}
+                  className={`glass-card p-4 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                    selected && selected.gameId === game.gameId ? 'ring-2 ring-neon-blue' : ''
+                  }`}
+                  onClick={() => handleSelect(game)}
+                  onDoubleClick={() => {
+                    if (game.state === "installed") {
+                      handlePlay();
+                    } else if (game.state === "to_update") {
+                      handleUpdate();
+                    }
+                  }}
+                >
+                  <div className="flex items-center gap-3">
                     <CachedImage
-                      src={`/avatar/${ownerInfo.id}`}
-                      alt={ownerInfo.username}
-                      style={{
-                        width: 32,
-                        height: 32,
-                        borderRadius: "50%",
-                        marginRight: 8,
-                        objectFit: "cover",
-                        border: "2px solid #444"
-                      }}
+                      src={`/games-icons/${game.iconHash}`}
+                      alt={game.name}
+                      className="w-12 h-12 rounded-lg object-cover"
                     />
-                    <span style={{ fontWeight: 500 }}>
-                      {ownerInfo.username}
-                      <Certification
-                        user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }}
-                        style={{
-                          marginLeft: 4,
-                          width: 16,
-                          height: 16,
-                          position: "relative",
-                          top: -2,
-                          verticalAlign: "middle",
-                        }}
-                      />
-                    </span>
-                  </Link>
+                    <div className="flex-1">
+                      <div className="font-medium" style={{color: 'var(--glass-text)'}}>
+                        {game.name}
+                      </div>
+                      <div className="text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+                        {game.state === "not_installed" && "Non installé"}
+                        {game.state === "installed" && "Installé"}
+                        {game.state === "to_update" && "Mise à jour disponible"}
+                        {game.state === "playing" && "En cours de jeu"}
+                        {game.state === "installing" && "Installation en cours"}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              )}
-              {/* --- Fin ajout propriétaire --- */}
-              <div className="library-details-row">
-                <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 16 }}>
+              ))}
+            </div>
+          )}
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto">
+          {!selected ? (
+            <div className="glass-content-card h-full flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-4xl mb-4" style={{color: 'var(--glass-text)'}}>
+                  🎮
                 </div>
-                <div className="library-btn-col">
+                <div className="text-xl" style={{color: 'var(--glass-text-secondary)'}}>
+                  Sélectionnez un jeu pour commencer
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="glass-content-card h-full">
+              {/* Game Banner */}
+              <div className="relative h-64 mb-6 rounded-xl overflow-hidden">
+                <img
+                  src={`/banners-icons/${selected.bannerHash}`}
+                  alt={selected.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
+                <div className="absolute bottom-4 left-4 flex items-center gap-4">
+                  <img
+                    src={`/games-icons/${selected.iconHash}`}
+                    alt={selected.name}
+                    className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border"
+                    loading="lazy"
+                  />
+                  <div>
+                    <h2 className="text-3xl font-bold" style={{color: 'var(--glass-text)'}}>
+                      {selected.name}
+                    </h2>
+                    {ownerInfo && (
+                      <div className="flex items-center gap-2 mt-2">
+                        <Link
+                          href={`/profile?user=${ownerInfo.id}`}
+                          className="flex items-center gap-2 no-underline"
+                        >
+                          <CachedImage
+                            src={`/avatar/${ownerInfo.id}`}
+                            alt={ownerInfo.username}
+                            className="w-8 h-8 rounded-full object-cover border-2 border-glass-border"
+                          />
+                          <span className="text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+                            {ownerInfo.username}
+                          </span>
+                          <Certification
+                            user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }}
+                            className="w-4 h-4"
+                          />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Game Actions */}
+              <div className="glass-card p-6">
+                <div className="flex gap-4 flex-wrap">
                   {selected.state === "not_installed" && (
                     <button
-                      className="library-play-btn can-install"
+                      className="glass-button-neon"
                       onClick={handleInstall}
                     >
-                      Install
+                      Installer
                     </button>
                   )}
                   {selected.state === "installing" && (
-                    <div style={{ width: "100%" }}>
-                      <button className="library-play-btn installing" disabled>
-                        Installing... {downloadPercent > 0 ? `${downloadPercent}%` : ""}
+                    <div className="w-full">
+                      <button className="glass-button w-full" disabled>
+                        Installation... {downloadPercent > 0 ? `${downloadPercent}%` : ""}
                       </button>
-                      <div style={{
-                        width: "100%",
-                        height: 8,
-                        background: "#333",
-                        borderRadius: 4,
-                        marginTop: 8,
-                        overflow: "hidden"
-                      }}>
-                        <div style={{
-                          width: `${downloadPercent}%`,
-                          height: "100%",
-                          background: "#4caf50",
-                          transition: "width 0.2s"
-                        }} />
+                      <div className="w-full h-2 bg-glass-border rounded-full mt-2 overflow-hidden">
+                        <div 
+                          className="h-full bg-neon-green transition-all duration-300"
+                          style={{ width: `${downloadPercent}%` }}
+                        />
                       </div>
                     </div>
                   )}
                   {selected.state === "to_update" && (
                     <button
-                      className="library-play-btn can-update"
+                      className="glass-button-neon"
                       onClick={handleUpdate}
                     >
-                      Update
+                      Mettre à jour
                     </button>
                   )}
                   {selected.state === "installed" && (
-                    <div className="library-btn-col">
+                    <>
                       <button
-                        className="library-play-btn can-play"
+                        className="glass-button-neon"
                         onClick={handlePlay}
                         disabled={isPlaying}
                       >
-                        {isPlaying ? "In Game" : "Play"}
+                        {isPlaying ? "En cours de jeu" : "Jouer"}
                       </button>
                       <button
-                        className="library-play-btn can-delete"
+                        className="glass-button"
                         onClick={handleDelete}
                         disabled={isPlaying}
                       >
-                        Delete
+                        Supprimer
                       </button>
-                    </div>
+                    </>
                   )}
                   {selected.state === "playing" && (
-                    <button className="library-play-btn playing" disabled>
-                      In Game
+                    <button className="glass-button" disabled>
+                      En cours de jeu
                     </button>
                   )}
                   <Link href={`/game?gameId=${selected.gameId}`}>
-                    <button className="library-play-btn">
-                      View
+                    <button className="glass-button">
+                      Voir les détails
                     </button>
                   </Link>
                   <button
-                    className="library-play-btn transfer-btn"
+                    className="glass-button"
                     onClick={() => setShowTransferModal(true)}
                     disabled={isPlaying}
                   >
-                    Transfer
+                    Transférer
                   </button>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-      </main>
+          )}
+        </main>
+      </div>
 
       {/* Modal de transfert */}
       {showTransferModal && (
-        <div className="modal-overlay" onClick={handleCloseTransferModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Transfer Game</h3>
-            <p>Transfer your copy of "{selected?.name}" to another user.</p>
-            <p style={{ fontSize: "14px", color: "#888", marginBottom: "16px" }}>
-              Warning: You will lose access to this game permanently.
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={handleCloseTransferModal}>
+          <div className="glass-card p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-2xl font-bold mb-4" style={{color: 'var(--glass-text)'}}>
+              Transférer le jeu
+            </h3>
+            <p className="mb-4" style={{color: 'var(--glass-text-secondary)'}}>
+              Transférez votre copie de "{selected?.name}" à un autre utilisateur.
+            </p>
+            <p className="text-sm mb-6" style={{color: 'var(--glass-text-muted)'}}>
+              ⚠️ Attention : Vous perdrez l'accès à ce jeu de façon permanente.
             </p>
 
-            <div style={{ position: "relative", marginBottom: "16px" }}>
-              <label style={{ color: "#fff", marginBottom: "8px", display: "block" }}>
-                Select user:
+            <div className="relative mb-6">
+              <label className="block mb-2" style={{color: 'var(--glass-text)'}}>
+                Sélectionner un utilisateur :
               </label>
               <input
                 type="text"
@@ -847,105 +776,64 @@ const Library: React.FC = () => {
                   if (transferTarget.length > 1) setTransferUserDropdownOpen(true);
                 }}
                 onBlur={() => setTimeout(() => setTransferUserDropdownOpen(false), 150)}
-                placeholder="Search user by name..."
-                className="transfer-input"
+                placeholder="Rechercher un utilisateur..."
+                className="glass-input w-full"
                 disabled={transferLoading}
               />
 
               {transferUserDropdownOpen && transferUserResults.length > 0 && (
-                <ul
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    right: 0,
-                    top: "100%",
-                    background: "#2a2a2a",
-                    border: "1px solid #444",
-                    borderRadius: "4px",
-                    maxHeight: "200px",
-                    overflowY: "auto",
-                    zIndex: 1001,
-                    listStyle: "none",
-                    margin: 0,
-                    padding: 0,
-                    marginTop: "4px",
-                  }}
-                >
+                <div className="absolute top-full left-0 right-0 mt-2 glass-card max-h-48 overflow-y-auto z-10">
                   {transferUserResults.map((user) => (
-                    <li
+                    <div
                       key={user.userId || user.user_id || user.id}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "8px",
-                        padding: "8px 12px",
-                        cursor: "pointer",
-                        borderBottom: "1px solid #333",
-                        color: "#fff",
-                      }}
+                      className="flex items-center gap-3 p-3 hover:bg-glass-accent cursor-pointer transition-colors"
                       onMouseDown={() => {
                         setTransferTargetId(user.userId || user.user_id || user.id);
                         setTransferTarget(user.username);
                         setTransferUserDropdownOpen(false);
                       }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = "#333";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = "transparent";
-                      }}
                     >
                       <img
                         src={`/avatar/${user.userId || user.user_id || user.id}`}
                         alt="avatar"
-                        style={{
-                          width: "28px",
-                          height: "28px",
-                          borderRadius: "50%",
-                          objectFit: "cover"
-                        }}
+                        className="w-8 h-8 rounded-full object-cover border-2 border-glass-border"
                         onError={(e) => {
                           e.currentTarget.src = "/avatar/default.avif";
                         }}
                       />
-                      <span>{user.username}</span>
+                      <span style={{color: 'var(--glass-text)'}}>{user.username}</span>
                       <Certification
                         user={{ ...user, verified: user.verified ?? false }}
-                        style={{
-                          marginLeft: 4,
-                          width: 16,
-                          height: 16,
-                          position: "relative",
-                          top: -2,
-                          verticalAlign: "middle",
-                        }}
+                        className="w-4 h-4"
                       />
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               )}
             </div>
 
             {transferError && (
-              <div className="error-message" style={{ color: "#ff4444", fontSize: "14px", marginBottom: "16px" }}>
-                {transferError}
+              <div className="glass-card p-3 mb-4" style={{backgroundColor: 'rgba(255, 68, 68, 0.1)', border: '1px solid rgba(255, 68, 68, 0.3)'}}>
+                <div className="text-sm" style={{color: '#ff4444'}}>
+                  {transferError}
+                </div>
               </div>
             )}
 
-            <div className="modal-buttons">
+            <div className="flex gap-4">
               <button
                 onClick={handleCloseTransferModal}
                 disabled={transferLoading}
-                className="modal-btn cancel"
+                className="glass-button flex-1"
               >
-                Cancel
+                Annuler
               </button>
               <button
                 onClick={handleTransferGame}
                 disabled={transferLoading || !transferTargetId.trim()}
-                className="modal-btn confirm"
+                className="glass-button-neon flex-1"
               >
-                {transferLoading ? "Transferring..." : "Transfer"}
+                {transferLoading ? "Transfert..." : "Transférer"}
               </button>
             </div>
           </div>

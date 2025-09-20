@@ -5,6 +5,8 @@ import Link from "next/link";
 import useIsMobile from "../hooks/useIsMobile";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignInAlt, faGoogle, faKey, faEnvelope, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -13,109 +15,36 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-// Style constants
-const containerStyle: React.CSSProperties = {
-  maxWidth: 400,
-  margin: "60px auto",
-  background: "#23232a",
-  borderRadius: 12,
-  boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
-  padding: "32px 24px",
-  color: "#fff",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-};
+// Composant pour l'icône Google
+const GoogleIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 48 48">
+    <g>
+      <path
+        fill="#4285F4"
+        d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
+      />
+      <path
+        fill="#34A853"
+        d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
+      />
+      <path
+        fill="#EA4335"
+        d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
+      />
+    </g>
+  </svg>
+);
 
-const containerMobileStyle: React.CSSProperties = {
-  ...containerStyle,
-  maxWidth: 340,
-  // margin: "32px auto",
-  padding: "18px 8px",
-  borderRadius: 10,
-  fontSize: "0.98em",
-};
-
-const titleStyle: React.CSSProperties = {
-  marginBottom: 32,
-};
-
-const titleMobileStyle: React.CSSProperties = {
-  ...titleStyle,
-  fontSize: "1.15em",
-  marginBottom: 18,
-};
-
-const discordBtnStyle: React.CSSProperties = {
-  width: "260px",
-  height: "48px",
-  background: "linear-gradient(90deg, #5865F2 60%, #404EED 260px)",
-  color: "#fff",
-  border: "none",
-  borderRadius: "8px",
-  fontSize: "16px",
-  fontWeight: 600,
-  cursor: "pointer",
-  marginBottom: "18px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "12px",
-};
-
-const discordBtnMobileStyle: React.CSSProperties = {
-  ...discordBtnStyle,
-  width: "280px",
-  fontSize: "15px",
-  height: "44px",
-  marginBottom: "12px",
-};
-
-const discordIconStyle: React.CSSProperties = {
-  fontSize: "22px",
-};
-
-const googleBtnStyle: React.CSSProperties = {
-  width: "260px",
-  height: "48px",
-  background: "#fff",
-  color: "#222",
-  border: "1px solid #e0e0e0",
-  borderRadius: "8px",
-  fontSize: "16px",
-  fontWeight: 600,
-  cursor: "pointer",
-  marginBottom: "8px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  gap: "12px",
-};
-
-const googleBtnMobileStyle: React.CSSProperties = {
-  ...googleBtnStyle,
-  width: "280px",
-  fontSize: "15px",
-  height: "44px",
-  marginBottom: "8px",
-};
-
-const googleIconSpanStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-};
-
-const infoTextStyle: React.CSSProperties = {
-  marginTop: 24,
-  color: "#aaa",
-  fontSize: 14,
-};
-
-const infoTextMobileStyle: React.CSSProperties = {
-  ...infoTextStyle,
-  marginTop: 14,
-  fontSize: 13,
-};
+// Composant pour l'icône Discord
+const DiscordIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+  </svg>
+);
 
 function LoginDesktop(props: any) {
   const {
@@ -142,273 +71,206 @@ function LoginDesktop(props: any) {
   } = props;
 
   const { t } = useTranslation("common");
+  const [showPassword, setShowPassword] = React.useState(false);
 
   return (
-    <div className="container" style={containerStyle}>
-      <h2 style={titleStyle}>{t("login.title")}</h2>
-      <form style={{ width: "260px", maxWidth: 340 }} onSubmit={handleLogin}>
-        <div style={{ marginBottom: 16 }}>
-          <label style={{ fontWeight: 600, marginBottom: 6, display: "block" }}>
-            {t("login.email")}
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{
-              width: "240px",
-              padding: "10px 12px",
-              borderRadius: 6,
-              border: "1px solid #444",
-              background: "#18181c",
-              color: "#fff",
-              fontSize: 16,
-            }}
-            autoComplete="email"
-            required
-          />
-        </div>
-        <div style={{ marginBottom: 8 }}>
-          <label style={{ fontWeight: 600, marginBottom: 6, display: "block" }}>
-            {t("login.password")}
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              width: "240px",
-              padding: "10px 12px",
-              borderRadius: 6,
-              border: "1px solid #444",
-              background: "#18181c",
-              color: "#fff",
-              fontSize: 16,
-            }}
-            autoComplete="current-password"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          style={{
-            width: "260px",
-            padding: "12px",
-            background: "#5865F2",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            fontSize: 16,
-            fontWeight: 600,
-            cursor: "pointer",
-            marginTop: 8,
-          }}
-          disabled={loginLoading}
-        >
-          {loginLoading ? t("login.loggingIn") : t("login.login")}
-        </button>
-        {loginError && (
-          <div style={{ color: "#ff5252", marginTop: 12 }}>{loginError}</div>
-        )}
-      </form>
-      {/* Links below form */}
-      <div
-        style={{
-          width: "260px",
-          maxWidth: 340,
-          marginTop: 16,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link
-          href="/forgot-password"
-          style={{
-            color: "#8ab4f8",
-            fontSize: 14,
-            textDecoration: "none",
-            alignSelf: "flex-start",
-          }}
-        >
-          {t("login.forgotPassword")}
-        </Link>
-        <Link
-          href="/register"
-          style={{
-            color: "#8ab4f8",
-            textDecoration: "none",
-            alignSelf: "flex-start",
-          }}
-        >
-          {t("login.register")}
-        </Link>
-      </div>
-      {/* Separator */}
-      <div
-        style={{
-          width: "260px",
-          textAlign: "center",
-          margin: "24px 0 16px 0",
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-        }}
-      >
-        <div style={{ flex: 1, height: 1, background: "#444" }} />
-        <span style={{ color: "#888", fontSize: 14 }}>{t("login.or")}</span>
-        <div style={{ flex: 1, height: 1, background: "#444" }} />
-      </div>
-      {/* OAuth buttons */}
-      <button style={discordBtnStyle} onClick={handleDiscord}>
-        <span
-          className="fab fa-discord"
-          style={discordIconStyle}
-          aria-hidden="true"
-        />
-        {t("login.signInWithDiscord")}
-      </button>
-      <button style={googleBtnStyle} onClick={handleGoogle}>
-        <span style={googleIconSpanStyle}>
-          <svg width="22" height="22" viewBox="0 0 48 48">
-            <g>
-              <path
-                fill="#4285F4"
-                d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
-              />
-              <path
-                fill="#34A853"
-                d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
-              />
-              <path
-                fill="#EA4335"
-                d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
-              />
-            </g>
-          </svg>
-        </span>
-        {t("login.signInWithGoogle")}
-      </button>
-      <div style={{ width: "260px", maxWidth: 340, marginTop: 8 }}>
-        <button
-          type="button"
-          style={{
-            ...googleBtnStyle,
-            background: "#222",
-            color: "#fff",
-            marginBottom: 8,
-          }}
-          onClick={handlePasskeyLogin}
-          disabled={passkeyLoading}
-        >
-          {passkeyLoading ? t("login.authenticating") : t("login.passkey")}
-        </button>
-        {passkeyError && (
-          <div style={{ color: "#ff5252", marginTop: 8 }}>{passkeyError}</div>
-        )}
-      </div>
-      {/* Authenticator Modal */}
-      {showAuthenticatorModal && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.6)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 9999,
-          }}
-        >
-          <div
-            style={{
-              background: "#23232a",
-              padding: 32,
-              borderRadius: 12,
-              boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
-              minWidth: 320,
-              color: "#fff",
-            }}
-          >
-            <h3 style={{ marginBottom: 16 }}>
-              {t("login.enterAuthenticator")}
-            </h3>
-            <form onSubmit={handleAuthenticatorSubmit}>
+    <div className="glass-page-container">
+      <div className="glass-content-card max-w-md mx-auto">
+        <h1 className="text-4xl font-bold mb-8 text-center" style={{color: 'var(--glass-text)'}}>
+          <span className="glass-method get">
+            <FontAwesomeIcon icon={faSignInAlt} className="mr-3" />
+            {t("login.title")}
+          </span>
+        </h1>
+        
+        <form className="space-y-6" onSubmit={handleLogin}>
+          <div>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--glass-text)'}}>
+              <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-neon-blue" />
+              {t("login.email")}
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="glass-input w-full p-3 rounded-xl"
+              autoComplete="email"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--glass-text)'}}>
+              <FontAwesomeIcon icon={faLock} className="mr-2 text-neon-purple" />
+              {t("login.password")}
+            </label>
+            <div className="relative">
               <input
-                type="text"
-                value={authenticatorCode}
-                onChange={(e) => setAuthenticatorCode(e.target.value)}
-                style={{
-                  width: "255px",
-                  padding: "10px 12px",
-                  borderRadius: 6,
-                  border: "1px solid #444",
-                  background: "#18181c",
-                  color: "#fff",
-                  fontSize: 16,
-                  marginBottom: 12,
-                }}
-                placeholder={t("login.codePlaceholder")}
-                autoFocus
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="glass-input w-full p-3 rounded-xl pr-12"
+                autoComplete="current-password"
                 required
               />
               <button
-                type="submit"
-                style={{
-                  width: "280px",
-                  padding: "12px",
-                  background: "#5865F2",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 8,
-                  fontSize: 16,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  marginBottom: 8,
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-glass-text-secondary hover:text-neon-blue transition-colors"
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
+            </div>
+          </div>
+          
+          <button
+            type="submit"
+            className="glass-button-neon w-full p-3 rounded-xl text-lg font-semibold"
+            disabled={loginLoading}
+          >
+            {loginLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                {t("login.loggingIn")}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center">
+                <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
+                {t("login.login")}
+              </div>
+            )}
+          </button>
+          
+          {loginError && (
+            <div className="glass-card p-4 text-center" style={{color: 'var(--neon-pink)'}}>
+              {loginError}
+            </div>
+          )}
+        </form>
+        {/* Links below form */}
+        <div className="flex justify-between mt-6">
+          <Link
+            href="/forgot-password"
+            className="text-neon-blue hover:text-neon-purple transition-colors text-sm"
+          >
+            {t("login.forgotPassword")}
+          </Link>
+          <Link
+            href="/register"
+            className="text-neon-blue hover:text-neon-purple transition-colors text-sm"
+          >
+            {t("login.register")}
+          </Link>
+        </div>
+        
+        {/* Separator */}
+        <div className="flex items-center my-8">
+          <div className="flex-1 h-px bg-glass-border"></div>
+          <span className="px-4 text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+            {t("login.or")}
+          </span>
+          <div className="flex-1 h-px bg-glass-border"></div>
+        </div>
+        
+        {/* OAuth buttons */}
+        <div className="space-y-4">
+          <button 
+            className="glass-button-neon w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white"
+            onClick={handleDiscord}
+          >
+            <DiscordIcon />
+            {t("login.signInWithDiscord")}
+          </button>
+          
+          <button 
+            className="glass-button w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white border-2 border-glass-border hover:border-neon-blue transition-colors"
+            onClick={handleGoogle}
+          >
+            <GoogleIcon />
+            {t("login.signInWithGoogle")}
+          </button>
+          
+          <button
+            type="button"
+            className="glass-card w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white hover:bg-glass-accent transition-colors"
+            onClick={handlePasskeyLogin}
+            disabled={passkeyLoading}
+          >
+            {passkeyLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                {t("login.authenticating")}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center">
+                <FontAwesomeIcon icon={faKey} className="mr-2" />
+                {t("login.passkey")}
+              </div>
+            )}
+          </button>
+          
+          {passkeyError && (
+            <div className="glass-card p-3 text-center" style={{color: 'var(--neon-pink)'}}>
+              {passkeyError}
+            </div>
+          )}
+        </div>
+        {/* Authenticator Modal */}
+        {showAuthenticatorModal && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+            <div className="glass-card p-8 rounded-xl max-w-md w-full mx-4">
+              <h3 className="text-2xl font-bold mb-6 text-center" style={{color: 'var(--glass-text)'}}>
+                <FontAwesomeIcon icon={faKey} className="mr-3 text-neon-blue" />
+                {t("login.enterAuthenticator")}
+              </h3>
+              <form onSubmit={handleAuthenticatorSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2" style={{color: 'var(--glass-text)'}}>
+                    Code d'authentification
+                  </label>
+                  <input
+                    type="text"
+                    value={authenticatorCode}
+                    onChange={(e) => setAuthenticatorCode(e.target.value)}
+                    className="glass-input w-full p-3 rounded-xl"
+                    placeholder={t("login.codePlaceholder")}
+                    autoFocus
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="glass-button-neon w-full p-3 rounded-xl text-lg font-semibold"
+                >
+                  <FontAwesomeIcon icon={faKey} className="mr-2" />
+                  {t("login.verify")}
+                </button>
+                {authenticatorError && (
+                  <div className="glass-card p-3 text-center" style={{color: 'var(--neon-pink)'}}>
+                    {t("login.authenticatorError")}
+                  </div>
+                )}
+              </form>
+              <button
+                type="button"
+                className="glass-button w-full p-3 rounded-xl mt-4"
+                onClick={() => {
+                  setShowAuthenticatorModal(false);
+                  setAuthenticatorCode("");
+                  setAuthenticatorError(null);
+                  setPendingUserId(null);
                 }}
               >
-                {t("login.verify")}
+                {t("login.cancel")}
               </button>
-              {authenticatorError && (
-                <div style={{ color: "#ff5252", marginTop: 8 }}>
-                  {t("login.authenticatorError")}
-                </div>
-              )}
-            </form>
-            <button
-              type="button"
-              style={{
-                width: "280px",
-                padding: "8px",
-                background: "#444",
-                color: "#fff",
-                border: "none",
-                borderRadius: 8,
-                fontSize: 14,
-                fontWeight: 500,
-                cursor: "pointer",
-                marginTop: 8,
-              }}
-              onClick={() => {
-                setShowAuthenticatorModal(false);
-                setAuthenticatorCode("");
-                setAuthenticatorError(null);
-                setPendingUserId(null);
-              }}
-            >
-              {t("login.cancel")}
-            </button>
+            </div>
           </div>
+        )}
+        
+        <div className="text-center mt-6 text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+          {t("login.redirectInfo")}
         </div>
-      )}
-      <div style={infoTextStyle}>{t("login.redirectInfo")}</div>
+      </div>
     </div>
   );
 }
@@ -438,273 +300,206 @@ function LoginMobile(props: any) {
   } = props;
 
   const { t } = useTranslation("common");
+  const [showPassword, setShowPassword] = React.useState(false);
 
   return (
-    <div className="container" style={containerMobileStyle}>
-      <h2 style={titleMobileStyle}>{t("login.title")}</h2>
-      <form style={{ width: "280px", maxWidth: 300 }} onSubmit={handleLogin}>
-        <div style={{ marginBottom: 12 }}>
-          <label style={{ fontWeight: 600, marginBottom: 4, display: "block" }}>
-            {t("login.email")}
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{
-              width: "260px",
-              padding: "9px 10px",
-              borderRadius: 6,
-              border: "1px solid #444",
-              background: "#18181c",
-              color: "#fff",
-              fontSize: 15,
-            }}
-            autoComplete="email"
-            required
-          />
-        </div>
-        <div style={{ marginBottom: 8 }}>
-          <label style={{ fontWeight: 600, marginBottom: 4, display: "block" }}>
-            {t("login.password")}
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              width: "260px",
-              padding: "9px 10px",
-              borderRadius: 6,
-              border: "1px solid #444",
-              background: "#18181c",
-              color: "#fff",
-              fontSize: 15,
-            }}
-            autoComplete="current-password"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          style={{
-            width: "280px",
-            padding: "10px",
-            background: "#5865F2",
-            color: "#fff",
-            border: "none",
-            borderRadius: 8,
-            fontSize: 15,
-            fontWeight: 600,
-            cursor: "pointer",
-            marginTop: 6,
-          }}
-          disabled={loginLoading}
-        >
-          {loginLoading ? t("login.loggingIn") : t("login.login")}
-        </button>
-        {loginError && (
-          <div style={{ color: "#ff5252", marginTop: 10 }}>{loginError}</div>
-        )}
-      </form>
-      {/* Links below form */}
-      <div
-        style={{
-          width: "280px",
-          maxWidth: 300,
-          marginTop: 12,
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link
-          href="/forgot-password"
-          style={{
-            color: "#8ab4f8",
-            fontSize: 13,
-            textDecoration: "none",
-            alignSelf: "flex-start",
-          }}
-        >
-          {t("login.forgotPassword")}
-        </Link>
-        <Link
-          href="/register"
-          style={{
-            color: "#8ab4f8",
-            textDecoration: "none",
-            alignSelf: "flex-start",
-          }}
-        >
-          {t("login.register")}
-        </Link>
-      </div>
-      {/* Separator */}
-      <div
-        style={{
-          width: "280px",
-          textAlign: "center",
-          margin: "18px 0 12px 0",
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-        }}
-      >
-        <div style={{ flex: 1, height: 1, background: "#444" }} />
-        <span style={{ color: "#888", fontSize: 13 }}>{t("login.or")}</span>
-        <div style={{ flex: 1, height: 1, background: "#444" }} />
-      </div>
-      {/* OAuth buttons */}
-      <button style={discordBtnMobileStyle} onClick={handleDiscord}>
-        <span
-          className="fab fa-discord"
-          style={discordIconStyle}
-          aria-hidden="true"
-        />
-        {t("login.signInWithDiscord")}
-      </button>
-      <button style={googleBtnMobileStyle} onClick={handleGoogle}>
-        <span style={googleIconSpanStyle}>
-          <svg width="20" height="20" viewBox="0 0 48 48">
-            <g>
-              <path
-                fill="#4285F4"
-                d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
-              />
-              <path
-                fill="#34A853"
-                d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
-              />
-              <path
-                fill="#FBBC05"
-                d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
-              />
-              <path
-                fill="#EA4335"
-                d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
-              />
-            </g>
-          </svg>
-        </span>
-        {t("login.signInWithGoogle")}
-      </button>
-      <div style={{ width: "280px", maxWidth: 300, marginTop: 8 }}>
-        <button
-          type="button"
-          style={{
-            ...googleBtnMobileStyle,
-            background: "#222",
-            color: "#fff",
-            marginBottom: 8,
-          }}
-          onClick={handlePasskeyLogin}
-          disabled={passkeyLoading}
-        >
-          {passkeyLoading ? t("login.authenticating") : t("login.passkey")}
-        </button>
-        {passkeyError && (
-          <div style={{ color: "#ff5252", marginTop: 8 }}>{passkeyError}</div>
-        )}
-      </div>
-      {/* Authenticator Modal */}
-      {showAuthenticatorModal && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.6)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 9999,
-          }}
-        >
-          <div
-            style={{
-              background: "#23232a",
-              padding: 18,
-              borderRadius: 10,
-              boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
-              minWidth: 220,
-              color: "#fff",
-            }}
-          >
-            <h3 style={{ marginBottom: 12, fontSize: "1.08em" }}>
-              {t("login.enterAuthenticator")}
-            </h3>
-            <form onSubmit={handleAuthenticatorSubmit}>
+    <div className="glass-page-container px-4">
+      <div className="glass-content-card max-w-sm mx-auto">
+        <h1 className="text-3xl font-bold mb-6 text-center" style={{color: 'var(--glass-text)'}}>
+          <span className="glass-method get">
+            <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
+            {t("login.title")}
+          </span>
+        </h1>
+        
+        <form className="space-y-4" onSubmit={handleLogin}>
+          <div>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--glass-text)'}}>
+              <FontAwesomeIcon icon={faEnvelope} className="mr-2 text-neon-blue" />
+              {t("login.email")}
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="glass-input w-full p-3 rounded-xl"
+              autoComplete="email"
+              required
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-semibold mb-2" style={{color: 'var(--glass-text)'}}>
+              <FontAwesomeIcon icon={faLock} className="mr-2 text-neon-purple" />
+              {t("login.password")}
+            </label>
+            <div className="relative">
               <input
-                type="text"
-                value={authenticatorCode}
-                onChange={(e) => setAuthenticatorCode(e.target.value)}
-                style={{
-                  width: "260px",
-                  padding: "9px 10px",
-                  borderRadius: 6,
-                  border: "1px solid #444",
-                  background: "#18181c",
-                  color: "#fff",
-                  fontSize: 15,
-                  marginBottom: 10,
-                }}
-                placeholder={t("login.codePlaceholder")}
-                autoFocus
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="glass-input w-full p-3 rounded-xl pr-12"
+                autoComplete="current-password"
                 required
               />
               <button
-                type="submit"
-                style={{
-                  width: "280px",
-                  padding: "10px",
-                  background: "#5865F2",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: 8,
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  marginBottom: 8,
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-glass-text-secondary hover:text-neon-blue transition-colors"
+              >
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </button>
+            </div>
+          </div>
+          
+          <button
+            type="submit"
+            className="glass-button-neon w-full p-3 rounded-xl text-lg font-semibold"
+            disabled={loginLoading}
+          >
+            {loginLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                {t("login.loggingIn")}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center">
+                <FontAwesomeIcon icon={faSignInAlt} className="mr-2" />
+                {t("login.login")}
+              </div>
+            )}
+          </button>
+          
+          {loginError && (
+            <div className="glass-card p-3 text-center" style={{color: 'var(--neon-pink)'}}>
+              {loginError}
+            </div>
+          )}
+        </form>
+        {/* Links below form */}
+        <div className="flex justify-between mt-4">
+          <Link
+            href="/forgot-password"
+            className="text-neon-blue hover:text-neon-purple transition-colors text-sm"
+          >
+            {t("login.forgotPassword")}
+          </Link>
+          <Link
+            href="/register"
+            className="text-neon-blue hover:text-neon-purple transition-colors text-sm"
+          >
+            {t("login.register")}
+          </Link>
+        </div>
+        
+        {/* Separator */}
+        <div className="flex items-center my-6">
+          <div className="flex-1 h-px bg-glass-border"></div>
+          <span className="px-4 text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+            {t("login.or")}
+          </span>
+          <div className="flex-1 h-px bg-glass-border"></div>
+        </div>
+        
+        {/* OAuth buttons */}
+        <div className="space-y-3">
+          <button 
+            className="glass-button-neon w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white"
+            onClick={handleDiscord}
+          >
+            <DiscordIcon />
+            {t("login.signInWithDiscord")}
+          </button>
+          
+          <button 
+            className="glass-button w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white border-2 border-glass-border hover:border-neon-blue transition-colors"
+            onClick={handleGoogle}
+          >
+            <GoogleIcon />
+            {t("login.signInWithGoogle")}
+          </button>
+          
+          <button
+            type="button"
+            className="glass-card w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white hover:bg-glass-accent transition-colors"
+            onClick={handlePasskeyLogin}
+            disabled={passkeyLoading}
+          >
+            {passkeyLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                {t("login.authenticating")}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center">
+                <FontAwesomeIcon icon={faKey} className="mr-2" />
+                {t("login.passkey")}
+              </div>
+            )}
+          </button>
+          
+          {passkeyError && (
+            <div className="glass-card p-3 text-center" style={{color: 'var(--neon-pink)'}}>
+              {passkeyError}
+            </div>
+          )}
+        </div>
+        {/* Authenticator Modal */}
+        {showAuthenticatorModal && (
+          <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+            <div className="glass-card p-6 rounded-xl max-w-sm w-full mx-4">
+              <h3 className="text-xl font-bold mb-4 text-center" style={{color: 'var(--glass-text)'}}>
+                <FontAwesomeIcon icon={faKey} className="mr-2 text-neon-blue" />
+                {t("login.enterAuthenticator")}
+              </h3>
+              <form onSubmit={handleAuthenticatorSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2" style={{color: 'var(--glass-text)'}}>
+                    Code d'authentification
+                  </label>
+                  <input
+                    type="text"
+                    value={authenticatorCode}
+                    onChange={(e) => setAuthenticatorCode(e.target.value)}
+                    className="glass-input w-full p-3 rounded-xl"
+                    placeholder={t("login.codePlaceholder")}
+                    autoFocus
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="glass-button-neon w-full p-3 rounded-xl text-lg font-semibold"
+                >
+                  <FontAwesomeIcon icon={faKey} className="mr-2" />
+                  {t("login.verify")}
+                </button>
+                {authenticatorError && (
+                  <div className="glass-card p-3 text-center" style={{color: 'var(--neon-pink)'}}>
+                    {t("login.authenticatorError")}
+                  </div>
+                )}
+              </form>
+              <button
+                type="button"
+                className="glass-button w-full p-3 rounded-xl mt-4"
+                onClick={() => {
+                  setShowAuthenticatorModal(false);
+                  setAuthenticatorCode("");
+                  setAuthenticatorError(null);
+                  setPendingUserId(null);
                 }}
               >
-                {t("login.verify")}
+                {t("login.cancel")}
               </button>
-              {authenticatorError && (
-                <div style={{ color: "#ff5252", marginTop: 8 }}>
-                  {t("login.authenticatorError")}
-                </div>
-              )}
-            </form>
-            <button
-              type="button"
-              style={{
-                width: "280px",
-                padding: "8px",
-                background: "#444",
-                color: "#fff",
-                border: "none",
-                borderRadius: 8,
-                fontSize: 13,
-                fontWeight: 500,
-                cursor: "pointer",
-                marginTop: 8,
-              }}
-              onClick={() => {
-                setShowAuthenticatorModal(false);
-                setAuthenticatorCode("");
-                setAuthenticatorError(null);
-                setPendingUserId(null);
-              }}
-            >
-              {t("login.cancel")}
-            </button>
+            </div>
           </div>
+        )}
+        
+        <div className="text-center mt-4 text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+          {t("login.redirectInfo")}
         </div>
-      )}
-      <div style={infoTextMobileStyle}>{t("login.redirectInfo")}</div>
+      </div>
     </div>
   );
 }

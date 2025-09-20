@@ -19,22 +19,16 @@ export default function Searchbar() {
     }
   };
 
-  const inputStyle = {
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    padding: "8px",
-    boxSizing: "border-box" as const,
-    backgroundColor: "#2a2a2a",
-    color: "#fff",
-  };
-
   return (
-    <input
-      style={inputStyle}
-      placeholder={t("searchbar.placeholder")}
-      value={value}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-    />
+    <div className="relative">
+      <input
+        className="glass-input w-72"
+        placeholder={t("searchbar.placeholder")}
+        value={value}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+      />
+      <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-neon-blue/10 to-neon-purple/10 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+    </div>
   );
 }

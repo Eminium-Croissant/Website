@@ -289,23 +289,37 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
   }, [games, searchTerm, selectedGenre]);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="glass-page-container">
       {/* Header Section */}
-      <div className="mb-8 w-full justify-content">
-        <h1 className="text-3xl font-bold text-white mb-6">{t("shop.title")}</h1>
+      <div className="glass-content-card mb-8">
+        <h1 className="text-3xl font-bold mb-6" style={{color: 'var(--glass-text)'}}>{t("shop.title")}</h1>
         <div className="flex gap-6 items-center">
           {/* Search Bar */}
           <div className="flex-1">
-            <input type="text" placeholder={t("shop.searchPlaceholder")} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-[#2a2a32] border border-[#444] rounded-xl py-3 px-4 text-white placeholder-[#666] focus:outline-none focus:border-[#1e90ff]" style={{ minWidth: 0 }} />
+            <input 
+              type="text" 
+              placeholder={t("shop.searchPlaceholder")} 
+              value={searchTerm} 
+              onChange={(e) => setSearchTerm(e.target.value)} 
+              className="glass-input w-full py-3 px-4" 
+              style={{ minWidth: 0 }} 
+            />
           </div>
 
           {/* Genre Filter */}
           <div className="flex gap-2 overflow-x-auto pb-2">
-            <button onClick={() => setSelectedGenre(null)} className={`px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${selectedGenre === null ? "bg-[#1e90ff] text-white" : "bg-[#2a2a32] text-[#999] hover:bg-[#32323a]"}`}>
+            <button 
+              onClick={() => setSelectedGenre(null)} 
+              className={`px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${selectedGenre === null ? "glass-button-neon" : "glass-button"}`}
+            >
               {t("shop.allGames")}
             </button>
             {genres.map((genre) => (
-              <button key={genre} onClick={() => setSelectedGenre(genre)} className={`px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${selectedGenre === genre ? "bg-[#1e90ff] text-white" : "bg-[#2a2a32] text-[#999] hover:bg-[#32323a]"}`}>
+              <button 
+                key={genre} 
+                onClick={() => setSelectedGenre(genre)} 
+                className={`px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${selectedGenre === genre ? "glass-button-neon" : "glass-button"}`}
+              >
                 {genre}
               </button>
             ))}
@@ -334,12 +348,12 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
         ) : error ? (
           <div className="text-center py-12">
             <div className="text-red-500 text-lg mb-2">{t("shop.error")}</div>
-            <button onClick={() => window.location.reload()} className="text-[#1e90ff] hover:underline">
+            <button onClick={() => window.location.reload()} className="text-neon-blue hover:underline">
               {t("shop.retry")}
             </button>
           </div>
         ) : filteredGames.length === 0 ? (
-          <div className="text-center py-12 text-[#999]">{searchTerm || selectedGenre ? t("shop.noResults") : t("shop.noGames")}</div>
+          <div className="text-center py-12" style={{color: 'var(--glass-text-secondary)'}}>{searchTerm || selectedGenre ? t("shop.noResults") : t("shop.noGames")}</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredGames.map((game) => (
@@ -352,14 +366,14 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
       {/* Prompt Modal */}
       {prompt && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#2a2a32] rounded-xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-white mb-4">{t("shop.confirmPurchase")}</h3>
-            <p className="text-[#999] mb-6">{prompt.message}</p>
+          <div className="glass-card rounded-xl p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold mb-4" style={{color: 'var(--glass-text)'}}>{t("shop.confirmPurchase")}</h3>
+            <p className="mb-6" style={{color: 'var(--glass-text-secondary)'}}>{prompt.message}</p>
             <div className="flex gap-3">
-              <button onClick={() => handlePromptResult(true)} className="flex-1 bg-[#1e90ff] text-white py-2 px-4 rounded-lg hover:bg-[#1a7ad4] transition-colors">
+              <button onClick={() => handlePromptResult(true)} className="flex-1 glass-button-neon">
                 {t("shop.buy")}
               </button>
-              <button onClick={() => handlePromptResult(false)} className="flex-1 bg-[#444] text-white py-2 px-4 rounded-lg hover:bg-[#555] transition-colors">
+              <button onClick={() => handlePromptResult(false)} className="flex-1 glass-button">
                 {t("shop.cancel")}
               </button>
             </div>
@@ -370,9 +384,9 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
       {/* Alert Modal */}
       {alert && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#2a2a32] rounded-xl p-6 max-w-md w-full">
-            <p className="text-white mb-4">{alert.message}</p>
-            <button onClick={() => setAlert(null)} className="w-full bg-[#1e90ff] text-white py-2 px-4 rounded-lg hover:bg-[#1a7ad4] transition-colors">
+          <div className="glass-card rounded-xl p-6 max-w-md w-full">
+            <p className="mb-4" style={{color: 'var(--glass-text)'}}>{alert.message}</p>
+            <button onClick={() => setAlert(null)} className="w-full glass-button-neon">
               {t("shop.ok")}
             </button>
           </div>
@@ -404,23 +418,36 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
   }, [games, searchTerm, selectedGenre]);
 
   return (
-    <div className="px-4 py-6">
+    <div className="glass-page-container">
       {/* Header Section */}
-      <div className="mb-6 w-full justify-content">
-        <h1 className="text-2xl font-bold text-white mb-4">{t("shop.title")}</h1>
+      <div className="glass-content-card mb-6">
+        <h1 className="text-2xl font-bold mb-4" style={{color: 'var(--glass-text)'}}>{t("shop.title")}</h1>
 
         {/* Search Bar */}
         <div className="mb-4">
-          <input type="text" placeholder={t("shop.searchPlaceholder")} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="w-full bg-[#2a2a32] border border-[#444] rounded-xl py-2.5 px-4 text-white placeholder-[#666] focus:outline-none focus:border-[#1e90ff]" />
+          <input 
+            type="text" 
+            placeholder={t("shop.searchPlaceholder")} 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            className="glass-input w-full py-2.5 px-4" 
+          />
         </div>
 
         {/* Genre Filter */}
         <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4">
-          <button onClick={() => setSelectedGenre(null)} className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap text-sm ${selectedGenre === null ? "bg-[#1e90ff] text-white" : "bg-[#2a2a32] text-[#999] hover:bg-[#32323a]"}`}>
+          <button 
+            onClick={() => setSelectedGenre(null)} 
+            className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap text-sm ${selectedGenre === null ? "glass-button-neon" : "glass-button"}`}
+          >
             {t("shop.allGames")}
           </button>
           {genres.map((genre) => (
-            <button key={genre as string} onClick={() => setSelectedGenre(genre as string)} className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap text-sm ${selectedGenre === genre ? "bg-[#1e90ff] text-white" : "bg-[#2a2a32] text-[#999] hover:bg-[#32323a]"}`}>
+            <button 
+              key={genre as string} 
+              onClick={() => setSelectedGenre(genre as string)} 
+              className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap text-sm ${selectedGenre === genre ? "glass-button-neon" : "glass-button"}`}
+            >
               {genre}
             </button>
           ))}
@@ -444,12 +471,12 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
         ) : error ? (
           <div className="text-center py-8">
             <div className="text-red-500 text-base mb-2">{t("shop.error")}</div>
-            <button onClick={() => window.location.reload()} className="text-[#1e90ff] hover:underline text-sm">
+            <button onClick={() => window.location.reload()} className="text-neon-blue hover:underline text-sm">
               {t("shop.retry")}
             </button>
           </div>
         ) : filteredGames.length === 0 ? (
-          <div className="text-center py-8 text-[#999] text-sm">{searchTerm || selectedGenre ? t("shop.noResults") : t("shop.noGames")}</div>
+          <div className="text-center py-8 text-sm" style={{color: 'var(--glass-text-secondary)'}}>{searchTerm || selectedGenre ? t("shop.noResults") : t("shop.noGames")}</div>
         ) : (
           <div className="space-y-4">
             {filteredGames.map((game) => (
@@ -462,14 +489,14 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
       {/* Prompt Modal */}
       {prompt && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#2a2a32] rounded-xl p-5 w-full max-w-sm mx-4">
-            <h3 className="text-lg font-bold text-white mb-3">{t("shop.confirmPurchase")}</h3>
-            <p className="text-[#999] mb-4 text-sm">{prompt.message}</p>
+          <div className="glass-card rounded-xl p-5 w-full max-w-sm mx-4">
+            <h3 className="text-lg font-bold mb-3" style={{color: 'var(--glass-text)'}}>{t("shop.confirmPurchase")}</h3>
+            <p className="mb-4 text-sm" style={{color: 'var(--glass-text-secondary)'}}>{prompt.message}</p>
             <div className="flex gap-2">
-              <button onClick={() => handlePromptResult(true)} className="flex-1 bg-[#1e90ff] text-white py-2 rounded-lg text-sm hover:bg-[#1a7ad4] transition-colors">
+              <button onClick={() => handlePromptResult(true)} className="flex-1 glass-button-neon text-sm">
                 {t("shop.buy")}
               </button>
-              <button onClick={() => handlePromptResult(false)} className="flex-1 bg-[#444] text-white py-2 rounded-lg text-sm hover:bg-[#555] transition-colors">
+              <button onClick={() => handlePromptResult(false)} className="flex-1 glass-button text-sm">
                 {t("shop.cancel")}
               </button>
             </div>
@@ -480,9 +507,9 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
       {/* Alert Modal */}
       {alert && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#2a2a32] rounded-xl p-5 w-full max-w-sm mx-4">
-            <p className="text-white mb-4 text-sm">{alert.message}</p>
-            <button onClick={() => setAlert(null)} className="w-full bg-[#1e90ff] text-white py-2 rounded-lg text-sm hover:bg-[#1a7ad4] transition-colors">
+          <div className="glass-card rounded-xl p-5 w-full max-w-sm mx-4">
+            <p className="mb-4 text-sm" style={{color: 'var(--glass-text)'}}>{alert.message}</p>
+            <button onClick={() => setAlert(null)} className="w-full glass-button-neon text-sm">
               {t("shop.ok")}
             </button>
           </div>
@@ -494,12 +521,16 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
 
 function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null }) {
   return (
-    <div className="bg-[#1c1c24] rounded-xl overflow-hidden flex flex-col border border-[#333] shadow-lg transform transition-transform hover:scale-[1.02] hover:shadow-xl">
+    <div className="glass-card rounded-xl overflow-hidden flex flex-col shadow-glass transform transition-transform hover:scale-[1.02] hover:shadow-glass-glow">
       {/* Banner et Icon avec effet de verre */}
-      <div className="relative h-40 bg-[#18181c]">
+      <div className="relative h-40" style={{backgroundColor: 'var(--dark-secondary)'}}>
         {game?.bannerHash && <img src={"/banners-icons/" + game.bannerHash} alt="banner" className="absolute inset-0 w-full h-full object-cover opacity-50" />}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1c1c24] to-transparent opacity-60" />
-        <img src={"/games-icons/" + game.iconHash} alt={game.name} className="absolute -bottom-8 left-8 w-24 h-24 rounded-xl object-contain bg-[#23232a] border-2 border-[#444] shadow-lg" />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark-primary to-transparent opacity-60" />
+        <img 
+          src={"/games-icons/" + game.iconHash} 
+          alt={game.name} 
+          className="absolute -bottom-8 left-8 w-24 h-24 rounded-xl object-contain glass-card border-2 border-glass-border shadow-glass" 
+        />
       </div>
 
       {/* Contenu avec effet de verre */}
@@ -507,30 +538,41 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
         {/* En-tête avec titre et prix */}
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <Link href={`/game?gameId=${game.gameId}`} className="text-xl font-bold text-white hover:text-[#1e90ff] transition-colors">
+            <Link 
+              href={`/game?gameId=${game.gameId}`} 
+              className="text-xl font-bold hover:text-neon-blue transition-colors"
+              style={{color: 'var(--glass-text)'}}
+            >
               {game.name}
             </Link>
-            {game.genre && <span className="text-sm text-[#888] mt-1">{game.genre}</span>}
+            {game.genre && <span className="text-sm mt-1" style={{color: 'var(--glass-text-secondary)'}}>{game.genre}</span>}
           </div>
-          <div className="flex items-center gap-2 bg-[#2a2a32] px-4 py-2 rounded-lg">
-            <span className="text-[#ffd700] font-bold">{game.price}</span>
+          <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-lg">
+            <span className="text-neon-yellow font-bold">{game.price}</span>
             <CachedImage src="/assets/credit.avif" alt="credits" className="w-5 h-5" />
           </div>
         </div>
 
         {/* Information du créateur avec effet de verre */}
         {ownerInfo && (
-          <Link href={`/profile?user=${ownerInfo.id}`} className="flex items-center gap-3 bg-[#2a2a32] rounded-lg p-2 hover:bg-[#32323a] transition-colors w-fit">
-            <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} className="w-8 h-8 rounded-full object-cover border-2 border-[#444]" />
+          <Link 
+            href={`/profile?user=${ownerInfo.id}`} 
+            className="flex items-center gap-3 glass-card rounded-lg p-2 hover:bg-glass-accent transition-colors w-fit"
+          >
+            <CachedImage 
+              src={`/avatar/${ownerInfo.id}`} 
+              alt={ownerInfo.username} 
+              className="w-8 h-8 rounded-full object-cover border-2 border-glass-border" 
+            />
             <div className="flex items-center gap-2">
-              <span className="text-sm font-medium text-white">{ownerInfo.username}</span>
+              <span className="text-sm font-medium" style={{color: 'var(--glass-text)'}}>{ownerInfo.username}</span>
               <Certification user={ownerInfo} className="w-4 h-4 relative -top-0.5" />
             </div>
           </Link>
         )}
 
         {/* Description avec effet de verre */}
-        <p className="text-[#999] text-sm line-clamp-3 bg-[#2a2a32] p-3 rounded-lg">{game.description}</p>
+        <p className="text-sm line-clamp-3 glass-card p-3 rounded-lg" style={{color: 'var(--glass-text-secondary)'}}>{game.description}</p>
       </div>
     </div>
   );

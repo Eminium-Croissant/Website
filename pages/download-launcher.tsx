@@ -3,6 +3,8 @@ import CachedImage from "../components/utils/CachedImage";
 import useIsMobile from "../hooks/useIsMobile";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload, faDesktop, faLaptop, faServer } from "@fortawesome/free-solid-svg-icons";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -14,39 +16,112 @@ export async function getStaticProps({ locale }) {
 
 function DownloadLauncherDesktop() {
   const { t } = useTranslation("common");
+  
+  const downloadLinks = [
+    {
+      platform: "Windows",
+      icon: faDesktop,
+      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher-Setup.exe",
+      color: "text-neon-blue"
+    },
+    {
+      platform: "macOS",
+      icon: faLaptop,
+      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.dmg",
+      color: "text-neon-purple"
+    },
+    {
+      platform: "Linux",
+      icon: faServer,
+      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.AppImage",
+      color: "text-neon-green"
+    }
+  ];
+
   return (
-    <div className="page-container">
-      <div className="content-card max-w-[85vw] text-left">
-        <h1 id="about-us" className="section-title">
-          <span className="method put">{t("downloadLauncher.title")}</span>
+    <div className="glass-page-container">
+      <div className="glass-content-card max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold mb-8 text-center" style={{color: 'var(--glass-text)'}}>
+          <span className="glass-method put">{t("downloadLauncher.title")}</span>
         </h1>
-        <p className="text-[#e2e8f0] mb-4">{t("downloadLauncher.instructions")}</p>
-        <ol className="list-decimal list-inside space-y-2 mb-4 text-[#bdbdbd]">
-          <li>
-            <Trans
-              i18nKey="downloadLauncher.step1"
-              components={{
-                link: (
-                  <a
-                    href="https://github.com/croissant-API/Launcher/releases/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent hover:text-[#a3b3d6] transition-colors"
-                  />
-                ),
-              }}
-            />
-          </li>
-          <li>{t("downloadLauncher.step2")}</li>
-          <li>{t("downloadLauncher.step3")}</li>
-          <li>{t("downloadLauncher.step4")}</li>
-        </ol>
-        <p className="text-[#e2e8f0] mb-4">{t("downloadLauncher.description.desktop")}</p>
-        <CachedImage
-          src="/assets/launcher.avif"
-          alt="Croissant Launcher Screenshot"
-          className="w-full h-auto rounded-lg"
-        />
+        
+        <div className="text-center mb-8">
+          <p className="text-xl mb-6" style={{color: 'var(--glass-text-secondary)'}}>
+            Téléchargez le launcher Croissant pour accéder à tous vos jeux en un seul endroit
+          </p>
+          <div className="mb-6">
+            <a 
+              href="https://github.com/croissant-API/croissant-Launcher/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="glass-button inline-flex items-center gap-2"
+            >
+              <FontAwesomeIcon icon={faDownload} />
+              Voir toutes les versions sur GitHub
+            </a>
+          </div>
+          
+          {/* Boutons de téléchargement */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            {downloadLinks.map((link) => (
+              <a
+                key={link.platform}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card p-6 text-center hover:scale-105 transition-transform duration-300 hover:shadow-glass-glow"
+              >
+                <FontAwesomeIcon 
+                  icon={link.icon} 
+                  className={`text-4xl mb-4 ${link.color}`}
+                />
+                <h3 className="text-xl font-bold mb-2" style={{color: 'var(--glass-text)'}}>
+                  {link.platform}
+                </h3>
+                <p className="text-sm mb-4" style={{color: 'var(--glass-text-secondary)'}}>
+                  Télécharger pour {link.platform}
+                </p>
+                <div className="glass-button-neon w-full">
+                  <FontAwesomeIcon icon={faDownload} className="mr-2" />
+                  Télécharger
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Instructions */}
+        <div className="glass-card p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-4" style={{color: 'var(--glass-text)'}}>
+            Instructions d'installation
+          </h2>
+          <ol className="list-decimal list-inside space-y-3" style={{color: 'var(--glass-text-secondary)'}}>
+            <li>
+              Cliquez sur le bouton de téléchargement correspondant à votre système d'exploitation
+            </li>
+            <li>
+              Exécutez le fichier téléchargé et suivez les instructions d'installation
+            </li>
+            <li>
+              Lancez le launcher et connectez-vous avec votre compte Croissant
+            </li>
+            <li>
+              Profitez de tous vos jeux en un seul endroit !
+            </li>
+          </ol>
+        </div>
+
+        {/* Capture d'écran */}
+        <div className="glass-card p-6">
+          <h2 className="text-2xl font-bold mb-4" style={{color: 'var(--glass-text)'}}>
+            Aperçu du Launcher
+          </h2>
+          <CachedImage
+            src="/assets/launcher.avif"
+            alt="Croissant Launcher Screenshot"
+            className="w-full h-auto rounded-xl"
+          />
+        </div>
       </div>
     </div>
   );
@@ -54,40 +129,103 @@ function DownloadLauncherDesktop() {
 
 function DownloadLauncherMobile() {
   const { t } = useTranslation("common");
+  
+  const downloadLinks = [
+    {
+      platform: "Windows",
+      icon: faDesktop,
+      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher-Setup.exe",
+      color: "text-neon-blue"
+    },
+    {
+      platform: "macOS",
+      icon: faLaptop,
+      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.dmg",
+      color: "text-neon-purple"
+    },
+    {
+      platform: "Linux",
+      icon: faServer,
+      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.AppImage",
+      color: "text-neon-green"
+    }
+  ];
+
   return (
-    <div className="page-container !p-2">
-      <div className="content-card !p-3 !mt-4 !mx-2 max-w-[85vw] text-left">
-        <h2 className="section-title !text-[1.1rem]">
-          <span className="method put">{t("downloadLauncher.title")}</span>
-        </h2>
-        <p className="font-bold mb-4 text-[#e2e8f0]">{t("downloadLauncher.note")}</p>
-        {/* <p className="text-[#bdbdbd] mb-4">{t("downloadLauncher.instructions")}</p>
-        <ol className="list-decimal list-inside space-y-2 mb-4 text-[#bdbdbd]">
-          <li>
-            <Trans
-              i18nKey="downloadLauncher.step1"
-              components={{
-                link: (
-                  <a
-                    href="https://github.com/croissant-API/Launcher/releases/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-accent hover:text-[#a3b3d6] transition-colors"
-                  />
-                ),
-              }}
-            />
-          </li>
-          <li>{t("downloadLauncher.step2")}</li>
-          <li>{t("downloadLauncher.step3.windows")}</li>
-          <li>{t("downloadLauncher.step4")}</li>
-        </ol>
-        <p className="text-[#e2e8f0] mb-4">{t("downloadLauncher.description.mobile")}</p>
-        <CachedImage
-          src="/assets/launcher.avif"
-          alt="Croissant Launcher Screenshot"
-          className="w-full h-auto rounded-lg"
-        /> */}
+    <div className="glass-page-container !max-w-[1000px]">
+      <div className="glass-content-card !mt-0 !mx-0 mb-6">
+        <h1 className="text-2xl font-bold mb-6 text-center" style={{color: 'var(--glass-text)'}}>
+          <span className="glass-method put">{t("downloadLauncher.title")}</span>
+        </h1>
+        
+        <div className="text-center mb-6">
+          <p className="text-base mb-6" style={{color: 'var(--glass-text-secondary)'}}>
+            Téléchargez le launcher Croissant pour accéder à tous vos jeux
+          </p>
+          <div className="mb-6">
+            <a 
+              href="https://github.com/croissant-API/croissant-Launcher/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="glass-button w-full inline-flex items-center justify-center gap-2"
+            >
+              <FontAwesomeIcon icon={faDownload} />
+              Voir sur GitHub
+            </a>
+          </div>
+          
+          {/* Boutons de téléchargement mobile */}
+          <div className="space-y-4 mb-6">
+            {downloadLinks.map((link) => (
+              <a
+                key={link.platform}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card p-4 flex items-center gap-4 hover:scale-105 transition-transform duration-300"
+              >
+                <FontAwesomeIcon 
+                  icon={link.icon} 
+                  className={`text-2xl ${link.color}`}
+                />
+                <div className="flex-1 text-left">
+                  <h3 className="text-lg font-bold mb-1" style={{color: 'var(--glass-text)'}}>
+                    {link.platform}
+                  </h3>
+                  <p className="text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+                    Télécharger pour {link.platform}
+                  </p>
+                </div>
+                <FontAwesomeIcon icon={faDownload} className="text-neon-blue" />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Instructions mobile */}
+        <div className="glass-card !p-4 mb-6">
+          <h2 className="text-lg font-bold mb-3" style={{color: 'var(--glass-text)'}}>
+            Instructions
+          </h2>
+          <ol className="list-decimal list-inside space-y-2 text-sm" style={{color: 'var(--glass-text-secondary)'}}>
+            <li>Cliquez sur votre plateforme</li>
+            <li>Exécutez le fichier téléchargé</li>
+            <li>Connectez-vous avec votre compte</li>
+            <li>Profitez de vos jeux !</li>
+          </ol>
+        </div>
+
+        {/* Capture d'écran mobile */}
+        <div className="glass-card !p-4">
+          <h2 className="text-lg font-bold mb-3" style={{color: 'var(--glass-text)'}}>
+            Aperçu
+          </h2>
+          <CachedImage
+            src="/assets/launcher.avif"
+            alt="Croissant Launcher Screenshot"
+            className="w-full h-auto rounded-lg"
+          />
+        </div>
       </div>
     </div>
   );
