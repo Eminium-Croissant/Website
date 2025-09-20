@@ -572,5 +572,32 @@
       "integrationTitle": "Code du bouton d'intégration :",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette application ?"
     }
-  }
+  },
+  "index.hero.title": "Bienvenue dans l'univers Croissant",
+  "index.hero.subtitle": "Plongez dans l'univers gaming ultime avec une expérience immersive unique",
+  "index.hero.startAdventure": "Commencer l'aventure",
+  "index.hero.learnMore": "En savoir plus",
+
+  "index.openSource.title": "Projet Open Source",
+  "index.openSource.subtitle": "Contribuez à l'Évolution",
+  "index.openSource.description.desktop": "Croissant est un projet <strong>open source</strong> où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés et aidez-nous à façonner l'avenir du gaming.",
+  "index.openSource.description.mobile": "Croissant est un projet <strong>open source</strong> où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés.",
+  "index.openSource.development.title": "Développement",
+  "index.openSource.development.desc.desktop": "Code, features, corrections de bugs",
+  "index.openSource.development.desc.mobile": "Code, features, bugs",
+  "index.openSource.design.title": "Design",
+  "index.openSource.design.desc.desktop": "UI/UX, graphismes, animations",
+  "index.openSource.design.desc.mobile": "UI/UX, graphismes",
+  "index.openSource.documentation.title": "Documentation",
+  "index.openSource.documentation.desc.desktop": "Guides, tutoriels, traductions",
+  "index.openSource.documentation.desc.mobile": "Guides, traductions",
+  "index.openSource.tests.title": "Tests",
+  "index.openSource.tests.desc.desktop": "QA, feedback, suggestions",
+  "index.openSource.tests.desc.mobile": "QA, feedback",
+  "index.openSource.joinCommunity": "Rejoindre la Communauté",
+
+  "index.carousel.popularGames": "Jeux Populaires",
+  "index.carousel.loading": "Chargement...",
+  "index.carousel.noGames": "Aucun jeu disponible pour le moment.",
+  "index.carousel.discoverAllGames": "Découvrir tous les jeux"
 }

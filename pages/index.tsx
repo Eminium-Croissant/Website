@@ -316,12 +316,12 @@ export default function Home() {
       return (
         <div className="glass-content-card mb-12">
           <h2 className="text-center mb-8" style={{ color: "var(--glass-text)", fontSize: "1.5rem", fontWeight: "bold" }}>
-            <span className="glass-method get">Jeux Populaires</span>
+            <span className="glass-method get">{t("index.carousel.popularGames")}</span>
           </h2>
           <div className="flex justify-center items-center py-12">
             <div className="w-8 h-8 border-4 border-glass-border border-t-neon-blue rounded-full animate-spin"></div>
             <span className="ml-3" style={{ color: "var(--glass-text)" }}>
-              Chargement...
+              {t("index.carousel.loading")}
             </span>
           </div>
         </div>
@@ -332,10 +332,10 @@ export default function Home() {
       return (
         <div className="glass-content-card mb-12">
           <h2 className="text-center mb-8" style={{ color: "var(--glass-text)", fontSize: "1.5rem", fontWeight: "bold" }}>
-            <span className="glass-method get">Jeux Populaires</span>
+            <span className="glass-method get">{t("index.carousel.popularGames")}</span>
           </h2>
           <div className="text-center py-12" style={{ color: "var(--glass-text-secondary)" }}>
-            Aucun jeu disponible pour le moment.
+            {t("index.carousel.noGames")}
           </div>
         </div>
       );
@@ -437,7 +437,7 @@ export default function Home() {
             <button className="glass-button-neon glass-glow">
               <span className="flex items-center gap-2">
                 <FontAwesomeIcon icon={faStar} />
-                Découvrir tous les jeux
+                {t("index.carousel.discoverAllGames")}
               </span>
             </button>
           </Link>
@@ -455,24 +455,24 @@ export default function Home() {
           <div className="glass-card mb-12 text-center relative overflow-hidden">
             {/* Étoiles scintillantes supprimées */}
             <div className="mb-8 relative z-10">
-              <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">Bienvenue dans l'univers Croissant</h1>
+              <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">
+                {t("index.hero.title")}
+              </h1>
               <p className="text-xl mb-8" style={{ color: "var(--glass-text-secondary)" }}>
-                Plongez dans l'univers gaming ultime avec une expérience immersive unique
+                {t("index.hero.subtitle")}
               </p>
-              <div className="flex justify-center gap-6">
-                <button className="glass-button-neon glass-glow">
-                  <span className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faStar} />
-                    Commencer l'aventure
-                  </span>
-                </button>
-                <button className="glass-button">
-                  <span className="flex items-center gap-2">
-                    <FontAwesomeIcon icon={faCode} />
-                    En savoir plus
-                  </span>
-                </button>
-              </div>
+              <button className="glass-button-neon glass-glow">
+                <span className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faStar} />
+                  {t("index.hero.startAdventure")}
+                </span>
+              </button>
+              <button className="glass-button">
+                <span className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faCode} />
+                  {t("index.hero.learnMore")}
+                </span>
+              </button>
             </div>
           </div>
 
@@ -507,17 +507,17 @@ export default function Home() {
           {/* Section Open Source */}
           <div className="glass-content-card mb-12">
             <h2 className="text-center mb-8" style={{ color: "var(--glass-text)", fontSize: "1.5rem", fontWeight: "bold" }}>
-              Projet Open Source
+              {t("index.openSource.title")}
             </h2>
             <div className="text-center mb-8">
               <div className="text-6xl mb-4 text-neon-blue">
                 <FontAwesomeIcon icon={faHandshake} />
               </div>
               <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--glass-text)" }}>
-                Contribuez à l'Évolution
+                {t("index.openSource.subtitle")}
               </h3>
               <p className="text-lg mb-6" style={{ color: "var(--glass-text-secondary)" }}>
-                Croissant est un projet <strong style={{ color: "var(--glass-text)" }}>open source</strong> où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés et aidez-nous à façonner l'avenir du gaming.
+                <span dangerouslySetInnerHTML={{ __html: t("index.openSource.description.desktop") }} />
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -526,10 +526,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faCode} />
                 </div>
                 <h4 className="font-semibold mb-2" style={{ color: "var(--glass-text)" }}>
-                  Développement
+                  {t("index.openSource.development.title")}
                 </h4>
                 <p className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
-                  Code, features, corrections de bugs
+                  {t("index.openSource.development.desc.desktop")}
                 </p>
               </div>
               <div className="glass-card text-center">
@@ -537,10 +537,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faPalette} />
                 </div>
                 <h4 className="font-semibold mb-2" style={{ color: "var(--glass-text)" }}>
-                  Design
+                  {t("index.openSource.design.title")}
                 </h4>
                 <p className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
-                  UI/UX, graphismes, animations
+                  {t("index.openSource.design.desc.desktop")}
                 </p>
               </div>
               <div className="glass-card text-center">
@@ -548,10 +548,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faFileText} />
                 </div>
                 <h4 className="font-semibold mb-2" style={{ color: "var(--glass-text)" }}>
-                  Documentation
+                  {t("index.openSource.documentation.title")}
                 </h4>
                 <p className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
-                  Guides, tutoriels, traductions
+                  {t("index.openSource.documentation.desc.desktop")}
                 </p>
               </div>
               <div className="glass-card text-center">
@@ -559,10 +559,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faFlask} />
                 </div>
                 <h4 className="font-semibold mb-2" style={{ color: "var(--glass-text)" }}>
-                  Tests
+                  {t("index.openSource.tests.title")}
                 </h4>
                 <p className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
-                  QA, feedback, suggestions
+                  {t("index.openSource.tests.desc.desktop")}
                 </p>
               </div>
             </div>
@@ -570,7 +570,7 @@ export default function Home() {
               <button className="glass-button-neon glass-glow">
                 <span className="flex items-center gap-2">
                   <FontAwesomeIcon icon={faStar} />
-                  Rejoindre la Communauté
+                  {t("index.openSource.joinCommunity")}
                 </span>
               </button>
             </div>
@@ -640,17 +640,17 @@ export default function Home() {
           {/* Section Open Source Mobile */}
           <div className="glass-content-card !mt-4 !mx-0 mb-6">
             <h2 className="!text-[1.1rem] mb-4" style={{ color: "var(--glass-text)", fontWeight: "bold" }}>
-              <span className="glass-method get">Projet Open Source</span>
+              <span className="glass-method get">{t("index.openSource.title")}</span>
             </h2>
             <div className="text-center mb-6">
               <div className="text-4xl mb-3 text-neon-blue">
                 <FontAwesomeIcon icon={faHandshake} />
               </div>
               <h3 className="text-lg font-bold mb-3" style={{ color: "var(--glass-text)" }}>
-                Contribuez à l'Évolution
+                {t("index.openSource.subtitle")}
               </h3>
               <p className="text-sm mb-4" style={{ color: "var(--glass-text-secondary)" }}>
-                Croissant est un projet <strong style={{ color: "var(--glass-text)" }}>open source</strong> où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés.
+                <span dangerouslySetInnerHTML={{ __html: t("index.openSource.description.mobile") }} />
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -659,10 +659,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faCode} />
                 </div>
                 <h4 className="font-semibold text-sm mb-1" style={{ color: "var(--glass-text)" }}>
-                  Développement
+                  {t("index.openSource.development.title")}
                 </h4>
                 <p className="text-xs" style={{ color: "var(--glass-text-secondary)" }}>
-                  Code, features, bugs
+                  {t("index.openSource.development.desc.mobile")}
                 </p>
               </div>
               <div className="glass-card text-center !p-3">
@@ -670,10 +670,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faPalette} />
                 </div>
                 <h4 className="font-semibold text-sm mb-1" style={{ color: "var(--glass-text)" }}>
-                  Design
+                  {t("index.openSource.design.title")}
                 </h4>
                 <p className="text-xs" style={{ color: "var(--glass-text-secondary)" }}>
-                  UI/UX, graphismes
+                  {t("index.openSource.design.desc.mobile")}
                 </p>
               </div>
               <div className="glass-card text-center !p-3">
@@ -681,10 +681,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faFileText} />
                 </div>
                 <h4 className="font-semibold text-sm mb-1" style={{ color: "var(--glass-text)" }}>
-                  Documentation
+                  {t("index.openSource.documentation.title")}
                 </h4>
                 <p className="text-xs" style={{ color: "var(--glass-text-secondary)" }}>
-                  Guides, traductions
+                  {t("index.openSource.documentation.desc.mobile")}
                 </p>
               </div>
               <div className="glass-card text-center !p-3">
@@ -692,10 +692,10 @@ export default function Home() {
                   <FontAwesomeIcon icon={faFlask} />
                 </div>
                 <h4 className="font-semibold text-sm mb-1" style={{ color: "var(--glass-text)" }}>
-                  Tests
+                  {t("index.openSource.tests.title")}
                 </h4>
                 <p className="text-xs" style={{ color: "var(--glass-text-secondary)" }}>
-                  QA, feedback
+                  {t("index.openSource.tests.desc.mobile")}
                 </p>
               </div>
             </div>
@@ -703,7 +703,7 @@ export default function Home() {
               <button className="glass-button-neon glass-glow w-full">
                 <span className="flex items-center justify-center gap-2">
                   <FontAwesomeIcon icon={faStar} />
-                  Rejoindre la Communauté
+                  {t("index.openSource.joinCommunity")}
                 </span>
               </button>
             </div>
