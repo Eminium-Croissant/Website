@@ -98,7 +98,7 @@ const Navbar: React.FC = () => {
           Croissant Launcher
         </span>
       </div>
-      <header className="w-full glass-bg-gradient text-glass-text border-b border-glass-border py-3 shadow-glass relative z-10 backdrop-blur-md" style={{ marginTop: 32 }}>
+      <header className="w-full glass-bg-gradient text-glass-text border-b border-glass-border py-3 shadow-glass relative z-10 backdrop-blur-md" style={{ position:"absolute", top: 32 }}>
         <div className="flex items-center justify-between max-w-[1400px] mx-auto px-6">
           <div className="flex items-center mr-8">
             <Link href="/launcher/home" className="text-glass-text no-underline font-bold text-2xl tracking-wider transition-all duration-300 hover:scale-105">
