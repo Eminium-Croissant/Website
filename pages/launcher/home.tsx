@@ -146,12 +146,6 @@ const Library: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation("common");
 
-  useEffect(() => {
-    if (!token) {
-      router.replace("/login");
-    }
-  }, [token, router]);
-
   const [games, setGames] = useState<Game[]>([]);
   const [selected, setSelected] = useState<Game | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -733,7 +727,8 @@ export async function getServerSideProps({ locale }) {
 }
 
 const ExportedComponent = (props) => {
-  return <Library {...props} />;
+  const { user } = useAuth();
+  return user ? <Library {...props} /> : <Login />;
 };
 
 export default ExportedComponent;
