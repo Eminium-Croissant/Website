@@ -230,6 +230,7 @@ function ApiDocsDesktop() {
                           href={`#${doc.endpoint}`} 
                           className="text-neon-blue no-underline hover:text-neon-purple transition-colors text-lg font-semibold flex items-center gap-2"
                         >
+                          <GlassMethodBadge method={doc.method} />
                           <FontAwesomeIcon icon={faCode} className="text-sm" />
                           {doc.endpoint}
                         </a>
@@ -412,6 +413,25 @@ function ApiDocsMobile() {
   );
 }
 
+function GlassMethodBadge({ method }: { method: string }) {
+  // Méthodes stylées comme sur index.tsx
+  const methodClass =
+    method === "GET"
+      ? "glass-method get"
+      : method === "POST"
+      ? "glass-method post"
+      : method === "PUT"
+      ? "glass-method put"
+      : method === "DELETE"
+      ? "glass-method delete"
+      : "glass-method";
+  return (
+    <span className={methodClass} style={{ marginRight: 8 }}>
+      {method}
+    </span>
+  );
+}
+
 // Bloc d'affichage d'un endpoint (utilisé dans mobile et desktop)
 function DocBlock({ doc }: { doc: any }) {
   const { t } = useTranslation("common");
@@ -421,6 +441,7 @@ function DocBlock({ doc }: { doc: any }) {
         href={`#${doc.endpoint}`} 
         className="text-neon-blue no-underline hover:text-neon-purple transition-colors text-lg font-semibold flex items-center gap-2"
       >
+        <GlassMethodBadge method={doc.method} />
         <FontAwesomeIcon icon={faCode} className="text-sm" />
         {doc.endpoint}
       </a>
