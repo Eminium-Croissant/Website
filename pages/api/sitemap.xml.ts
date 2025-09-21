@@ -116,10 +116,11 @@ const actuaSitemap = `
 `;
 
 const genGameItem = (games: { gameId: string; }[]) => {
+    const today = new Date().toISOString().slice(0, 10);
     return games.map(game => `
         <url>
-            <loc>https://croissant-api.fr/games/${game.gameId}</loc>
-            <lastmod>2025-07-28</lastmod>
+            <loc>https://croissant-api.fr/game?gameId=${game.gameId}</loc>
+            <lastmod>${today}</lastmod>
             <changefreq>weekly</changefreq>
             <priority>0.6</priority>
         </url>
