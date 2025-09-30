@@ -352,9 +352,9 @@ const MyGames = () => {
                 >
                   <img src={"/games-icons/" + game.iconHash} alt={game.name} className="mygames-card-icon" draggable={false} />
                   <div className="mygames-card-name">{game.name}</div>
-                  <div className="mygames-card-price">
+                  <div className="mygames-card-price" style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     {game.price}
-                    <img src="/assets/credit.avif" className="mygames-card-credit" />
+                    <img src="/assets/credit.avif" className="mygames-card-credit" style={{ width: 18, height: 18, objectFit: "cover", position:"relative", top: 0 }} />
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                     <button
@@ -407,9 +407,9 @@ const MyGames = () => {
               >
                 <div className="mygames-tooltip-title">{tooltip.game.name}</div>
                 <div className="mygames-tooltip-desc">{tooltip.game.description}</div>
-                <div className="mygames-tooltip-price">
+                <div className="mygames-tooltip-price" style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   {t("myGames.price")}: {tooltip.game.price}
-                  <img src="/assets/credit.avif" className="mygames-card-credit" />
+                  <img src="/assets/credit.avif" className="mygames-card-credit" style={{ width: 14, height: 14, objectFit: "cover", marginLeft: 6, marginBottom: 3 }} />
                   <span className="mygames-tooltip-store">
                     {t("myGames.showInStore")}: {tooltip.game.showInStore ? t("myGames.yes") : t("myGames.no")}
                   </span>

@@ -130,15 +130,8 @@ function useGamePageLogic() {
       setAlert(
         <>
           Gift created! Share this link:{" "}
-          <a
-            href={`/gift?code=${data.gift.giftCode}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "#4caf50", textDecoration: "underline" }}
-          >
-            {typeof window !== "undefined"
-              ? window.location.origin + `/gift?code=${data.gift.giftCode}`
-              : `/gift?code=${data.gift.giftCode}`}
+          <a href={`/gift?code=${data.gift.giftCode}`} target="_blank" rel="noopener noreferrer" style={{ color: "#4caf50", textDecoration: "underline" }}>
+            {typeof window !== "undefined" ? window.location.origin + `/gift?code=${data.gift.giftCode}` : `/gift?code=${data.gift.giftCode}`}
           </a>
         </>
       );
@@ -174,28 +167,7 @@ function useGamePageLogic() {
 }
 
 function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
-  const {
-    game,
-    loading,
-    router,
-    ownerInfo,
-    userOwnsGame,
-    prompt,
-    setPrompt,
-    alert,
-    setAlert,
-    buying,
-    handleBuyGame,
-    confirmBuy,
-    isGifting,
-    handleGiftGame,
-    confirmGift,
-    showGiftModal,
-    setShowGiftModal,
-    giftMessage,
-    setGiftMessage,
-    token,
-  } = props;
+  const { game, loading, router, ownerInfo, userOwnsGame, prompt, setPrompt, alert, setAlert, buying, handleBuyGame, confirmBuy, isGifting, handleGiftGame, confirmGift, showGiftModal, setShowGiftModal, giftMessage, setGiftMessage, token } = props;
 
   const { t } = useTranslation("common");
 
@@ -234,16 +206,8 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
         {t("shop.back")}
       </button>
       <div className="banner-container">
-        <img
-          src={`/banners-icons/${game.bannerHash}`}
-          alt={game.name}
-          className="main-banner-steam"
-        />
-        <img
-          src={`/games-icons/${game.iconHash}`}
-          alt={game.name}
-          className="main-icon-steam"
-        />
+        <img src={`/banners-icons/${game.bannerHash}`} alt={game.name} className="main-banner-steam" />
+        <img src={`/games-icons/${game.iconHash}`} alt={game.name} className="main-icon-steam" />
       </div>
       <div className="main-details-content">
         <h2>{game.name}</h2>
@@ -282,11 +246,12 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
                 <Certification
                   user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }}
                   style={{
-                    marginLeft: 4,
+                    marginLeft: 6,
                     width: 16,
                     height: 16,
-                    position: "relative",
-                    top: -2,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     verticalAlign: "middle",
                   }}
                 />
@@ -304,11 +269,7 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
             }}
           >
             <div>
-              <b>{t("shop.price")}</b> {game.price}{" "}
-              <CachedImage
-                src="/assets/credit.avif"
-                className="gamepage-credit-icon"
-              />
+              <b>{t("shop.price")}</b> {game.price} <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" />
             </div>
             {!userOwnsGame ? (
               <button
@@ -411,11 +372,7 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
                 }}
               />
             </div>
-            <button
-              className="shop-prompt-buy-btn"
-              onClick={confirmGift}
-              disabled={isGifting}
-            >
+            <button className="shop-prompt-buy-btn" onClick={confirmGift} disabled={isGifting}>
               {t("shop.createGift")}
             </button>
             <button
@@ -436,18 +393,10 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
         <div className="shop-prompt-overlay">
           <div className="shop-prompt">
             <div className="shop-prompt-message">{prompt}</div>
-            <button
-              className="shop-prompt-buy-btn"
-              onClick={confirmBuy}
-              disabled={buying}
-            >
+            <button className="shop-prompt-buy-btn" onClick={confirmBuy} disabled={buying}>
               {t("shop.buy")}
             </button>
-            <button
-              className="shop-prompt-cancel-btn"
-              onClick={() => setPrompt(null)}
-              disabled={buying}
-            >
+            <button className="shop-prompt-cancel-btn" onClick={() => setPrompt(null)} disabled={buying}>
               {t("shop.cancel")}
             </button>
           </div>
@@ -458,10 +407,7 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
         <div className="shop-alert-overlay">
           <div className="shop-alert">
             <div className="shop-alert-message">{alert}</div>
-            <button
-              className="shop-alert-ok-btn"
-              onClick={() => setAlert(null)}
-            >
+            <button className="shop-alert-ok-btn" onClick={() => setAlert(null)}>
               {t("shop.ok")}
             </button>
           </div>
@@ -472,36 +418,12 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
 }
 
 function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
-  const {
-    game,
-    loading,
-    router,
-    ownerInfo,
-    userOwnsGame,
-    prompt,
-    setPrompt,
-    alert,
-    setAlert,
-    buying,
-    handleBuyGame,
-    confirmBuy,
-    isGifting,
-    handleGiftGame,
-    confirmGift,
-    showGiftModal,
-    setShowGiftModal,
-    giftMessage,
-    setGiftMessage,
-    token,
-  } = props;
+  const { game, loading, router, ownerInfo, userOwnsGame, prompt, setPrompt, alert, setAlert, buying, handleBuyGame, confirmBuy, isGifting, handleGiftGame, confirmGift, showGiftModal, setShowGiftModal, giftMessage, setGiftMessage, token } = props;
 
   const { t } = useTranslation("common");
 
   const skeleton = (
-    <div
-      className="main-details-steam gamepage-root gamepage-blur"
-      style={{ fontSize: "0.98em" }}
-    >
+    <div className="main-details-steam gamepage-root gamepage-blur" style={{ fontSize: "0.98em" }}>
       <button className="gamepage-back-btn" style={{ opacity: 0 }}>
         ← Back
       </button>
@@ -530,35 +452,15 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
   if (!game) return <div>Game not found.</div>;
 
   return (
-    <div
-      className="main-details-steam gamepage-root"
-      style={{ fontSize: "0.98em", padding: 0 }}
-    >
-      <button
-        onClick={() => router.back()}
-        className="gamepage-back-btn"
-        style={{ fontSize: "1em", padding: "6px 18px" }}
-      >
+    <div className="main-details-steam gamepage-root" style={{ fontSize: "0.98em", padding: 0 }}>
+      <button onClick={() => router.back()} className="gamepage-back-btn" style={{ fontSize: "1em", padding: "6px 18px" }}>
         ← Back
       </button>
       <div className="banner-container" style={{ height: 120 }}>
-        <img
-          src={`/banners-icons/${game.bannerHash}`}
-          alt={game.name}
-          className="main-banner-steam"
-          style={{ height: 120, objectFit: "cover" }}
-        />
-        <img
-          src={`/games-icons/${game.iconHash}`}
-          alt={game.name}
-          className="main-icon-steam"
-          style={{ width: 64, height: 64, left: 12, bottom: -32 }}
-        />
+        <img src={`/banners-icons/${game.bannerHash}`} alt={game.name} className="main-banner-steam" style={{ height: 120, objectFit: "cover" }} />
+        <img src={`/games-icons/${game.iconHash}`} alt={game.name} className="main-icon-steam" style={{ width: 64, height: 64, left: 12, bottom: -32 }} />
       </div>
-      <div
-        className="main-details-content"
-        style={{ padding: "24px 10px 10px 10px" }}
-      >
+      <div className="main-details-content" style={{ padding: "24px 10px 10px 10px" }}>
         <h2 style={{ fontSize: "1.1em" }}>{game.name}</h2>
         {ownerInfo && (
           <div
@@ -595,11 +497,12 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
                 <Certification
                   user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }}
                   style={{
-                    marginLeft: 4,
+                    marginLeft: 6,
                     width: 16,
                     height: 16,
-                    position: "relative",
-                    top: -2,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     verticalAlign: "middle",
                   }}
                 />
@@ -618,12 +521,7 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
             }}
           >
             <div>
-              <b>{t("shop.price")}</b> {game.price}{" "}
-              <CachedImage
-                src="/assets/credit.avif"
-                className="gamepage-credit-icon"
-                style={{ width: 18, height: 18 }}
-              />
+              <b>{t("shop.price")}</b> {game.price} <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" style={{ width: 18, height: 18 }} />
             </div>
             {!userOwnsGame ? (
               <button
@@ -667,10 +565,7 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
             )}
           </div>
         )}
-        <p
-          className="gamepage-desc"
-          style={{ overflowY: "auto", fontSize: "0.98em" }}
-        >
+        <p className="gamepage-desc" style={{ overflowY: "auto", fontSize: "0.98em" }}>
           {game.description.split("\n").map((line, idx) => (
             <React.Fragment key={idx}>
               {line}
@@ -730,12 +625,7 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
                 }}
               />
             </div>
-            <button
-              className="shop-prompt-buy-btn"
-              onClick={confirmGift}
-              disabled={isGifting}
-              style={{ fontSize: "1em", padding: "7px 18px" }}
-            >
+            <button className="shop-prompt-buy-btn" onClick={confirmGift} disabled={isGifting} style={{ fontSize: "1em", padding: "7px 18px" }}>
               {t("shop.createGift")}
             </button>
             <button
@@ -757,20 +647,10 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
         <div className="shop-prompt-overlay">
           <div className="shop-prompt">
             <div className="shop-prompt-message">{prompt}</div>
-            <button
-              className="shop-prompt-buy-btn"
-              onClick={confirmBuy}
-              disabled={buying}
-              style={{ fontSize: "1em", padding: "7px 18px" }}
-            >
+            <button className="shop-prompt-buy-btn" onClick={confirmBuy} disabled={buying} style={{ fontSize: "1em", padding: "7px 18px" }}>
               {t("shop.buy")}
             </button>
-            <button
-              className="shop-prompt-cancel-btn"
-              onClick={() => setPrompt(null)}
-              disabled={buying}
-              style={{ fontSize: "1em", padding: "7px 18px" }}
-            >
+            <button className="shop-prompt-cancel-btn" onClick={() => setPrompt(null)} disabled={buying} style={{ fontSize: "1em", padding: "7px 18px" }}>
               {t("shop.cancel")}
             </button>
           </div>
@@ -781,11 +661,7 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
         <div className="shop-alert-overlay">
           <div className="shop-alert">
             <div className="shop-alert-message">{alert}</div>
-            <button
-              className="shop-alert-ok-btn"
-              onClick={() => setAlert(null)}
-              style={{ fontSize: "1em", padding: "7px 18px" }}
-            >
+            <button className="shop-alert-ok-btn" onClick={() => setAlert(null)} style={{ fontSize: "1em", padding: "7px 18px" }}>
               {t("shop.ok")}
             </button>
           </div>
