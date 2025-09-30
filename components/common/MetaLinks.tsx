@@ -1,6 +1,6 @@
 import React from "react";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'react-i18next';
+import { i18n, useTranslation } from 'next-i18next';
 
 type Props = {
   metaLinksTitle?: string;
@@ -88,17 +88,30 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
 }
 
 export async function getStaticProps({ locale = 'en' }) {
-  // hydrate i18n pour SSR
-  await serverSideTranslations(locale, ['common']);
+  // Hydrate i18n pour SSR
+  const translations = await serverSideTranslations(locale, ['common']);
 
-  // Option : lire directement le JSON pour extraire title/desc côté serveur
-  const common = (await import(`../../public/locales/${locale}/common.json`)).default;
-  const metaLinksTitle = common?.index?.hero?.title || common?.index?.title || 'Croissant Inventory System';
-  const metaDescription = common?.index?.hero?.subtitle || common?.index?.description || '';
+  // Utilise getFixedT pour obtenir la fonction t
+  const t = i18n?.getFixedT(locale, 'common');
+
+  // Utiliser t() pour récupérer les traductions
+  const metaLinksTitle =
+    t?.('index.hero.title', '') ||
+    t?.('index.title', '') ||
+    t?.('launcher.title', '') ||
+    t?.('apiDocs.title', '') ||
+    'Croissant Inventory System';
+
+  const metaDescription =
+    t?.('index.hero.subtitle', '') ||
+    t?.('index.description', '') ||
+    t?.('apiDocs.intro', '') ||
+    t?.('index.topspan', '') ||
+    `${metaLinksTitle} - Manage your inventory with ease.`;
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...translations,
       metaLinksTitle,
       metaDescription,
     },
