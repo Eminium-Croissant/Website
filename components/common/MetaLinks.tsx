@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslation } from 'next-i18next';
+import { useTranslation } from "next-i18next";
 
 type Props = {
   metaLinksTitle?: string;
@@ -8,21 +8,12 @@ type Props = {
 };
 
 export default function ({ metaLinksTitle, metaDescription, from }: Props) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
 
-  const titleFromKeys =
-    t('index.hero.title', { defaultValue: '' }) ||
-    t('index.title', { defaultValue: '' }) ||
-    t('launcher.title', { defaultValue: '' }) ||
-    t('apiDocs.title', { defaultValue: '' });
+  const titleFromKeys = t("index.hero.title", { defaultValue: "" }) || t("index.title", { defaultValue: "" }) || t("launcher.title", { defaultValue: "" }) || t("apiDocs.title", { defaultValue: "" });
+  const descFromKeys = t("index.hero.subtitle", { defaultValue: "" }) || t("index.description", { defaultValue: "" }) || t("apiDocs.intro", { defaultValue: "" }) || t("index.topspan", { defaultValue: "" });
 
-  const descFromKeys =
-    t('index.hero.subtitle', { defaultValue: '' }) ||
-    t('index.description', { defaultValue: '' }) ||
-    t('apiDocs.intro', { defaultValue: '' }) ||
-    t('index.topspan', { defaultValue: '' });
-
-  const defaultTitle = metaLinksTitle || titleFromKeys || 'Croissant Inventory System';
+  const defaultTitle = metaLinksTitle || titleFromKeys || "Croissant Inventory System";
   const defaultDescription = metaDescription || descFromKeys || `${defaultTitle} - Manage your inventory with ease.`;
 
   return (
@@ -42,25 +33,22 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://croissant-api.fr/" />
       {/* Use PNG for maximum compatibility */}
-      <meta property="og:image" content="/assets/icons/launcher.png" />
+      <meta property="og:image" content="/assets/icons/favicon-96x96.png" />
       <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:secure_url" content="https://croissant-api.fr/assets/icons/launcher.png" />
+      <meta property="og:image:secure_url" content="https://croissant-api.fr/assets/icons/favicon-96x96.png" />
       <meta property="og:site_name" content={defaultTitle} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={defaultTitle} />
       <meta name="twitter:description" content={defaultDescription} />
-      <meta name="twitter:image" content="/assets/icons/launcher.png" />
+      <meta name="twitter:image" content="/assets/icons/favicon-96x96.png" />
 
-  {/* Icons - use PNG-only for maximum compatibility across social platforms and older browsers */}
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
-
-  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png" />
-
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-icon-192x192.png" />
+      {/* Icons - use PNG-only for maximum compatibility across social platforms and older browsers */}
+      <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
+      <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png" />
+      <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-icon-192x192.png" />
 
       {/* Apple touch icons (use PNG as AVIF is not widely supported on iOS) */}
       <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/apple-icon-57x57.png" />
