@@ -33,16 +33,16 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://croissant-api.fr/" />
       {/* Use PNG for maximum compatibility */}
-      <meta property="og:image" content="/assets/icons/favicon-96x96.png" />
+      <meta property="og:image" content="/assets/launcher.png" />
       <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:secure_url" content="https://croissant-api.fr/assets/icons/favicon-96x96.png" />
+      <meta property="og:image:secure_url" content="https://croissant-api.fr/assets/launcher.png" />
       <meta property="og:site_name" content={defaultTitle} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={defaultTitle} />
       <meta name="twitter:description" content={defaultDescription} />
-      <meta name="twitter:image" content="/assets/icons/favicon-96x96.png" />
+      <meta name="twitter:image" content="/assets/launcher.png" />
 
       {/* Icons - use PNG-only for maximum compatibility across social platforms and older browsers */}
       <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
