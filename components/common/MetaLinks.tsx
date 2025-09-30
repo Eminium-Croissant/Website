@@ -1,4 +1,5 @@
 import React from "react";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 type Props = {
   metaLinksTitle?: string;
@@ -14,8 +15,7 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
   }
 
   const defaultTitle = metaLinksTitle || "Croissant Inventory System";
-  const defaultDescription =
-    metaDescription || `${defaultTitle} - Manage your inventory with ease.`;
+  const defaultDescription = metaDescription || `${defaultTitle} - Manage your inventory with ease.`;
 
   return (
     <>
@@ -28,15 +28,22 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <meta name="author" content="Fox3000foxy" />
       <meta name="theme-color" content="#222222" />
 
-      {/* Open Graph / Facebook - prefer AVIF then PNG fallback */}
+      {/* Open Graph / Facebook - use PNG for social previews (Discord doesn't support AVIF) */}
       <meta property="og:title" content={defaultTitle} />
       <meta property="og:description" content={defaultDescription} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://croissant-api.fr/" />
-      {/* Provide both AVIF and PNG images; social crawlers will pick supported ones */}
-      <meta property="og:image" content="/assets/icons/launcher.avif" />
+      {/* Use PNG for maximum compatibility */}
       <meta property="og:image" content="/assets/icons/launcher.png" />
+      <meta property="og:image:type" content="image/png" />
+      <meta property="og:image:secure_url" content="https://croissant-api.fr/assets/icons/launcher.png" />
       <meta property="og:site_name" content={defaultTitle} />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={defaultTitle} />
+      <meta name="twitter:description" content={defaultDescription} />
+      <meta name="twitter:image" content="/assets/icons/launcher.png" />
 
       {/* Icons - prefer .avif, then .png fallback. Browsers pick the first they support. */}
       <link rel="icon" type="image/avif" sizes="16x16" href="/assets/icons/favicon-16x16.avif" />
@@ -73,4 +80,22 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </>
   );
+}
+
+export async function getStaticProps({ locale = 'en' }) {
+  // hydrate i18n pour SSR
+  await serverSideTranslations(locale, ['common']);
+
+  // Option : lire directement le JSON pour extraire title/desc côté serveur
+  const common = (await import(`../public/locales/${locale}/common.json`)).default;
+  const metaLinksTitle = common?.index?.hero?.title || common?.index?.title || 'Croissant Inventory System';
+  const metaDescription = common?.index?.hero?.subtitle || common?.index?.description || '';
+
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      metaLinksTitle,
+      metaDescription,
+    },
+  };
 }
