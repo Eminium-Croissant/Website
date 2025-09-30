@@ -521,7 +521,10 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
 
 function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null }) {
   return (
-    <div className="glass-card rounded-xl overflow-hidden flex flex-col shadow-glass transform transition-transform hover:scale-[1.02] hover:shadow-glass-glow">
+    <Link 
+      href={`/game?gameId=${game.gameId}`} 
+      className="glass-card rounded-xl overflow-hidden flex flex-col shadow-glass transform transition-transform hover:scale-[1.02] hover:shadow-glass-glow cursor-pointer"
+    >
       {/* Banner et Icon avec effet de verre */}
       <div className="relative h-40" style={{backgroundColor: 'var(--dark-secondary)'}}>
         {game?.bannerHash && <img src={"/banners-icons/" + game.bannerHash} alt="banner" className="absolute inset-0 w-full h-full object-cover opacity-50" />}
@@ -538,13 +541,12 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
         {/* En-tête avec titre et prix */}
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <Link 
-              href={`/game?gameId=${game.gameId}`} 
+            <h3 
               className="text-xl font-bold hover:text-neon-blue transition-colors"
               style={{color: 'var(--glass-text)'}}
             >
               {game.name}
-            </Link>
+            </h3>
             {game.genre && <span className="text-sm mt-1" style={{color: 'var(--glass-text-secondary)'}}>{game.genre}</span>}
           </div>
           <div className="flex items-center gap-2 glass-card px-4 py-2 rounded-lg">
@@ -557,7 +559,8 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
         {ownerInfo && (
           <Link 
             href={`/profile?user=${ownerInfo.id}`} 
-            className="flex items-center gap-3 glass-card rounded-lg p-2 hover:bg-glass-accent transition-colors w-fit"
+            className="flex items-center gap-3 glass-card rounded-lg p-2 hover:bg-glass-accent transition-colors w-fit relative z-10"
+            onClick={(e) => e.stopPropagation()}
           >
             <CachedImage 
               src={`/avatar/${ownerInfo.id}`} 
@@ -574,7 +577,7 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
         {/* Description avec effet de verre */}
         <p className="text-sm line-clamp-3 glass-card p-3 rounded-lg" style={{color: 'var(--glass-text-secondary)'}}>{game.description}</p>
       </div>
-    </div>
+    </Link>
   );
 }
 
