@@ -92,7 +92,7 @@ export async function getStaticProps({ locale = 'en' }) {
   await serverSideTranslations(locale, ['common']);
 
   // Option : lire directement le JSON pour extraire title/desc côté serveur
-  const common = (await import(`../public/locales/${locale}/common.json`)).default;
+  const common = (await import(`../../public/locales/${locale}/common.json`)).default;
   const metaLinksTitle = common?.index?.hero?.title || common?.index?.title || 'Croissant Inventory System';
   const metaDescription = common?.index?.hero?.subtitle || common?.index?.description || '';
 
