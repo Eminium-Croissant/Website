@@ -1,5 +1,6 @@
 import React from "react";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   metaLinksTitle?: string;
@@ -8,14 +9,22 @@ type Props = {
 };
 
 export default function ({ metaLinksTitle, metaDescription, from }: Props) {
-  const isLauncher = from === "app";
-  if (isLauncher) {
-    // Keep the legacy cookie for launcher detection
-    document.cookie = "from=app; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
-  }
+  const { t } = useTranslation('common');
 
-  const defaultTitle = metaLinksTitle || "Croissant Inventory System";
-  const defaultDescription = metaDescription || `${defaultTitle} - Manage your inventory with ease.`;
+  const titleFromKeys =
+    t('index.hero.title', { defaultValue: '' }) ||
+    t('index.title', { defaultValue: '' }) ||
+    t('launcher.title', { defaultValue: '' }) ||
+    t('apiDocs.title', { defaultValue: '' });
+
+  const descFromKeys =
+    t('index.hero.subtitle', { defaultValue: '' }) ||
+    t('index.description', { defaultValue: '' }) ||
+    t('apiDocs.intro', { defaultValue: '' }) ||
+    t('index.topspan', { defaultValue: '' });
+
+  const defaultTitle = metaLinksTitle || titleFromKeys || 'Croissant Inventory System';
+  const defaultDescription = metaDescription || descFromKeys || `${defaultTitle} - Manage your inventory with ease.`;
 
   return (
     <>
@@ -45,18 +54,14 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <meta name="twitter:description" content={defaultDescription} />
       <meta name="twitter:image" content="/assets/icons/launcher.png" />
 
-      {/* Icons - prefer .avif, then .png fallback. Browsers pick the first they support. */}
-      <link rel="icon" type="image/avif" sizes="16x16" href="/assets/icons/favicon-16x16.avif" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
+  {/* Icons - use PNG-only for maximum compatibility across social platforms and older browsers */}
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
 
-      <link rel="icon" type="image/avif" sizes="32x32" href="/assets/icons/favicon-32x32.avif" />
-      <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
 
-      <link rel="icon" type="image/avif" sizes="96x96" href="/assets/icons/favicon-96x96.avif" />
-      <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png" />
 
-      <link rel="icon" type="image/avif" sizes="192x192" href="/assets/icons/android-icon-192x192.avif" />
-      <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-icon-192x192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-icon-192x192.png" />
 
       {/* Apple touch icons (use PNG as AVIF is not widely supported on iOS) */}
       <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/apple-icon-57x57.png" />
