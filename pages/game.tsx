@@ -142,28 +142,7 @@ function useGamePageLogic() {
     }
   };
 
-  return {
-    game,
-    loading,
-    router,
-    ownerInfo,
-    userOwnsGame,
-    prompt,
-    setPrompt,
-    alert,
-    setAlert,
-    buying,
-    handleBuyGame,
-    confirmBuy,
-    isGifting,
-    handleGiftGame,
-    confirmGift,
-    showGiftModal,
-    setShowGiftModal,
-    giftMessage,
-    setGiftMessage,
-    token,
-  };
+  return { game, loading, router, ownerInfo, userOwnsGame, prompt, setPrompt, alert, setAlert, buying, handleBuyGame, confirmBuy, isGifting, handleGiftGame, confirmGift, showGiftModal, setShowGiftModal, giftMessage, setGiftMessage, token };
 }
 
 function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
@@ -212,49 +191,12 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
       <div className="main-details-content">
         <h2>{game.name}</h2>
         {ownerInfo && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginBottom: 8,
-            }}
-          >
-            <a
-              href={`/profile?user=${ownerInfo.id}`}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                textDecoration: "none",
-                color: "#fff",
-              }}
-            >
-              <CachedImage
-                src={`/avatar/${ownerInfo.id}`}
-                alt={ownerInfo.username}
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: "50%",
-                  marginRight: 8,
-                  objectFit: "cover",
-                  border: "2px solid #444",
-                }}
-              />
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+            <a href={`/profile?user=${ownerInfo.id}`} style={{ display: "flex", alignItems: "center", textDecoration: "none", color: "#fff" }}>
+              <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} style={{ width: 32, height: 32, borderRadius: "50%", marginRight: 8, objectFit: "cover", border: "2px solid #444" }} />
               <span style={{ fontWeight: 500 }}>
                 {ownerInfo.username}
-                <Certification
-                  user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }}
-                  style={{
-                    marginLeft: 6,
-                    width: 16,
-                    height: 16,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    verticalAlign: "middle",
-                  }}
-                />
+                <Certification user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }} style={{ marginLeft: 6, width: 16, height: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", verticalAlign: "middle" }} />
               </span>
             </a>
           </div>
@@ -272,42 +214,12 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
               <b>{t("shop.price")}</b> {game.price} <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" />
             </div>
             {!userOwnsGame ? (
-              <button
-                className="shop-game-buy-btn"
-                style={{
-                  padding: "10px 32px",
-                  fontSize: 16,
-                  borderRadius: 8,
-                  fontWeight: 700,
-                  background: "#4caf50",
-                  color: "var(--text-color-primary)",
-                  border: "none",
-                  cursor: buying ? "not-allowed" : "pointer",
-                  opacity: buying ? 0.7 : 1,
-                }}
-                onClick={handleBuyGame}
-                disabled={buying}
-              >
+              <button className="shop-game-buy-btn" style={{ padding: "10px 32px", fontSize: 16, borderRadius: 8, fontWeight: 700, background: "#4caf50", color: "var(--text-color-primary)", border: "none", cursor: buying ? "not-allowed" : "pointer", opacity: buying ? 0.7 : 1 }} onClick={handleBuyGame} disabled={buying}>
                 {t("shop.buy")}
               </button>
             ) : null}
             {token && (
-              <button
-                className="shop-game-gift-btn"
-                style={{
-                  padding: "10px 32px",
-                  fontSize: 16,
-                  borderRadius: 8,
-                  fontWeight: 700,
-                  background: "#ff9800",
-                  color: "var(--text-color-primary)",
-                  border: "none",
-                  cursor: isGifting ? "not-allowed" : "pointer",
-                  opacity: isGifting ? 0.7 : 1,
-                }}
-                onClick={handleGiftGame}
-                disabled={isGifting}
-              >
+              <button className="shop-game-gift-btn" style={{ padding: "10px 32px", fontSize: 16, borderRadius: 8, fontWeight: 700, background: "#ff9800", color: "var(--text-color-primary)", border: "none", cursor: isGifting ? "not-allowed" : "pointer", opacity: isGifting ? 0.7 : 1 }} onClick={handleGiftGame} disabled={isGifting}>
                 {t("shop.giftWithPrice", { price: game.price })}
               </button>
             )}
@@ -357,20 +269,7 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
               <h3>
                 {t("shop.gift")} "{game.name}"
               </h3>
-              <textarea
-                placeholder={t("shop.giftMessagePlaceholder")}
-                value={giftMessage}
-                onChange={(e) => setGiftMessage(e.target.value)}
-                style={{
-                  width: "100%",
-                  height: "80px",
-                  margin: "10px 0",
-                  padding: "8px",
-                  borderRadius: "4px",
-                  border: "1px solid #ccc",
-                  resize: "vertical",
-                }}
-              />
+              <textarea placeholder={t("shop.giftMessagePlaceholder")} value={giftMessage} onChange={(e) => setGiftMessage(e.target.value)} style={{ width: "100%", height: "80px", margin: "10px 0", padding: "8px", borderRadius: "4px", border: "1px solid #ccc", resize: "vertical" }} />
             </div>
             <button className="shop-prompt-buy-btn" onClick={confirmGift} disabled={isGifting}>
               {t("shop.createGift")}
@@ -480,32 +379,10 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
                 color: "#fff",
               }}
             >
-              <CachedImage
-                src={`/avatar/${ownerInfo.id}`}
-                alt={ownerInfo.username}
-                style={{
-                  width: 24,
-                  height: 24,
-                  borderRadius: "50%",
-                  marginRight: 8,
-                  objectFit: "cover",
-                  border: "2px solid #444",
-                }}
-              />
+              <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} style={{ width: 24, height: 24, borderRadius: "50%", marginRight: 8, objectFit: "cover", border: "2px solid #444" }} />
               <span style={{ fontWeight: 500, fontSize: "0.98em" }}>
                 {ownerInfo.username}
-                <Certification
-                  user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }}
-                  style={{
-                    marginLeft: 6,
-                    width: 16,
-                    height: 16,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    verticalAlign: "middle",
-                  }}
-                />
+                <Certification user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }} style={{ marginLeft: 6, width: 16, height: 16, display: "inline-flex", alignItems: "center", justifyContent: "center", verticalAlign: "middle" }} />
               </span>
             </a>
           </div>
@@ -524,42 +401,12 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
               <b>{t("shop.price")}</b> {game.price} <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" style={{ width: 18, height: 18 }} />
             </div>
             {!userOwnsGame ? (
-              <button
-                className="shop-game-buy-btn"
-                style={{
-                  padding: "8px 18px",
-                  fontSize: "1em",
-                  borderRadius: 7,
-                  fontWeight: 700,
-                  background: "#4caf50",
-                  color: "var(--text-color-primary)",
-                  border: "none",
-                  cursor: buying ? "not-allowed" : "pointer",
-                  opacity: buying ? 0.7 : 1,
-                }}
-                onClick={handleBuyGame}
-                disabled={buying}
-              >
+              <button className="shop-game-buy-btn" style={{ padding: "8px 18px", fontSize: "1em", borderRadius: 7, fontWeight: 700, background: "#4caf50", color: "var(--text-color-primary)", border: "none", cursor: buying ? "not-allowed" : "pointer", opacity: buying ? 0.7 : 1 }} onClick={handleBuyGame} disabled={buying}>
                 {t("shop.buy")}
               </button>
             ) : null}
             {token && (
-              <button
-                className="shop-game-gift-btn"
-                style={{
-                  padding: "8px 18px",
-                  fontSize: "1em",
-                  borderRadius: 7,
-                  fontWeight: 700,
-                  background: "#ff9800",
-                  color: "var(--text-color-primary)",
-                  border: "none",
-                  cursor: isGifting ? "not-allowed" : "pointer",
-                  opacity: isGifting ? 0.7 : 1,
-                }}
-                onClick={handleGiftGame}
-                disabled={isGifting}
-              >
+              <button className="shop-game-gift-btn" style={{ padding: "8px 18px", fontSize: "1em", borderRadius: 7, fontWeight: 700, background: "#ff9800", color: "var(--text-color-primary)", border: "none", cursor: isGifting ? "not-allowed" : "pointer", opacity: isGifting ? 0.7 : 1 }} onClick={handleGiftGame} disabled={isGifting}>
                 {t("shop.giftWithPrice", { price: game.price })}
               </button>
             )}
@@ -609,21 +456,7 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
               <h3 style={{ fontSize: "1em" }}>
                 {t("shop.gift")} "{game.name}"
               </h3>
-              <textarea
-                placeholder={t("shop.giftMessagePlaceholder")}
-                value={giftMessage}
-                onChange={(e) => setGiftMessage(e.target.value)}
-                style={{
-                  width: "100%",
-                  height: "60px",
-                  margin: "8px 0",
-                  padding: "6px",
-                  borderRadius: "4px",
-                  border: "1px solid #ccc",
-                  resize: "vertical",
-                  fontSize: "0.98em",
-                }}
-              />
+              <textarea placeholder={t("shop.giftMessagePlaceholder")} value={giftMessage} onChange={(e) => setGiftMessage(e.target.value)} style={{ width: "100%", height: "60px", margin: "8px 0", padding: "6px", borderRadius: "4px", border: "1px solid #ccc", resize: "vertical", fontSize: "0.98em" }} />
             </div>
             <button className="shop-prompt-buy-btn" onClick={confirmGift} disabled={isGifting} style={{ fontSize: "1em", padding: "7px 18px" }}>
               {t("shop.createGift")}
