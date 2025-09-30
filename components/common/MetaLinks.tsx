@@ -1,6 +1,5 @@
 import React from "react";
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { i18n, useTranslation } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
   metaLinksTitle?: string;
@@ -85,35 +84,4 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </>
   );
-}
-
-export async function getStaticProps({ locale = 'en' }) {
-  // Hydrate i18n pour SSR
-  const translations = await serverSideTranslations(locale, ['common']);
-
-  // Utilise getFixedT pour obtenir la fonction t
-  const t = i18n?.getFixedT(locale, 'common');
-
-  // Utiliser t() pour récupérer les traductions
-  const metaLinksTitle =
-    t?.('index.hero.title', '') ||
-    t?.('index.title', '') ||
-    t?.('launcher.title', '') ||
-    t?.('apiDocs.title', '') ||
-    'Croissant Inventory System';
-
-  const metaDescription =
-    t?.('index.hero.subtitle', '') ||
-    t?.('index.description', '') ||
-    t?.('apiDocs.intro', '') ||
-    t?.('index.topspan', '') ||
-    `${metaLinksTitle} - Manage your inventory with ease.`;
-
-  return {
-    props: {
-      ...translations,
-      metaLinksTitle,
-      metaDescription,
-    },
-  };
 }

@@ -22,11 +22,13 @@ import NavBarMobile from "../components/common/NavBarMobile";
 import { LobbyProvider } from "../hooks/LobbyContext";
 import { appWithTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { getMetaLinksProps } from "../components/common/metaLinks.server";
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
+      ...await getMetaLinksProps(locale),
     },
   };
 }
