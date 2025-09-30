@@ -1,0 +1,863 @@
+{
+  "404": {
+    "title": {
+      "desktop": "앗! 이 페이지는 존재하지 않습니다.",
+      "mobile": "앗! 페이지를 찾을 수 없습니다."
+    },
+    "desc1": {
+      "desktop": "찾고 있는 페이지가 존재하지 않거나 사라진 것 같습니다.",
+      "mobile": "찾고 있는 페이지가 없거나 사용할 수 없습니다."
+    },
+    "desc2": {
+      "desktop": "URL을 확인하거나 홈으로 돌아가 모험을 계속하세요.",
+      "mobile": "URL을 확인하거나 아래 옵션 중 하나를 사용하세요."
+    },
+    "whatcan": {
+      "desktop": "무엇을 할까요?"
+    },
+    "try": {
+      "desktop": "다음 옵션을 시도해 보세요:"
+    },
+    "home": "홈으로 돌아가기",
+    "contact": "지원팀에 문의",
+    "api": {
+      "mobile": "API 문서"
+    }
+  },
+  "index": {
+    "title": "홈",
+    "description": "Croissant에 오신 것을 환영합니다. 놀라운 이미지를 공유하고 발견할 수 있는 최고의 플랫폼입니다. 커뮤니티에 합류하여 탐험을 시작하세요!",
+    "topspan": "재사용 가능하고 확장 가능한 크리에이티브 인벤토리 시스템, 오픈 소스, 풍부한 API와 최첨단 네트워크 기술",
+    "overview": {
+      "title": "CROISSANT 플랫폼 개요",
+      "players": {
+        "1": "Croissant에 연결된 게임을 플레이하고 고유한 아이템을 수집하세요.",
+        "2": "아이템을 교환하거나 구매, 판매하여 다른 사용자와 상호작용하세요.",
+        "3": "로비를 통해 두 번의 클릭으로 멀티플레이어에 참여하세요.",
+        "4": "Discord 또는 런처에서 인벤토리와 크레딧을 관리하세요.",
+        "5": "Steam 계정을 연결하여 Steam 인벤토리에 접근하세요.",
+        "title": "플레이어용"
+      },
+      "creators": {
+        "1": "SDK 또는 API로 귀하의 게임을 Croissant에 연결하세요.",
+        "2": "플레이어를 인증하고 인벤토리를 조작할 수 있습니다(아이템 추가/제거, 보상, 게임 내 구매).",
+        "3": "자신의 아이템이나 번들을 생성하고 판매하세요.",
+        "4": "로비를 사용해 프라이빗 멀티플레이어를 관리하세요.",
+        "5": "사이트에서 OAuth2 인증을 사용하세요.",
+        "6": "사용자는 Steam을 연결할 수 있습니다. 게임이 Steam에 있다면 Steam ID로 플레이어를 찾아 인벤토리를 가져올 수 있습니다.",
+        "title": "크리에이터 & 개발자용",
+        "getstarted": "시작하기: 설정에서 API 키를 생성하고 문서를 확인하세요."
+      },
+      "marketplace": {
+        "1": "아이템을 구매, 판매, 교환하세요.",
+        "2": "새로운 아이템이나 번들을 발견하고 구매하세요.",
+        "3": "친구에게 아이템이나 크레딧을 전송하세요.",
+        "4": "잔액과 컬렉션을 추적하세요.",
+        "title": "마켓플레이스 & 인벤토리",
+        "desc": "게임 내 아이템을 관리하세요："
+      },
+      "lobby": {
+        "1": "멀티플레이어 로비를 생성하거나 참여하세요.",
+        "2": "간단한 링크로 친구를 초대하세요.",
+        "3": "로비에 누가 있는지 확인하고 실시간으로 채팅하세요.",
+        "4": "원클릭으로 로비를 떠나거나 해산하세요.",
+        "title": "로비 시스템",
+        "desc": "함께 플레이하고 팀을 만들어요："
+      },
+      "safety": {
+        "1": "귀하의 안전은 최우선입니다! 계정이나 API 키를 절대 공유하지 마세요. 거래를 확인한 후 승인하세요. 도움이 필요하면 /support를 사용하거나 도움말 서버에 참여하세요.",
+        "title": "보안 & 지원"
+      },
+      "oauth2": {
+        "1": "Croissant의 OAuth2 통합을 /oauth2/test에서 테스트하세요.",
+        "2": "이 시스템은 귀하의 사이트나 앱을 Croissant에 연결하고 사용자를 인증하여 인벤토리에 접근할 수 있게 합니다.",
+        "3": "OAuth2를 통한 간단하고 안전한 인증.",
+        "4": "사용자의 Croissant 인벤토리에 접근할 수 있습니다.",
+        "5": "크리에이터나 사이트 개발자에게 통합이 쉬운 시스템입니다.",
+        "title": "OAuth2 테스트 (새 기능!)",
+        "try": "지금 테스트하세요: /oauth2/test"
+      }
+    },
+    "about": {
+      "title": "소개",
+      "whoami": {
+        "1": "안녕하세요, 저는 Fox입니다. 온라인에서는 fox3000foxy로 알려져 있습니다. 저는 코드와 혁신을 사랑하는 프랑스 개발자이며 Croissant Inventory System을 만들었습니다.",
+        "title": "누구인가요?"
+      },
+      "system": {
+        "1": "Croissant의 아이디어는 게이머와 크리에이터를 위한 중고 마켓을 만드는 것이었습니다. 여기에서 아이템을 교환하고 수수료 없이 작품을 판매할 수 있습니다. 비싼 마켓플레이스에 맞서는 공정하고 개방된 플랫폼을 만들고자 합니다.",
+        "2": "아이템에 새로운 가치를 부여하고 교환, 구매, 판매를 쉽게 하여 시장을 활기차게 합니다.",
+        "3": "봇을 몰라도, Discord가 없어도 시스템을 즐길 수 있습니다. Croissant는 단순하고 접근하기 쉽게 설계되었습니다.",
+        "title": "Croissant 인벤토리 시스템"
+      },
+      "api": {
+        "1": "API와 Discord 봇의 안정성 향상에 노력하고 있습니다. 봇은 이미 이용 가능합니다. 테스트해보세요!",
+        "title": "API & Discord 봇"
+      },
+      "philosophy": {
+        "1": "Vinted처럼 Croissant는 사용자 간의 교환을 염두에 두고 설계되었습니다. 플레이어와 크리에이터 모두에게 사용하기 쉽도록 만들었습니다.",
+        "2": "게이머이자 개발자로서, 시장의 요구를 이해하는 플랫폼을 만들고 싶었습니다. Croissant는 단순한 마켓 그 이상이며, 아이템에 새로운 생명을 불어넣는 생태계입니다.",
+        "title": "마켓플레이스 철학"
+      },
+      "gamers": {
+        "1": "사용되지 않는 아이템을 활용할 수 있도록 돕는 것이 Croissant의 목적입니다. 희귀 스킨을 찾거나 먼 플레이어와 교환할 수 있습니다. 모두 안전하고 즐거운 환경에서 이루어집니다.",
+        "title": "게이머용"
+      },
+      "creators": {
+        "1": "크리에이터에게: 높은 수수료로 수익화하는 것은 끝났습니다. 여기서는 수수료가 없습니다. 스킨, 아이템 및 컬렉션을 만들어 판매하세요.",
+        "title": "크리에이터용"
+      },
+      "simplicity": {
+        "1": "Croissant의 매력은 단순함입니다. 기술에 익숙하지 않아도 바로 시작할 수 있습니다. 직관적이면서도 강력합니다.",
+        "title": "단순성 & 접근성"
+      },
+      "future": {
+        "1": "Croissant의 미래는 흥미롭습니다! 게임 간 아이템 교환, 크리에이터용 도구, 커뮤니티 이벤트를 준비 중입니다. 이는 단순한 아이디어가 아니라 곧 구현될 기능들입니다.",
+        "title": "미래"
+      },
+      "community": {
+        "1": "Croissant를 특별하게 만드는 것은 커뮤니티입니다! 매일 사용자가 서로 돕고 크리에이터가 아이디어를 공유하며 교환을 통해 새로운 우정이 생깁니다. 단순한 마켓이 아닌 게이머와 크리에이터의 가족입니다.",
+        "title": "커뮤니티"
+      }
+    },
+    "hero": {
+      "title": "Croissant의 세계에 오신 것을 환영합니다",
+      "subtitle": "몰입형의 궁극적인 게이밍 경험에 뛰어드세요",
+      "startAdventure": "모험 시작",
+      "learnMore": "자세히 보기"
+    },
+    "openSource": {
+      "title": "오픈 소스 프로젝트",
+      "subtitle": "진화에 기여하세요",
+      "description": {
+        "desktop": "Croissant는 <strong>오픈 소스</strong> 프로젝트입니다. 기여가 중요합니다. 개발 커뮤니티에 참여하여 미래를 함께 만들어주세요.",
+        "mobile": "Croissant는 <strong>오픈 소스</strong> 프로젝트입니다。기여가 중요합니다。"
+      },
+      "development": {
+        "title": "개발",
+        "desc": {
+          "desktop": "코드, 기능 추가, 버그 수정",
+          "mobile": "코드, 기능, 버그"
+        }
+      },
+      "design": {
+        "title": "디자인",
+        "desc": {
+          "desktop": "UI/UX, 그래픽, 애니메이션",
+          "mobile": "UI/UX, 그래픽"
+        }
+      },
+      "documentation": {
+        "title": "문서",
+        "desc": {
+          "desktop": "가이드, 튜토리얼, 번역",
+          "mobile": "가이드, 번역"
+        }
+      },
+      "tests": {
+        "title": "테스트",
+        "desc": {
+          "desktop": "QA, 피드백, 제안",
+          "mobile": "QA, 피드백"
+        }
+      },
+      "joinCommunity": "커뮤니티에 참여"
+    },
+    "carousel": {
+      "popularGames": "인기 게임",
+      "loading": "로딩 중...",
+      "noGames": "현재 이용 가능한 게임이 없습니다.",
+      "discoverAllGames": "모든 게임 보기"
+    }
+  },
+  "apiDocs": {
+    "title": "API 문서",
+    "intro": "아래에서 API 문서를 확인하세요.",
+    "requiresAuth": "Authorization 헤더: \"Bearer [token]\"로 인증이 필요합니다（Discord에서 /api-key 명령으로 API 키를 생성하세요）",
+    "precisions": "안내：",
+    "iconHash": "- iconHash는 /games-icons 및 /items-icons와 관련되어 있습니다。",
+    "bannerHash": "- bannerHash는 /banners-icons와 관련되어 있습니다。",
+    "splashHash": "- splashHash는 더 이상 사용되지 않으며 곧 제거될 예정입니다。",
+    "hashes": "- 이 두 해시는 아이콘 URL을 구성하는 데 사용됩니다。",
+    "categories": "카테고리",
+    "all": "모두",
+    "libraries": "라이브러리/SDK",
+    "searchPlaceholder": "엔드포인트 검색...",
+    "loading": "문서를 로드하는 중...",
+    "noResults": "\"{{searchTerm}}\"에 대한 결과가 없습니다.",
+    "responseType": "응답 타입",
+    "params": "URL 매개변수",
+    "query": "쿼리 매개변수",
+    "body": "바디 매개변수",
+    "example": "예시",
+    "exampleResponse": "응답 예시"
+  },
+  "badges": {
+    "title": "Croissant - 배지",
+    "intro": "배지는 프로필에 표시되는 특별한 칭호입니다. 커뮤니티 기여나 역할을 보여줍니다.",
+    "lastUpdated": "최종 업데이트: 2025년 8월",
+    "early_user": {
+      "label": "초기 사용자",
+      "description": "베타 기간 동안 가입한 사용자에게 수여됩니다。",
+      "how": "이 배지는 더 이상 배포되지 않습니다。처음 멤버에게만 제공되었습니다。"
+    },
+    "staff": {
+      "label": "스태프",
+      "description": "공식 Croissant Discord의 관리자용입니다。",
+      "how": "Discord 관리팀의 일원입니다。"
+    },
+    "bug_hunter": {
+      "label": "버그 헌터",
+      "description": "보안 취약점이나 심각한 버그를 신고한 사람에게 수여됩니다。",
+      "how": "취약점이나 심각한 버그를 신고하세요。"
+    },
+    "contributor": {
+      "label": "기여자",
+      "description": "Croissant 개발에 기여한 사람을 위한 배지입니다。",
+      "how": "Croissant GitHub 저장소에 풀 리퀘스트를 제출하고 병합되면 됩니다。"
+    },
+    "moderator": {
+      "label": "모더레이터",
+      "description": "Discord의 모더레이터를 위한 배지입니다。",
+      "how": "공식 Discord에서 모더레이터로 임명되세요。"
+    },
+    "community_manager": {
+      "label": "커뮤니티 매니저",
+      "description": "커뮤니티를 성장시키는 사람을 위한 배지입니다。",
+      "how": "추천인으로 신규 회원을 가입시키고 추천인으로 등록되면 됩니다（중복 계정 금지）。"
+    },
+    "partner": {
+      "label": "파트너",
+      "description": "공식 Croissant 파트너를 위한 배지입니다。",
+      "how": "귀하의 사이트나 플랫폼에 Croissant 통합이 있어야 합니다。"
+    },
+    "howtogetit": "획득 방법："
+  },
+  "buyCredits": {
+    "title": "크레딧 구매",
+    "tier1": {
+      "alt": "크레딧 1"
+    },
+    "tier2": {
+      "alt": "크레딧 2"
+    },
+    "tier3": {
+      "alt": "크레딧 3"
+    },
+    "tier4": {
+      "alt": "크레딧 4"
+    },
+    "price": "{{credits}} 크레딧 — {{price}}"
+  },
+  "close": {
+    "title": "이 페이지를 닫아도 됩니다"
+  },
+  "downloadLauncher": {
+    "title": "런처 다운로드",
+    "note": "참고: Croissant 런처는 PC(Windows)에서만 사용 가능합니다.",
+    "instructions": "Croissant 런처를 다운로드하려면：",
+    "step1": "GitHub의 Croissant API 저장소의 <link>릴리스 페이지</link>로 이동하세요。",
+    "step2": "최신 버전을 찾으세요。",
+    "step3": {
+      "windows": "Windows용 .exe를 다운로드하세요。"
+    },
+    "step4": "파일을 실행하여 런처를 설치하세요。",
+    "description": {
+      "desktop": "Croissant 런처는 계정, 아이템 관리, 게임 발견 및 실행, 새 기능을 한 번에 이용할 수 있게 해줍니다。",
+      "mobile": "Croissant 런처는 계정과 아이템 관리, 게임 발견 및 실행, 업데이트 확인을 쉽게 해줍니다。"
+    }
+  },
+  "forgotPassword": {
+    "title": "비밀번호를 잊으셨나요",
+    "emailLabel": "이메일",
+    "send": "재설정 링크 전송",
+    "sending": "전송 중...",
+    "success": "비밀번호 재설정 이메일을 보냈습니다。",
+    "error": "전송 실패",
+    "info": "이메일을 입력하면 비밀번호 재설정 링크를 보내드립니다。",
+    "remembered": "기억났어요"
+  },
+  "shop": {
+    "noGames": "게임이 없습니다。",
+    "error": "오류가 발생했습니다。",
+    "buy": "구매",
+    "cancel": "취소",
+    "ok": "확인",
+    "price": "가격：",
+    "owner": "소유자：",
+    "gift": "선물",
+    "giftWithPrice": "선물（{{price}} 크레딧）",
+    "createGift": "선물 생성",
+    "giftCreated": "선물이 생성되었습니다！이 링크를 공유하세요：",
+    "giftMessagePlaceholder": "수신자에게 보낼 메시지...",
+    "claimGift": "선물 수령",
+    "claiming": "수령 중...",
+    "giftClaimed": "선물을 수령했습니다！게임이 라이브러리에 추가되었습니다。",
+    "giftAlreadyOwned": "이미 이 게임을 소유하고 있어 수령할 수 없습니다。",
+    "giftAlreadyClaimed": "이 선물은 이미 수령되었습니다。",
+    "giftClaimedOn": "수령일： {{date}}",
+    "invalidGiftLink": "잘못된 선물 링크",
+    "noGiftCode": "URL에 선물 코드가 없습니다。",
+    "goHome": "홈으로 돌아가기",
+    "giftNotFound": "선물을 찾을 수 없습니다",
+    "giftNotFoundDesc": "이 선물 코드는 잘못되었거나 만료되었습니다。",
+    "from": "보낸이： <strong>{{username}}</strong>",
+    "youReceivedGift": "🎁 선물을 받았습니다！",
+    "back": "← 돌아가기",
+    "purchaseSuccess": "구매 성공！",
+    "loading": "로딩 중...",
+    "genre": "장르：",
+    "developer": "개발자：",
+    "publisher": "퍼블리셔：",
+    "releaseDate": "출시：",
+    "platforms": "플랫폼：",
+    "allGames": "모든 게임",
+    "title": "스토어",
+    "searchPlaceholder": "게임 검색..."
+  },
+  "joinLobby": {
+    "noLobbyId": "URL에 lobbyId가 없습니다。",
+    "joining": "로비에 참가하는 중...",
+    "success": "로비 참가 성공！",
+    "failed": "로비 참가 실패。"
+  },
+  "marketplace": {
+    "title": "마켓플레이스",
+    "placeBuyOrder": "구매 주문하기",
+    "myBuyOrders": "내 구매 주문",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다。",
+    "noItems": "판매 중인 아이템이 없습니다。",
+    "item": "아이템",
+    "description": "설명",
+    "seller": "판매자",
+    "price": "가격",
+    "listed": "등록일",
+    "buy": "구매",
+    "cancel": "취소",
+    "confirm": "확인",
+    "placing": "등록 중...",
+    "searchItem": "아이템 검색...",
+    "enterPrice": "가격 입력",
+    "success": "구매 성공！",
+    "placeOrderSuccess": "구매 주문이 생성되었습니다！",
+    "mustLogin": "구매하려면 로그인하세요。",
+    "allFieldsRequired": "모든 필드를 입력해야 합니다。",
+    "modalTitle": "구매 주문 생성"
+  },
+  "myBuyOrders": {
+    "title": "내 구매 주문",
+    "back": "← 마켓으로 돌아가기",
+    "loading": "로딩 중...",
+    "mustLogin": "구매 주문을 보려면 로그인하세요。",
+    "noOrders": "주문이 없습니다。",
+    "item": "아이템",
+    "description": "설명",
+    "price": "가격",
+    "status": "상태",
+    "placed": "주문됨",
+    "cancel": "취소"
+  },
+  "myMarketListings": {
+    "title": "내 판매 목록",
+    "loading": "로딩 중...",
+    "mustLogin": "판매 목록을 보려면 로그인하세요。",
+    "noActive": "활성 판매가 없습니다。",
+    "item": "아이템",
+    "price": "가격",
+    "status": "상태",
+    "created": "생성일",
+    "actions": "작업",
+    "cancel": "취소",
+    "purchasePrice": "구매 가격",
+    "uniqueId": "고유 ID"
+  },
+  "login": {
+    "title": "로그인",
+    "email": "이메일",
+    "password": "비밀번호",
+    "login": "로그인",
+    "loggingIn": "로그인 중...",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "register": "회원가입",
+    "or": "또는",
+    "signInWithDiscord": "Discord로 로그인",
+    "signInWithGoogle": "Google로 로그인",
+    "passkey": "Passkey로 로그인",
+    "authenticating": "인증 중...",
+    "enterAuthenticator": "Google Authenticator 코드를 입력하세요",
+    "codePlaceholder": "6자리 코드",
+    "verify": "확인",
+    "cancel": "취소",
+    "redirectInfo": "로그인 후 자동으로 리디렉션됩니다.",
+    "invalidCode": "잘못된 코드",
+    "error": "로그인 실패",
+    "authenticatorError": "잘못된 코드",
+    "separatorOr": "또는"
+  },
+  "register": {
+    "title": "회원가입",
+    "email": "이메일",
+    "username": "사용자 이름",
+    "password": "비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "register": "가입",
+    "registering": "가입 중...",
+    "error": {
+      "allFields": "모든 필드는 필수입니다。",
+      "passwords": "비밀번호가 일치하지 않습니다。",
+      "failed": "가입에 실패했습니다"
+    },
+    "success": "가입이 완료되었습니다！",
+    "haveAccount": "이미 계정이 있으신가요？",
+    "or": "또는",
+    "signUpWithDiscord": "Discord로 가입",
+    "signUpWithGoogle": "Google로 가입",
+    "redirectInfo": "가입 후 자동으로 리디렉션됩니다。"
+  },
+  "resetPassword": {
+    "title": "비밀번호 재설정",
+    "welcome": "환영합니다 {{username}}、새 비밀번호를 선택하세요。",
+    "newPassword": "새 비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "reset": "재설정",
+    "resetting": "재설정 중...",
+    "success": "비밀번호가 변경되었습니다！로그인할 수 있습니다。",
+    "error": {
+      "invalidToken": "유효하지 않은 재설정 링크입니다。다시 시도하세요。",
+      "missingToken": "재설정 링크가 유효하지 않거나 누락되었습니다。",
+      "allFields": "모든 필드를 입력하세요。",
+      "passwords": "비밀번호가 일치하지 않습니다。"
+    }
+  },
+  "privacy": {
+    "1": {
+      "1": "1.1. Discord 정보：봇을 사용할 때 식별을 위해 Discord ID와 사용자 이름을 수집합니다。",
+      "2": "1.2. API 사용：개발자를 위해 API 키 사용 및 트랜잭션을 수집합니다。",
+      "3": "1.3. 인벤토리 데이터：가상 아이템, 크레딧, 거래 기록을 보관합니다。"
+    },
+    "2": {
+      "1": "2.1. 서비스 운영：인벤토리, 거래, 아이템 소유권을 관리합니다。",
+      "2": "2.2. API 접근：API 키는 서비스 접근의 보안을 유지합니다。",
+      "3": "2.3. 분석：서비스 개선과 남용 방지를 위해 사용량을 분석합니다。"
+    },
+    "3": {
+      "1": "3.1. 공개 정보：아이템 소유권과 거래 기록은 리더보드를 통해 공개될 수 있습니다。",
+      "2": "3.2. API 통합：연결된 게임에서는 필요한 정보가 공유됩니다。",
+      "3": "3.3. API 접근：일부 비민감 데이터는 API를 통해 접근할 수 있습니다。"
+    },
+    "4": {
+      "1": "4.1. 안전한 API 키로 귀하의 정보를 보호합니다。",
+      "2": "4.2. 보안상 이유로 API 키는 데이터베이스에 저장되지 않습니다。"
+    },
+    "5": {
+      "1": "5.1. /inventory 명령어로 자신의 데이터를 확인할 수 있습니다。",
+      "2": "5.2. /delete-item 으로 자신의 아이템을 삭제할 수 있습니다。",
+      "3": "5.3. 계정 삭제를 원하면 지원팀에 문의하세요。"
+    },
+    "6": {
+      "1": "6.1. 개인정보 처리방침은 변경될 수 있습니다。중대한 변경은 Discord 봇을 통해 공지됩니다。"
+    },
+    "title": "Croissant - 개인정보 처리방침",
+    "intro": "Croissant에 오신 것을 환영합니다！봇, API, 웹사이트 사용 시 데이터 처리 방식에 대해 설명합니다。"
+  },
+  "tos": {
+    "1": {
+      "1": "1.1. 본 서비스는 무료이며 가상 게임 아이템 관리를 목적으로 합니다。",
+      "2": "1.2. 봇을 사용하는 경우 Discord 규정을 준수하세요。"
+    },
+    "2": {
+      "1": "2.1. 런처에서 아이템을 생성하고 사용자 지정할 수 있습니다。",
+      "2": "2.2. 크리에이터는 판매 가격의 75%를 받습니다。",
+      "3": "2.3. 부적절한 아이템은 삭제될 수 있습니다。"
+    },
+    "3": {
+      "1": "3.1. 모든 거래는 양측의 확인이 필요합니다。",
+      "2": "3.2. 거래 전에 세부 사항을 반드시 확인하세요。",
+      "3": "3.3. 아이템과 크레딧은 실세계 가치를 지니지 않습니다。현금화가 필요하면 운영팀에 문의하세요。"
+    },
+    "4": {
+      "1": "4.1. API 키는 /api-key 명령어로 발급됩니다。",
+      "2": "4.2. 개발자는 API 키를 적절히 관리해야 합니다。",
+      "3": "4.3. 남용이 있을 경우 API 접근이 중단될 수 있습니다。"
+    },
+    "5": {
+      "1": "5.1. 시스템의 버그나 취약점을 악용하는 행위。",
+      "2": "5.2. 서비스를 자동으로 이용하는 봇 생성。",
+      "3": "5.3. 아이템을 현금으로 거래하는 행위。"
+    },
+    "6": {
+      "1": "6.1. 서비스는 예고 없이 변경되거나 중단될 수 있습니다。",
+      "2": "6.2. 중요한 변경 사항은 Discord 봇을 통해 공지됩니다。"
+    },
+    "title": "Croissant - 이용 약관",
+    "intro": "Croissant에 오신 것을 환영합니다！인벤토리 시스템(Discord 봇, API, 사이트) 사용 규칙을 설명합니다。",
+    "legalMentions": "법적 고지"
+  },
+  "profile": {
+    "loading": "프로필 로딩 중...",
+    "error": "오류가 발생했습니다。",
+    "notFound": "프로필을 찾을 수 없습니다。",
+    "shop": "스토어",
+    "inventory": "인벤토리",
+    "disabled": "(비활성화)",
+    "reenable": "계정 재활성화",
+    "disable": "계정 비활성화",
+    "giveCredits": "크레딧 보내기",
+    "trade": "교환",
+    "myMarketListings": "내 판매 목록",
+    "myListings": "내 리스팅",
+    "settings": "설정",
+    "sendingCredits": "크레딧 전송 중...",
+    "creditsSent": "크레딧을 보냈습니다！",
+    "ok": "확인",
+    "creator": "제작자：",
+    "stock": "재고：",
+    "price": "가격：",
+    "total": "합계：",
+    "buy": "구매",
+    "cancel": "취소",
+    "giveCreditsTo": "<b>{{username}}</b> 에게 크레딧 보내기",
+    "max": "/ {{max}}",
+    "noItems": "스토어에 아이템이 없습니다。",
+    "promptBuy": "몇 개의 \"{{item}}\" 을 구매하시겠습니까？\n가격： {{price}} 개당{{stock}}",
+    "shopTooltipStock": "재고： {{stock}}",
+    "inventoryTitle": "인벤토리",
+    "creatorLabel": "제작자：",
+    "stockLabel": "재고：",
+    "totalLabel": "합계：",
+    "disabledLabel": "(비활성화)"
+  },
+  "search": {
+    "enterQuery": "검색어를 입력하세요.",
+    "resultsFor": "<strong>{{query}}</strong> 에 대한 결과",
+    "users": "사용자",
+    "games": "게임",
+    "items": "아이템",
+    "price": "가격",
+    "buy": "구매",
+    "cancel": "취소",
+    "total": "합계： {{total}}",
+    "buyHowMany": "몇 개의 \"{{item}}\" 을 구매하시겠습니까？",
+    "itemPurchased": "아이템을 구매했습니다！",
+    "buyingItem": "구매 중...",
+    "ok": "확인"
+  },
+  "studios": {
+    "title": "나의 스튜디오",
+    "create": "+ 스튜디오 생성",
+    "createTitle": "스튜디오 생성",
+    "studioNamePlaceholder": "스튜디오 이름",
+    "createBtn": "생성",
+    "cancelBtn": "취소",
+    "errorCreate": "생성 중 오류가 발생했습니다",
+    "noStudios": "아직 스튜디오가 없습니다。",
+    "users": "사용자：",
+    "noUsers": "사용자가 없습니다",
+    "apiKey": "API 키：",
+    "show": "표시",
+    "hide": "숨기기",
+    "copy": "복사",
+    "addUser": "+ 사용자 추가",
+    "addUserTitle": "스튜디오에 사용자 추가",
+    "searchUserPlaceholder": "사용자 검색...",
+    "addBtn": "추가",
+    "removeUserConfirm": "이 사용자를 정말로 제거하시겠습니까？",
+    "errorAddUser": "추가 중 오류가 발생했습니다",
+    "errorRemoveUser": "제거 중 오류가 발생했습니다"
+  },
+  "settings": {
+    "title": "설정",
+    "changePassword": "비밀번호 변경",
+    "securityLinks": "보안 & 소셜 링크",
+    "profilePicture": "프로필 사진",
+    "uploading": "업로드 중...",
+    "uploadNewPicture": "사진 변경",
+    "username": "사용자 이름",
+    "saving": "저장 중...",
+    "save": "저장",
+    "userId": "사용자 ID",
+    "copy": "복사",
+    "apiKey": "API 키",
+    "show": "표시",
+    "hide": "숨기기",
+    "thisKeyAllows": "이 키는 귀하를 대신하여 API를 사용할 수 있게 합니다。",
+    "linkSteam": "Steam 연결",
+    "linkDiscord": "Discord 연결",
+    "linkGoogle": "Google 연결",
+    "steamLinked": "Steam 연결됨",
+    "discordLinked": "Discord 연결됨",
+    "googleLinked": "Google 연결됨",
+    "registerPasskey": "Passkey 등록",
+    "registering": "등록 중...",
+    "passkeyRegistered": "Passkey가 등록되었습니다！",
+    "setupGoogleAuth": "Google Authenticator 설정",
+    "deleteGoogleAuth": "Google Authenticator 삭제",
+    "close": "닫기",
+    "successProfilePic": "프로필 사진이 업데이트되었습니다！",
+    "successUsername": "사용자 이름이 업데이트되었습니다！",
+    "successPassword": "비밀번호가 변경되었습니다！",
+    "errorUsername": "사용자 이름 변경 실패",
+    "errorProfilePic": "아바타 업로드 중 오류가 발생했습니다",
+    "errorPassword": "비밀번호 변경 실패",
+    "enterCurrentPassword": "현재 비밀번호를 입력하세요",
+    "enterNewPassword": "새 비밀번호",
+    "confirmNewPassword": "새 비밀번호 확인",
+    "savePassword": "비밀번호 저장",
+    "cancel": "취소",
+    "securityModalTitle": "보안 & 소셜 링크",
+    "unlinkSteamConfirm": "정말 Steam 연결을 해제하시겠습니까？",
+    "unlinkSteamError": "Steam 연결 해제에 실패했습니다。",
+    "deleteGoogleAuthConfirm": "정말 Google Authenticator를 삭제하시겠습니까？이 작업은 2FA를 비활성화합니다。",
+    "deleteGoogleAuthError": "Google Authenticator 삭제에 실패했습니다。",
+    "linkTextWebsite": "연결하려면 웹사이트로 이동",
+    "linkTextStudio": "스튜디오에서는 Steam을 연결할 수 없습니다"
+  },
+  "footer": {
+    "terms": "이용약관",
+    "privacy": "개인정보",
+    "copyright": "Copyright © 2025 Croissant API"
+  },
+  "navbar": {
+    "docs": "문서",
+    "shop": "스토어",
+    "marketplace": "마켓",
+    "launcher": "런처",
+    "vpn": "VPN",
+    "bot": "봇",
+    "install": "설치",
+    "manage": "관리",
+    "studios": "스튜디오",
+    "oauth2": "OAuth2",
+    "items": "아이템",
+    "games": "게임",
+    "settings": "설정",
+    "login": "로그인",
+    "logout": "로그아웃",
+    "downloadLauncher": "런처 다운로드",
+    "discordBot": "Discord 봇",
+    "user": "내 정보"
+  },
+  "searchbar": {
+    "placeholder": "사용자 및 게임 검색..."
+  },
+  "section": {
+    "defaultTitle": "섹션",
+    "defaultDescription": "설명"
+  },
+  "inventory": {
+    "sellPrompt": "몇 개의 \"{{item}}\" 을 판매하시겠습니까？",
+    "dropPrompt": "몇 개의 \"{{item}}\" 을 삭제하시겠습니까？",
+    "auctionPrompt": "\"{{item}}\" 을 경매에 올리기 — 단가를 설정하세요：",
+    "canBeSold": "✓ 판매 가능",
+    "cannotBeSold": "✗ 판매 불가",
+    "thisCanBeSold": "✓ 이 아이템은 판매 가능합니다",
+    "thisCannotBeSold": "✗ 이 아이템은 판매 불가능합니다",
+    "price": "가격",
+    "credits": "크레딧",
+    "metadata": "메타데이터",
+    "rarity": "희귀도",
+    "uniqueId": "고유 ID",
+    "back": "← 인벤토리로 돌아가기",
+    "yes": "예",
+    "no": "아니오",
+    "loading": "로딩 중...",
+    "error": "오류： {{error}}"
+  },
+  "oauth2": {
+    "demo": {
+      "title": "Croissant OAuth2 통합 예제",
+      "subtitle": "OAuth2 데모",
+      "description": "콘솔을 열어 OAuth2 흐름을 확인하세요. 이 예제는 Croissant OAuth2로 사용자를 인증하는 방법을 보여줍니다. 아래 버튼을 클릭하여 시작하세요：",
+      "connectButton": "Croissant로 연결",
+      "expectedResult": "예상 결과",
+      "expectedDescription": "버튼을 클릭하면 인증 팝업이 열립니다. 로그인 후 팝업이 닫히고 사용자 데이터가 콘솔에 표시됩니다。",
+      "downloadCode": "테스트용 OAuth2 HTML 다운로드（코드를 확인）"
+    },
+    "auth": {
+      "authorize": "다음을 허용하시겠습니까",
+      "accessData": "사용자 데이터에 접근하시겠습니까？",
+      "login": "로그인",
+      "authorizing": "허가 중...",
+      "authorizeButton": "허용",
+      "redirectUri": "리디렉션 URI：",
+      "missingParams": "매개변수가 누락되었습니다。",
+      "networkError": "네트워크 오류。"
+    },
+    "apps": {
+      "title": "내 OAuth2 앱",
+      "testLink": "OAuth2 테스트 ↗",
+      "addButton": "앱 추가",
+      "addButtonMobile": "+ 추가",
+      "createTitle": "앱 생성",
+      "editTitle": "앱 편집",
+      "clientId": "클라이언트 ID：",
+      "clientSecret": "클라이언트 시크릿：",
+      "redirectUrls": "리디렉션 URL：",
+      "copy": "복사",
+      "show": "표시",
+      "hide": "숨기기",
+      "integrationCode": "통합 코드",
+      "edit": "편집",
+      "delete": "삭제",
+      "appName": "앱 이름",
+      "appNamePlaceholder": "내 게임, 내 사이트...",
+      "redirectUrlsHelp": "(쉼표로 구분)",
+      "redirectUrlsPlaceholder": "https://myapp.com/callback, http://localhost:3000/cb",
+      "save": "저장",
+      "create": "생성",
+      "cancel": "취소",
+      "integrationTitle": "통합 버튼 코드：",
+      "deleteConfirm": "정말 이 앱을 삭제하시겠습니까？"
+    }
+  },
+  "createGame": {
+    "title": "게임 제출",
+    "backToMyGames": "내 게임으로 돌아가기",
+    "name": "이름",
+    "description": "설명",
+    "price": "가격",
+    "downloadLink": "다운로드 링크（GitHub/GitLab 또는 ZIP 링크）",
+    "icon": "아이콘（선택）",
+    "changeIcon": "아이콘 변경",
+    "chooseIcon": "아이콘 선택",
+    "banner": "배너（선택）",
+    "changeBanner": "배너 변경",
+    "chooseBanner": "배너 선택",
+    "ready": "준비 완료！",
+    "showInStore": "스토어에 표시",
+    "genre": "장르",
+    "releaseDate": "출시일",
+    "developer": "개발자",
+    "publisher": "퍼블리셔",
+    "platforms": "플랫폼",
+    "website": "웹사이트",
+    "trailerLink": "트레일러 링크",
+    "multiplayer": "멀티플레이어",
+    "submit": "제출",
+    "submitting": "제출 중...",
+    "success": "게임이 성공적으로 생성되었습니다！",
+    "mobile": {
+      "title": "모바일에서 사용할 수 없습니다",
+      "desc": "이 페이지는 컴퓨터에서만 액세스할 수 있습니다。\n게임을 제출하려면 PC를 사용하세요。"
+    },
+    "error": {
+      "name": "이름은 필수입니다",
+      "description": "설명은 필수입니다",
+      "price": "가격은 필수입니다",
+      "downloadLink": "다운로드 링크는 필수입니다",
+      "iconUpload": "아이콘 업로드 실패",
+      "bannerUpload": "배너 업로드 실패",
+      "submit": "게임 생성에 실패했습니다。"
+    }
+  },
+  "createItem": {
+    "title": "아이템 제출",
+    "backToMyItems": "내 아이템으로 돌아가기",
+    "name": "이름",
+    "description": "설명",
+    "price": "가격",
+    "showInStore": "스토어에 표시",
+    "icon": "아이콘（선택）",
+    "changeIcon": "아이콘 변경",
+    "chooseIcon": "아이콘 선택",
+    "selected": "선택됨",
+    "submit": "제출",
+    "submitting": "제출 중...",
+    "success": "아이템이 성공적으로 생성되었습니다！",
+    "mobile": {
+      "title": "모바일에서 사용할 수 없습니다",
+      "desc": "이 페이지는 컴퓨터에서만 액세스할 수 있습니다。\n아이템을 제출하려면 PC를 사용하세요。"
+    },
+    "error": {
+      "name": "이름은 필수입니다",
+      "description": "설명은 필수입니다",
+      "price": "가격은 필수입니다",
+      "iconUpload": "아이콘 업로드 실패。",
+      "submit": "아이템 생성에 실패했습니다。"
+    }
+  },
+  "myGames": {
+    "title": "내 게임",
+    "addGame": "+ 게임 추가",
+    "loading": "로딩 중...",
+    "empty": "게임을 찾을 수 없습니다。",
+    "edit": "편집",
+    "id": "ID",
+    "transfer": "양도",
+    "transferring": "양도 중...",
+    "price": "가격",
+    "showInStore": "스토어에 표시",
+    "yes": "예",
+    "no": "아니오",
+    "name": "이름",
+    "description": "설명",
+    "multiplayer": "멀티플레이어",
+    "icon": "게임 아이콘",
+    "banner": "배너",
+    "genre": "장르",
+    "releaseDate": "출시일",
+    "publisher": "퍼블리셔",
+    "developer": "개발자",
+    "platforms": "플랫폼",
+    "website": "웹사이트",
+    "trailerLink": "트레일러 링크",
+    "downloadLink": "다운로드 링크",
+    "saving": "저장 중...",
+    "save": "저장",
+    "cancel": "취소",
+    "mobile": {
+      "title": "모바일에서 사용할 수 없습니다",
+      "desc": "이 페이지는 컴퓨터에서만 액세스할 수 있습니다。\n게임을 관리하려면 PC를 사용하세요。"
+    },
+    "searchUser": "사용자 이름으로 검색..."
+  },
+  "myItems": {
+    "title": "내 아이템",
+    "addItem": "+ 아이템 추가",
+    "loading": "로딩 중...",
+    "empty": "아이템을 찾을 수 없습니다。",
+    "edit": "편집",
+    "id": "ID",
+    "transfer": "양도",
+    "transferring": "양도 중...",
+    "price": "가격",
+    "showInStore": "스토어에 표시",
+    "yes": "예",
+    "no": "아니오",
+    "saving": "저장 중...",
+    "save": "저장",
+    "cancel": "취소",
+    "searchUser": "사용자를 이름으로 검색..."
+  },
+  "launcher": {
+    "title": "Croissant 런처",
+    "loginRequired": "런처에 접근하려면 로그인하세요。",
+    "loading": "런처 로딩 중...",
+    "noGames": "이용 가능한 게임이 없습니다。",
+    "searchPlaceholder": "게임 검색...",
+    "install": "설치",
+    "play": "플레이",
+    "update": "업데이트",
+    "delete": "제거",
+    "transfer": "양도",
+    "transferTitle": "게임 양도",
+  "transferDesc": "당신의 \"{{game}}\" 복사본을 다른 사용자에게 양도합니다。",
+    "transferWarning": "⚠️ 주의：양도하면 해당 게임에 대한 접근을 영구히 잃게 됩니다。",
+    "transferUserPlaceholder": "사용자 검색...",
+    "transferSuccess": "게임 양도 성공！",
+    "transferError": "양도 중 오류가 발생했습니다。",
+    "owner": "소유자：",
+    "genre": "장르：",
+    "developer": "개발자：",
+    "publisher": "퍼블리셔：",
+    "releaseDate": "출시：",
+    "platforms": "플랫폼：",
+    "credits": "크레딧",
+    "profile": "프로필",
+    "logout": "로그아웃",
+    "cancel": "취소",
+    "selectUser": "사용자 선택：",
+    "transferring": "양도 중..."
+  }
+}

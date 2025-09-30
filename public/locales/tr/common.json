@@ -1,0 +1,863 @@
+{
+  "404": {
+    "title": {
+      "desktop": "Hata! Bu sayfa mevcut değil.",
+      "mobile": "Hata! Sayfa bulunamadı."
+    },
+    "desc1": {
+      "desktop": "Aradığınız sayfa mevcut değil veya artık yok.",
+      "mobile": "Aradığınız sayfa mevcut değil veya kullanılamıyor."
+    },
+    "desc2": {
+      "desktop": "URL'yi kontrol edin veya maceraya devam etmek için ana sayfaya dönün.",
+      "mobile": "URL'yi kontrol edin veya aşağıdaki seçeneklerden birini kullanın."
+    },
+    "whatcan": {
+      "desktop": "Ne yapmalı?"
+    },
+    "try": {
+      "desktop": "Bu seçenekleri deneyin:"
+    },
+    "home": "Ana sayfaya dön",
+    "contact": "Destek ile iletişime geç",
+    "api": {
+      "mobile": "API Dok"
+    }
+  },
+  "index": {
+    "title": "Ana Sayfa",
+    "description": "İnanılmaz görselleri paylaşmak ve keşfetmek için nihai platform Croissant'a hoş geldiniz. Topluluğa katılın ve keşfetmeye başlayın!",
+    "topspan": "Yaratıcı ve yeniden kullanılabilir envanter sistemi, açık kaynak, ölçeklenebilir, bol miktarda API ve birinci sınıf ağ teknolojisi",
+    "overview": {
+      "title": "CROISSANT PLATFORMU GENEL BAKIŞ",
+      "players": {
+        "1": "Croissant'a bağlı oyunlar oynayın ve benzersiz eşyalar toplayın.",
+        "2": "Eşyalarınızı diğer kullanıcılarla takas edin, satın alın veya satın.",
+        "3": "Lobiler sayesinde iki tıkla çok oyunculu partilere katılın.",
+        "4": "Discord'da veya launcher üzerinden envanterinizi ve kredilerinizi yönetin.",
+        "5": "Steam envanterinize erişmek için Steam hesabınızı bağlayın.",
+        "title": "Oyuncular için"
+      },
+      "creators": {
+        "1": "SDK veya API aracılığıyla oyununuzu Croissant'a bağlayın.",
+        "2": "Oyuncuların kimliğini doğrulayın ve envanterleriyle etkileşime geçin (eşya ekleme/çıkarma, ödüller, oyun içi satın almalar).",
+        "3": "Pazarda kendi eşyalarınızı veya paketlerinizi oluşturun ve satın.",
+        "4": "Özel çok oyunculu partileri yönetmek için lobi sistemini kullanın.",
+        "5": "Web sitenizde kimlik doğrulama olarak OAuth2 kullanın.",
+        "6": "Kullanıcılar Steam hesaplarını bağlayabilir. Oyununuz Steam'deyse, Steam ID ile oyuncu bulun ve envanterini alın.",
+        "title": "Yaratıcılar ve oyun geliştiricileri için",
+        "getstarted": "Başlayın: Ayarlardan API anahtarınızı oluşturun ve dokümantasyona bakın."
+      },
+      "marketplace": {
+        "1": "Eşya satın alın, satın ve takas edin.",
+        "2": "Yeni eşyalar veya paketler keşfedin ve satın alın.",
+        "3": "Arkadaşlarınıza eşya veya kredi transfer edin.",
+        "4": "Bakiyenizi ve koleksiyonunuzu takip edin.",
+        "title": "Pazar ve Envanter",
+        "desc": "Oyun içi eşyalarınızı yönetin:"
+      },
+      "lobby": {
+        "1": "Çok oyunculu lobiler oluşturun veya katılın.",
+        "2": "Arkadaşlarınızı basit bir bağlantıyla davet edin.",
+        "3": "Lobinizde kimlerin olduğunu görün ve gerçek zamanlı sohbet edin.",
+        "4": "Tek tıkla lobiden ayrılın veya lobi kapatın.",
+        "title": "Lobi Sistemi",
+        "desc": "Birlikte oynayın ve takımınızı oluşturun:"
+      },
+      "safety": {
+        "1": "Güvenliğiniz kutsaldır! Hesabınızı veya API anahtarınızı asla paylaşmayın. Onaylamadan önce her zaman takasları kontrol edin. Yardıma mı ihtiyacınız var? /support kullanın veya yardım sunucumuza katılın.",
+        "title": "Güvenlik ve Destek"
+      },
+      "oauth2": {
+        "1": "Croissant'ın OAuth2 entegrasyonunu /oauth2/test sayfasında test edin.",
+        "2": "Bu sistem, web sitenizi veya uygulamanızı Croissant'a bağlamanıza, kullanıcılarınızın kimliğini doğrulamanıza ve envanterlerine erişmenize olanak tanır.",
+        "3": "OAuth2 ile basit ve güvenli kimlik doğrulama.",
+        "4": "Kullanıcının Croissant envanterine erişim sağlar.",
+        "5": "Oyun veya web sitesi yaratıcıları için kolay entegrasyon.",
+        "title": "OAuth2 Testi (yeni!)",
+        "try": "Şimdi test edin: /oauth2/test"
+      }
+    },
+    "about": {
+      "title": "HAKKIMDA",
+      "whoami": {
+        "1": "Merhaba, ben Fox, sosyal ağlarda fox3000foxy takma adıyla biliniyorum. Kod ve yenilikler konusunda tutkulu bir Fransız geliştiriciyim. Croissant Envanter Sistemini oluşturdum.",
+        "title": "Ben kimim?"
+      },
+      "system": {
+        "1": "Croissant'ın fikri, oyuncular ve yaratıcılar için ikinci el bir pazar oluşturmaktı. Burada oyun içi eşyaları takas ediyor ve yaratımlarınızı ücretsiz olarak satabiliyorsunuz. Pahalı pazaryerlerinin fiyatlarını adil ve herkese açık bir platformla kırıyoruz.",
+        "2": "Eşyalara ikinci bir hayat vermek, takas, satın alma ve ikinci el eşya satışını kolaylaştırmak istiyorum. Bu, pazarı daha canlı hale getirir ve herkes kazanır!",
+        "3": "Bot'u bilmeniz veya Discord'a sahip olmanız gerekmiyor. Croissant herkes için basit ve erişilebilir olacak şekilde tasarlandı.",
+        "title": "Croissant Envanter Sistemi"
+      },
+      "api": {
+        "1": "API ve Discord bot'unun kararlı ve hatasız olması için çok çalışıyorum. Envanteri ve takasları yöneten bot zaten mevcut. Gel test et!",
+        "title": "API ve Discord Bot"
+      },
+      "philosophy": {
+        "1": "Vinted gibi, Croissant da kullanıcılar arası takas için tasarlandı. Hem oyuncular hem de yaratıcılar için basit olması için elimden geleni yapıyorum.",
+        "2": "Bir oyuncu ve geliştirici olarak, oyuncuların ihtiyaçlarını gerçekten anlayan bir pazarın hayalini her zaman kurdum. Croissant, bir takas platformundan daha fazlası: eşyaların yeni bir hayat bulduğu ve yaratıcıların eğlendiği bir ekosistem.",
+        "title": "Pazar Felsefesi"
+      },
+      "gamers": {
+        "1": "Envanterinizde uyuyan eşyalara sahip olmanın ne kadar sinir bozucu olduğunu biliyorum. Croissant ile onları fırsatlara dönüştürebilirsiniz! Dünyanın öbür ucundaki bir oyuncuyla takas ederek o nadir skin'i bulmayı veya koleksiyonunuzu tamamlamayı hayal edin. Hepsi eğlenceli ve güvenli bir ortamda.",
+        "title": "Oyuncular için"
+      },
+      "creators": {
+        "1": "Siz yaratıcılar için: abartılı komisyonlarla yaratımlarınızdan para kazanmanın ne kadar zor olduğunu biliyorum. Burada sıfır ücret! Yaratıyorsunuz, satıyorsunuz, hepsini alıyorsunuz. İster skin'ler, eşyalar veya tam koleksiyonlar yapın, Croissant size oyunculara ulaşmak ve topluluğunuzu oluşturmak için sahne veriyor.",
+        "title": "Yaratıcılar için"
+      },
+      "simplicity": {
+        "1": "Croissant'ın büyüsü basitliktir. Başlamak için teknoloji meraklısı olmanız veya Discord'a sahip olmanız gerekmiyor. Her şeyi sezgisel ama daha ileri gitmek isteyenler için de güçlü olacak şekilde yaptım. İster pazar günü tüccarı, ister hardcore koleksiyoncu, bağımsız yaratıcı veya deneyimli geliştirici olun: sizin için bir yer var!",
+        "title": "Basitlik ve Erişilebilirlik"
+      },
+      "future": {
+        "1": "Croissant'ın geleceği çıtır çıtır görünüyor! Oyunlar arası takaslar, yaratıcı araçları ve topluluk etkinlikleri hazırlıyoruz. Oyunlar arasında eşya takası yapmayı veya nadir eşyalarla özel etkinliklere katılmayı hayal edin. Bunlar sadece fikir değil: söz veriyorum, geliyor!",
+        "title": "Gelecek"
+      },
+      "community": {
+        "1": "Ancak Croissant'ı benzersiz kılan şey topluluktur! Her gün oyuncuların birbirine yardım ettiğini, yaratıcıların ipuçlarını paylaştığını ve takaslar sayesinde yeni dostlukların doğduğunu görüyorum. Bir pazardan fazlası, tutkulu oyuncular ve yaratıcılardan oluşan gerçek bir aile.",
+        "title": "Topluluk"
+      }
+    },
+    "hero": {
+      "title": "Croissant evrenine hoş geldiniz",
+      "subtitle": "Benzersiz bir sürükleyici deneyimle nihai oyun evrenine dalın",
+      "startAdventure": "Maceraya başla",
+      "learnMore": "Daha fazla bilgi"
+    },
+    "openSource": {
+      "title": "Açık Kaynak Proje",
+      "subtitle": "Gelişime Katkıda Bulunun",
+      "description": {
+        "desktop": "Croissant, her katkının önemli olduğu <strong>açık kaynaklı</strong> bir projedir. Tutkulu geliştiricilerden oluşan topluluğumuza katılın ve oyunun geleceğini şekillendirmemize yardımcı olun.",
+        "mobile": "Croissant, her katkının önemli olduğu <strong>açık kaynaklı</strong> bir projedir. Tutkulu geliştiricilerden oluşan topluluğumuza katılın."
+      },
+      "development": {
+        "title": "Geliştirme",
+        "desc": {
+          "desktop": "Kod, özellikler, hata düzeltmeleri",
+          "mobile": "Kod, özellikler, hatalar"
+        }
+      },
+      "design": {
+        "title": "Tasarım",
+        "desc": {
+          "desktop": "UI/UX, grafikler, animasyonlar",
+          "mobile": "UI/UX, grafikler"
+        }
+      },
+      "documentation": {
+        "title": "Dokümantasyon",
+        "desc": {
+          "desktop": "Kılavuzlar, öğreticiler, çeviriler",
+          "mobile": "Kılavuzlar, çeviriler"
+        }
+      },
+      "tests": {
+        "title": "Testler",
+        "desc": {
+          "desktop": "QA, geri bildirim, öneriler",
+          "mobile": "QA, geri bildirim"
+        }
+      },
+      "joinCommunity": "Topluluğa Katıl"
+    },
+    "carousel": {
+      "popularGames": "Popüler Oyunlar",
+      "loading": "Yükleniyor...",
+      "noGames": "Şu anda mevcut oyun yok.",
+      "discoverAllGames": "Tüm oyunları keşfet"
+    }
+  },
+  "apiDocs": {
+    "title": "API Dokümantasyonu",
+    "intro": "API dokümantasyonunu aşağıda bulabilirsiniz.",
+    "requiresAuth": "Authorization başlığı ile kimlik doğrulama gerektirir: \"Bearer [token]\" (API anahtarınızı oluşturmak için Discord'da /api-key komutunu kullanın)",
+    "precisions": "Detaylar:",
+    "iconHash": "- iconHash, /games-icons ve /items-icons ile bağlantılıdır.",
+    "bannerHash": "- bannerHash, /banners-icons ile bağlantılıdır.",
+    "splashHash": "- splashHash eskimiştir ve yakında kaldırılacaktır.",
+    "hashes": "- Her iki hash de simgeleri almak için URL'leri oluşturmak için kullanılır.",
+    "categories": "Kategoriler",
+    "all": "Tümü",
+    "libraries": "Kütüphaneler/SDK'lar",
+    "searchPlaceholder": "Endpoint ara...",
+    "loading": "Dokümantasyon yükleniyor...",
+    "noResults": "\"{{searchTerm}}\" için sonuç yok.",
+    "responseType": "Yanıt Türü",
+    "params": "URL Parametreleri",
+    "query": "Sorgu Parametreleri",
+    "body": "Gövde Parametreleri",
+    "example": "Örnek",
+    "exampleResponse": "Örnek Yanıt"
+  },
+  "badges": {
+    "title": "Croissant - Rozetler",
+    "intro": "Rozetler, Croissant profilinizde görüntülenen özel ayrıcalıklardır. Katılımınızı, katkılarınızı veya topluluk içindeki rolünüzü gösterirler.",
+    "lastUpdated": "Son güncelleme: Ağustos 2025",
+    "early_user": {
+      "label": "Erken Kullanıcı",
+      "description": "Beta sırasında kaydolanlara verilir.",
+      "how": "Bu rozet artık verilmiyor. İlk üyelere ayrılmıştı."
+    },
+    "staff": {
+      "label": "Personel",
+      "description": "Resmi Croissant Discord sunucusu yöneticileri için.",
+      "how": "Discord yönetici ekibinin bir parçası olun."
+    },
+    "bug_hunter": {
+      "label": "Hata Avcısı",
+      "description": "Güvenlik açığı veya kritik hata bildirenleri ödüllendirir.",
+      "how": "Croissant ekibine güvenlik açığı veya büyük hata bildirin."
+    },
+    "contributor": {
+      "label": "Katkıda Bulunan",
+      "description": "Croissant geliştirmesine katılanlar için.",
+      "how": "Bir Croissant GitHub deposunda pull request kabul ettirin."
+    },
+    "moderator": {
+      "label": "Moderatör",
+      "description": "Discord moderatörlerine ayrılmış rozet.",
+      "how": "Resmi Discord'da moderatör olarak atanın."
+    },
+    "community_manager": {
+      "label": "Topluluk Yöneticisi",
+      "description": "Topluluğu büyütenler için.",
+      "how": "Kayıt sırasında sizi sponsor olarak belirten yeni bir üye referans edin (çift hesap yok!)"
+    },
+    "partner": {
+      "label": "İş Ortağı",
+      "description": "Resmi Croissant ortakları için.",
+      "how": "Sitenizde veya platformunuzda Croissant entegrasyonu ile resmi ortak olun."
+    },
+    "howtogetit": "Nasıl alınır:"
+  },
+  "buyCredits": {
+    "title": "Kredi Satın Al",
+    "tier1": {
+      "alt": "Kredi 1"
+    },
+    "tier2": {
+      "alt": "Kredi 2"
+    },
+    "tier3": {
+      "alt": "Kredi 3"
+    },
+    "tier4": {
+      "alt": "Kredi 4"
+    },
+    "price": "{{credits}} kredi — {{price}}"
+  },
+  "close": {
+    "title": "Bu sayfayı kapatabilirsiniz"
+  },
+  "downloadLauncher": {
+    "title": "Launcher'ı indir",
+    "note": "Not: Croissant launcher yalnızca PC'de (Windows) kullanılabilir.",
+    "instructions": "Croissant launcher'ı indirmek için:",
+    "step1": "Croissant API GitHub deposunun <link>sürümler sayfasına</link> gidin.",
+    "step2": "En son sürümü bulun.",
+    "step3": {
+      "windows": "Windows için .exe'yi indirin."
+    },
+    "step4": "Launcher'ı yüklemek için dosyayı çalıştırın.",
+    "description": {
+      "desktop": "Croissant launcher, hesabınızı yönetmenin, eşyalarınızı keşfetmenin, oyunları başlatmanın ve tek tıkla yeniliklerin tadını çıkarmanın anahtarıdır.",
+      "mobile": "Croissant launcher hesabınızı yönetmenize, eşyalarınızı keşfetmenize, oyunları başlatmanıza ve güncel kalmanıza olanak tanır."
+    }
+  },
+  "forgotPassword": {
+    "title": "Şifremi Unuttum",
+    "emailLabel": "E-posta",
+    "send": "Sıfırlama bağlantısı gönder",
+    "sending": "Gönderiliyor...",
+    "success": "Sıfırlama e-postası gönderildi.",
+    "error": "Gönderme başarısız",
+    "info": "E-postanızı girin, şifrenizi sıfırlamak için size bir bağlantı gönderelim.",
+    "remembered": "Şifremi hatırladım"
+  },
+  "shop": {
+    "noGames": "Mevcut oyun yok.",
+    "error": "Bir hata oluştu.",
+    "buy": "Satın Al",
+    "cancel": "İptal",
+    "ok": "Tamam",
+    "price": "Fiyat:",
+    "owner": "Sahibi:",
+    "gift": "Hediye Et",
+    "giftWithPrice": "Hediye Et ({{price}} kredi)",
+    "createGift": "Hediye oluştur",
+    "giftCreated": "Hediye oluşturuldu! Bu bağlantıyı paylaş:",
+    "giftMessagePlaceholder": "Alıcı için kısa bir mesaj...",
+    "claimGift": "Hediyeyi al",
+    "claiming": "Alınıyor...",
+    "giftClaimed": "Hediye alındı! Oyun kütüphanenizde.",
+    "giftAlreadyOwned": "Bu oyuna zaten sahipsiniz, bu hediyeyi alamazsınız.",
+    "giftAlreadyClaimed": "Bu hediye zaten alınmış.",
+    "giftClaimedOn": "Alındı: {{date}}",
+    "invalidGiftLink": "Geçersiz hediye bağlantısı",
+    "noGiftCode": "URL'de hediye kodu yok.",
+    "goHome": "Ana sayfaya dön",
+    "giftNotFound": "Hediye bulunamadı",
+    "giftNotFoundDesc": "Bu hediye kodu geçersiz veya süresi dolmuş.",
+    "from": "Gönderen: <strong>{{username}}</strong>",
+    "youReceivedGift": "🎁 Bir hediye aldınız!",
+    "back": "← Geri",
+    "purchaseSuccess": "Satın alma başarılı!",
+    "loading": "Yükleniyor...",
+    "genre": "Tür:",
+    "developer": "Geliştirici:",
+    "publisher": "Yayıncı:",
+    "releaseDate": "Çıkış:",
+    "platforms": "Platformlar:",
+    "allGames": "Tüm oyunlar",
+    "title": "Mağaza",
+    "searchPlaceholder": "Oyun ara..."
+  },
+  "joinLobby": {
+    "noLobbyId": "URL'de lobbyId yok.",
+    "joining": "Lobiye bağlanılıyor...",
+    "success": "Lobiye katıldınız!",
+    "failed": "Lobiye katılamadı."
+  },
+  "marketplace": {
+    "title": "Pazar",
+    "placeBuyOrder": "Satın alma emri ver",
+    "myBuyOrders": "Satın alma emirlerim",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu.",
+    "noItems": "Satışta eşya yok.",
+    "item": "Eşya",
+    "description": "Açıklama",
+    "seller": "Satıcı",
+    "price": "Fiyat",
+    "listed": "Satışa çıkarıldı",
+    "buy": "Satın Al",
+    "cancel": "İptal",
+    "confirm": "Onayla",
+    "placing": "Yerleştiriliyor...",
+    "searchItem": "Eşya ara...",
+    "enterPrice": "Fiyat gir",
+    "success": "Satın alma başarılı!",
+    "placeOrderSuccess": "Satın alma emri verildi!",
+    "mustLogin": "Satın almak için giriş yapın.",
+    "allFieldsRequired": "Tüm alanlar gereklidir.",
+    "modalTitle": "Satın alma emri ver"
+  },
+  "myBuyOrders": {
+    "title": "Satın alma emirlerim",
+    "back": "← Pazara dön",
+    "loading": "Yükleniyor...",
+    "mustLogin": "Satın alma emirlerinizi görmek için giriş yapın.",
+    "noOrders": "Verilen satın alma emri yok.",
+    "item": "Eşya",
+    "description": "Açıklama",
+    "price": "Fiyat",
+    "status": "Durum",
+    "placed": "Verildi",
+    "cancel": "İptal"
+  },
+  "myMarketListings": {
+    "title": "Pazardaki satışlarım",
+    "loading": "Yükleniyor...",
+    "mustLogin": "Satışlarınızı görmek için giriş yapın.",
+    "noActive": "Aktif satış yok.",
+    "item": "Eşya",
+    "price": "Fiyat",
+    "status": "Durum",
+    "created": "Oluşturuldu",
+    "actions": "İşlemler",
+    "cancel": "İptal",
+    "purchasePrice": "Satın alma fiyatı",
+    "uniqueId": "Benzersiz ID"
+  },
+  "login": {
+    "title": "Giriş Yap",
+    "email": "E-posta",
+    "password": "Şifre",
+    "login": "Giriş Yap",
+    "loggingIn": "Giriş yapılıyor...",
+    "forgotPassword": "Şifremi unuttum?",
+    "register": "Kayıt Ol",
+    "or": "veya",
+    "signInWithDiscord": "Discord ile giriş yap",
+    "signInWithGoogle": "Google ile giriş yap",
+    "passkey": "Passkey ile giriş",
+    "authenticating": "Kimlik doğrulanıyor...",
+    "enterAuthenticator": "Google Authenticator kodunu girin",
+    "codePlaceholder": "6 haneli kod",
+    "verify": "Doğrula",
+    "cancel": "İptal",
+    "redirectInfo": "Giriş yaptıktan sonra otomatik olarak yönlendirileceksiniz.",
+    "invalidCode": "Geçersiz kod",
+    "error": "Giriş başarısız",
+    "authenticatorError": "Geçersiz kod",
+    "separatorOr": "veya"
+  },
+  "register": {
+    "title": "Kayıt Ol",
+    "email": "E-posta",
+    "username": "Kullanıcı adı",
+    "password": "Şifre",
+    "confirmPassword": "Şifreyi onayla",
+    "register": "Kayıt Ol",
+    "registering": "Kayıt olunuyor...",
+    "error": {
+      "allFields": "Tüm alanlar gereklidir.",
+      "passwords": "Şifreler eşleşmiyor.",
+      "failed": "Kayıt başarısız"
+    },
+    "success": "Kayıt başarılı!",
+    "haveAccount": "Zaten hesabınız var mı?",
+    "or": "veya",
+    "signUpWithDiscord": "Discord ile kayıt ol",
+    "signUpWithGoogle": "Google ile kayıt ol",
+    "redirectInfo": "Kayıt olduktan sonra otomatik olarak yönlendirileceksiniz."
+  },
+  "resetPassword": {
+    "title": "Şifrenizi sıfırlayın",
+    "welcome": "Hoş geldiniz {{username}}, yeni şifrenizi seçin.",
+    "newPassword": "Yeni şifre",
+    "confirmPassword": "Şifreyi onayla",
+    "reset": "Sıfırla",
+    "resetting": "Sıfırlanıyor...",
+    "success": "Şifre değiştirildi! Giriş yapabilirsiniz.",
+    "error": {
+      "invalidToken": "Geçersiz sıfırlama bağlantısı, tekrar deneyin.",
+      "missingToken": "Geçersiz veya eksik sıfırlama bağlantısı.",
+      "allFields": "Tüm alanları doldurun.",
+      "passwords": "Şifreler eşleşmiyor."
+    }
+  },
+  "privacy": {
+    "1": {
+      "1": "1.1. Discord bilgileri: Bot'u kullandığınızda, sizi tanımlamak için Discord ID'nizi ve kullanıcı adınızı topluyoruz.",
+      "2": "1.2. API kullanımı: Geliştiriciler için, API anahtarı kullanımlarını ve ilgili işlemleri topluyoruz.",
+      "3": "1.3. Envanter verileri: Sanal eşyalarınızı, kredilerinizi ve takas geçmişinizi saklıyoruz."
+    },
+    "2": {
+      "1": "2.1. Hizmet işleyişi: Envanterinizi, takasları ve eşya sahipliğini yönetiyoruz.",
+      "2": "2.2. API erişimi: API anahtarları hizmetlerimize erişimi güvence altına almak için kullanılır.",
+      "3": "2.3. Analiz: Hizmeti iyileştirmek ve kötüye kullanımı önlemek için kullanımı analiz ediyoruz."
+    },
+    "3": {
+      "1": "3.1. Genel bilgiler: Eşya sahipliği ve takas geçmişi liderlik tablosu aracılığıyla görülebilir.",
+      "2": "3.2. API entegrasyonu: Bağlı oyunlar oynarsanız, gerekli bilgiler paylaşılır.",
+      "3": "3.3. API erişimi: Bazı hassas olmayan veriler API aracılığıyla erişilebilir."
+    },
+    "4": {
+      "1": "4.1. Bilgilerinizi güvenli API anahtarlarıyla koruyoruz.",
+      "2": "4.2. Daha fazla güvenlik için API anahtarları veritabanımızda saklanmaz."
+    },
+    "5": {
+      "1": "5.1. Verilerinizi /inventory komutuyla görebilirsiniz.",
+      "2": "5.2. Eşyalarınızı /delete-item ile silebilirsiniz.",
+      "3": "5.3. Desteğe başvurarak hesabınızın silinmesini talep edebilirsiniz."
+    },
+    "6": {
+      "1": "6.1. Bu politikayı güncelleyebiliriz. Büyük değişiklikler Discord bot aracılığıyla duyurulacaktır."
+    },
+    "title": "Croissant - Gizlilik Politikası",
+    "intro": "Croissant'a hoş geldiniz! Hizmetlerimizi (Discord bot, API, web sitesi) kullandığınızda bilgilerinizi nasıl yönettiğimiz burada."
+  },
+  "tos": {
+    "1": {
+      "1": "1.1. Hizmetlerimiz ücretsizdir ve oyun içi sanal eşyaları yönetmeye yarar.",
+      "2": "1.2. Bot kullanıyorsanız Discord kurallarına uyarak hizmetlerimizi kullanın."
+    },
+    "2": {
+      "1": "2.1. Launcher aracılığıyla eşyalarınızı oluşturabilir ve özelleştirebilirsiniz.",
+      "2": "2.2. Yaratıcılar, eşyalarının satış fiyatının %75'ini alırlar.",
+      "3": "2.3. Uygunsuz eşyaları kaldırma hakkımızı saklı tutarız."
+    },
+    "3": {
+      "1": "3.1. Tüm takaslar her iki tarafça onaylanmalıdır.",
+      "2": "3.2. Bir takası onaylamadan önce her zaman detayları kontrol edin.",
+      "3": "3.3. Eşyalar ve kredilerin gerçek değeri yoktur. Krediler, özel bir işlem için bizimle iletişime geçerek gerçek paraya dönüştürülebilir."
+    },
+    "4": {
+      "1": "4.1. API anahtarları /api-key komutuyla alınır.",
+      "2": "4.2. Geliştiriciler API anahtarlarını güvence altına almalıdır.",
+      "3": "4.3. Kötüye kullanım durumunda API erişimini kaldırabiliriz."
+    },
+    "5": {
+      "1": "5.1. Sistemdeki hataları veya güvenlik açıklarını istismar etmek.",
+      "2": "5.2. Hizmetlerimizi kullanmak için otomatik botlar oluşturmak.",
+      "3": "5.3. Eşyaları gerçek para karşılığında satmak veya takas etmek."
+    },
+    "6": {
+      "1": "6.1. Hizmeti istediğimiz zaman değiştirebilir veya durdurabiliriz.",
+      "2": "6.2. Büyük değişiklikler Discord bot aracılığıyla duyurulacaktır."
+    },
+    "title": "Croissant - Kullanım Koşulları",
+    "intro": "Croissant'a hoş geldiniz! Envanter sistemimizi (Discord bot, API, web sitesi) kullanma kuralları burada.",
+    "legalMentions": "Yasal Bildirimler"
+  },
+  "profile": {
+    "loading": "Profil yükleniyor...",
+    "error": "Bir hata oluştu.",
+    "notFound": "Profil bulunamadı.",
+    "shop": "Mağaza",
+    "inventory": "Envanter",
+    "disabled": "(Devre dışı)",
+    "reenable": "Hesabı yeniden etkinleştir",
+    "disable": "Hesabı devre dışı bırak",
+    "giveCredits": "Kredi ver",
+    "trade": "Takas",
+    "myMarketListings": "Satışlarım",
+    "myListings": "İlanlarım",
+    "settings": "Ayarlar",
+    "sendingCredits": "Kredi gönderiliyor...",
+    "creditsSent": "Kredi gönderildi!",
+    "ok": "Tamam",
+    "creator": "Yaratıcı:",
+    "stock": "Stok:",
+    "price": "Fiyat:",
+    "total": "Toplam:",
+    "buy": "Satın Al",
+    "cancel": "İptal",
+    "giveCreditsTo": "<b>{{username}}</b> kullanıcısına kredi ver",
+    "max": "/ {{max}}",
+    "noItems": "Mağazada eşya yok.",
+    "promptBuy": "Kaç \"{{item}}\" satın almak istiyorsunuz?\nFiyat: {{price}} adet{{stock}}",
+    "shopTooltipStock": "Stok: {{stock}}",
+    "inventoryTitle": "Envanter",
+    "creatorLabel": "Yaratıcı:",
+    "stockLabel": "Stok:",
+    "totalLabel": "Toplam:",
+    "disabledLabel": "(Devre dışı)"
+  },
+  "search": {
+    "enterQuery": "Arama girin.",
+    "resultsFor": "<strong>{{query}}</strong> için sonuçlar",
+    "users": "Kullanıcılar",
+    "games": "Oyunlar",
+    "items": "Eşyalar",
+    "price": "Fiyat",
+    "buy": "Satın Al",
+    "cancel": "İptal",
+    "total": "Toplam: {{total}}",
+    "buyHowMany": "Kaç \"{{item}}\" satın almak istiyorsunuz?",
+    "itemPurchased": "Eşya satın alındı!",
+    "buyingItem": "Satın alınıyor...",
+    "ok": "Tamam"
+  },
+  "studios": {
+    "title": "Stüdyolarım",
+    "create": "+ Stüdyo oluştur",
+    "createTitle": "Stüdyo oluştur",
+    "studioNamePlaceholder": "Stüdyo adı",
+    "createBtn": "Oluştur",
+    "cancelBtn": "İptal",
+    "errorCreate": "Stüdyo oluşturma hatası",
+    "noStudios": "Henüz stüdyonuz yok.",
+    "users": "Kullanıcılar:",
+    "noUsers": "Kullanıcı yok",
+    "apiKey": "API Anahtarı:",
+    "show": "Göster",
+    "hide": "Gizle",
+    "copy": "Kopyala",
+    "addUser": "+ Kullanıcı ekle",
+    "addUserTitle": "Stüdyoya kullanıcı ekle",
+    "searchUserPlaceholder": "Kullanıcı ara...",
+    "addBtn": "Ekle",
+    "removeUserConfirm": "Bu kullanıcıyı kaldırmak istediğinizden emin misiniz?",
+    "errorAddUser": "Ekleme hatası",
+    "errorRemoveUser": "Kaldırma hatası"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "changePassword": "Şifre değiştir",
+    "securityLinks": "Güvenlik ve Sosyal Bağlantılar",
+    "profilePicture": "Profil fotoğrafı",
+    "uploading": "Gönderiliyor...",
+    "uploadNewPicture": "Fotoğrafı değiştir",
+    "username": "Kullanıcı adı",
+    "saving": "Kaydediliyor...",
+    "save": "Kaydet",
+    "userId": "Kullanıcı ID",
+    "copy": "Kopyala",
+    "apiKey": "API Anahtarı",
+    "show": "Göster",
+    "hide": "Gizle",
+    "thisKeyAllows": "Bu anahtar, API'yi kendi adınıza kullanmanıza olanak tanır.",
+    "linkSteam": "Steam'i bağla",
+    "linkDiscord": "Discord'u bağla",
+    "linkGoogle": "Google'ı bağla",
+    "steamLinked": "Steam bağlı",
+    "discordLinked": "Discord bağlı",
+    "googleLinked": "Google bağlı",
+    "registerPasskey": "Passkey kaydet",
+    "registering": "Kaydediliyor...",
+    "passkeyRegistered": "Passkey kaydedildi!",
+    "setupGoogleAuth": "Google Authenticator'ı kur",
+    "deleteGoogleAuth": "Google Authenticator'ı sil",
+    "close": "Kapat",
+    "successProfilePic": "Profil fotoğrafı güncellendi!",
+    "successUsername": "Kullanıcı adı güncellendi!",
+    "successPassword": "Şifre değiştirildi!",
+    "errorUsername": "Kullanıcı adı değiştirme başarısız",
+    "errorProfilePic": "Avatar gönderme hatası",
+    "errorPassword": "Şifre değiştirme hatası",
+    "enterCurrentPassword": "Mevcut şifrenizi girin",
+    "enterNewPassword": "Yeni şifre",
+    "confirmNewPassword": "Yeni şifreyi onayla",
+    "savePassword": "Şifreyi kaydet",
+    "cancel": "İptal",
+    "securityModalTitle": "Güvenlik ve Sosyal Bağlantılar",
+    "unlinkSteamConfirm": "Steam'i bağlantısını kaldırmak istediğinizden emin misiniz?",
+    "unlinkSteamError": "Steam bağlantısı kaldırılamıyor.",
+    "deleteGoogleAuthConfirm": "Google Authenticator'ı silmek istediğinizden emin misiniz? Bu, 2FA'yı devre dışı bırakacaktır.",
+    "deleteGoogleAuthError": "Google Authenticator silinemiyor.",
+    "linkTextWebsite": "Bağlamak için web sitesine gidin",
+    "linkTextStudio": "Stüdyo Steam'i bağlayamaz"
+  },
+  "footer": {
+    "terms": "Koşullar",
+    "privacy": "Gizlilik",
+    "copyright": "Telif Hakkı © 2025 Croissant API"
+  },
+  "navbar": {
+    "docs": "Dokümanlar",
+    "shop": "Mağaza",
+    "marketplace": "Pazar",
+    "launcher": "Launcher",
+    "vpn": "VPN",
+    "bot": "Bot",
+    "install": "Yükle",
+    "manage": "Yönet",
+    "studios": "Stüdyolar",
+    "oauth2": "OAuth2",
+    "items": "Eşyalar",
+    "games": "Oyunlar",
+    "settings": "Ayarlar",
+    "login": "Giriş",
+    "logout": "Çıkış",
+    "downloadLauncher": "Launcher'ı indir",
+    "discordBot": "Discord Bot",
+    "user": "Ben"
+  },
+  "searchbar": {
+    "placeholder": "Kullanıcı ve oyun ara..."
+  },
+  "section": {
+    "defaultTitle": "Bölüm",
+    "defaultDescription": "Açıklama"
+  },
+  "inventory": {
+    "sellPrompt": "Kaç \"{{item}}\" satılsın?",
+    "dropPrompt": "Kaç \"{{item}}\" silinsin?",
+    "auctionPrompt": "\"{{item}}\" müzayedeye çıkar — fiyatınızı belirleyin (birim başına):",
+    "canBeSold": "✓ Satılabilir",
+    "cannotBeSold": "✗ Satılamaz",
+    "thisCanBeSold": "✓ Bu eşya satılabilir",
+    "thisCannotBeSold": "✗ Bu eşya satılamaz",
+    "price": "Fiyat",
+    "credits": "kredi",
+    "metadata": "Metadata",
+    "rarity": "Nadirlik",
+    "uniqueId": "Benzersiz ID",
+    "back": "← Envantere dön",
+    "yes": "Evet",
+    "no": "Hayır",
+    "loading": "Yükleniyor...",
+    "error": "Hata: {{error}}"
+  },
+  "oauth2": {
+    "demo": {
+      "title": "Croissant OAuth2 Entegrasyon Örneği",
+      "subtitle": "OAuth2 Demosu",
+      "description": "OAuth2 akışını çalışırken görmek için konsolu açın. Bu örnek, Croissant'ın OAuth2 servisi ile kullanıcıların nasıl kimlik doğrulaması yapılacağını gösterir. Başlamak için aşağıdaki düğmeye tıklayın:",
+      "connectButton": "Croissant ile bağlan",
+      "expectedResult": "Beklenen Sonuç",
+      "expectedDescription": "Düğmeye tıkladıktan sonra, kimlik doğrulama için bir açılır pencere açılacaktır. Bağlandıktan sonra, açılır pencere kapanacak ve kullanıcı verileri konsolda görüntülenecektir.",
+      "downloadCode": "Kodu incelemek için OAuth2 test HTML'ini indirin"
+    },
+    "auth": {
+      "authorize": "İzin vermek istiyor musunuz",
+      "accessData": "kullanıcı verilerinize erişsin mi?",
+      "login": "Giriş Yap",
+      "authorizing": "Yetkilendiriliyor...",
+      "authorizeButton": "Yetkilendir",
+      "redirectUri": "Yönlendirme URI:",
+      "missingParams": "Eksik parametreler.",
+      "networkError": "Ağ hatası."
+    },
+    "apps": {
+      "title": "OAuth2 Uygulamalarım",
+      "testLink": "OAuth2'yi Test Et ↗",
+      "addButton": "Uygulama ekle",
+      "addButtonMobile": "+ Ekle",
+      "createTitle": "Uygulama oluştur",
+      "editTitle": "Uygulamayı düzenle",
+      "clientId": "İstemci ID:",
+      "clientSecret": "İstemci Secret:",
+      "redirectUrls": "Yönlendirme URL'leri:",
+      "copy": "Kopyala",
+      "show": "Göster",
+      "hide": "Gizle",
+      "integrationCode": "Entegrasyon kodu",
+      "edit": "Düzenle",
+      "delete": "Sil",
+      "appName": "Uygulama adı",
+      "appNamePlaceholder": "Oyunum, Sitem...",
+      "redirectUrlsHelp": "(virgülle ayrılmış)",
+      "redirectUrlsPlaceholder": "https://uygulamam.com/callback, http://localhost:3000/cb",
+      "save": "Kaydet",
+      "create": "Oluştur",
+      "cancel": "İptal",
+      "integrationTitle": "Entegrasyon düğmesi kodu:",
+      "deleteConfirm": "Bu uygulamayı silmek istediğinizden emin misiniz?"
+    }
+  },
+  "createGame": {
+    "title": "Oyun gönder",
+    "backToMyGames": "Oyunlarıma dön",
+    "name": "Ad",
+    "description": "Açıklama",
+    "price": "Fiyat",
+    "downloadLink": "İndirme bağlantısı (GitHub/GitLab deposu veya ZIP bağlantısı)",
+    "icon": "Oyun simgesi (isteğe bağlı)",
+    "changeIcon": "Simgeyi değiştir",
+    "chooseIcon": "Simge seç",
+    "banner": "Banner (isteğe bağlı)",
+    "changeBanner": "Banner'ı değiştir",
+    "chooseBanner": "Banner seç",
+    "ready": "Hazır!",
+    "showInStore": "Mağazada göster",
+    "genre": "Tür",
+    "releaseDate": "Çıkış tarihi",
+    "developer": "Geliştirici",
+    "publisher": "Yayıncı",
+    "platforms": "Platformlar",
+    "website": "Web sitesi",
+    "trailerLink": "Fragman bağlantısı",
+    "multiplayer": "Çok oyunculu",
+    "submit": "Gönder",
+    "submitting": "Gönderiliyor...",
+    "success": "Oyun başarıyla oluşturuldu!",
+    "mobile": {
+      "title": "Mobilde kullanılamaz",
+      "desc": "Bu sayfa yalnızca bilgisayardan erişilebilir.\nOyun göndermek için lütfen PC kullanın."
+    },
+    "error": {
+      "name": "Ad gereklidir",
+      "description": "Açıklama gereklidir",
+      "price": "Fiyat gereklidir",
+      "downloadLink": "İndirme bağlantısı gereklidir",
+      "iconUpload": "Simge gönderme başarısız",
+      "bannerUpload": "Banner gönderme başarısız",
+      "submit": "Oyun oluşturma başarısız."
+    }
+  },
+  "createItem": {
+    "title": "Eşya gönder",
+    "backToMyItems": "Eşyalarıma dön",
+    "name": "Ad",
+    "description": "Açıklama",
+    "price": "Fiyat",
+    "showInStore": "Mağazada göster",
+    "icon": "Simge (isteğe bağlı)",
+    "changeIcon": "Simgeyi değiştir",
+    "chooseIcon": "Simge seç",
+    "selected": "Seçildi",
+    "submit": "Gönder",
+    "submitting": "Gönderiliyor...",
+    "success": "Eşya başarıyla oluşturuldu!",
+    "mobile": {
+      "title": "Mobilde kullanılamaz",
+      "desc": "Bu sayfa yalnızca bilgisayardan erişilebilir.\nEşya göndermek için lütfen PC kullanın."
+    },
+    "error": {
+      "name": "Ad gereklidir",
+      "description": "Açıklama gereklidir",
+      "price": "Fiyat gereklidir",
+      "iconUpload": "Simge gönderme başarısız.",
+      "submit": "Eşya oluşturma başarısız."
+    }
+  },
+  "myGames": {
+    "title": "Oyunlarım",
+    "addGame": "+ Oyun ekle",
+    "loading": "Yükleniyor...",
+    "empty": "Oyun bulunamadı.",
+    "edit": "Düzenle",
+    "id": "ID",
+    "transfer": "Transfer",
+    "transferring": "Transfer ediliyor...",
+    "price": "Fiyat",
+    "showInStore": "Mağazada göster",
+    "yes": "Evet",
+    "no": "Hayır",
+    "name": "Ad",
+    "description": "Açıklama",
+    "multiplayer": "Çok oyunculu",
+    "icon": "Oyun simgesi",
+    "banner": "Banner",
+    "genre": "Tür",
+    "releaseDate": "Çıkış tarihi",
+    "publisher": "Yayıncı",
+    "developer": "Geliştirici",
+    "platforms": "Platformlar",
+    "website": "Web sitesi",
+    "trailerLink": "Fragman bağlantısı",
+    "downloadLink": "İndirme bağlantısı",
+    "saving": "Kaydediliyor...",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "mobile": {
+      "title": "Mobilde kullanılamaz",
+      "desc": "Bu sayfa yalnızca bilgisayardan erişilebilir.\nOyunlarınızı yönetmek için lütfen PC kullanın."
+    },
+    "searchUser": "İsme göre kullanıcı ara..."
+  },
+  "myItems": {
+    "title": "Eşyalarım",
+    "addItem": "+ Eşya ekle",
+    "loading": "Yükleniyor...",
+    "empty": "Eşya bulunamadı.",
+    "edit": "Düzenle",
+    "id": "ID",
+    "transfer": "Transfer",
+    "transferring": "Transfer ediliyor...",
+    "price": "Fiyat",
+    "showInStore": "Mağazada göster",
+    "yes": "Evet",
+    "no": "Hayır",
+    "saving": "Kaydediliyor...",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "searchUser": "İsme göre kullanıcı ara..."
+  },
+  "launcher": {
+    "title": "Croissant Launcher",
+    "loginRequired": "Launcher'a erişmek için giriş yapın.",
+    "loading": "Launcher yükleniyor...",
+    "noGames": "Mevcut oyun yok.",
+    "searchPlaceholder": "Oyun ara...",
+    "install": "Yükle",
+    "play": "Oyna",
+    "update": "Güncelle",
+    "delete": "Kaldır",
+    "transfer": "Transfer",
+    "transferTitle": "Oyunu transfer et",
+    "transferDesc": "\"{{game}}\" kopyasını başka bir kullanıcıya transfer edin.",
+    "transferWarning": "⚠️ Dikkat: Bu oyuna erişiminizi kalıcı olarak kaybedeceksiniz.",
+    "transferUserPlaceholder": "Kullanıcı ara...",
+    "transferSuccess": "Oyun başarıyla transfer edildi!",
+    "transferError": "Transfer hatası.",
+    "owner": "Sahibi:",
+    "genre": "Tür:",
+    "developer": "Geliştirici:",
+    "publisher": "Yayıncı:",
+    "releaseDate": "Çıkış:",
+    "platforms": "Platformlar:",
+    "credits": "Kredi",
+    "profile": "Profil",
+    "logout": "Çıkış",
+    "cancel": "İptal",
+    "selectUser": "Kullanıcı seç:",
+    "transferring": "Transfer ediliyor..."
+  }
+}

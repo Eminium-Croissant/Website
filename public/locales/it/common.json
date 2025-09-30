@@ -1,0 +1,863 @@
+{
+  "404": {
+    "title": {
+      "desktop": "Ops! Questa pagina non esiste.",
+      "mobile": "Ops! Pagina non trovata."
+    },
+    "desc1": {
+      "desktop": "Sembra che la pagina che cerchi non esista più o non sia disponibile.",
+      "mobile": "La pagina che cerchi non esiste o non è disponibile."
+    },
+    "desc2": {
+      "desktop": "Controlla l'URL o torna alla home per continuare l'avventura.",
+      "mobile": "Controlla l'URL o usa una delle opzioni qui sotto."
+    },
+    "whatcan": {
+      "desktop": "Cosa fare?"
+    },
+    "try": {
+      "desktop": "Prova queste opzioni:"
+    },
+    "home": "Torna alla home",
+    "contact": "Contatta il supporto",
+    "api": {
+      "mobile": "Doc API"
+    }
+  },
+  "index": {
+    "title": "Home",
+    "description": "Benvenuto su Croissant, la piattaforma definitiva per condividere e scoprire immagini straordinarie. Unisciti alla community e inizia a esplorare!",
+    "topspan": "Sistema d'inventario creativo riutilizzabile e scalabile, open source, tante API e tecnologia di rete all'avanguardia",
+    "overview": {
+      "title": "PANORAMICA DELLA PIATTAFORMA CROISSANT",
+      "players": {
+        "1": "Gioca a giochi connessi a Croissant e colleziona oggetti unici.",
+        "2": "Scambia, compra o vendi i tuoi oggetti con altri utenti.",
+        "3": "Entra nelle partite multiplayer con due clic grazie alle lobby.",
+        "4": "Gestisci il tuo inventario e i tuoi crediti su Discord o tramite il launcher.",
+        "5": "Collega il tuo account Steam per accedere all'inventario Steam.",
+        "title": "Per i giocatori"
+      },
+      "creators": {
+        "1": "Collega il tuo gioco a Croissant tramite SDK o API.",
+        "2": "Autentica i giocatori e interagisci con il loro inventario (aggiungi/rimuovi oggetti, ricompense, acquisti in-game).",
+        "3": "Crea e vendi i tuoi oggetti o bundle sul mercato.",
+        "4": "Usa le lobby per gestire partite multiplayer private.",
+        "5": "Usa OAuth2 per l'autenticazione sul tuo sito.",
+        "6": "Gli utenti possono collegare Steam. Se il tuo gioco è su Steam, trova un giocatore tramite Steam ID e recupera il suo inventario.",
+        "title": "Per creatori & sviluppatori",
+        "getstarted": "Inizia: genera la tua chiave API nelle impostazioni e consulta la doc."
+      },
+      "marketplace": {
+        "1": "Compra, vendi e scambia oggetti.",
+        "2": "Scopri e acquista nuovi oggetti o bundle.",
+        "3": "Trasferisci oggetti o crediti ai tuoi amici.",
+        "4": "Monitora il tuo saldo e la tua collezione.",
+        "title": "Marketplace & Inventario",
+        "desc": "Gestisci i tuoi oggetti in gioco:"
+      },
+      "lobby": {
+        "1": "Crea o unisciti a lobby multiplayer.",
+        "2": "Invita i tuoi amici con un semplice link.",
+        "3": "Vedi chi è nella tua lobby e chatta in tempo reale.",
+        "4": "Esci o sciogli una lobby con un clic.",
+        "title": "Sistema di lobby",
+        "desc": "Gioca insieme e forma la tua squadra:"
+      },
+      "safety": {
+        "1": "La tua sicurezza è sacra! Non condividere mai il tuo account o la tua chiave API. Controlla sempre le transazioni prima di confermare. Hai bisogno di aiuto? Usa /support o unisciti al nostro server di assistenza.",
+        "title": "Sicurezza & Supporto"
+      },
+      "oauth2": {
+        "1": "Prova l'integrazione OAuth2 di Croissant su /oauth2/test.",
+        "2": "Questo sistema ti permette di collegare il tuo sito o app a Croissant, autenticare gli utenti e accedere al loro inventario.",
+        "3": "Autenticazione semplice e sicura via OAuth2.",
+        "4": "Permette di accedere all'inventario Croissant di un utente.",
+        "5": "Facile da integrare per creatori di giochi o siti.",
+        "title": "Test OAuth2 (nuovo!)",
+        "try": "Provalo ora: /oauth2/test"
+      }
+    },
+    "about": {
+      "title": "CHI SONO",
+      "whoami": {
+        "1": "Ciao, sono Fox, alias fox3000foxy sui social. Sono uno sviluppatore francese appassionato di codice e innovazione. Ho creato il Croissant Inventory System.",
+        "title": "Chi sono?"
+      },
+      "system": {
+        "1": "L'idea di Croissant era creare un mercato di seconda mano per gamer e creatori. Qui puoi scambiare oggetti di gioco e vendere le tue creazioni senza commissioni. Offriamo una piattaforma equa e aperta.",
+        "2": "Vogliamo dare nuova vita agli oggetti, facilitare scambi, acquisti e vendite. Rendiamo il mercato più vivace e vantaggioso per tutti.",
+        "3": "Non è obbligatorio conoscere il bot o usare Discord per sfruttare il sistema. Croissant è pensato per essere semplice e accessibile.",
+        "title": "Croissant Inventory System"
+      },
+      "api": {
+        "1": "Sto lavorando per rendere API e bot Discord stabili e senza bug. Il bot, che gestisce inventario e scambi, è già disponibile. Provalo!",
+        "title": "API & Bot Discord"
+      },
+      "philosophy": {
+        "1": "Come Vinted, Croissant è pensato per lo scambio tra utenti. L'obiettivo è semplicità per giocatori e creatori.",
+        "2": "Da gamer e sviluppatore, ho sempre sognato un mercato che capisse veramente le esigenze dei giocatori. Croissant è più di una piattaforma di scambio: è un ecosistema.",
+        "title": "Filosofia del marketplace"
+      },
+      "gamers": {
+        "1": "So quanto è frustrante avere oggetti inutilizzati nell'inventario. Con Croissant puoi trasformarli in opportunità! Trova skin rare o completa la tua collezione scambiando con giocatori in tutto il mondo.",
+        "title": "Per i gamer"
+      },
+      "creators": {
+        "1": "Per te creatore: monetizzare le tue creazioni senza commissioni è ora possibile. Crea e vendi skin, oggetti o collezioni e tieni tutto il ricavato.",
+        "title": "Per i creatori"
+      },
+      "simplicity": {
+        "1": "La magia di Croissant è la semplicità. Non serve essere un esperto per iniziare. È intuitivo ma potente per chi vuole fare di più.",
+        "title": "Semplicità & Accessibilità"
+      },
+      "future": {
+        "1": "Il futuro di Croissant è ricco di novità! Scambi inter-game, strumenti per creatori e eventi comunitari sono in arrivo.",
+        "title": "Il futuro"
+      },
+      "community": {
+        "1": "Quello che rende Croissant unico è la community. Ogni giorno vedo giocatori aiutarsi, creatori condividere e nuove amicizie nascere dagli scambi.",
+        "title": "Community"
+      }
+    },
+    "hero": {
+      "title": "Benvenuto nell'universo Croissant",
+      "subtitle": "Entra nell'esperienza gaming definitiva",
+      "startAdventure": "Inizia l'avventura",
+      "learnMore": "Scopri di più"
+    },
+    "openSource": {
+      "title": "Progetto Open Source",
+      "subtitle": "Contribuisci all'evoluzione",
+      "description": {
+        "desktop": "Croissant è un progetto <strong>open source</strong> dove ogni contributo conta. Unisciti alla community di sviluppatori e aiutaci a costruire il futuro del gaming.",
+        "mobile": "Croissant è un progetto <strong>open source</strong> dove ogni contributo conta. Unisciti alla community."
+      },
+      "development": {
+        "title": "Sviluppo",
+        "desc": {
+          "desktop": "Codice, feature, correzioni di bug",
+          "mobile": "Codice, feature, bug"
+        }
+      },
+      "design": {
+        "title": "Design",
+        "desc": {
+          "desktop": "UI/UX, grafica, animazioni",
+          "mobile": "UI/UX, grafica"
+        }
+      },
+      "documentation": {
+        "title": "Documentazione",
+        "desc": {
+          "desktop": "Guide, tutorial, traduzioni",
+          "mobile": "Guide, traduzioni"
+        }
+      },
+      "tests": {
+        "title": "Test",
+        "desc": {
+          "desktop": "QA, feedback, suggerimenti",
+          "mobile": "QA, feedback"
+        }
+      },
+      "joinCommunity": "Unisciti alla community"
+    },
+    "carousel": {
+      "popularGames": "Giochi popolari",
+      "loading": "Caricamento...",
+      "noGames": "Nessun gioco disponibile al momento.",
+      "discoverAllGames": "Scopri tutti i giochi"
+    }
+  },
+  "apiDocs": {
+    "title": "Documentazione API",
+    "intro": "Trova la documentazione dell'API qui sotto.",
+    "requiresAuth": "Richiede autenticazione tramite header Authorization: \"Bearer [token]\" (usa il comando /api-key su Discord per generare la tua chiave API)",
+    "precisions": "Precisazioni:",
+    "iconHash": "- iconHash è legato a /games-icons e /items-icons.",
+    "bannerHash": "- bannerHash è legato a /banners-icons.",
+    "splashHash": "- splashHash è deprecato e verrà rimosso.",
+    "hashes": "- Entrambi gli hash servono a costruire gli URL per recuperare le icone.",
+    "categories": "Categorie",
+    "all": "Tutto",
+    "libraries": "Librerie/SDK",
+    "searchPlaceholder": "Cerca un endpoint...",
+    "loading": "Caricamento della doc...",
+    "noResults": "Nessun risultato per \"{{searchTerm}}\".",
+    "responseType": "Tipo di risposta",
+    "params": "Parametri URL",
+    "query": "Parametri di query",
+    "body": "Parametri body",
+    "example": "Esempio",
+    "exampleResponse": "Risposta di esempio"
+  },
+  "badges": {
+    "title": "Croissant - Badge",
+    "intro": "I badge sono riconoscimenti speciali mostrati sul tuo profilo Croissant. Mostrano il tuo impegno, i tuoi contributi o il tuo ruolo nella community.",
+    "lastUpdated": "Ultimo aggiornamento: agosto 2025",
+    "early_user": {
+      "label": "Utente precoce",
+      "description": "Assegnato a chi si è registrato durante la beta.",
+      "how": "Questo badge non viene più assegnato. Era riservato ai primi membri."
+    },
+    "staff": {
+      "label": "Staff",
+      "description": "Per gli admin del server Discord ufficiale Croissant.",
+      "how": "Fai parte del team di admin Discord."
+    },
+    "bug_hunter": {
+      "label": "Cacciatore di bug",
+      "description": "Premia chi segnala una falla di sicurezza o un bug critico.",
+      "how": "Segnala una falla o un bug grave al team Croissant."
+    },
+    "contributor": {
+      "label": "Contributore",
+      "description": "Per chi ha partecipato allo sviluppo di Croissant.",
+      "how": "Invia una pull request accettata su un repo Croissant su GitHub."
+    },
+    "moderator": {
+      "label": "Moderatore",
+      "description": "Badge riservato ai moderatori Discord.",
+      "how": "Essere nominato moderatore nel Discord ufficiale."
+    },
+    "community_manager": {
+      "label": "Community Manager",
+      "description": "Per chi fa crescere la comunità.",
+      "how": "Fai iscrivere un nuovo membro che ti cita come padrino (no multi-account!)."
+    },
+    "partner": {
+      "label": "Partner",
+      "description": "Per i partner ufficiali Croissant.",
+      "how": "Diventa partner ufficiale con un'integrazione Croissant sul tuo sito o piattaforma."
+    },
+    "howtogetit": "Come ottenerlo:"
+  },
+  "buyCredits": {
+    "title": "Acquista crediti",
+    "tier1": {
+      "alt": "Credito 1"
+    },
+    "tier2": {
+      "alt": "Credito 2"
+    },
+    "tier3": {
+      "alt": "Credito 3"
+    },
+    "tier4": {
+      "alt": "Credito 4"
+    },
+    "price": "{{credits}} crediti — {{price}}"
+  },
+  "close": {
+    "title": "Puoi chiudere questa pagina"
+  },
+  "downloadLauncher": {
+    "title": "Scarica il launcher",
+    "note": "Nota: il launcher Croissant è disponibile solo su PC (Windows).",
+    "instructions": "Per scaricare il launcher Croissant:",
+    "step1": "Vai alla <link>pagina delle release</link> del repo GitHub Croissant API.",
+    "step2": "Trova l'ultima versione.",
+    "step3": {
+      "windows": "Scarica il .exe per Windows."
+    },
+    "step4": "Esegui il file per installare il launcher.",
+    "description": {
+      "desktop": "Il launcher Croissant è la chiave per gestire il tuo account, i tuoi oggetti, scoprire e lanciare giochi e usufruire delle novità con un clic.",
+      "mobile": "Il launcher Croissant ti permette di gestire account, oggetti, scoprire e lanciare giochi e rimanere aggiornato."
+    }
+  },
+  "forgotPassword": {
+    "title": "Password dimenticata",
+    "emailLabel": "E-mail",
+    "send": "Invia il link per reimpostare",
+    "sending": "Invio in corso...",
+    "success": "E-mail per reimpostare la password inviata.",
+    "error": "Invio fallito",
+    "info": "Inserisci la tua e-mail e ti invieremo un link per reimpostare la password.",
+    "remembered": "Mi sono ricordato la password"
+  },
+  "shop": {
+    "noGames": "Nessun gioco disponibile.",
+    "error": "Si è verificato un errore.",
+    "buy": "Acquista",
+    "cancel": "Annulla",
+    "ok": "OK",
+    "price": "Prezzo:",
+    "owner": "Proprietario:",
+    "gift": "Regalo",
+    "giftWithPrice": "Regalo ({{price}} crediti)",
+    "createGift": "Crea regalo",
+    "giftCreated": "Regalo creato! Condividi questo link:",
+    "giftMessagePlaceholder": "Piccolo messaggio per il destinatario...",
+    "claimGift": "Riscatta il regalo",
+    "claiming": "Riscatto in corso...",
+    "giftClaimed": "Regalo riscattato! Il gioco è nella tua libreria.",
+    "giftAlreadyOwned": "Possiedi già questo gioco, non puoi riscattarlo.",
+    "giftAlreadyClaimed": "Questo regalo è già stato riscattato.",
+    "giftClaimedOn": "Riscattato il: {{date}}",
+    "invalidGiftLink": "Link regalo non valido",
+    "noGiftCode": "Nessun codice regalo nell'URL.",
+    "goHome": "Torna alla home",
+    "giftNotFound": "Regalo non trovato",
+    "giftNotFoundDesc": "Questo codice regalo è invalido o scaduto.",
+    "from": "Da: <strong>{{username}}</strong>",
+    "youReceivedGift": "🎁 Hai ricevuto un regalo!",
+    "back": "← Indietro",
+    "purchaseSuccess": "Acquisto riuscito!",
+    "loading": "Caricamento...",
+    "genre": "Genere:",
+    "developer": "Sviluppatore:",
+    "publisher": "Editore:",
+    "releaseDate": "Data di rilascio:",
+    "platforms": "Piattaforme:",
+    "allGames": "Tutti i giochi",
+    "title": "Negozio",
+    "searchPlaceholder": "Cerca un gioco..."
+  },
+  "joinLobby": {
+    "noLobbyId": "Nessun lobbyId nell'URL.",
+    "joining": "Connessione alla lobby...",
+    "success": "Lobby raggiunta!",
+    "failed": "Impossibile unirsi alla lobby."
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "placeBuyOrder": "Inserisci un ordine d'acquisto",
+    "myBuyOrders": "I miei ordini d'acquisto",
+    "loading": "Caricamento...",
+    "error": "Si è verificato un errore.",
+    "noItems": "Nessun oggetto in vendita.",
+    "item": "Oggetto",
+    "description": "Descrizione",
+    "seller": "Venditore",
+    "price": "Prezzo",
+    "listed": "Inserito",
+    "buy": "Acquista",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "placing": "In corso...",
+    "searchItem": "Cerca un oggetto...",
+    "enterPrice": "Inserisci il prezzo",
+    "success": "Acquisto riuscito!",
+    "placeOrderSuccess": "Ordine d'acquisto inserito!",
+    "mustLogin": "Accedi per acquistare.",
+    "allFieldsRequired": "Tutti i campi sono obbligatori.",
+    "modalTitle": "Inserisci un ordine d'acquisto"
+  },
+  "myBuyOrders": {
+    "title": "I miei ordini d'acquisto",
+    "back": "← Torna al marketplace",
+    "loading": "Caricamento...",
+    "mustLogin": "Accedi per vedere i tuoi ordini.",
+    "noOrders": "Nessun ordine inserito.",
+    "item": "Oggetto",
+    "description": "Descrizione",
+    "price": "Prezzo",
+    "status": "Stato",
+    "placed": "Inserito",
+    "cancel": "Annulla"
+  },
+  "myMarketListings": {
+    "title": "Le mie vendite sul marketplace",
+    "loading": "Caricamento...",
+    "mustLogin": "Accedi per vedere le tue vendite.",
+    "noActive": "Nessuna vendita attiva.",
+    "item": "Oggetto",
+    "price": "Prezzo",
+    "status": "Stato",
+    "created": "Creato",
+    "actions": "Azioni",
+    "cancel": "Annulla",
+    "purchasePrice": "Prezzo d'acquisto",
+    "uniqueId": "ID univoco"
+  },
+  "login": {
+    "title": "Accesso",
+    "email": "E-mail",
+    "password": "Password",
+    "login": "Accedi",
+    "loggingIn": "Accesso in corso...",
+    "forgotPassword": "Password dimenticata?",
+    "register": "Registrati",
+    "or": "o",
+    "signInWithDiscord": "Accedi con Discord",
+    "signInWithGoogle": "Accedi con Google",
+    "passkey": "Accesso con Passkey",
+    "authenticating": "Autenticazione...",
+    "enterAuthenticator": "Inserisci il codice Google Authenticator",
+    "codePlaceholder": "Codice a 6 cifre",
+    "verify": "Verifica",
+    "cancel": "Annulla",
+    "redirectInfo": "Verrai reindirizzato automaticamente dopo l'accesso.",
+    "invalidCode": "Codice non valido",
+    "error": "Accesso fallito",
+    "authenticatorError": "Codice non valido",
+    "separatorOr": "o"
+  },
+  "register": {
+    "title": "Registrazione",
+    "email": "E-mail",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Conferma password",
+    "register": "Registrati",
+    "registering": "Registrazione in corso...",
+    "error": {
+      "allFields": "Tutti i campi sono obbligatori.",
+      "passwords": "Le password non corrispondono.",
+      "failed": "Registrazione fallita"
+    },
+    "success": "Registrazione completata!",
+    "haveAccount": "Hai già un account?",
+    "or": "o",
+    "signUpWithDiscord": "Iscriviti con Discord",
+    "signUpWithGoogle": "Iscriviti con Google",
+    "redirectInfo": "Verrai reindirizzato automaticamente dopo la registrazione."
+  },
+  "resetPassword": {
+    "title": "Reimposta la password",
+    "welcome": "Benvenuto {{username}}, scegli la tua nuova password.",
+    "newPassword": "Nuova password",
+    "confirmPassword": "Conferma password",
+    "reset": "Reimposta",
+    "resetting": "Reimpostazione in corso...",
+    "success": "Password cambiata! Puoi effettuare l'accesso.",
+    "error": {
+      "invalidToken": "Link di reimpostazione non valido, riprova.",
+      "missingToken": "Link di reimpostazione non valido o mancante.",
+      "allFields": "Compila tutti i campi.",
+      "passwords": "Le password non corrispondono."
+    }
+  },
+  "privacy": {
+    "1": {
+      "1": "1.1. Informazioni Discord: quando usi il bot raccogliamo il tuo ID Discord e il tuo nickname per identificarti.",
+      "2": "1.2. Uso dell'API: per gli sviluppatori raccogliamo l'utilizzo delle chiavi API e le transazioni correlate.",
+      "3": "1.3. Dati di inventario: conserviamo i tuoi oggetti virtuali, i crediti e la cronologia delle transazioni."
+    },
+    "2": {
+      "1": "2.1. Funzionamento del servizio: gestiamo l'inventario, gli scambi e la proprietà degli oggetti.",
+      "2": "2.2. Accesso API: le chiavi API servono a proteggere l'accesso ai nostri servizi.",
+      "3": "2.3. Analisi: analizziamo l'utilizzo per migliorare il servizio e prevenire abusi."
+    },
+    "3": {
+      "1": "3.1. Informazioni pubbliche: la proprietà degli oggetti e la cronologia degli scambi possono essere visibili tramite leaderboard.",
+      "2": "3.2. Integrazione API: se colleghi un gioco, le informazioni necessarie vengono condivise.",
+      "3": "3.3. Accesso API: alcuni dati non sensibili sono disponibili via API."
+    },
+    "4": {
+      "1": "4.1. Proteggiamo le tue informazioni con chiavi API sicure.",
+      "2": "4.2. Le chiavi API non vengono memorizzate nel nostro database per motivi di sicurezza."
+    },
+    "5": {
+      "1": "5.1. Puoi vedere i tuoi dati con il comando /inventory.",
+      "2": "5.2. Puoi rimuovere i tuoi oggetti con /delete-item.",
+      "3": "5.3. Per richiedere la cancellazione dell'account contatta il supporto."
+    },
+    "6": {
+      "1": "6.1. Potremmo aggiornare questa politica. I cambiamenti importanti saranno annunciati tramite il bot Discord."
+    },
+    "title": "Croissant - Informativa sulla privacy",
+    "intro": "Benvenuto su Croissant! Ecco come trattiamo i tuoi dati quando usi i nostri servizi (bot Discord, API, sito web)."
+  },
+  "tos": {
+    "1": {
+      "1": "1.1. I nostri servizi sono gratuiti e servono a gestire oggetti virtuali di gioco.",
+      "2": "1.2. Usa i nostri servizi rispettando le regole di Discord se utilizzi il bot."
+    },
+    "2": {
+      "1": "2.1. Puoi creare e personalizzare oggetti tramite il launcher.",
+      "2": "2.2. I creatori ricevono il 75% del prezzo di vendita.",
+      "3": "2.3. Ci riserviamo il diritto di rimuovere oggetti inappropriati."
+    },
+    "3": {
+      "1": "3.1. Tutti gli scambi devono essere confermati da entrambe le parti.",
+      "2": "3.2. Verifica sempre i dettagli prima di confermare uno scambio.",
+      "3": "3.3. Gli oggetti e i crediti non hanno valore reale. Per convertire in denaro contatta l'operatore per una procedura speciale."
+    },
+    "4": {
+      "1": "4.1. Le chiavi API si ottengono con il comando /api-key.",
+      "2": "4.2. Gli sviluppatori devono proteggere le loro chiavi API.",
+      "3": "4.3. Possiamo revocare l'accesso API in caso di abusi."
+    },
+    "5": {
+      "1": "5.1. Sfruttamento di bug o vulnerabilità del sistema.",
+      "2": "5.2. Creazione di bot automatici per usare il servizio.",
+      "3": "5.3. Vendere o scambiare oggetti per denaro reale."
+    },
+    "6": {
+      "1": "6.1. Possiamo modificare o interrompere il servizio in qualsiasi momento.",
+      "2": "6.2. I cambiamenti importanti verranno annunciati tramite il bot Discord."
+    },
+    "title": "Croissant - Termini di utilizzo",
+    "intro": "Benvenuto su Croissant! Ecco le regole per usare il nostro sistema di inventario (bot Discord, API, sito web).",
+    "legalMentions": "Informazioni legali"
+  },
+  "profile": {
+    "loading": "Caricamento del profilo...",
+    "error": "Si è verificato un errore.",
+    "notFound": "Profilo non trovato.",
+    "shop": "Negozio",
+    "inventory": "Inventario",
+    "disabled": "(Disabilitato)",
+    "reenable": "Riattiva l'account",
+    "disable": "Disabilita l'account",
+    "giveCredits": "Dona crediti",
+    "trade": "Scambia",
+    "myMarketListings": "Le mie vendite",
+    "myListings": "I miei annunci",
+    "settings": "Impostazioni",
+    "sendingCredits": "Invio crediti...",
+    "creditsSent": "Crediti inviati!",
+    "ok": "OK",
+    "creator": "Creatore:",
+    "stock": "Stock:",
+    "price": "Prezzo:",
+    "total": "Totale:",
+    "buy": "Acquista",
+    "cancel": "Annulla",
+    "giveCreditsTo": "Dona crediti a <b>{{username}}</b>",
+    "max": "/ {{max}}",
+    "noItems": "Nessun oggetto nel negozio.",
+    "promptBuy": "Quanti \"{{item}}\" vuoi acquistare?\nPrezzo: {{price}} ciascuno{{stock}}",
+    "shopTooltipStock": "Stock: {{stock}}",
+    "inventoryTitle": "Inventario",
+    "creatorLabel": "Creatore:",
+    "stockLabel": "Stock:",
+    "totalLabel": "Totale:",
+    "disabledLabel": "(Disabilitato)"
+  },
+  "search": {
+    "enterQuery": "Inserisci una ricerca.",
+    "resultsFor": "Risultati per <strong>{{query}}</strong>",
+    "users": "Utenti",
+    "games": "Giochi",
+    "items": "Oggetti",
+    "price": "Prezzo",
+    "buy": "Acquista",
+    "cancel": "Annulla",
+    "total": "Totale: {{total}}",
+    "buyHowMany": "Quanti \"{{item}}\" vuoi acquistare?",
+    "itemPurchased": "Oggetto acquistato!",
+    "buyingItem": "Acquisto in corso...",
+    "ok": "OK"
+  },
+  "studios": {
+    "title": "I miei studio",
+    "create": "+ Crea uno studio",
+    "createTitle": "Crea uno studio",
+    "studioNamePlaceholder": "Nome dello studio",
+    "createBtn": "Crea",
+    "cancelBtn": "Annulla",
+    "errorCreate": "Errore durante la creazione dello studio",
+    "noStudios": "Non hai ancora studio.",
+    "users": "Utenti:",
+    "noUsers": "Nessun utente",
+    "apiKey": "Chiave API:",
+    "show": "Mostra",
+    "hide": "Nascondi",
+    "copy": "Copia",
+    "addUser": "+ Aggiungi un utente",
+    "addUserTitle": "Aggiungi un utente allo studio",
+    "searchUserPlaceholder": "Cerca un utente...",
+    "addBtn": "Aggiungi",
+    "removeUserConfirm": "Sei sicuro di voler rimuovere questo utente?",
+    "errorAddUser": "Errore durante l'aggiunta",
+    "errorRemoveUser": "Errore durante la rimozione"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "changePassword": "Cambia password",
+    "securityLinks": "Sicurezza & Link social",
+    "profilePicture": "Immagine profilo",
+    "uploading": "Caricamento...",
+    "uploadNewPicture": "Cambia immagine",
+    "username": "Username",
+    "saving": "Salvataggio...",
+    "save": "Salva",
+    "userId": "ID utente",
+    "copy": "Copia",
+    "apiKey": "Chiave API",
+    "show": "Mostra",
+    "hide": "Nascondi",
+    "thisKeyAllows": "Questa chiave permette di usare l'API a tuo nome.",
+    "linkSteam": "Collega Steam",
+    "linkDiscord": "Collega Discord",
+    "linkGoogle": "Collega Google",
+    "steamLinked": "Steam collegato",
+    "discordLinked": "Discord collegato",
+    "googleLinked": "Google collegato",
+    "registerPasskey": "Registra Passkey",
+    "registering": "Registrazione in corso...",
+    "passkeyRegistered": "Passkey registrata!",
+    "setupGoogleAuth": "Configura Google Authenticator",
+    "deleteGoogleAuth": "Rimuovi Google Authenticator",
+    "close": "Chiudi",
+    "successProfilePic": "Immagine profilo aggiornata!",
+    "successUsername": "Username aggiornato!",
+    "successPassword": "Password cambiata!",
+    "errorUsername": "Errore nel cambio username",
+    "errorProfilePic": "Errore durante l'upload dell'avatar",
+    "errorPassword": "Errore durante il cambio password",
+    "enterCurrentPassword": "Inserisci la password corrente",
+    "enterNewPassword": "Inserisci la nuova password",
+    "confirmNewPassword": "Conferma la nuova password",
+    "savePassword": "Salva password",
+    "cancel": "Annulla",
+    "securityModalTitle": "Sicurezza & Link social",
+    "unlinkSteamConfirm": "Sei sicuro di voler scollegare Steam?",
+    "unlinkSteamError": "Impossibile scollegare Steam.",
+    "deleteGoogleAuthConfirm": "Sei sicuro di voler rimuovere Google Authenticator? Questo disabiliterà la 2FA.",
+    "deleteGoogleAuthError": "Impossibile rimuovere Google Authenticator.",
+    "linkTextWebsite": "Vai sul sito per collegare",
+    "linkTextStudio": "Uno studio non può collegare Steam"
+  },
+  "footer": {
+    "terms": "Termini",
+    "privacy": "Privacy",
+    "copyright": "Copyright © 2025 Croissant API"
+  },
+  "navbar": {
+    "docs": "Docs",
+    "shop": "Negozio",
+    "marketplace": "Marketplace",
+    "launcher": "Launcher",
+    "vpn": "VPN",
+    "bot": "Bot",
+    "install": "Installa",
+    "manage": "Gestisci",
+    "studios": "Studi",
+    "oauth2": "OAuth2",
+    "items": "Oggetti",
+    "games": "Giochi",
+    "settings": "Impostazioni",
+    "login": "Accedi",
+    "logout": "Esci",
+    "downloadLauncher": "Scarica il launcher",
+    "discordBot": "Bot Discord",
+    "user": "Profilo"
+  },
+  "searchbar": {
+    "placeholder": "Cerca utenti e giochi..."
+  },
+  "section": {
+    "defaultTitle": "Sezione",
+    "defaultDescription": "Descrizione"
+  },
+  "inventory": {
+    "sellPrompt": "Vendere quante \"{{item}}\"?",
+    "dropPrompt": "Eliminare quante \"{{item}}\"?",
+    "auctionPrompt": "Mettere in asta \"{{item}}\" — imposta il prezzo (per unità):",
+    "canBeSold": "✓ Può essere venduto",
+    "cannotBeSold": "✗ Non può essere venduto",
+    "thisCanBeSold": "✓ Questo oggetto può essere venduto",
+    "thisCannotBeSold": "✗ Questo oggetto non può essere venduto",
+    "price": "Prezzo",
+    "credits": "crediti",
+    "metadata": "Metadati",
+    "rarity": "Rarità",
+    "uniqueId": "ID univoco",
+    "back": "← Torna all'inventario",
+    "yes": "Sì",
+    "no": "No",
+    "loading": "Caricamento...",
+    "error": "Errore: {{error}}"
+  },
+  "oauth2": {
+    "demo": {
+      "title": "Esempio d'integrazione OAuth2 Croissant",
+      "subtitle": "Demo OAuth2",
+      "description": "Apri la console per vedere il flusso OAuth2 in azione. Questo esempio mostra come autenticare gli utenti con il servizio OAuth2 di Croissant. Clicca il pulsante qui sotto per iniziare:",
+      "connectButton": "Connettiti con Croissant",
+      "expectedResult": "Risultato atteso",
+      "expectedDescription": "Dopo il click si aprirà una popup per l'autenticazione. Una volta autenticato, la popup si chiuderà e i dati utente verranno visualizzati nella console.",
+      "downloadCode": "Scarica l'HTML di test OAuth2 per esaminare il codice"
+    },
+    "auth": {
+      "authorize": "Vuoi autorizzare",
+      "accessData": "ad accedere ai tuoi dati utente?",
+      "login": "Accedi",
+      "authorizing": "Autorizzazione in corso...",
+      "authorizeButton": "Autorizza",
+      "redirectUri": "URI di reindirizzamento:",
+      "missingParams": "Parametri mancanti.",
+      "networkError": "Errore di rete."
+    },
+    "apps": {
+      "title": "Le mie applicazioni OAuth2",
+      "testLink": "Testa OAuth2 ↗",
+      "addButton": "Aggiungi un'app",
+      "addButtonMobile": "+ Aggiungi",
+      "createTitle": "Crea un'app",
+      "editTitle": "Modifica l'app",
+      "clientId": "Client ID:",
+      "clientSecret": "Client Secret:",
+      "redirectUrls": "URL di reindirizzamento:",
+      "copy": "Copia",
+      "show": "Mostra",
+      "hide": "Nascondi",
+      "integrationCode": "Codice di integrazione",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "appName": "Nome dell'app",
+      "appNamePlaceholder": "Il mio gioco, il mio sito...",
+      "redirectUrlsHelp": "(separati da virgola)",
+      "redirectUrlsPlaceholder": "https://myapp.com/callback, http://localhost:3000/cb",
+      "save": "Salva",
+      "create": "Crea",
+      "cancel": "Annulla",
+      "integrationTitle": "Codice del bottone di integrazione:",
+      "deleteConfirm": "Sei sicuro di voler eliminare questa applicazione?"
+    }
+  },
+  "createGame": {
+    "title": "Invia un gioco",
+    "backToMyGames": "Torna ai miei giochi",
+    "name": "Nome",
+    "description": "Descrizione",
+    "price": "Prezzo",
+    "downloadLink": "Link di download (repo GitHub/GitLab o link ZIP)",
+    "icon": "Icona del gioco (opzionale)",
+    "changeIcon": "Cambia icona",
+    "chooseIcon": "Scegli icona",
+    "banner": "Banner (opzionale)",
+    "changeBanner": "Cambia banner",
+    "chooseBanner": "Scegli banner",
+    "ready": "Pronto!",
+    "showInStore": "Mostra nello store",
+    "genre": "Genere",
+    "releaseDate": "Data di rilascio",
+    "developer": "Sviluppatore",
+    "publisher": "Editore",
+    "platforms": "Piattaforme",
+    "website": "Sito web",
+    "trailerLink": "Link al trailer",
+    "multiplayer": "Multiplayer",
+    "submit": "Invia",
+    "submitting": "Invio in corso...",
+    "success": "Gioco creato con successo!",
+    "mobile": {
+      "title": "Non disponibile su mobile",
+      "desc": "Questa pagina è accessibile solo da un computer.\nUsa un PC per inviare un gioco."
+    },
+    "error": {
+      "name": "Il nome è obbligatorio",
+      "description": "La descrizione è obbligatoria",
+      "price": "Il prezzo è obbligatorio",
+      "downloadLink": "Il link di download è obbligatorio",
+      "iconUpload": "Errore durante l'upload dell'icona",
+      "bannerUpload": "Errore durante l'upload del banner",
+      "submit": "Errore nella creazione del gioco."
+    }
+  },
+  "createItem": {
+    "title": "Invia un oggetto",
+    "backToMyItems": "Torna ai miei oggetti",
+    "name": "Nome",
+    "description": "Descrizione",
+    "price": "Prezzo",
+    "showInStore": "Mostra nello store",
+    "icon": "Icona (opzionale)",
+    "changeIcon": "Cambia icona",
+    "chooseIcon": "Scegli icona",
+    "selected": "Selezionato",
+    "submit": "Invia",
+    "submitting": "Invio in corso...",
+    "success": "Oggetto creato con successo!",
+    "mobile": {
+      "title": "Non disponibile su mobile",
+      "desc": "Questa pagina è accessibile solo da un computer.\nUsa un PC per inviare un oggetto."
+    },
+    "error": {
+      "name": "Il nome è obbligatorio",
+      "description": "La descrizione è obbligatoria",
+      "price": "Il prezzo è obbligatorio",
+      "iconUpload": "Errore durante l'upload dell'icona.",
+      "submit": "Errore nella creazione dell'oggetto."
+    }
+  },
+  "myGames": {
+    "title": "I miei giochi",
+    "addGame": "+ Aggiungi un gioco",
+    "loading": "Caricamento...",
+    "empty": "Nessun gioco trovato.",
+    "edit": "Modifica",
+    "id": "Id",
+    "transfer": "Trasferisci",
+    "transferring": "Trasferimento...",
+    "price": "Prezzo",
+    "showInStore": "Mostra nello store",
+    "yes": "Sì",
+    "no": "No",
+    "name": "Nome",
+    "description": "Descrizione",
+    "multiplayer": "Multiplayer",
+    "icon": "Icona del gioco",
+    "banner": "Banner",
+    "genre": "Genere",
+    "releaseDate": "Data di rilascio",
+    "publisher": "Editore",
+    "developer": "Sviluppatore",
+    "platforms": "Piattaforme",
+    "website": "Sito web",
+    "trailerLink": "Link al trailer",
+    "downloadLink": "Link di download",
+    "saving": "Salvataggio...",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "mobile": {
+      "title": "Non disponibile su mobile",
+      "desc": "Questa pagina è accessibile solo da un computer.\nUsa un PC per gestire i tuoi giochi."
+    },
+    "searchUser": "Cerca un utente per nome..."
+  },
+  "myItems": {
+    "title": "I miei oggetti",
+    "addItem": "+ Aggiungi un oggetto",
+    "loading": "Caricamento...",
+    "empty": "Nessun oggetto trovato.",
+    "edit": "Modifica",
+    "id": "Id",
+    "transfer": "Trasferisci",
+    "transferring": "Trasferimento...",
+    "price": "Prezzo",
+    "showInStore": "Mostra nello store",
+    "yes": "Sì",
+    "no": "No",
+    "saving": "Salvataggio...",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "searchUser": "Cerca un utente per nome..."
+  },
+  "launcher": {
+    "title": "Croissant Launcher",
+    "loginRequired": "Effettua il login per accedere al launcher.",
+    "loading": "Caricamento del launcher...",
+    "noGames": "Nessun gioco disponibile.",
+    "searchPlaceholder": "Cerca giochi...",
+    "install": "Installa",
+    "play": "Gioca",
+    "update": "Aggiorna",
+    "delete": "Disinstalla",
+    "transfer": "Trasferisci",
+    "transferTitle": "Trasferisci il gioco",
+    "transferDesc": "Trasferisci la tua copia di \"{{game}}\" a un altro utente.",
+    "transferWarning": "⚠️ Attenzione: perderai l'accesso a questo gioco in modo permanente.",
+    "transferUserPlaceholder": "Cerca un utente...",
+    "transferSuccess": "Gioco trasferito con successo!",
+    "transferError": "Errore durante il trasferimento.",
+    "owner": "Proprietario:",
+    "genre": "Genere:",
+    "developer": "Sviluppatore:",
+    "publisher": "Editore:",
+    "releaseDate": "Rilascio:",
+    "platforms": "Piattaforme:",
+    "credits": "crediti",
+    "profile": "Profilo",
+    "logout": "Logout",
+    "cancel": "Annulla",
+    "selectUser": "Seleziona un utente:",
+    "transferring": "Trasferimento..."
+  }
+}

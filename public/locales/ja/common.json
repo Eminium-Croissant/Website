@@ -1,0 +1,863 @@
+{
+  "404": {
+    "title": {
+      "desktop": "おっと！このページは存在しません。",
+      "mobile": "おっと！ページが見つかりません。"
+    },
+    "desc1": {
+      "desktop": "探しているページは存在しないか、削除されているようです。",
+      "mobile": "探しているページは存在しないか利用できません。"
+    },
+    "desc2": {
+      "desktop": "URLを確認するか、ホームに戻って冒険を続けてください。",
+      "mobile": "URLを確認するか、以下のオプションを使用してください。"
+    },
+    "whatcan": {
+      "desktop": "何をする？"
+    },
+    "try": {
+      "desktop": "次のオプションを試してください："
+    },
+    "home": "ホームに戻る",
+    "contact": "サポートに連絡",
+    "api": {
+      "mobile": "APIドキュメント"
+    }
+  },
+  "index": {
+    "title": "ホーム",
+    "description": "Croissantへようこそ。素晴らしい画像を共有・発見するための究極のプラットフォームです。コミュニティに参加して探索を始めましょう！",
+    "topspan": "再利用可能で拡張性のあるクリエイティブなインベントリシステム、オープンソース、豊富なAPIと最新のネットワーク技術",
+    "overview": {
+      "title": "CROISSANTプラットフォームの概要",
+      "players": {
+        "1": "Croissantに接続されたゲームをプレイしてユニークなアイテムを集めよう。",
+        "2": "アイテムを交換、購入、販売して他のユーザーとやり取りしよう。",
+        "3": "ロビーでワンクリックでマルチプレイヤーに参加。",
+        "4": "Discordやランチャーでインベントリとクレジットを管理。",
+        "5": "SteamアカウントをリンクしてSteamインベントリにアクセス。",
+        "title": "プレイヤー向け"
+      },
+      "creators": {
+        "1": "SDKやAPIを使ってあなたのゲームをCroissantに接続できます。",
+        "2": "プレイヤーを認証し、インベントリを操作（アイテムの追加/削除、報酬、ゲーム内購入）できます。",
+        "3": "独自のアイテムやバンドルを作成・販売できます。",
+        "4": "プライベートマルチプレイヤーをロビーで管理できます。",
+        "5": "OAuth2を使ったウェブサイトでの認証が可能です。",
+        "6": "ユーザーはSteamをリンクできます。ゲームがSteamで提供されている場合、Steam IDでプレイヤーを見つけ、インベントリを取得できます。",
+        "title": "クリエイター＆開発者向け",
+        "getstarted": "始め方：設定でAPIキーを生成し、ドキュメントを確認してください。"
+      },
+      "marketplace": {
+        "1": "アイテムを購入、販売、交換できます。",
+        "2": "新しいアイテムやバンドルを発見して購入。",
+        "3": "友達にアイテムやクレジットを送れる。",
+        "4": "残高とコレクションを管理。",
+        "title": "マーケットプレイス＆インベントリ",
+        "desc": "ゲーム内のアイテムを管理："
+      },
+      "lobby": {
+        "1": "マルチプレイヤーロビーを作成または参加できます。",
+        "2": "シンプルなリンクで友達を招待。",
+        "3": "ロビーのメンバーを確認し、リアルタイムでチャット。",
+        "4": "ワンクリックでロビーを退出または解散。",
+        "title": "ロビーシステム",
+        "desc": "一緒に遊んでチームを作ろう："
+      },
+      "safety": {
+        "1": "あなたの安全は最優先です！アカウントやAPIキーは絶対に共有しないでください。取引を確認してから承認してください。サポートが必要な場合は /support を使うか、ヘルプサーバーに参加してください。",
+        "title": "セキュリティ＆サポート"
+      },
+      "oauth2": {
+        "1": "/oauth2/test でCroissantのOAuth2統合をテストしてください。",
+        "2": "このシステムはあなたのサイトやアプリにCroissantを接続し、ユーザーを認証してインベントリにアクセスすることを可能にします。",
+        "3": "OAuth2によるシンプルで安全な認証。",
+        "4": "ユーザーのCroissantインベントリへのアクセスを許可します。",
+        "5": "ゲーム開発者やサイト開発者にとって簡単に統合可能です。",
+        "title": "OAuth2テスト（新機能！）",
+        "try": "今すぐテスト：/oauth2/test"
+      }
+    },
+    "about": {
+      "title": "私について",
+      "whoami": {
+        "1": "こんにちは、Foxです。ネット上では fox3000foxy として知られています。私はコードとイノベーションを愛するフランスの開発者で、Croissant Inventory System を作りました。",
+        "title": "自己紹介"
+      },
+      "system": {
+        "1": "Croissantのアイディアは、ゲーマーとクリエイターのための中古マーケットを作ることでした。ここではアイテムを交換し、手数料なしであなたの作品を販売できます。高額な市場に対抗する、公平でオープンなプラットフォームを目指しています。",
+        "2": "アイテムに新たな価値を与え、交換・購入・販売を簡単にします。市場を活性化し、誰もが恩恵を受けられるように。",
+        "3": "ボットを知らなくても、Discordがなくても、システムを楽しめます。Croissantはシンプルかつアクセスしやすい設計です。",
+        "title": "Croissant Inventory System"
+      },
+      "api": {
+        "1": "APIとDiscordボットの安定化に取り組んでいます。ボットは既に利用可能です。ぜひ試してみてください！",
+        "title": "API＆Discordボット"
+      },
+      "philosophy": {
+        "1": "Vintedのように、Croissantはユーザー間の交換を重視しています。プレイヤーとクリエイターのどちらにも使いやすく設計しています。",
+        "2": "ゲーマーであり開発者として、市場のニーズを理解するプラットフォームを作りたかった。Croissantは単なるマーケットではなく、アイテムに新たな命を吹き込むエコシステムです。",
+        "title": "マーケットの哲学"
+      },
+      "gamers": {
+        "1": "使われていないアイテムを活用できるようにするのがCroissantの目的です。レアスキンを見つけたり、遠くのプレイヤーと交換したりできます。すべて安全で楽しい環境で。",
+        "title": "ゲーマー向け"
+      },
+      "creators": {
+        "1": "クリエイター向け：高い手数料での収益化はもう古い。ここでは手数料ゼロで売れます。スキンやアイテム、コレクションを作って売るのに最適な場所です。",
+        "title": "クリエイター向け"
+      },
+      "simplicity": {
+        "1": "Croissantの魔法はシンプルさ。技術に詳しくなくてもすぐに始められます。直感的でありながらパワフル。日曜トレーダーからヘビーユーザー、インディクリエイターまで誰でも歓迎です。",
+        "title": "シンプルさ＆アクセス性"
+      },
+      "future": {
+        "1": "Croissantの未来はワクワクするものです！ゲーム間のアイテム交換やクリエイター向けツール、コミュニティイベントを計画しています。これらは単なるアイデアではなく、実装中です。",
+        "title": "未来"
+      },
+      "community": {
+        "1": "Croissantを特別にするのはコミュニティです！日々ユーザーが助け合い、クリエイターがアイデアを共有し、交換から新しい友情が生まれています。マーケット以上の、ゲーマーとクリエイターの家族です。",
+        "title": "コミュニティ"
+      }
+    },
+    "hero": {
+      "title": "Croissantの世界へようこそ",
+      "subtitle": "没入型の究極のゲーミング体験へ飛び込もう",
+      "startAdventure": "冒険を始める",
+      "learnMore": "詳しく見る"
+    },
+    "openSource": {
+      "title": "オープンソースプロジェクト",
+      "subtitle": "進化に参加しよう",
+      "description": {
+        "desktop": "Croissantは<strong>オープンソース</strong>プロジェクトです。あなたの貢献が重要です。開発コミュニティに参加して未来を一緒に作りましょう。",
+        "mobile": "Croissantは<strong>オープンソース</strong>プロジェクトです。あなたの貢献が重要です。"
+      },
+      "development": {
+        "title": "開発",
+        "desc": {
+          "desktop": "コード、機能追加、バグ修正",
+          "mobile": "コード、機能、バグ"
+        }
+      },
+      "design": {
+        "title": "デザイン",
+        "desc": {
+          "desktop": "UI/UX、グラフィック、アニメーション",
+          "mobile": "UI/UX、グラフィック"
+        }
+      },
+      "documentation": {
+        "title": "ドキュメント",
+        "desc": {
+          "desktop": "ガイド、チュートリアル、翻訳",
+          "mobile": "ガイド、翻訳"
+        }
+      },
+      "tests": {
+        "title": "テスト",
+        "desc": {
+          "desktop": "QA、フィードバック、提案",
+          "mobile": "QA、フィードバック"
+        }
+      },
+      "joinCommunity": "コミュニティに参加"
+    },
+    "carousel": {
+      "popularGames": "人気のゲーム",
+      "loading": "読み込み中...",
+      "noGames": "現在利用可能なゲームはありません。",
+      "discoverAllGames": "すべてのゲームを探す"
+    }
+  },
+  "apiDocs": {
+    "title": "APIドキュメント",
+    "intro": "以下にAPIのドキュメントがあります。",
+    "requiresAuth": "Authorizationヘッダー：\"Bearer [token]\" による認証が必要です（Discordで /api-key コマンドを使ってAPIキーを生成してください）",
+    "precisions": "補足：",
+    "iconHash": "- iconHash は /games-icons と /items-icons に関連します。",
+    "bannerHash": "- bannerHash は /banners-icons に関連します。",
+    "splashHash": "- splashHash は廃止予定です。",
+    "hashes": "- これらのハッシュはアイコンのURLを構築するために使用します。",
+    "categories": "カテゴリ",
+    "all": "すべて",
+    "libraries": "ライブラリ/SDK",
+    "searchPlaceholder": "エンドポイントを検索...",
+    "loading": "ドキュメントを読み込み中...",
+    "noResults": "\"{{searchTerm}}\" の結果はありません。",
+    "responseType": "レスポンスタイプ",
+    "params": "URLパラメータ",
+    "query": "クエリパラメータ",
+    "body": "ボディパラメータ",
+    "example": "例",
+    "exampleResponse": "レスポンス例"
+  },
+  "badges": {
+    "title": "Croissant - バッジ",
+    "intro": "バッジはプロフィールに表示される特別な称号です。コミュニティへの貢献や役割を示します。",
+    "lastUpdated": "最終更新：2025年8月",
+    "early_user": {
+      "label": "初期ユーザー",
+      "description": "ベータ期間中に登録したユーザーに授与されます。",
+      "how": "このバッジはもう配布されていません。最初のメンバー向けでした。"
+    },
+    "staff": {
+      "label": "スタッフ",
+      "description": "公式Croissant Discordの管理者向け。",
+      "how": "Discord管理チームの一員であること。"
+    },
+    "bug_hunter": {
+      "label": "バグハンター",
+      "description": "セキュリティや重大なバグを報告したユーザーに与えられます。",
+      "how": "チームに脆弱性や重大なバグを報告してください。"
+    },
+    "contributor": {
+      "label": "コントリビューター",
+      "description": "Croissantの開発に参加した人向け。",
+      "how": "CroissantのGitHubリポジトリにプルリクエストを送ってマージされること。"
+    },
+    "moderator": {
+      "label": "モデレーター",
+      "description": "Discordのモデレーター向けバッジ。",
+      "how": "公式Discordでモデレーターに任命されること。"
+    },
+    "community_manager": {
+      "label": "コミュニティマネージャー",
+      "description": "コミュニティを成長させる人向け。",
+      "how": "新しいメンバーを紹介して、そのメンバーがあなたを推薦者として登録すること（重複アカウントは禁止）。"
+    },
+    "partner": {
+      "label": "パートナー",
+      "description": "公式Croissantパートナー向け。",
+      "how": "あなたのサイトやプラットフォームにCroissant統合があること。"
+    },
+    "howtogetit": "入手方法："
+  },
+  "buyCredits": {
+    "title": "クレジットを購入",
+    "tier1": {
+      "alt": "クレジット1"
+    },
+    "tier2": {
+      "alt": "クレジット2"
+    },
+    "tier3": {
+      "alt": "クレジット3"
+    },
+    "tier4": {
+      "alt": "クレジット4"
+    },
+    "price": "{{credits}} クレジット — {{price}}"
+  },
+  "close": {
+    "title": "このページを閉じてもいいよ"
+  },
+  "downloadLauncher": {
+    "title": "ランチャーをダウンロード",
+    "note": "注意：CroissantランチャーはPC（Windows）のみ対応です。",
+    "instructions": "Croissantランチャーをダウンロードする方法：",
+    "step1": "GitHubのCroissant APIリポジトリの<link>リリースページ</link>に行く。",
+    "step2": "最新バージョンを見つける。",
+    "step3": {
+      "windows": "Windows用の.exeをダウンロードする。"
+    },
+    "step4": "ファイルを実行してランチャーをインストールする。",
+    "description": {
+      "desktop": "Croissantランチャーはアカウント管理、アイテム管理、ゲームの発見と起動、新機能へのワンクリックアクセスを提供します。",
+      "mobile": "Croissantランチャーはアカウントやアイテムの管理、ゲームの発見・起動、更新の確認を簡単にします。"
+    }
+  },
+  "forgotPassword": {
+    "title": "パスワードを忘れた",
+    "emailLabel": "メール",
+    "send": "リセットリンクを送る",
+    "sending": "送信中...",
+    "success": "パスワードリセット用のメールを送信しました。",
+    "error": "送信に失敗しました",
+    "info": "メールアドレスを入力すると、パスワードリセット用のリンクを送信します。",
+    "remembered": "思い出した！"
+  },
+  "shop": {
+    "noGames": "ゲームはありません。",
+    "error": "エラーが発生しました。",
+    "buy": "購入",
+    "cancel": "キャンセル",
+    "ok": "OK",
+    "price": "価格：",
+    "owner": "所有者：",
+    "gift": "ギフト",
+    "giftWithPrice": "ギフト（{{price}} クレジット）",
+    "createGift": "ギフトを作成",
+    "giftCreated": "ギフトが作成されました！このリンクを共有：",
+    "giftMessagePlaceholder": "受取人へのメッセージ...",
+    "claimGift": "ギフトを受け取る",
+    "claiming": "受け取り中...",
+    "giftClaimed": "ギフトを受け取りました！ゲームはライブラリに追加されました。",
+    "giftAlreadyOwned": "既にこのゲームを所有しているため受け取れません。",
+    "giftAlreadyClaimed": "このギフトは既に受け取られています。",
+    "giftClaimedOn": "受け取った日： {{date}}",
+    "invalidGiftLink": "無効なギフトリンク",
+    "noGiftCode": "URLにギフトコードがありません。",
+    "goHome": "ホームに戻る",
+    "giftNotFound": "ギフトが見つかりません",
+    "giftNotFoundDesc": "このギフトコードは無効か期限切れです。",
+    "from": "差出人： <strong>{{username}}</strong>",
+    "youReceivedGift": "🎁 ギフトを受け取りました！",
+    "back": "← 戻る",
+    "purchaseSuccess": "購入に成功しました！",
+    "loading": "読み込み中...",
+    "genre": "ジャンル：",
+    "developer": "開発者：",
+    "publisher": "パブリッシャー：",
+    "releaseDate": "リリース：",
+    "platforms": "プラットフォーム：",
+    "allGames": "すべてのゲーム",
+    "title": "ストア",
+    "searchPlaceholder": "ゲームを検索..."
+  },
+  "joinLobby": {
+    "noLobbyId": "URLにlobbyIdがありません。",
+    "joining": "ロビーに参加中...",
+    "success": "ロビーに参加しました！",
+    "failed": "ロビーに参加できませんでした。"
+  },
+  "marketplace": {
+    "title": "マーケット",
+    "placeBuyOrder": "買い注文を出す",
+    "myBuyOrders": "私の買い注文",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました。",
+    "noItems": "出品中のアイテムはありません。",
+    "item": "アイテム",
+    "description": "説明",
+    "seller": "販売者",
+    "price": "価格",
+    "listed": "出品日",
+    "buy": "購入",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "placing": "出品中...",
+    "searchItem": "アイテムを検索...",
+    "enterPrice": "価格を入力してください",
+    "success": "購入に成功しました！",
+    "placeOrderSuccess": "買い注文が出されました！",
+    "mustLogin": "購入するにはログインしてください。",
+    "allFieldsRequired": "すべての項目が必須です。",
+    "modalTitle": "買い注文を出す"
+  },
+  "myBuyOrders": {
+    "title": "私の買い注文",
+    "back": "← マーケットへ戻る",
+    "loading": "読み込み中...",
+    "mustLogin": "買い注文を見るにはログインしてください。",
+    "noOrders": "買い注文はありません。",
+    "item": "アイテム",
+    "description": "説明",
+    "price": "価格",
+    "status": "ステータス",
+    "placed": "出品済",
+    "cancel": "キャンセル"
+  },
+  "myMarketListings": {
+    "title": "私の出品",
+    "loading": "読み込み中...",
+    "mustLogin": "出品を見るにはログインしてください。",
+    "noActive": "アクティブな出品はありません。",
+    "item": "アイテム",
+    "price": "価格",
+    "status": "ステータス",
+    "created": "作成日",
+    "actions": "アクション",
+    "cancel": "キャンセル",
+    "purchasePrice": "購入価格",
+    "uniqueId": "ユニークID"
+  },
+  "login": {
+    "title": "ログイン",
+    "email": "メール",
+    "password": "パスワード",
+    "login": "ログイン",
+    "loggingIn": "ログイン中...",
+    "forgotPassword": "パスワードを忘れた？",
+    "register": "登録",
+    "or": "または",
+    "signInWithDiscord": "Discordでサインイン",
+    "signInWithGoogle": "Googleでサインイン",
+    "passkey": "Passkeyでログイン",
+    "authenticating": "認証中...",
+    "enterAuthenticator": "Google Authenticatorのコードを入力",
+    "codePlaceholder": "6桁のコード",
+    "verify": "確認",
+    "cancel": "キャンセル",
+    "redirectInfo": "ログイン後、自動的にリダイレクトされます。",
+    "invalidCode": "無効なコード",
+    "error": "ログインに失敗しました",
+    "authenticatorError": "無効なコード",
+    "separatorOr": "または"
+  },
+  "register": {
+    "title": "登録",
+    "email": "メール",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認",
+    "register": "登録",
+    "registering": "登録中...",
+    "error": {
+      "allFields": "すべての項目が必須です。",
+      "passwords": "パスワードが一致しません。",
+      "failed": "登録に失敗しました"
+    },
+    "success": "登録が完了しました！",
+    "haveAccount": "既にアカウントをお持ちですか？",
+    "or": "または",
+    "signUpWithDiscord": "Discordで登録",
+    "signUpWithGoogle": "Googleで登録",
+    "redirectInfo": "登録後、自動的にリダイレクトされます。"
+  },
+  "resetPassword": {
+    "title": "パスワードをリセット",
+    "welcome": "ようこそ {{username}}、新しいパスワードを選んでください。",
+    "newPassword": "新しいパスワード",
+    "confirmPassword": "パスワードを確認",
+    "reset": "リセット",
+    "resetting": "リセット中...",
+    "success": "パスワードが変更されました！ログインできます。",
+    "error": {
+      "invalidToken": "無効なリセットリンクです。再試行してください。",
+      "missingToken": "リセットリンクが無効か欠落しています。",
+      "allFields": "すべての項目を入力してください。",
+      "passwords": "パスワードが一致しません。"
+    }
+  },
+  "privacy": {
+    "1": {
+      "1": "1.1. Discord情報：ボットを使用する際、Discord IDとユーザー名を識別のために取得します。",
+      "2": "1.2. APIの利用：開発者向けにAPIキーの使用やトランザクションを収集します。",
+      "3": "1.3. インベントリデータ：あなたの仮想アイテム、クレジット、取引履歴を保持します。"
+    },
+    "2": {
+      "1": "2.1. サービスの運用：インベントリ、取引、アイテムの所有権を管理します。",
+      "2": "2.2. APIアクセス：APIキーはサービスアクセスのセキュリティを保ちます。",
+      "3": "2.3. 分析：サービス改善と不正利用防止のために使用状況を分析します。"
+    },
+    "3": {
+      "1": "3.1. 公開情報：アイテムの所有権や取引履歴はリーダーボード経由で公開されることがあります。",
+      "2": "3.2. API統合：接続されたゲームでは必要な情報が共有されます。",
+      "3": "3.3. APIアクセス：一部の非機密データはAPIを通じて取得できます。"
+    },
+    "4": {
+      "1": "4.1. 安全なAPIキーであなたの情報を保護します。",
+      "2": "4.2. APIキーはセキュリティ上の理由からデータベースに保存されません。"
+    },
+    "5": {
+      "1": "5.1. /inventory コマンドで自分のデータを確認できます。",
+      "2": "5.2. /delete-item で自分のアイテムを削除できます。",
+      "3": "5.3. アカウント削除を希望する場合はサポートに連絡してください。"
+    },
+    "6": {
+      "1": "6.1. プライバシーポリシーは更新されることがあります。大きな変更はDiscordボットで通知します。"
+    },
+    "title": "Croissant - プライバシーポリシー",
+    "intro": "Croissantへようこそ！ボット、API、ウェブサイト利用時のデータ取り扱いについて説明します。"
+  },
+  "tos": {
+    "1": {
+      "1": "1.1. 当サービスは無料で、ゲーム内アイテム管理を目的としています。",
+      "2": "1.2. ボットを利用する場合はDiscordの規約を遵守してください。"
+    },
+    "2": {
+      "1": "2.1. ランチャーでアイテムを作成・カスタマイズできます。",
+      "2": "2.2. クリエイターは販売価格の75%を受け取ります。",
+      "3": "2.3. 不適切なアイテムは削除されることがあります。"
+    },
+    "3": {
+      "1": "3.1. すべての取引は両者の確認が必要です。",
+      "2": "3.2. 取引前に詳細を必ず確認してください。",
+      "3": "3.3. アイテムやクレジットには現実の価値がありません。特別な手続きで現金化は可能ですが、運営にお問い合わせください。"
+    },
+    "4": {
+      "1": "4.1. APIキーは /api-key コマンドで発行されます。",
+      "2": "4.2. 開発者はAPIキーを適切に管理してください。",
+      "3": "4.3. 不正利用があった場合、APIアクセスを停止することがあります。"
+    },
+    "5": {
+      "1": "5.1. システムのバグや脆弱性の悪用。",
+      "2": "5.2. サービスを自動利用するボットの作成。",
+      "3": "5.3. アイテムを現金で売買すること。"
+    },
+    "6": {
+      "1": "6.1. サービスは予告なく変更または停止されることがあります。",
+      "2": "6.2. 主要な変更はDiscordボットで通知します。"
+    },
+    "title": "Croissant - 利用規約",
+    "intro": "Croissantへようこそ！インベントリシステム（Discordボット、API、サイト）の利用ルールを説明します。",
+    "legalMentions": "法的表記"
+  },
+  "profile": {
+    "loading": "プロフィールを読み込み中...",
+    "error": "エラーが発生しました。",
+    "notFound": "プロフィールが見つかりません。",
+    "shop": "ストア",
+    "inventory": "インベントリ",
+    "disabled": "(無効化)",
+    "reenable": "アカウントを再有効化",
+    "disable": "アカウントを無効化",
+    "giveCredits": "クレジットを送る",
+    "trade": "交換",
+    "myMarketListings": "私の出品",
+    "myListings": "私のリスティング",
+    "settings": "設定",
+    "sendingCredits": "クレジットを送信中...",
+    "creditsSent": "クレジットを送りました！",
+    "ok": "OK",
+    "creator": "クリエイター：",
+    "stock": "在庫：",
+    "price": "価格：",
+    "total": "合計：",
+    "buy": "購入",
+    "cancel": "キャンセル",
+  "giveCreditsTo": "<b>{{username}}</b> にクレジットを送る",
+  "max": "/ {{max}}",
+  "noItems": "ストアにアイテムがありません。",
+  "promptBuy": "いくつ「{{item}}」を購入しますか？\n価格： {{price}} 個あたり{{stock}}",
+    "shopTooltipStock": "在庫： {{stock}}",
+    "inventoryTitle": "インベントリ",
+    "creatorLabel": "クリエイター：",
+    "stockLabel": "在庫：",
+    "totalLabel": "合計：",
+    "disabledLabel": "(無効化)"
+  },
+  "search": {
+    "enterQuery": "検索キーワードを入力してください。",
+    "resultsFor": "<strong>{{query}}</strong> の結果",
+    "users": "ユーザー",
+    "games": "ゲーム",
+    "items": "アイテム",
+    "price": "価格",
+    "buy": "購入",
+    "cancel": "キャンセル",
+    "total": "合計： {{total}}",
+  "buyHowMany": "いくつ「{{item}}」を購入しますか？",
+    "itemPurchased": "アイテムを購入しました！",
+    "buyingItem": "購入中...",
+    "ok": "OK"
+  },
+  "studios": {
+    "title": "私のスタジオ",
+    "create": "+ スタジオを作成",
+    "createTitle": "スタジオを作成",
+    "studioNamePlaceholder": "スタジオ名",
+    "createBtn": "作成",
+    "cancelBtn": "キャンセル",
+    "errorCreate": "作成中にエラーが発生しました",
+    "noStudios": "まだスタジオがありません。",
+    "users": "ユーザー：",
+    "noUsers": "ユーザーがいません",
+    "apiKey": "APIキー：",
+    "show": "表示",
+    "hide": "非表示",
+    "copy": "コピー",
+    "addUser": "+ ユーザーを追加",
+    "addUserTitle": "スタジオにユーザーを追加",
+    "searchUserPlaceholder": "ユーザーを検索...",
+    "addBtn": "追加",
+    "removeUserConfirm": "本当にこのユーザーを削除しますか？",
+    "errorAddUser": "追加中にエラーが発生しました",
+    "errorRemoveUser": "削除中にエラーが発生しました"
+  },
+  "settings": {
+    "title": "設定",
+    "changePassword": "パスワードを変更",
+    "securityLinks": "セキュリティ＆ソーシャルリンク",
+    "profilePicture": "プロフィール画像",
+    "uploading": "アップロード中...",
+    "uploadNewPicture": "画像を変更",
+    "username": "ユーザー名",
+    "saving": "保存中...",
+    "save": "保存",
+    "userId": "ユーザーID",
+    "copy": "コピー",
+    "apiKey": "APIキー",
+    "show": "表示",
+    "hide": "非表示",
+    "thisKeyAllows": "このキーはあなたの名義でAPIを使用することを許可します。",
+    "linkSteam": "Steamをリンク",
+    "linkDiscord": "Discordをリンク",
+    "linkGoogle": "Googleをリンク",
+    "steamLinked": "Steam連携済み",
+    "discordLinked": "Discord連携済み",
+    "googleLinked": "Google連携済み",
+    "registerPasskey": "Passkeyを登録",
+    "registering": "登録中...",
+    "passkeyRegistered": "Passkeyが登録されました！",
+    "setupGoogleAuth": "Google Authenticatorを設定",
+    "deleteGoogleAuth": "Google Authenticatorを削除",
+    "close": "閉じる",
+    "successProfilePic": "プロフィール画像を更新しました！",
+    "successUsername": "ユーザー名を更新しました！",
+    "successPassword": "パスワードを変更しました！",
+    "errorUsername": "ユーザー名の変更に失敗しました",
+    "errorProfilePic": "アバターのアップロード中にエラーが発生しました",
+    "errorPassword": "パスワードの変更に失敗しました",
+    "enterCurrentPassword": "現在のパスワードを入力してください",
+    "enterNewPassword": "新しいパスワード",
+    "confirmNewPassword": "新しいパスワードを確認",
+    "savePassword": "パスワードを保存",
+    "cancel": "キャンセル",
+    "securityModalTitle": "セキュリティ＆ソーシャルリンク",
+    "unlinkSteamConfirm": "本当にSteamの連携を解除しますか？",
+    "unlinkSteamError": "Steamの連携解除に失敗しました。",
+    "deleteGoogleAuthConfirm": "本当にGoogle Authenticatorを削除しますか？これで2FAが無効になります。",
+    "deleteGoogleAuthError": "Google Authenticatorの削除に失敗しました。",
+    "linkTextWebsite": "リンクするにはウェブサイトにアクセス",
+    "linkTextStudio": "スタジオはSteamをリンクできません"
+  },
+  "footer": {
+    "terms": "利用規約",
+    "privacy": "プライバシー",
+    "copyright": "Copyright © 2025 Croissant API"
+  },
+  "navbar": {
+    "docs": "ドキュメント",
+    "shop": "ストア",
+    "marketplace": "マーケット",
+    "launcher": "ランチャー",
+    "vpn": "VPN",
+    "bot": "ボット",
+    "install": "インストール",
+    "manage": "管理",
+    "studios": "スタジオ",
+    "oauth2": "OAuth2",
+    "items": "アイテム",
+    "games": "ゲーム",
+    "settings": "設定",
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "downloadLauncher": "ランチャーをダウンロード",
+    "discordBot": "Discordボット",
+    "user": "マイページ"
+  },
+  "searchbar": {
+    "placeholder": "ユーザーとゲームを検索..."
+  },
+  "section": {
+    "defaultTitle": "セクション",
+    "defaultDescription": "説明"
+  },
+  "inventory": {
+    "sellPrompt": "いくつ「{{item}}」を売りますか？",
+    "dropPrompt": "いくつ「{{item}}」を削除しますか？",
+    "auctionPrompt": "「{{item}}」をオークションに出す — 単価を設定してください：",
+    "canBeSold": "✓ 売却可能",
+    "cannotBeSold": "✗ 売却不可",
+    "thisCanBeSold": "✓ このアイテムは売却できます",
+    "thisCannotBeSold": "✗ このアイテムは売却できません",
+    "price": "価格",
+    "credits": "クレジット",
+    "metadata": "メタデータ",
+    "rarity": "レア度",
+    "uniqueId": "ユニークID",
+    "back": "← インベントリに戻る",
+    "yes": "はい",
+    "no": "いいえ",
+    "loading": "読み込み中...",
+    "error": "エラー： {{error}}"
+  },
+  "oauth2": {
+    "demo": {
+      "title": "Croissant OAuth2 統合の例",
+      "subtitle": "OAuth2デモ",
+      "description": "コンソールを開くとOAuth2フローの動作がわかります。この例ではCroissantのOAuth2でユーザーを認証する方法を示しています。下のボタンをクリックして始めてください：",
+      "connectButton": "Croissantで接続",
+      "expectedResult": "期待される結果",
+      "expectedDescription": "ボタンをクリックすると認証用のポップアップが開きます。ログイン後、ポップアップは閉じられ、ユーザーデータがコンソールに表示されます。",
+      "downloadCode": "テスト用OAuth2 HTMLをダウンロードしてコードを確認"
+    },
+    "auth": {
+      "authorize": "以下を許可しますか",
+      "accessData": "ユーザーデータへのアクセス？",
+      "login": "ログイン",
+      "authorizing": "認可中...",
+      "authorizeButton": "許可",
+      "redirectUri": "リダイレクトURI：",
+      "missingParams": "パラメータが不足しています。",
+      "networkError": "ネットワークエラー。"
+    },
+    "apps": {
+      "title": "私のOAuth2アプリ",
+      "testLink": "OAuth2をテスト ↗",
+      "addButton": "アプリを追加",
+      "addButtonMobile": "+ 追加",
+      "createTitle": "アプリを作成",
+      "editTitle": "アプリを編集",
+      "clientId": "クライアントID：",
+      "clientSecret": "クライアントシークレット：",
+      "redirectUrls": "リダイレクトURL：",
+      "copy": "コピー",
+      "show": "表示",
+      "hide": "非表示",
+      "integrationCode": "統合コード",
+      "edit": "編集",
+      "delete": "削除",
+      "appName": "アプリ名",
+      "appNamePlaceholder": "私のゲーム、私のサイト...",
+      "redirectUrlsHelp": "(カンマ区切り)",
+      "redirectUrlsPlaceholder": "https://myapp.com/callback, http://localhost:3000/cb",
+      "save": "保存",
+      "create": "作成",
+      "cancel": "キャンセル",
+      "integrationTitle": "統合ボタンのコード：",
+      "deleteConfirm": "本当にこのアプリを削除しますか？"
+    }
+  },
+  "createGame": {
+    "title": "ゲームを提出",
+    "backToMyGames": "私のゲームへ戻る",
+    "name": "名前",
+    "description": "説明",
+    "price": "価格",
+    "downloadLink": "ダウンロードリンク（GitHub/GitLabまたはZIPリンク）",
+    "icon": "アイコン（オプション）",
+    "changeIcon": "アイコンを変更",
+    "chooseIcon": "アイコンを選択",
+    "banner": "バナー（オプション）",
+    "changeBanner": "バナーを変更",
+    "chooseBanner": "バナーを選択",
+    "ready": "準備完了！",
+    "showInStore": "ストアに表示",
+    "genre": "ジャンル",
+    "releaseDate": "リリース日",
+    "developer": "開発者",
+    "publisher": "パブリッシャー",
+    "platforms": "プラットフォーム",
+    "website": "ウェブサイト",
+    "trailerLink": "トレーラーリンク",
+    "multiplayer": "マルチプレイヤー",
+    "submit": "提出",
+    "submitting": "送信中...",
+    "success": "ゲームが作成されました！",
+    "mobile": {
+      "title": "モバイルでは利用できません",
+      "desc": "このページはPCからのみアクセスできます。\nゲームを提出するにはPCを使用してください。"
+    },
+    "error": {
+      "name": "名前は必須です",
+      "description": "説明は必須です",
+      "price": "価格は必須です",
+      "downloadLink": "ダウンロードリンクは必須です",
+      "iconUpload": "アイコンのアップロードに失敗しました",
+      "bannerUpload": "バナーのアップロードに失敗しました",
+      "submit": "ゲームの作成に失敗しました。"
+    }
+  },
+  "createItem": {
+    "title": "アイテムを提出",
+    "backToMyItems": "私のアイテムへ戻る",
+    "name": "名前",
+    "description": "説明",
+    "price": "価格",
+    "showInStore": "ストアに表示",
+    "icon": "アイコン（オプション）",
+    "changeIcon": "アイコンを変更",
+    "chooseIcon": "アイコンを選択",
+    "selected": "選択済",
+    "submit": "提出",
+    "submitting": "送信中...",
+    "success": "アイテムが作成されました！",
+    "mobile": {
+      "title": "モバイルでは利用できません",
+      "desc": "このページはPCからのみアクセスできます。\nアイテムを提出するにはPCを使用してください。"
+    },
+    "error": {
+      "name": "名前は必須です",
+      "description": "説明は必須です",
+      "price": "価格は必須です",
+      "iconUpload": "アイコンのアップロードに失敗しました。",
+      "submit": "アイテムの作成に失敗しました。"
+    }
+  },
+  "myGames": {
+    "title": "私のゲーム",
+    "addGame": "+ ゲームを追加",
+    "loading": "読み込み中...",
+    "empty": "ゲームが見つかりません。",
+    "edit": "編集",
+    "id": "ID",
+    "transfer": "譲渡",
+    "transferring": "譲渡中...",
+    "price": "価格",
+    "showInStore": "ストアに表示",
+    "yes": "はい",
+    "no": "いいえ",
+    "name": "名前",
+    "description": "説明",
+    "multiplayer": "マルチプレイヤー",
+    "icon": "ゲームアイコン",
+    "banner": "バナー",
+    "genre": "ジャンル",
+    "releaseDate": "リリース日",
+    "publisher": "パブリッシャー",
+    "developer": "開発者",
+    "platforms": "プラットフォーム",
+    "website": "ウェブサイト",
+    "trailerLink": "トレーラーリンク",
+    "downloadLink": "ダウンロードリンク",
+    "saving": "保存中...",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "mobile": {
+      "title": "モバイルでは利用できません",
+      "desc": "このページはPCからのみアクセスできます。\nゲームを管理するにはPCを使用してください。"
+    },
+    "searchUser": "ユーザー名で検索..."
+  },
+  "myItems": {
+    "title": "私のアイテム",
+    "addItem": "+ アイテムを追加",
+    "loading": "読み込み中...",
+    "empty": "アイテムが見つかりません。",
+    "edit": "編集",
+    "id": "ID",
+    "transfer": "譲渡",
+    "transferring": "譲渡中...",
+    "price": "価格",
+    "showInStore": "ストアに表示",
+    "yes": "はい",
+    "no": "いいえ",
+    "saving": "保存中...",
+    "save": "保存",
+    "cancel": "キャンセル",
+    "searchUser": "ユーザーを名前で検索..."
+  },
+  "launcher": {
+    "title": "Croissant ランチャー",
+    "loginRequired": "ランチャーにアクセスするにはログインしてください。",
+    "loading": "ランチャーを読み込み中...",
+    "noGames": "利用可能なゲームはありません。",
+    "searchPlaceholder": "ゲームを検索...",
+    "install": "インストール",
+    "play": "プレイ",
+    "update": "更新",
+    "delete": "アンインストール",
+    "transfer": "譲渡",
+    "transferTitle": "ゲームを譲渡",
+  "transferDesc": "あなたの「{{game}}」のコピーを別のユーザーに譲渡します。",
+    "transferWarning": "⚠️ 注意：譲渡するとそのゲームへのアクセスを永久に失います。",
+    "transferUserPlaceholder": "ユーザーを検索...",
+    "transferSuccess": "ゲームの譲渡に成功しました！",
+    "transferError": "譲渡中にエラーが発生しました。",
+    "owner": "所有者：",
+    "genre": "ジャンル：",
+    "developer": "開発者：",
+    "publisher": "パブリッシャー：",
+    "releaseDate": "リリース：",
+    "platforms": "プラットフォーム：",
+    "credits": "クレジット",
+    "profile": "プロフィール",
+    "logout": "ログアウト",
+    "cancel": "キャンセル",
+    "selectUser": "ユーザーを選択：",
+    "transferring": "譲渡中..."
+  }
+}
