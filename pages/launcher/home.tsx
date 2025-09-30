@@ -168,9 +168,7 @@ const Library: React.FC = () => {
 
   useEffect(() => {
     if (typeof location !== "undefined") {
-      if (location.href.includes("?from=app")) {
-        document.cookie = "from=app; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
-      }
+      document.cookie = "from=app; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
     }
   }, []);
 
@@ -498,14 +496,20 @@ const Library: React.FC = () => {
       <LobbyManager></LobbyManager>
       <div className="flex gap-6 h-screen">
         {/* Sidebar */}
-        <aside className="glass-content-card w-80 flex-shrink-0 p-6">
+        <aside className="glass-content-card w-80 flex-shrink-0 p-6 flex flex-col">
           <input type="text" placeholder={t("launcher.searchPlaceholder")} value={search} onChange={(e) => setSearch(e.target.value)} className="glass-input w-full mb-6" />
           {filteredGames.length === 0 ? (
             <div className="text-center py-8" style={{ color: "var(--glass-text-secondary)" }}>
               {t("launcher.noGames")}
             </div>
           ) : (
-            <div className="space-y-2">
+            <div
+              className="space-y-2 overflow-y-auto flex-1 pr-2 custom-scrollbar"
+              style={{
+                scrollbarWidth: "thin",
+                scrollbarColor: "rgba(255, 255, 255, 0.1) transparent",
+              }}
+            >
               {filteredGames.map((game) => (
                 <div
                   key={game.gameId}
@@ -541,7 +545,13 @@ const Library: React.FC = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto">
+        <main
+          className="flex-1 overflow-y-auto"
+          style={{
+            scrollbarWidth: "thin",
+            scrollbarColor: "rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)",
+          }}
+        >
           {!selected ? (
             <div className="glass-content-card h-full flex items-center justify-center">
               <div className="text-center">
@@ -667,7 +677,13 @@ const Library: React.FC = () => {
               />
 
               {transferUserDropdownOpen && transferUserResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 glass-card max-h-48 overflow-y-auto z-10">
+                <div
+                  className="absolute top-full left-0 right-0 mt-2 glass-card max-h-48 overflow-y-auto z-10 pr-2 custom-scrollbar"
+                  style={{
+                    scrollbarWidth: "thin",
+                    scrollbarColor: "rgba(255, 255, 255, 0.1) transparent",
+                  }}
+                >
                   {transferUserResults.map((user) => (
                     <div
                       key={user.userId || user.user_id || user.id}
