@@ -8,6 +8,11 @@ import useIsMobile from "../hooks/useIsMobile";
 import Certification from "../components/common/Certification";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+// Ajoute ce style dans ton _app.tsx ou dans le head :
+// import "github-markdown-css/github-markdown.css";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -211,7 +216,11 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
             }}
           >
             <div>
-              <b>{t("shop.price")}</b> {game.price} <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" />
+              <b>{t("shop.price")}</b>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginLeft: 8 }}>
+                {game.price}
+                <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" style={{ width: 18, height: 18 }} />
+              </span>
             </div>
             {!userOwnsGame ? (
               <button className="shop-game-buy-btn" style={{ padding: "10px 32px", fontSize: 16, borderRadius: 8, fontWeight: 700, background: "#4caf50", color: "var(--text-color-primary)", border: "none", cursor: buying ? "not-allowed" : "pointer", opacity: buying ? 0.7 : 1 }} onClick={handleBuyGame} disabled={buying}>
@@ -225,14 +234,7 @@ function GameDesktop(props: ReturnType<typeof useGamePageLogic>) {
             )}
           </div>
         )}
-        <p className="gamepage-desc" style={{ overflowY: "auto" }}>
-          {game.description.split("\n").map((line, idx) => (
-            <React.Fragment key={idx}>
-              {line}
-              <br />
-            </React.Fragment>
-          ))}
-        </p>
+        <MarkdownDescription>{game.description}</MarkdownDescription>
         <div className="game-properties">
           {game.genre && (
             <div>
@@ -398,7 +400,11 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
             }}
           >
             <div>
-              <b>{t("shop.price")}</b> {game.price} <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" style={{ width: 18, height: 18 }} />
+              <b>{t("shop.price")}</b>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginLeft: 8 }}>
+                {game.price}
+                <CachedImage src="/assets/credit.avif" className="gamepage-credit-icon" style={{ width: 18, height: 18 }} />
+              </span>
             </div>
             {!userOwnsGame ? (
               <button className="shop-game-buy-btn" style={{ padding: "8px 18px", fontSize: "1em", borderRadius: 7, fontWeight: 700, background: "#4caf50", color: "var(--text-color-primary)", border: "none", cursor: buying ? "not-allowed" : "pointer", opacity: buying ? 0.7 : 1 }} onClick={handleBuyGame} disabled={buying}>
@@ -412,14 +418,7 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
             )}
           </div>
         )}
-        <p className="gamepage-desc" style={{ overflowY: "auto", fontSize: "0.98em" }}>
-          {game.description.split("\n").map((line, idx) => (
-            <React.Fragment key={idx}>
-              {line}
-              <br />
-            </React.Fragment>
-          ))}
-        </p>
+        <MarkdownDescription>{game.description}</MarkdownDescription>
         <div className="game-properties" style={{ fontSize: "0.97em" }}>
           {game.genre && (
             <div>
@@ -500,6 +499,41 @@ function GameMobile(props: ReturnType<typeof useGamePageLogic>) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function MarkdownDescription({ children }: { children: string }) {
+  return (
+    <div className="markdown-body" style={{ overflowY: "auto" }}>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[
+          [
+            rehypeRaw,
+            {
+              passThrough: ["element"],
+            },
+          ],
+        ]}
+        components={{
+          img: ({ node, ...props }) => (
+            <img
+              {...props}
+              style={{
+                maxWidth: "100%",
+                borderRadius: 8,
+                boxShadow: "none",
+                margin: "8px 4px",
+                background: "none",
+              }}
+              alt={props.alt ?? ""}
+            />
+          ),
+        }}
+      >
+        {children}
+      </ReactMarkdown>
     </div>
   );
 }

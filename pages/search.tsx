@@ -7,6 +7,9 @@ import CachedImage from "../components/utils/CachedImage";
 import Certification from "../components/common/Certification";
 import { Trans, useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -313,7 +316,29 @@ const SearchPage: React.FC = () => {
                         {game.genre}
                       </div>
                       <div className="text-sm mb-3 line-clamp-2" style={{color: 'var(--glass-text-secondary)'}}>
-                        {game.description}
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeRaw]}
+                          components={{
+                            img: ({ node, ...props }) => (
+                              <img
+                                {...props}
+                                style={{
+                                  maxWidth: "100%",
+                                  borderRadius: 8,
+                                  boxShadow: "none",
+                                  margin: "8px 4px",
+                                  background: "none",
+                                  display: "inline-block",
+                                  verticalAlign: "middle",
+                                }}
+                                alt={props.alt ?? ""}
+                              />
+                            ),
+                          }}
+                        >
+                          {game.description || ""}
+                        </ReactMarkdown>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-neon-yellow font-bold text-lg">
@@ -356,7 +381,7 @@ const SearchPage: React.FC = () => {
                       src={`/items-icons/${
                         item?.iconHash || item.itemId
                           ? item.iconHash || item.itemId
-                          : "default.avif"
+                          : "default.aviv"
                       }`}
                       alt={item.name}
                       className="w-16 h-16 object-contain rounded-xl glass-card border-2 border-glass-border"
@@ -366,7 +391,29 @@ const SearchPage: React.FC = () => {
                         {item.name}
                       </div>
                       <div className="text-sm mb-3" style={{color: 'var(--glass-text-secondary)'}}>
-                        {item.description}
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          rehypePlugins={[rehypeRaw]}
+                          components={{
+                            img: ({ node, ...props }) => (
+                              <img
+                                {...props}
+                                style={{
+                                  maxWidth: "100%",
+                                  borderRadius: 8,
+                                  boxShadow: "none",
+                                  margin: "8px 4px",
+                                  background: "none",
+                                  display: "inline-block",
+                                  verticalAlign: "middle",
+                                }}
+                                alt={props.alt ?? ""}
+                              />
+                            ),
+                          }}
+                        >
+                          {item.description || ""}
+                        </ReactMarkdown>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-neon-yellow font-bold text-lg">

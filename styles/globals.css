@@ -1,5 +1,5 @@
 /* Import Google Fonts for Dark Glassmorphism style */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,9 +8,9 @@
 /* Variables globales pour le thème sombre glassmorphism */
 :root {
   --app-height: 100vh;
-  --dark-primary: #0A0A0F;
-  --dark-secondary: #1A1A23;
-  --dark-tertiary: #2A2A35;
+  --dark-primary: #0a0a0f;
+  --dark-secondary: #1a1a23;
+  --dark-tertiary: #2a2a35;
   --glass-primary: rgba(255, 255, 255, 0.05);
   --glass-secondary: rgba(255, 255, 255, 0.02);
   --glass-accent: rgba(255, 255, 255, 0.1);
@@ -22,8 +22,8 @@
 
 /* Base styles avec thème sombre */
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: linear-gradient(135deg, #0A0A0F 0%, #1A1A23 50%, #2A2A35 100%);
+  font-family: "Inter", system-ui, sans-serif;
+  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a23 50%, #2a2a35 100%);
   color: var(--glass-text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -39,6 +39,11 @@ body {
   background: rgba(26, 26, 35, 0.3);
   border-radius: 4px;
   backdrop-filter: blur(10px);
+}
+
+.markdown-body {
+  background: none !important;
+  width: 80% !important;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -98,7 +103,7 @@ body {
   }
 
   .glass-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
@@ -212,7 +217,7 @@ body {
   }
 
   .glass-content-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -238,7 +243,7 @@ body {
   }
 
   .glass-details::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -274,7 +279,7 @@ body {
   }
 
   .glass-glow::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: -2px;
     background: linear-gradient(45deg, rgba(74, 158, 255, 0.3), rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.3));
@@ -332,14 +337,14 @@ body {
     position: absolute;
     width: 2px;
     height: 2px;
-    background: linear-gradient(45deg, #FFFFFF, #87CEEB);
+    background: linear-gradient(45deg, #ffffff, #87ceeb);
     border-radius: 50%;
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
     animation: shooting 3s linear infinite;
   }
 
   .shooting-star::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -354,7 +359,7 @@ body {
     position: absolute;
     width: 1px;
     height: 1px;
-    background: #FFFFFF;
+    background: #ffffff;
     border-radius: 50%;
     box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
     animation: star-twinkle 2s ease-in-out infinite alternate;
@@ -427,4 +432,30 @@ body {
   left: 0;
   z-index: 50;
   background: transparent;
+}
+
+.markdown-body p:has(img:only-child) img {
+  display: block;
+  margin: 16px auto;
+}
+.markdown-body p img {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 8px 4px;
+  width: attr(width);
+  height: attr(height);
+}
+.markdown-body p:has(img) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.markdown-body li img {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 4px 4px;
+  max-width: 100%;
+  height: auto;
 }
