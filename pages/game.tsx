@@ -12,11 +12,33 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 
-export async function getServerSideProps({ locale }) {
+export async function getServerSideProps({ locale, query }) {
+  const translations = await import("next-i18next/serverSideTranslations").then((mod) => mod.serverSideTranslations(locale, ["common"]));
+  let ogMeta = null;
+  let gameFromQuery = null;
+
+  if (query.gameId) {
+    try {
+      const res = await fetch(`https://croissant-api.fr/api/games/${query.gameId}`);
+      if (res.ok) {
+        const game = await res.json();
+        ogMeta = {
+          title: game.name,
+          description: game.description,
+          bannerUrl: game.bannerHash ? `https://croissant-api.fr/banners-icons/${game.bannerHash}` : "https://croissant.gg/assets/launcher.png",
+          gameUrl: `https://croissant-api.fr/game?gameId=${game.gameId}`,
+        };
+        gameFromQuery = game;
+      }
+    } catch {}
+  }
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...translations,
       isLauncher: true,
+      ogMeta,
+      gameFromQuery,
     },
   };
 }
