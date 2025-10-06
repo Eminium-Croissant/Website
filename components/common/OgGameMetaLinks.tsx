@@ -5,9 +5,10 @@ type Props = {
   description: string;
   bannerUrl: string;
   gameUrl: string;
+  card?: boolean;
 };
 
-export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl }: Props) {
+export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl, card }: Props) {
   return (
     <>
       <title>{title}</title>
@@ -17,10 +18,14 @@ export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl
       <meta property="og:url" content={gameUrl} />
       <meta property="og:type" content="website" />
       {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title + " on Croissant API"} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={bannerUrl} />
+      {card && (
+        <>
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={title + " on Croissant API"} />
+          <meta name="twitter:description" content={description} />
+          <meta name="twitter:image" content={bannerUrl} />
+        </>
+      )}
     </>
   );
 }

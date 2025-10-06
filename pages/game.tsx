@@ -27,6 +27,7 @@ export async function getServerSideProps({ locale, query }) {
           description: game.description,
           bannerUrl: game.bannerHash ? `https://croissant-api.fr/banners-icons/${game.bannerHash}` : "https://croissant.gg/assets/launcher.png",
           gameUrl: `https://croissant-api.fr/game?gameId=${game.gameId}`,
+          card: true
         };
         gameFromQuery = game;
       }

@@ -11,12 +11,11 @@ import Certification from "../components/common/Certification";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export async function getStaticProps({ locale, params, query }) {
+export async function getServerSideProps({ locale, query }) {
   const translations = await serverSideTranslations(locale, ["common"]);
-  let ogMeta = null;
   let profileFromQuery = null;
-  const userId = query?.userId || params?.userId || null;
-
+  const userId = query?.user || null;
+  let ogMeta = null;
   if (userId) {
     try {
       const res = await fetch(`https://croissant-api.fr/api/users/${userId}`);
@@ -24,11 +23,11 @@ export async function getStaticProps({ locale, params, query }) {
         const user = await res.json();
         ogMeta = {
           title: user.username,
-          description: user.bio || user.username,
-          avatarUrl: user.avatar
-            ? `https://croissant-api.fr/avatar/${user.id}`
-            : "https://croissant.gg/assets/default-avatar.png",
-          profileUrl: `https://croissant.gg/profile?user=${user.id}`,
+          description: `Check out ${user.username}'s profile on Croissant!`,
+          bannerUrl: `https://croissant-api.fr/avatar/${user.id}`,
+          // profileUrl: `https://croissant-api.fr/profile?user=${user.id}`,
+          query: { user: user.id },
+          card: false
         };
         profileFromQuery = user;
       }
@@ -361,9 +360,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
                     color: "#fff",
                   }}
                 />
-                {prompt.maxAmount && (
-                  <span style={{ color: "#888", fontSize: 12 }}>/ {prompt.maxAmount}</span>
-                )}
+                {prompt.maxAmount && <span style={{ color: "#888", fontSize: 12 }}>/ {prompt.maxAmount}</span>}
                 {prompt.item && (
                   <span style={{ display: "flex", alignItems: "center", gap: 4, fontWeight: 500 }}>
                     {t("profile.totalLabel")} {(prompt.amount || 1) * (prompt.item.price || 0)}
