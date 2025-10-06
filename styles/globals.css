@@ -43,7 +43,7 @@ body {
 
 .markdown-body {
   background: none !important;
-  width: 80% !important;
+  /* width: 80% !important; */
 }
 
 ::-webkit-scrollbar-thumb {

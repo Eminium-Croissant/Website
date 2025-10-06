@@ -9,6 +9,9 @@ import { useLobby } from "../../hooks/LobbyContext";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import Login from "../../pages/login";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 const myUrl = "http://localhost:3333"; // Replace with your actual URL
 let discordRpcManager: DiscordRpcManager;
@@ -558,7 +561,7 @@ const Library: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="glass-content-card h-full">
+            <div className="glass-content-card h-full" style={{ overflowY: "scroll"}}>
               {/* Game Banner */}
               <div className="relative h-64 mb-6 rounded-xl overflow-hidden">
                 <img src={`/banners-icons/${selected.bannerHash}`} alt={selected.name} className="w-full h-full object-cover" loading="lazy" />
@@ -622,14 +625,18 @@ const Library: React.FC = () => {
                       {t("launcher.play")}
                     </button>
                   )}
-                  <Link href={`/game?gameId=${selected.gameId}`}>
-                    <button className="glass-button">Voir les détails</button>
-                  </Link>
                   <button className="glass-button" onClick={() => setShowTransferModal(true)} disabled={isPlaying}>
                     {t("launcher.transfer")}
                   </button>
                 </div>
               </div>
+
+              {/* Game Description */}
+              {selected.description && (
+                <div className="mt-6">
+                  <MarkdownDescription>{selected.description}</MarkdownDescription>
+                </div>
+              )}
             </div>
           )}
         </main>
@@ -751,3 +758,38 @@ const ExportedComponent = (props) => {
 };
 
 export default ExportedComponent;
+
+function MarkdownDescription({ children }: { children: string }) {
+  return (
+    <div className="markdown-body glass-card">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[
+          [
+            rehypeRaw,
+            {
+              passThrough: ["element"],
+            },
+          ],
+        ]}
+        components={{
+          img: ({ node, ...props }) => (
+            <img
+              {...props}
+              style={{
+                maxWidth: "100%",
+                borderRadius: 8,
+                boxShadow: "none",
+                margin: "8px 4px",
+                background: "none",
+              }}
+              alt={props.alt ?? ""}
+            />
+          ),
+        }}
+      >
+        {children}
+      </ReactMarkdown>
+    </div>
+  );
+}
