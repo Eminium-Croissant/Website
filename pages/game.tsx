@@ -654,13 +654,13 @@ export async function getServerSideProps({ locale }) {
 const ExportedComponent = (props) => {
   const { user } = useAuth();
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    // Définit le cookie au montage et aussi lorsque l'utilisateur se connecte (user devient truthy)
-    if (user || !document.cookie.includes("from=app")) {
-      document.cookie = "from=app; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (typeof window === "undefined") return;
+  //   // Définit le cookie au montage et aussi lorsque l'utilisateur se connecte (user devient truthy)
+  //   if (user || !document.cookie.includes("from=app")) {
+  //     document.cookie = "from=app; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT";
+  //   }
+  // }, [user]);
 
   return user ? <Library {...props} /> : <Login />;
 };
