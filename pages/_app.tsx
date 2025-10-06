@@ -24,6 +24,7 @@ import { appWithTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getMetaLinksProps } from "../components/common/metaLinks.server";
 import "github-markdown-css/github-markdown.css";
+import OgGameMetaLinks from "../components/common/OgGameMetaLinks";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -90,52 +91,6 @@ function AppContent({ Component, pageProps }: AppProps) {
         <img src="/assets/backgrounds/raiden-crow.webp" alt="background" className="absolute top-0 left-0 w-screen h-screen object-cover opacity-5 blur-[3px] transition-opacity duration-800 max-w-full" />
         {/* Overlay sombre */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-dark-primary/20 to-dark-secondary/40"></div>
-        {/* Champ d'étoiles statiques */}
-        {/* <div className="absolute inset-0"> */}
-        {/* Étoiles blanches */}
-        {/* <div className="twinkling-star" style={{ top: "10%", left: "20%", animationDelay: "0s" }}></div>
-          <div className="twinkling-star" style={{ top: "15%", left: "80%", animationDelay: "1s" }}></div>
-          <div className="twinkling-star" style={{ top: "25%", left: "60%", animationDelay: "2s" }}></div>
-          <div className="twinkling-star" style={{ top: "35%", left: "30%", animationDelay: "0.5s" }}></div>
-          <div className="twinkling-star" style={{ top: "45%", left: "70%", animationDelay: "1.5s" }}></div>
-          <div className="twinkling-star" style={{ top: "55%", left: "10%", animationDelay: "2.5s" }}></div>
-          <div className="twinkling-star" style={{ top: "65%", left: "90%", animationDelay: "0.8s" }}></div>
-          <div className="twinkling-star" style={{ top: "75%", left: "40%", animationDelay: "1.8s" }}></div>
-          <div className="twinkling-star" style={{ top: "85%", left: "85%", animationDelay: "2.2s" }}></div>
-          <div className="twinkling-star" style={{ top: "95%", left: "15%", animationDelay: "0.3s" }}></div> */}
-
-        {/* Étoiles bleues */}
-        {/* <div className="twinkling-star" style={{ top: "12%", left: "45%", animationDelay: "1.2s", background: "#87CEEB" }}></div>
-          <div className="twinkling-star" style={{ top: "28%", left: "75%", animationDelay: "2.8s", background: "#87CEEB" }}></div>
-          <div className="twinkling-star" style={{ top: "42%", left: "25%", animationDelay: "0.7s", background: "#87CEEB" }}></div>
-          <div className="twinkling-star" style={{ top: "58%", left: "55%", animationDelay: "1.9s", background: "#87CEEB" }}></div>
-          <div className="twinkling-star" style={{ top: "72%", left: "95%", animationDelay: "2.1s", background: "#87CEEB" }}></div> */}
-
-        {/* Étoiles dorées */}
-        {/* <div className="twinkling-star" style={{ top: "18%", left: "35%", animationDelay: "1.6s", background: "#FFD700" }}></div>
-          <div className="twinkling-star" style={{ top: "38%", left: "65%", animationDelay: "0.4s", background: "#FFD700" }}></div>
-          <div className="twinkling-star" style={{ top: "68%", left: "5%", animationDelay: "2.3s", background: "#FFD700" }}></div>
-          <div className="twinkling-star" style={{ top: "88%", left: "50%", animationDelay: "1.4s", background: "#FFD700" }}></div> */}
-        {/* </div> */}
-        {/* Étoiles filantes */}
-        {/* <div className="absolute inset-0">
-          <div className="shooting-star" style={{top: '20%', left: '0%', animationDelay: '0s'}}></div>
-          <div className="shooting-star" style={{top: '40%', left: '0%', animationDelay: '2s'}}></div>
-          <div className="shooting-star" style={{top: '60%', left: '0%', animationDelay: '4s'}}></div>
-          <div className="shooting-star" style={{top: '80%', left: '0%', animationDelay: '6s'}}></div>
-          <div className="shooting-star" style={{top: '30%', left: '0%', animationDelay: '8s'}}></div>
-          <div className="shooting-star" style={{top: '50%', left: '0%', animationDelay: '10s'}}></div>
-          <div className="shooting-star" style={{top: '70%', left: '0%', animationDelay: '12s'}}></div>
-          <div className="shooting-star" style={{top: '90%', left: '0%', animationDelay: '14s'}}></div>
-        </div> */}
-        {/* Particules flottantes subtiles */}
-        {/* <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-glass-accent rounded-full opacity-20 animate-star-float"></div>
-          <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-glass-primary rounded-full opacity-15 animate-star-float" style={{animationDelay: '3s'}}></div>
-          <div className="absolute bottom-1/3 left-1/3 w-1 h-1 bg-glass-secondary rounded-full opacity-10 animate-star-float" style={{animationDelay: '6s'}}></div>
-          <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-glass-accent rounded-full opacity-12 animate-star-float" style={{animationDelay: '9s'}}></div>
-          <div className="absolute bottom-1/4 right-1/3 w-1 h-1 bg-glass-primary rounded-full opacity-18 animate-star-float" style={{animationDelay: '12s'}}></div>
-        </div> */}
       </div>
     );
   };
@@ -161,10 +116,16 @@ function AppContent({ Component, pageProps }: AppProps) {
   const WebsiteLayout = () => {
     const isMobile = useIsMobile();
 
+    console.log("props:", pageProps);
     return (
       <div>
         <BackgroundImage />
-        <MetaLinks metaLinksTitle={pageProps?.title} />
+        {/* Meta OG dynamique pour /game */}
+        {pageProps?.ogMeta ? (
+          <OgGameMetaLinks {...pageProps.ogMeta} />
+        ) : (
+          <MetaLinks metaLinksTitle={pageProps?.title} />
+        )}
         {!pageProps?.isOauth2Auth && !pageProps?.isLauncher && (isMobile ? <NavBarMobile /> : <NavBarDesktop />)}
         <main className={`${mainStyle}`}>
           <Component {...pageProps} />
