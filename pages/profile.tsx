@@ -11,10 +11,35 @@ import Certification from "../components/common/Certification";
 import { useTranslation, Trans } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export async function getStaticProps({ locale }) {
+export async function getStaticProps({ locale, params, query }) {
+  const translations = await serverSideTranslations(locale, ["common"]);
+  let ogMeta = null;
+  let profileFromQuery = null;
+  const userId = query?.userId || params?.userId || null;
+
+  if (userId) {
+    try {
+      const res = await fetch(`https://croissant-api.fr/api/users/${userId}`);
+      if (res.ok) {
+        const user = await res.json();
+        ogMeta = {
+          title: user.username,
+          description: user.bio || user.username,
+          avatarUrl: user.avatar
+            ? `https://croissant-api.fr/avatar/${user.id}`
+            : "https://croissant.gg/assets/default-avatar.png",
+          profileUrl: `https://croissant.gg/profile?user=${user.id}`,
+        };
+        profileFromQuery = user;
+      }
+    } catch {}
+  }
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...translations,
+      ogMeta,
+      profileFromQuery,
     },
   };
 }
