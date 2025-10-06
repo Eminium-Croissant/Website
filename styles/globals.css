@@ -146,6 +146,15 @@ body {
     box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
   }
 
+  .glass-button-yellow {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
+    background: linear-gradient(135deg, rgba(253, 224, 71, 0.2) 0%, rgba(251, 191, 36, 0.2) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(253, 224, 71, 0.3);
+    box-shadow: 0 4px 12px rgba(253, 224, 71, 0.2);
+    color: #fff;
+  }
+
   .glass-button-neon:hover {
     box-shadow: 0 8px 24px rgba(74, 158, 255, 0.4);
     transform: translateY(-2px) scale(1.05);

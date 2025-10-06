@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, JSX } from "react";
 import Link from "next/link";
 // import useAuth from "../hooks/useAuth";
 import useAuth from "../hooks/useAuth";
@@ -166,6 +166,14 @@ const Library: React.FC = () => {
   const [transferUserDropdownOpen, setTransferUserDropdownOpen] = useState(false);
   const [transferLoading, setTransferLoading] = useState(false);
   const [transferError, setTransferError] = useState<string | null>(null);
+
+  // Ajoute ces états pour la gestion achat/gift
+  const [buying, setBuying] = useState(false);
+  const [isGifting, setIsGifting] = useState(false);
+  const [showGiftModal, setShowGiftModal] = useState(false);
+  const [giftMessage, setGiftMessage] = useState("");
+  const [prompt, setPrompt] = useState<string | null>(null);
+  const [alert, setAlert] = useState<string | JSX.Element | null>(null);
 
   const { getUser: getUserFromCache } = useUserCache();
   const { t: commonT } = useTranslation("common");
@@ -444,9 +452,6 @@ const Library: React.FC = () => {
       setTransferTargetId("");
       setTransferUserResults([]);
       setTransferUserDropdownOpen(false);
-
-      // Optionnel: afficher un message de succès
-      alert("Game transferred successfully!");
     } catch (error) {
       setTransferError(error instanceof Error ? error.message : "Transfer failed");
     } finally {
@@ -463,7 +468,68 @@ const Library: React.FC = () => {
     setTransferError(null);
   };
 
-  // Determines if the transfer option should be shown for the selected game
+  // Bouton achat
+  const handleBuyGame = async () => {
+    if (!selected) return;
+    setPrompt(`Acheter "${selected.name}" ?\nPrix : ${selected.price}`);
+  };
+
+  const confirmBuy = async () => {
+    setPrompt(null);
+    setBuying(true);
+    try {
+      const res = await fetch(`/api/games/${selected.gameId}/buy`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur lors de l'achat");
+      setAlert(t("shop.purchaseSuccess"));
+    } catch (err: any) {
+      setAlert(err.message);
+    } finally {
+      setBuying(false);
+    }
+  };
+
+  // Bouton gift
+  const handleGiftGame = async () => {
+    if (!selected || !token) return;
+    setShowGiftModal(true);
+  };
+
+  const confirmGift = async () => {
+    setShowGiftModal(false);
+    setIsGifting(true);
+    try {
+      const res = await fetch(`/api/gifts/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          gameId: selected.gameId,
+          message: giftMessage.trim() || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erreur lors du gift");
+      setGiftMessage("");
+      setAlert(
+        <>
+          Cadeau créé ! Partage ce lien :{" "}
+          <a href={`/gift?code=${data.gift.giftCode}`} target="_blank" rel="noopener noreferrer" style={{ color: "#4caf50", textDecoration: "underline" }}>
+            {typeof window !== "undefined" ? window.location.origin + `/gift?code=${data.gift.giftCode}` : `/gift?code=${data.gift.giftCode}`}
+          </a>
+        </>
+      );
+    } catch (err: any) {
+      setAlert(err.message);
+    } finally {
+      setIsGifting(false);
+    }
+  };
 
   if (loading || error) {
     return (
@@ -493,14 +559,7 @@ const Library: React.FC = () => {
     <div className="glass-page-container">
       <LobbyManager></LobbyManager>
       <div className="flex gap-6 h-screen">
-        {/* Main Content */}
-        <main
-          className="flex-1 overflow-y-auto"
-          style={{
-            scrollbarWidth: "thin",
-            scrollbarColor: "rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)",
-          }}
-        >
+        <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)" }}>
           {!selected ? (
             <div className="glass-content-card h-full flex items-center justify-center">
               <div className="text-center">
@@ -513,9 +572,17 @@ const Library: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="glass-content-card h-full" style={{ overflowY: "scroll"}}>
+            <div className="glass-content-card h-full" style={{ overflowY: "scroll" }}>
               {/* Game Banner */}
               <div className="relative h-64 mb-6 rounded-xl overflow-hidden">
+                {/* Bouton Back en haut à gauche */}
+                <button
+                  className="glass-button-neon absolute top-4 left-4 z-10"
+                  onClick={() => router.back()}
+                  style={{ minWidth: 80 }}
+                >
+                  {t("shop.back")}
+                </button>
                 <img src={`/banners-icons/${selected.bannerHash}`} alt={selected.name} className="w-full h-full object-cover" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
                 <div className="absolute bottom-4 left-4 flex items-center gap-4">
@@ -537,6 +604,20 @@ const Library: React.FC = () => {
                     )}
                   </div>
                 </div>
+                {/* Boutons d'action en bas à droite de la bannière */}
+                <div className="absolute bottom-4 right-4 flex gap-4">
+                  <button className="glass-button-neon" onClick={handleBuyGame} disabled={buying}>
+                    {t("shop.buy")}
+                  </button>
+                  <button
+                    className="glass-button-yellow"
+                    onClick={handleGiftGame}
+                    disabled={isGifting || !selected}
+                    type="button"
+                  >
+                    {t("shop.giftWithPrice", { price: selected?.price ?? 0 })}
+                  </button>
+                </div>
               </div>
 
               {/* Game Description */}
@@ -549,6 +630,55 @@ const Library: React.FC = () => {
           )}
         </main>
       </div>
+
+      {/* Gift Modal */}
+      {showGiftModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowGiftModal(false)}>
+          <div className="glass-card p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--glass-text)" }}>
+              {t("shop.gift")} "{selected?.name}"
+            </h3>
+            <textarea placeholder={t("shop.giftMessagePlaceholder")} value={giftMessage} onChange={(e) => setGiftMessage(e.target.value)} style={{ width: "100%", height: "80px", margin: "10px 0", padding: "8px", borderRadius: "4px", border: "1px solid #ccc", resize: "vertical" }} />
+            <div className="flex gap-4 mt-4">
+              <button className="glass-button flex-1" onClick={() => setShowGiftModal(false)} disabled={isGifting}>
+                {t("shop.cancel")}
+              </button>
+              <button className="glass-button-neon flex-1" onClick={confirmGift} disabled={isGifting}>
+                {t("shop.createGift")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Prompt overlay */}
+      {prompt && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="glass-card p-6 max-w-md w-full mx-4">
+            <div className="mb-4">{prompt}</div>
+            <div className="flex gap-4">
+              <button className="glass-button flex-1" onClick={() => setPrompt(null)} disabled={buying}>
+                {t("shop.cancel")}
+              </button>
+              <button className="glass-button-neon flex-1" onClick={confirmBuy} disabled={buying}>
+                {t("shop.buy")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Alert overlay */}
+      {alert && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="glass-card p-6 max-w-md w-full mx-4">
+            <div className="mb-4">{alert}</div>
+            <button className="glass-button-neon w-full" onClick={() => setAlert(null)}>
+              {t("shop.ok")}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Modal de transfert */}
       {showTransferModal && (
