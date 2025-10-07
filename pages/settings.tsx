@@ -13,61 +13,39 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-const containerStyle: React.CSSProperties = {
-  maxWidth: 500,
-  margin: "60px auto",
-  background: "#23232a",
-  borderRadius: 12,
-  boxShadow: "0 2px 12px rgba(0,0,0,0.25)",
-  padding: "32px 24px",
-  color: "#fff",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  position: "relative",
+
+const modalLabelStyle: React.CSSProperties = {
+  fontWeight: 600,
+  marginBottom: 6,
+  color: "var(--glass-text)",
+  fontSize: "14px",
 };
 
-const inputStyle: React.CSSProperties = {
-  width: "auto",
+const modalInputStyle: React.CSSProperties = {
+  width: "100%",
   padding: "10px 12px",
   borderRadius: 6,
-  border: "1px solid #444",
-  background: "#18181c",
+  border: "1px solid rgba(255,255,255,0.1)",
+  background: "rgba(255,255,255,0.05)",
   color: "#fff",
-  marginBottom: 18,
-  fontSize: 16,
+  marginBottom: 12,
+  fontSize: 14,
 };
 
-const labelStyle: React.CSSProperties = {
-  alignSelf: "flex-start",
-  marginBottom: 6,
-  fontWeight: 600,
-};
-
-const buttonStyle: React.CSSProperties = {
+const modalButtonStyle: React.CSSProperties = {
   width: "100%",
   padding: "12px",
-  background: "#5865F2",
+  background: "linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)",
   color: "#fff",
-  border: "none",
+  border: "1px solid rgba(74, 158, 255, 0.3)",
   borderRadius: 8,
   fontSize: 16,
   fontWeight: 600,
   cursor: "pointer",
-  marginTop: 12,
+  marginTop: 8,
 };
 
-const avatarStyle: React.CSSProperties = {
-  width: 132,
-  height: 132,
-  borderRadius: "50%",
-  objectFit: "cover",
-  marginBottom: 16,
-  border: "2px solid #444",
-};
-
-const steamBtnStyle: React.CSSProperties = {
-  // width: "260px",
+const steamBtnStyleDef: React.CSSProperties = {
   height: "48px",
   background: "linear-gradient(90deg, #1b2838 60%, #171a21 100%)",
   color: "#fff",
@@ -80,6 +58,7 @@ const steamBtnStyle: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
   gap: "12px",
+  padding: "0 24px",
 };
 
 function ChangePasswordModal({
@@ -129,30 +108,30 @@ function ChangePasswordModal({
             marginBottom: 8,
           }}
         >
-          <label style={labelStyle}>Current password</label>
+          <label style={modalLabelStyle}>Current password</label>
           <input
             type="password"
-            style={{ ...inputStyle, marginBottom: 0, width: "256px" }}
+            style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }}
             placeholder="Enter current password"
             value={oldPassword}
             onChange={(e) => setOldPassword(e.target.value)}
             autoComplete="current-password"
             required
           />
-          <label style={labelStyle}>New password</label>
+          <label style={modalLabelStyle}>New password</label>
           <input
             type="password"
-            style={{ ...inputStyle, marginBottom: 0, width: "256px" }}
+            style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }}
             placeholder="Enter new password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             autoComplete="new-password"
             required
           />
-          <label style={labelStyle}>Confirm new password</label>
+          <label style={modalLabelStyle}>Confirm new password</label>
           <input
             type="password"
-            style={{ ...inputStyle, marginBottom: 0, width: "256px" }}
+            style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }}
             placeholder="Confirm new password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -265,7 +244,7 @@ function GoogleAuthenticatorSetupModal({
         <div className="shop-prompt-message">Setup Google Authenticator</div>
         {step === "generate" ? (
           <button
-            style={{ ...buttonStyle, width: "100%" }}
+            style={{ ...modalButtonStyle, width: "100%" }}
             onClick={handleGenerate}
             disabled={loading}
           >
@@ -293,10 +272,10 @@ function GoogleAuthenticatorSetupModal({
                 gap: 12,
               }}
             >
-              <label style={labelStyle}>Enter passcode from app</label>
+              <label style={modalLabelStyle}>Enter passcode from app</label>
               <input
                 type="text"
-                style={inputStyle}
+                style={modalInputStyle}
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
                 placeholder="123456"
@@ -306,14 +285,14 @@ function GoogleAuthenticatorSetupModal({
               />
               <button
                 type="submit"
-                style={{ ...buttonStyle, width: "100%" }}
+                style={{ ...modalButtonStyle, width: "100%" }}
                 disabled={loading}
               >
                 {loading ? "Validating..." : "Validate"}
               </button>
               <button
                 type="button"
-                style={{ ...buttonStyle, width: "100%", background: "#444" }}
+                style={{ ...modalButtonStyle, width: "100%", background: "#444" }}
                 onClick={() => {
                   onClose(false);
                 }}
@@ -357,28 +336,21 @@ function SecurityModal({
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {/* Steam */}
           {!user?.steam_id ? (
-            <button
-              style={steamBtnStyle}
-              onClick={() => router.push("/api/auth/steam")}
-              disabled={user?.isStudio}
-            >
+            <button style={steamBtnStyleDef} onClick={() => router.push("/api/auth/steam")} disabled={user?.isStudio}>
               <span className="fab fa-steam" style={{ fontSize: "22px" }} />
               {linkText}
             </button>
           ) : (
             <button
-              style={steamBtnStyle}
+              style={steamBtnStyleDef}
               onClick={async () => {
-                if (
-                  confirm("Are you sure you want to unlink your Steam account?")
-                ) {
+                if (confirm("Are you sure you want to unlink your Steam account?")) {
                   try {
                     const res = await fetch("/api/users/unlink-steam", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                     });
-                    if (!res.ok)
-                      throw new Error("Failed to unlink Steam account");
+                    if (!res.ok) throw new Error("Failed to unlink Steam account");
                     setUser({
                       ...user,
                       steam_id: null,
@@ -392,11 +364,7 @@ function SecurityModal({
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                <CachedImage
-                  src={user?.steam_avatar_url}
-                  alt="Steam Avatar"
-                  style={{ width: 32, height: 32, borderRadius: "20%" }}
-                />
+                <CachedImage src={user?.steam_avatar_url} alt="Steam Avatar" style={{ width: 32, height: 32, borderRadius: "20%" }} />
                 <span>
                   Linked as <b>{user?.steam_username}</b>
                 </span>
@@ -441,17 +409,17 @@ function SecurityModal({
                 borderRadius: "8px",
                 fontSize: "16px",
                 fontWeight: 600,
-                cursor: "default",
+                cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "12px",
-                opacity: 0.7,
               }}
-              disabled
+              onClick={() => router.push("/auth/discord")}
+              disabled={user?.isStudio}
             >
               <span className="fab fa-discord" style={{ fontSize: "22px" }} />
-              Discord linked
+              {t("linkDiscord")}
             </button>
           )}
 
@@ -479,22 +447,10 @@ function SecurityModal({
             >
               <svg width="22" height="22" viewBox="0 0 48 48">
                 <g>
-                  <path
-                    fill="#4285F4"
-                    d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
-                  />
+                  <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                  <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                  <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                  <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                 </g>
               </svg>
               {t("linkGoogle")}
@@ -511,42 +467,40 @@ function SecurityModal({
                 borderRadius: "8px",
                 fontSize: "16px",
                 fontWeight: 600,
-                cursor: "default",
+                cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 gap: "12px",
-                opacity: 0.7,
               }}
-              disabled
+              onClick={() => router.push("/auth/google")}
+              disabled={user?.isStudio}
             >
-              <span className="fab fa-google" style={{ fontSize: "22px" }} />
-              Google linked
+              <svg width="22" height="22" viewBox="0 0 48 48">
+                <g>
+                  <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                  <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                  <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                  <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                </g>
+              </svg>
+              {t("linkGoogle")}
             </button>
           )}
 
           {/* Passkey */}
-          <button
-            type="button"
-            style={{ ...buttonStyle, background: "#222", color: "#fff" }}
-            onClick={handleRegisterPasskey}
-            disabled={passkeyLoading || !user}
-          >
+          <button type="button" style={{ ...modalButtonStyle, background: "#222", color: "#fff" }} onClick={handleRegisterPasskey} disabled={passkeyLoading || !user}>
             {passkeyLoading ? t("registering") : t("registerPasskey")}
           </button>
-          {passkeySuccess && (
-            <div style={{ color: "#4caf50" }}>{passkeySuccess}</div>
-          )}
-          {passkeyError && (
-            <div style={{ color: "#ff5252" }}>{passkeyError}</div>
-          )}
+          {passkeySuccess && <div style={{ color: "#4caf50" }}>{passkeySuccess}</div>}
+          {passkeyError && <div style={{ color: "#ff5252" }}>{passkeyError}</div>}
 
           {/* Google Authenticator */}
           {user && !user.haveAuthenticator ? (
             <button
               type="button"
               style={{
-                ...buttonStyle,
+                ...modalButtonStyle,
                 background: "#222",
                 color: "#fff",
                 marginTop: 0,
@@ -560,15 +514,13 @@ function SecurityModal({
             <button
               type="button"
               style={{
-                ...buttonStyle,
+                ...modalButtonStyle,
                 background: "#222",
                 color: "#fff",
                 marginTop: 0,
               }}
               onClick={async () => {
-                const choice = confirm(
-                  "Are you sure you want to delete Google Authenticator? This will disable 2FA for your account."
-                );
+                const choice = confirm("Are you sure you want to delete Google Authenticator? This will disable 2FA for your account.");
                 if (choice) {
                   const res = await fetch("/api/authenticator/delete", {
                     method: "POST",
@@ -588,17 +540,9 @@ function SecurityModal({
               {t("deleteGoogleAuth")}
             </button>
           )}
-          {success && (
-            <div style={{ color: "#4caf50", marginTop: 8 }}>{success}</div>
-          )}
-          {error && (
-            <div style={{ color: "#ff5252", marginTop: 8 }}>{error}</div>
-          )}
-          <button
-            type="button"
-            style={{ ...buttonStyle, background: "#444", marginTop: 16 }}
-            onClick={onClose}
-          >
+          {success && <div style={{ color: "#4caf50", marginTop: 8 }}>{success}</div>}
+          {error && <div style={{ color: "#ff5252", marginTop: 8 }}>{error}</div>}
+          <button type="button" style={{ ...modalButtonStyle, background: "#444", marginTop: 16 }} onClick={onClose}>
             {t("close")}
           </button>
         </div>
@@ -610,6 +554,7 @@ function SecurityModal({
 function useSettingsLogic() {
   const { user, token, setUser } = useAuth();
   const router = useRouter();
+  const { t } = useTranslation("common");
   const [email, setEmail] = useState(user?.email || "");
   const [username, setUsername] = useState(user?.username || "");
   const [usernameLoading, setUsernameLoading] = useState(false);
@@ -625,7 +570,7 @@ function useSettingsLogic() {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [linkText, setLinkText] = useState("Link Steam Account");
+  const [linkText, setLinkText] = useState(t("settings.linkSteam"));
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
@@ -643,7 +588,7 @@ function useSettingsLogic() {
       setLinkText("Go on website to link");
     else
       setLinkText(
-        !user?.isStudio ? "Link Steam Account" : "Studio can't link Steam"
+        !user?.isStudio ? t("settings.linkSteam") : "Studio can't link Steam"
       );
   }, [user, linkText]);
 
@@ -939,12 +884,13 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
   const [avatar, setAvatar] = useState(
     user?.id ? `/avatar/${user.id}` : "/avatar/default.avif"
   );
+    const { t } = useTranslation("common");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [linkText, setLinkText] = useState("Link Steam Account");
+  const [linkText, setLinkText] = useState(t("settings.linkSteam"));
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
@@ -957,7 +903,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
   const [showGoogleAuthModal, setShowGoogleAuthModal] = useState(false);
   const [showSecurityModal, setShowSecurityModal] = useState(false);
 
-  const { t } = useTranslation("common");
+
 
   useEffect(() => {
     if (typeof document == "undefined") return;
@@ -1140,328 +1086,248 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
   };
 
   return (
-    <div className="container" style={containerStyle}>
-      <h2 style={{ marginBottom: 32 }}>{t("settings.title")}</h2>
-      <button
-        style={{
-          position: "absolute",
-          top: 24,
-          right: 24,
-          background: "none",
-          border: "none",
-          color: user?.isStudio ? "#aaa" : "#fff",
-          cursor: "pointer",
-          fontSize: 22,
-          zIndex: 2,
-        }}
-        onClick={() => setShowPasswordModal(true)}
-        disabled={user?.isStudio}
-        type="button"
-        title={t("settings.changePassword")}
-      >
-        <i className="fas fa-key" aria-hidden="true" />
-      </button>
-      {/* Bouton sécurité */}
-      {!user?.isStudio && (
-        <button
-          style={{
-            position: "absolute",
-            top: 24,
-            right: 64,
-            background: "none",
-            border: "none",
-            color: "#fff",
-            cursor: "pointer",
-            fontSize: 22,
-            zIndex: 2,
-          }}
-          onClick={() => setShowSecurityModal(true)}
-          type="button"
-          title={t("settings.securityLinks")}
-        >
-          <i className="fas fa-link" aria-hidden="true" />
-        </button>
-      )}
-      <div style={{ display: "flex", flexDirection: "row", gap: 24 }}>
-        <div>
-          <CachedImage
-            src={avatar}
-            alt="Profile"
-            style={avatarStyle}
-            onClick={() => fileInputRef.current?.click()}
-            title={t("settings.profilePicture")}
-          />
-          <input
-            type="file"
-            accept="image/*"
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            onChange={handleAvatarChange}
-          />
-          {avatarFile && (
-            <button
-              type="button"
-              style={{ ...buttonStyle, marginTop: 8, background: "#444" }}
-              onClick={handleAvatarUpload}
-              disabled={loading}
-            >
-              {loading
-                ? t("settings.uploading")
-                : t("settings.uploadNewPicture")}
-            </button>
-          )}
-        </div>
-        <div>
-          <form
-            onSubmit={handleUsernameSave}
-            style={{
-              display: "flex",
-              gap: 8,
-              // alignItems: "center",
-              marginTop: 0,
-              marginBottom: 8,
-            }}
-          >
-            <label style={labelStyle}>{t("settings.username")}</label>
-            <input
-              type="text"
-              style={{ ...inputStyle, marginBottom: 0, flex: 1 }}
-              value={username}
-              onChange={handleUsernameChange}
-              autoComplete="username"
-              minLength={3}
-              maxLength={32}
-              required
-              disabled={usernameLoading}
-            />
-            <button
-              type="submit"
-              style={{
-                ...buttonStyle,
-                width: "280px",
-                padding: "8px 18px",
-                // marginBottom: 16,
-              }}
-              disabled={usernameLoading}
-            >
-              {usernameLoading ? t("settings.saving") : t("settings.save")}
-            </button>
-          </form>
+    <div className="min-h-screen glass-bg-gradient">
+      <div className="glass-page-container py-12">
 
-          {usernameSuccess && (
-            <div style={{ color: "#4caf50", marginTop: 2 }}>
-              {usernameSuccess}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="glass-content-card">
+            <h2 className="glass-title text-2xl mb-6">{t("settings.profile")}</h2>
+            <div className="flex flex-col items-center mb-8">
+              <CachedImage
+                src={avatar}
+                alt="Profile"
+                width={132}
+                height={132}
+                style={{
+                  width: 132,
+                  height: 132,
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  marginBottom: 16,
+                  border: "2px solid rgba(255,255,255,0.1)",
+                  cursor: "pointer",
+                }}
+                onClick={() => fileInputRef.current?.click()}
+              />
+              <input type="file" ref={fileInputRef} onChange={handleAvatarChange} accept="image/*" style={{ display: "none" }} />
+              <button onClick={() => fileInputRef.current?.click()} className="glass-button-neon w-full mb-3">
+                {t("settings.choosePicture")}
+              </button>
+              {avatarFile && (
+                <button onClick={handleAvatarUpload} disabled={loading} className="glass-button-green w-full">
+                  {loading ? t("settings.uploading") : t("settings.uploadNewPicture")}
+                </button>
+              )}
+              {success && <p className="text-green-400 text-sm mt-3 text-center">{success}</p>}
+              {error && <p className="text-red-400 text-sm mt-3 text-center">{error}</p>}
             </div>
-          )}
-          {usernameError && (
-            <div style={{ color: "#ff5252", marginTop: 2 }}>
-              {usernameError}
+
+            {!user?.isStudio && (
+              <form onSubmit={handleUsernameSave} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-glass-text-secondary mb-2">{t("settings.username")}</label>
+                  <input type="text" value={username} onChange={handleUsernameChange} className="glass-input" disabled={usernameLoading} minLength={3} maxLength={32} required />
+                </div>
+                <button type="submit" disabled={usernameLoading} className="glass-button-neon w-full">
+                  {usernameLoading ? t("settings.saving") : t("settings.save")}
+                </button>
+                {usernameSuccess && <p className="text-green-400 text-sm text-center">{usernameSuccess}</p>}
+                {usernameError && <p className="text-red-400 text-sm text-center">{usernameError}</p>}
+              </form>
+            )}
+          </div>
+
+          <div className="glass-content-card">
+            <h2 className="glass-title text-2xl mb-6">{t("settings.security")}</h2>
+            <div className="space-y-4">
+              {!user?.isStudio && (
+                <button onClick={() => setShowPasswordModal(true)} className="glass-button-neon w-full">
+                  <i className="fas fa-key mr-2" />
+                  {t("settings.changePassword")}
+                </button>
+              )}
+              <button onClick={() => setShowSecurityModal(true)} className="glass-button-neon w-full">
+                <i className="fas fa-link mr-2" />
+                {t("settings.securityLinks")}
+              </button>
             </div>
-          )}
-        </div>{" "}
+
+            {user && !user?.isStudio && (
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4 text-glass-text">{t("settings.integrations")}</h3>
+                <div className="space-y-3">
+                  {/* Steam */}
+                  {!user?.steam_id ? (
+                    <button
+                      onClick={() => {
+                        if (linkText === "Go on website to link") return;
+                        window.location.href = "/api/auth/steam";
+                      }}
+                      disabled={linkText === "Go on website to link" || user?.isStudio}
+                      className="glass-button-neon w-full flex items-center justify-center gap-3"
+                      style={{
+                        background: "linear-gradient(90deg, #1b2838 60%, #171a21 100%)",
+                        opacity: linkText === "Go on website to link" || user?.isStudio ? 0.5 : 1,
+                      }}
+                    >
+                      <i className="fab fa-steam text-xl" />
+                      {linkText}
+                    </button>
+                  ) : (
+                    <div className="glass-card flex items-center gap-3 p-3">
+                      <CachedImage src={user?.steam_avatar_url} alt="Steam Avatar" width={32} height={32} style={{ width: 32, height: 32, borderRadius: "20%" }} />
+                      <span className="flex-1 text-sm">
+                        <i className="fab fa-steam mr-2" />
+                        {user?.steam_username}
+                      </span>
+                      <button
+                        onClick={async () => {
+                          if (confirm("Unlink Steam?")) {
+                            try {
+                              const res = await fetch("/api/users/unlink-steam", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                              });
+                              if (!res.ok) throw new Error("Failed");
+                              setUser({ ...user, steam_id: null, steam_username: null, steam_avatar_url: null });
+                            } catch (e) {
+                              alert("Error unlinking Steam");
+                            }
+                          }
+                        }}
+                        className="glass-button-red text-xs px-3 py-1"
+                      >
+                        Unlink
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Discord */}
+                  {!user?.discord_id ? (
+                    <button
+                      onClick={() => router.push("/auth/discord")}
+                      className="glass-button-neon w-full flex items-center justify-center gap-3"
+                      style={{
+                        background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
+                      }}
+                    >
+                      <i className="fab fa-discord text-xl" />
+                      {t("settings.linkDiscord")}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => router.push("/auth/discord")}
+                      className="glass-button-neon w-full flex items-center justify-center gap-3"
+                      style={{
+                        background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
+                      }}
+                    >
+                      <i className="fab fa-discord text-xl" />
+                      {t("settings.linkDiscord")}
+                    </button>
+                  )}
+
+                  {/* Google */}
+                  {!user?.google_id ? (
+                    <button
+                      onClick={() => router.push("/auth/google")}
+                      className="glass-button w-full flex items-center justify-center gap-3"
+                      style={{
+                        background: "#fff",
+                        color: "#222",
+                        border: "1px solid #e0e0e0",
+                      }}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 48 48">
+                        <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                        <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                        <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                        <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                      </svg>
+                      {t("settings.linkGoogle")}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => router.push("/auth/google")}
+                      className="glass-button w-full flex items-center justify-center gap-3"
+                      style={{
+                        background: "#fff",
+                        color: "#222",
+                        border: "1px solid #e0e0e0",
+                      }}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 48 48">
+                        <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                        <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                        <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                        <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                      </svg>
+                      {t("settings.linkGoogle")}
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="glass-content-card">
+            <h2 className="glass-title text-2xl mb-6">{t("settings.apiKey")}</h2>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-glass-text-secondary mb-2">{t("settings.yourApiKey")}</label>
+                <input
+                  type={showApiKey ? "text" : "password"}
+                  value={apiKey || ""}
+                  readOnly
+                  className="glass-input cursor-pointer"
+                  onClick={() => {
+                    if (showApiKey) navigator.clipboard.writeText(apiKey || "");
+                  }}
+                  title={showApiKey ? "Click to copy" : ""}
+                />
+              </div>
+              <div className="flex gap-3">
+                <button onClick={() => setShowApiKey(!showApiKey)} className="glass-button flex-1">
+                  {showApiKey ? t("settings.hide") : t("settings.show")}
+                </button>
+                <button onClick={() => navigator.clipboard.writeText(apiKey || "")} disabled={!showApiKey} className="glass-button flex-1" style={{ opacity: !showApiKey ? 0.5 : 1 }}>
+                  {t("settings.copy")}
+                </button>
+              </div>
+              <p className="text-xs text-glass-text-muted text-center">{t("settings.thisKeyAllows")}</p>
+            </div>
+
+            {user && (
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4 text-glass-text">{t("settings.userId")}</h3>
+                <div className="flex items-center gap-3">
+                  <code className="glass-input flex-1 cursor-pointer text-sm" onClick={() => navigator.clipboard.writeText(user.id || "")} title="Click to copy">
+                    {user.id}
+                  </code>
+                  <button onClick={() => navigator.clipboard.writeText(user.id || "")} className="glass-button">
+                    {t("settings.copy")}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <ChangePasswordModal open={showPasswordModal} onClose={() => setShowPasswordModal(false)} onSubmit={handlePasswordChange} loading={passwordLoading} error={passwordError} success={passwordSuccess} />
+        <GoogleAuthenticatorSetupModal
+          open={showGoogleAuthModal}
+          onClose={(success) => {
+            setShowGoogleAuthModal(false);
+            if (success && user) {
+              user.haveAuthenticator = true;
+              setUser({ ...user });
+            }
+          }}
+          user={user}
+        />
+        <SecurityModal open={showSecurityModal} onClose={() => setShowSecurityModal(false)} user={user} setUser={setUser} passkeyLoading={passkeyLoading} passkeySuccess={passkeySuccess} passkeyError={passkeyError} handleRegisterPasskey={handleRegisterPasskey} showGoogleAuthModal={showGoogleAuthModal} setShowGoogleAuthModal={setShowGoogleAuthModal} success={success} error={error} setError={setError} setSuccess={setSuccess} router={router} linkText={linkText} />
       </div>
-      {user && (
-        <div
-          style={{
-            marginTop: 24,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <label style={{ ...labelStyle, alignSelf: "" }}>
-            {t("settings.userId")}
-          </label>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              flexDirection: "row",
-              justifyContent: "center",
-              marginBottom: 4,
-            }}
-          >
-            <code
-              style={{
-                background: "#444",
-                borderRadius: 4,
-                padding: "2px 8px",
-                fontWeight: 500,
-                userSelect: "all",
-                cursor: "pointer",
-                fontSize: 15,
-              }}
-              title="Click to copy"
-              onClick={() => navigator.clipboard.writeText(user.id || "")}
-            >
-              {user.id}
-            </code>
-            <button
-              type="button"
-              style={{
-                background: "none",
-                border: "none",
-                color: "#fff",
-                cursor: "pointer",
-                fontSize: 14,
-                textDecoration: "underline",
-                opacity: 0.7,
-              }}
-              onClick={() => navigator.clipboard.writeText(user.id || "")}
-              title={t("settings.copy")}
-            >
-              {t("settings.copy")}
-            </button>
-          </div>
-        </div>
-      )}
-      {user && (
-        <div
-          style={{
-            marginTop: 32,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <label style={{ ...labelStyle, alignSelf: "" }}>
-            {t("settings.apiKey")}
-          </label>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 12,
-              flexDirection: "column",
-            }}
-          >
-            <code
-              style={{
-                background: "#444",
-                borderRadius: 4,
-                padding: "2px 6px",
-                fontWeight: 500,
-                marginRight: 8,
-                userSelect: "all",
-                cursor: "pointer",
-                maxWidth: 180,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                display: "inline-block",
-                verticalAlign: "middle",
-              }}
-              onClick={() => {
-                if (showApiKey) navigator.clipboard.writeText(apiKey || "");
-              }}
-              title={showApiKey ? "Click to copy" : "Click Show"}
-            >
-              {showApiKey
-                ? apiKey
-                : "*".repeat(Math.max(8, String(apiKey || "").length))}
-            </code>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button
-                type="button"
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontSize: 14,
-                  textDecoration: "underline",
-                  opacity: 0.7,
-                }}
-                onClick={() => setShowApiKey((v) => !v)}
-              >
-                {showApiKey ? t("settings.hide") : t("settings.show")}
-              </button>
-              <button
-                type="button"
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontSize: 14,
-                  textDecoration: "underline",
-                  opacity: 0.7,
-                }}
-                onClick={() => navigator.clipboard.writeText(apiKey || "")}
-                disabled={!showApiKey}
-              >
-                {t("settings.copy")}
-              </button>
-            </div>
-          </div>
-          <div style={{ fontSize: 13, color: "#aaa", marginTop: 4 }}>
-            {t("settings.thisKeyAllows")}
-          </div>
-        </div>
-      )}
-      {user && !user?.isStudio ? (
-        <>
-          <ChangePasswordModal
-            open={showPasswordModal}
-            onClose={() => setShowPasswordModal(false)}
-            onSubmit={handlePasswordChange}
-            loading={passwordLoading}
-            error={passwordError}
-            success={passwordSuccess}
-          />
-        </>
-      ) : null}
-      {/* {
-        <>
-          <div
-            style={{
-              width: "100%",
-              textAlign: "center",
-              margin: "24px 0 16px 0",
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-            }}
-          >
-            <div style={{ flex: 1, height: 1, background: "#444" }} />
-          </div>
-        </>
-      } */}
-      <div style={{ marginTop: 32 }} />
-      <GoogleAuthenticatorSetupModal
-        open={showGoogleAuthModal}
-        onClose={(success) => {
-          setShowGoogleAuthModal(false);
-          if (success) {
-            user.haveAuthenticator = true;
-            setUser({ ...user });
-          }
-        }}
-        user={user}
-      />
-      <SecurityModal
-        open={showSecurityModal}
-        onClose={() => setShowSecurityModal(false)}
-        user={user}
-        setUser={setUser}
-        passkeyLoading={passkeyLoading}
-        passkeySuccess={passkeySuccess}
-        passkeyError={passkeyError}
-        handleRegisterPasskey={handleRegisterPasskey}
-        showGoogleAuthModal={showGoogleAuthModal}
-        setShowGoogleAuthModal={setShowGoogleAuthModal}
-        success={success}
-        error={error}
-        setError={setError}
-        setSuccess={setSuccess}
-        router={router}
-        linkText={linkText}
-      />
     </div>
   );
 }
@@ -1509,361 +1375,348 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
   const { t } = useTranslation("common");
 
   return (
-    <div
-      className="container"
-      style={{
-        maxWidth: 420,
-        margin: "18px",
-        background: "#23232a",
-        borderRadius: 10,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.18)",
-        padding: "18px 8px",
-        color: "#fff",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        position: "relative",
-        fontSize: "0.98em",
-      }}
-    >
-      <h2 style={{ marginBottom: 18, fontSize: "1.2em" }}>{t("title")}</h2>
-      <button
-        style={{
-          position: "absolute",
-          top: 12,
-          right: 12,
-          background: "none",
-          border: "none",
-          color: user?.isStudio ? "#aaa" : "#fff",
-          cursor: "pointer",
-          fontSize: 20,
-          zIndex: 2,
-        }}
-        onClick={() => setShowPasswordModal(true)}
-        disabled={user?.isStudio}
-        type="button"
-        title={t("settings.changePassword")}
-      >
-        <i className="fas fa-key" aria-hidden="true" />
-      </button>
-      {!user?.isStudio && (
-        <button
-          style={{
-            position: "absolute",
-            top: 12,
-            right: 48,
-            background: "none",
-            border: "none",
-            color: "#fff",
-            cursor: "pointer",
-            fontSize: 20,
-            zIndex: 2,
-          }}
-          onClick={() => setShowSecurityModal(true)}
-          type="button"
-          title={t("settings.securityLinks")}
-        >
-          <i className="fas fa-link" aria-hidden="true" />
-        </button>
-      )}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 12,
-        }}
-      >
-        <CachedImage
-          src={avatar}
-          alt="Profile"
-          style={{
-            width: 90,
-            height: 90,
-            borderRadius: "50%",
-            objectFit: "cover",
-            marginBottom: 8,
-            border: "2px solid #444",
-          }}
-          onClick={() => fileInputRef.current?.click()}
-          title={t("settings.profilePicture")}
-        />
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          onChange={handleAvatarChange}
-        />
-        {avatarFile && (
-          <button
-            type="button"
-            style={{
-              width: "100%",
-              padding: "8px",
-              background: "#444",
-              color: "#fff",
-              border: "none",
-              borderRadius: 8,
-              fontSize: "1em",
-              fontWeight: 600,
-              marginTop: 4,
-            }}
-            onClick={handleAvatarUpload}
-            disabled={loading}
-          >
-            {loading ? t("settings.uploading") : t("settings.uploadNewPicture")}
-          </button>
-        )}
-        <form
-          onSubmit={handleUsernameSave}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 6,
-            alignItems: "stretch",
-            marginTop: 0,
-            marginBottom: 8,
-            width: "100%",
-          }}
-        >
-          <label style={{ fontWeight: 600, marginBottom: 2 }}>
-            {t("settings.username")}
-          </label>
-          <input
-            type="text"
-            style={{
-              width: "100%",
-              padding: "8px",
-              borderRadius: 6,
-              border: "1px solid #444",
-              background: "#18181c",
-              color: "#fff",
-              fontSize: "1em",
-              marginBottom: 0,
-            }}
-            value={username}
-            onChange={handleUsernameChange}
-            autoComplete="username"
-            minLength={3}
-            maxLength={32}
-            required
-            disabled={usernameLoading}
-          />
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              padding: "8px",
-              background: "#5865F2",
-              color: "#fff",
-              border: "none",
-              borderRadius: 8,
-              fontSize: "1em",
-              fontWeight: 600,
-              marginTop: 6,
-            }}
-            disabled={usernameLoading}
-          >
-            {usernameLoading ? t("settings.saving") : t("settings.save")}
-          </button>
-        </form>
-        {usernameSuccess && (
-          <div style={{ color: "#4caf50", marginTop: 2 }}>
-            {usernameSuccess}
-          </div>
-        )}
-        {usernameError && (
-          <div style={{ color: "#ff5252", marginTop: 2 }}>{usernameError}</div>
-        )}
-      </div>
-      {user && (
-        <div
-          style={{
-            marginTop: 24,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <label style={{ ...labelStyle, alignSelf: "" }}>
-            {t("settings.userId")}
-          </label>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              flexDirection: "row",
-              justifyContent: "center",
-              marginBottom: 4,
-            }}
-          >
-            <code
-              style={{
-                background: "#444",
-                borderRadius: 4,
-                padding: "2px 8px",
-                fontWeight: 500,
-                userSelect: "all",
-                cursor: "pointer",
-                fontSize: 15,
-              }}
-              title="Click to copy"
-              onClick={() => navigator.clipboard.writeText(user.id || "")}
-            >
-              {user.id}
-            </code>
-            <button
-              type="button"
-              style={{
-                background: "none",
-                border: "none",
-                color: "#fff",
-                cursor: "pointer",
-                fontSize: 14,
-                textDecoration: "underline",
-                opacity: 0.7,
-              }}
-              onClick={() => navigator.clipboard.writeText(user.id || "")}
-              title={t("settings.copy")}
-            >
-              {t("settings.copy")}
-            </button>
-          </div>
-        </div>
-      )}
-      {user && (
-        <div
-          style={{
-            marginTop: 18,
-            width: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        >
-          <label style={{ fontWeight: 600, marginBottom: 2 }}>
-            {t("settings.apiKey")}
-          </label>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              flexDirection: "column",
-            }}
-          >
-            <code
-              style={{
-                background: "#444",
-                borderRadius: 4,
-                padding: "2px 6px",
-                fontWeight: 500,
-                marginRight: 8,
-                userSelect: "all",
-                cursor: "pointer",
-                maxWidth: 180,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-                display: "inline-block",
-                verticalAlign: "middle",
-              }}
-              onClick={() => {
-                if (showApiKey) navigator.clipboard.writeText(apiKey || "");
-              }}
-              title={showApiKey ? "Click to copy" : "Click Show"}
-            >
-              {showApiKey
-                ? apiKey
-                : "*".repeat(Math.max(8, String(apiKey || "").length))}
-            </code>
-            <div style={{ display: "flex", gap: 8 }}>
-              <button
-                type="button"
+    <div className="min-h-screen glass-bg-gradient">
+      <div className="glass-page-container py-8">
+
+        <div className="space-y-6">
+          <div className="glass-content-card">
+            <h2 className="glass-title text-xl mb-4">{t("settings.profile")}</h2>
+            <div className="flex flex-col items-center mb-6">
+              <CachedImage
+                src={avatar}
+                alt="Profile"
+                width={100}
+                height={100}
                 style={{
-                  background: "none",
-                  border: "none",
-                  color: "#fff",
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  marginBottom: 12,
+                  border: "2px solid rgba(255,255,255,0.1)",
                   cursor: "pointer",
-                  fontSize: 13,
-                  textDecoration: "underline",
-                  opacity: 0.7,
                 }}
-                onClick={() => setShowApiKey((v) => !v)}
+                onClick={() => fileInputRef.current?.click()}
+              />
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleAvatarChange}
+                accept="image/*"
+                style={{ display: "none" }}
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="glass-button-neon w-full mb-2 text-sm"
               >
-                {showApiKey ? t("settings.hide") : t("settings.show")}
+                {t("settings.choosePicture")}
               </button>
+              {avatarFile && (
+                <button
+                  onClick={handleAvatarUpload}
+                  disabled={loading}
+                  className="glass-button-green w-full text-sm"
+                >
+                  {loading ? t("settings.uploading") : t("settings.uploadNewPicture")}
+                </button>
+              )}
+              {success && (
+                <p className="text-green-400 text-xs mt-2 text-center">{success}</p>
+              )}
+              {error && (
+                <p className="text-red-400 text-xs mt-2 text-center">{error}</p>
+              )}
+            </div>
+
+            {!user?.isStudio && (
+              <form onSubmit={handleUsernameSave} className="space-y-3">
+                <div>
+                  <label className="block text-xs font-medium text-glass-text-secondary mb-2">
+                    {t("settings.username")}
+                  </label>
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={handleUsernameChange}
+                    className="glass-input text-sm"
+                    disabled={usernameLoading}
+                    minLength={3}
+                    maxLength={32}
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={usernameLoading}
+                  className="glass-button-neon w-full text-sm"
+                >
+                  {usernameLoading ? t("settings.saving") : t("settings.save")}
+                </button>
+                {usernameSuccess && (
+                  <p className="text-green-400 text-xs text-center">{usernameSuccess}</p>
+                )}
+                {usernameError && (
+                  <p className="text-red-400 text-xs text-center">{usernameError}</p>
+                )}
+              </form>
+            )}
+          </div>
+
+          <div className="glass-content-card">
+            <h2 className="glass-title text-xl mb-4">{t("settings.security")}</h2>
+            <div className="space-y-3">
+              {!user?.isStudio && (
+                <button
+                  onClick={() => setShowPasswordModal(true)}
+                  className="glass-button-neon w-full text-sm"
+                >
+                  <i className="fas fa-key mr-2" />
+                  {t("settings.changePassword")}
+                </button>
+              )}
               <button
-                type="button"
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontSize: 13,
-                  textDecoration: "underline",
-                  opacity: 0.7,
-                }}
-                onClick={() => navigator.clipboard.writeText(apiKey || "")}
-                disabled={!showApiKey}
+                onClick={() => setShowSecurityModal(true)}
+                className="glass-button-neon w-full text-sm"
               >
-                {t("settings.copy")}
+                <i className="fas fa-link mr-2" />
+                {t("settings.securityLinks")}
               </button>
             </div>
           </div>
-          <div style={{ fontSize: 12, color: "#aaa", marginTop: 4 }}>
-            {t("settings.thisKeyAllows")}
+
+          <div className="glass-content-card">
+            <h2 className="glass-title text-xl mb-4">{t("settings.apiKey")}</h2>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs font-medium text-glass-text-secondary mb-2">
+                  {t("settings.yourApiKey")}
+                </label>
+                <input
+                  type={showApiKey ? "text" : "password"}
+                  value={apiKey || ""}
+                  readOnly
+                  className="glass-input text-sm cursor-pointer"
+                  onClick={() => {
+                    if (showApiKey) navigator.clipboard.writeText(apiKey || "");
+                  }}
+                  title={showApiKey ? "Click to copy" : ""}
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowApiKey(!showApiKey)}
+                  className="glass-button flex-1 text-xs"
+                >
+                  {showApiKey ? t("settings.hide") : t("settings.show")}
+                </button>
+                <button
+                  onClick={() => navigator.clipboard.writeText(apiKey || "")}
+                  disabled={!showApiKey}
+                  className="glass-button flex-1 text-xs"
+                  style={{ opacity: !showApiKey ? 0.5 : 1 }}
+                >
+                  {t("settings.copy")}
+                </button>
+              </div>
+              <p className="text-[10px] text-glass-text-muted text-center">
+                {t("settings.thisKeyAllows")}
+              </p>
+            </div>
           </div>
+
+          {user && (
+            <div className="glass-content-card">
+              <h2 className="glass-title text-xl mb-4">{t("settings.userId")}</h2>
+              <div className="flex items-center gap-2">
+                <code
+                  className="glass-input flex-1 cursor-pointer text-xs"
+                  onClick={() => navigator.clipboard.writeText(user.id || "")}
+                  title="Click to copy"
+                >
+                  {user.id}
+                </code>
+                <button
+                  onClick={() => navigator.clipboard.writeText(user.id || "")}
+                  className="glass-button text-xs"
+                >
+                  {t("settings.copy")}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {user && !user?.isStudio && (
+            <div className="glass-content-card">
+              <h2 className="glass-title text-xl mb-4">{t("settings.integrations")}</h2>
+              <div className="space-y-3">
+                {/* Steam */}
+                {!user?.steam_id ? (
+                  <button
+                    onClick={() => {
+                      if (linkText === "Go on website to link") return;
+                      window.location.href = "/api/auth/steam";
+                    }}
+                    disabled={linkText === "Go on website to link" || user?.isStudio}
+                    className="glass-button-neon w-full text-sm flex items-center justify-center gap-2"
+                    style={{
+                      background: "linear-gradient(90deg, #1b2838 60%, #171a21 100%)",
+                      opacity: linkText === "Go on website to link" || user?.isStudio ? 0.5 : 1,
+                    }}
+                  >
+                    <i className="fab fa-steam text-lg" />
+                    {linkText}
+                  </button>
+                ) : (
+                  <div className="glass-card flex items-center gap-2 p-2 text-xs">
+                    <CachedImage
+                      src={user?.steam_avatar_url}
+                      alt="Steam"
+                      width={24}
+                      height={24}
+                      style={{ width: 24, height: 24, borderRadius: "20%" }}
+                    />
+                    <span className="flex-1">
+                      <i className="fab fa-steam mr-1" />
+                      {user?.steam_username}
+                    </span>
+                    <button
+                      onClick={async () => {
+                        if (confirm("Unlink Steam?")) {
+                          try {
+                            const res = await fetch("/api/users/unlink-steam", {
+                              method: "POST",
+                              headers: { "Content-Type": "application/json" },
+                            });
+                            if (!res.ok) throw new Error("Failed");
+                            setUser({ ...user, steam_id: null, steam_username: null, steam_avatar_url: null });
+                          } catch (e) {
+                            alert("Error");
+                          }
+                        }
+                      }}
+                      className="glass-button-red text-[10px] px-2 py-1"
+                    >
+                      Unlink
+                    </button>
+                  </div>
+                )}
+
+                {/* Discord */}
+                {!user?.discord_id ? (
+                  <button
+                    onClick={() => router.push("/auth/discord")}
+                    className="glass-button-neon w-full text-sm flex items-center justify-center gap-2"
+                    style={{
+                      background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
+                    }}
+                  >
+                    <i className="fab fa-discord text-lg" />
+                    {t("settings.linkDiscord")}
+                  </button>
+                ) : (
+                  <div className="glass-card flex items-center gap-2 p-2 text-xs opacity-70">
+                    <i className="fab fa-discord text-lg" />
+                    <span className="flex-1">Discord linked</span>
+                  </div>
+                )}
+
+                {/* Google */}
+                {!user?.google_id ? (
+                  <button
+                    onClick={() => router.push("/auth/google")}
+                    className="glass-button w-full text-sm flex items-center justify-center gap-2"
+                    style={{
+                      background: "#fff",
+                      color: "#222",
+                      border: "1px solid #e0e0e0",
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 48 48">
+                      <path
+                        fill="#4285F4"
+                        d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
+                      />
+                    </svg>
+                    {t("settings.linkGoogle")}
+                  </button>
+                ) : (
+                  <div className="glass-card flex items-center gap-2 p-2 text-xs opacity-70">
+                    <svg width="16" height="16" viewBox="0 0 48 48">
+                      <path
+                        fill="#4285F4"
+                        d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
+                      />
+                    </svg>
+                    <span className="flex-1">Google linked</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
-      )}
-      {user && !user?.isStudio ? (
-        <>
-          {/* Password Modal */}
-          <ChangePasswordModal
-            open={showPasswordModal}
-            onClose={() => setShowPasswordModal(false)}
-            onSubmit={handlePasswordChange}
-            loading={passwordLoading}
-            error={passwordError}
-            success={passwordSuccess}
-          />
-        </>
-      ) : null}
-      <div style={{ marginTop: 18 }} />
-      <GoogleAuthenticatorSetupModal
-        open={showGoogleAuthModal}
-        onClose={(success) => {
-          setShowGoogleAuthModal(false);
-          if (success) {
-            user.haveAuthenticator = true;
-            setUser({ ...user });
-          }
-        }}
-        user={user}
-      />
-      <SecurityModal
-        open={showSecurityModal}
-        onClose={() => setShowSecurityModal(false)}
-        user={user}
-        setUser={setUser}
-        passkeyLoading={passkeyLoading}
-        passkeySuccess={passkeySuccess}
-        passkeyError={passkeyError}
-        handleRegisterPasskey={handleRegisterPasskey}
-        showGoogleAuthModal={showGoogleAuthModal}
-        setShowGoogleAuthModal={setShowGoogleAuthModal}
-        success={success}
-        error={error}
-        setError={props.setError}
-        setSuccess={props.setSuccess}
-        router={router}
-        linkText={linkText}
-      />
+
+        <ChangePasswordModal
+          open={showPasswordModal}
+          onClose={() => setShowPasswordModal(false)}
+          onSubmit={handlePasswordChange}
+          loading={passwordLoading}
+          error={passwordError}
+          success={passwordSuccess}
+        />
+        <GoogleAuthenticatorSetupModal
+          open={showGoogleAuthModal}
+          onClose={(success) => {
+            setShowGoogleAuthModal(false);
+            if (success && user) {
+              user.haveAuthenticator = true;
+              setUser({ ...user });
+            }
+          }}
+          user={user}
+        />
+        <SecurityModal
+          open={showSecurityModal}
+          onClose={() => setShowSecurityModal(false)}
+          user={user}
+          setUser={setUser}
+          passkeyLoading={passkeyLoading}
+          passkeySuccess={passkeySuccess}
+          passkeyError={passkeyError}
+          handleRegisterPasskey={handleRegisterPasskey}
+          showGoogleAuthModal={showGoogleAuthModal}
+          setShowGoogleAuthModal={setShowGoogleAuthModal}
+          success={success}
+          error={error}
+          setError={props.setError}
+          setSuccess={props.setSuccess}
+          router={router}
+          linkText={linkText}
+        />
+      </div>
     </div>
   );
 }

@@ -617,7 +617,12 @@
     "deleteGoogleAuthConfirm": "Google Authenticator wirklich löschen? Das deaktiviert 2FA.",
     "deleteGoogleAuthError": "Google Authenticator konnte nicht gelöscht werden.",
     "linkTextWebsite": "Auf der Website verknüpfen",
-    "linkTextStudio": "Ein Studio kann Steam nicht verknüpfen"
+    "linkTextStudio": "Ein Studio kann Steam nicht verknüpfen",
+    "profile": "Profil",
+    "security": "Sicherheit",
+    "choosePicture": "Bild wählen",
+    "yourApiKey": "Dein API-Schlüssel",
+    "integrations": "OAuth2-Integrationen"
   },
   "footer": {
     "terms": "Nutzungsbedingungen",

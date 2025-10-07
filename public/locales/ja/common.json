@@ -617,7 +617,12 @@
     "deleteGoogleAuthConfirm": "本当にGoogle Authenticatorを削除しますか？これで2FAが無効になります。",
     "deleteGoogleAuthError": "Google Authenticatorの削除に失敗しました。",
     "linkTextWebsite": "リンクするにはウェブサイトにアクセス",
-    "linkTextStudio": "スタジオはSteamをリンクできません"
+    "linkTextStudio": "スタジオはSteamをリンクできません",
+    "profile": "プロフィール",
+    "security": "セキュリティ",
+    "choosePicture": "写真を選択",
+    "yourApiKey": "あなたのAPIキー",
+    "integrations": "OAuth2統合"
   },
   "footer": {
     "terms": "利用規約",

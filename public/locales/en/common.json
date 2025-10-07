@@ -617,7 +617,12 @@
     "deleteGoogleAuthConfirm": "Are you sure you want to delete Google Authenticator? This will disable 2FA for your account.",
     "deleteGoogleAuthError": "Failed to delete Google Authenticator.",
     "linkTextWebsite": "Go on website to link",
-    "linkTextStudio": "Studio can't link Steam"
+    "linkTextStudio": "Studio can't link Steam",
+    "profile": "Profile",
+    "security": "Security",
+    "choosePicture": "Choose a picture",
+    "yourApiKey": "Your API key",
+    "integrations": "OAuth2 Integrations"
   },
   "footer": {
     "terms": "Terms",

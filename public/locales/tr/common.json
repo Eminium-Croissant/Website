@@ -617,7 +617,12 @@
     "deleteGoogleAuthConfirm": "Google Authenticator'ı silmek istediğinizden emin misiniz? Bu, 2FA'yı devre dışı bırakacaktır.",
     "deleteGoogleAuthError": "Google Authenticator silinemiyor.",
     "linkTextWebsite": "Bağlamak için web sitesine gidin",
-    "linkTextStudio": "Stüdyo Steam'i bağlayamaz"
+    "linkTextStudio": "Stüdyo Steam'i bağlayamaz",
+    "profile": "Profil",
+    "security": "Güvenlik",
+    "choosePicture": "Bir resim seçin",
+    "yourApiKey": "API anahtarınız",
+    "integrations": "OAuth2 Entegrasyonları"
   },
   "footer": {
     "terms": "Koşullar",

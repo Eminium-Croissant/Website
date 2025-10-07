@@ -617,7 +617,12 @@
     "deleteGoogleAuthConfirm": "هل أنت متأكد أنك تريد حذف Google Authenticator؟ سيؤدي ذلك إلى تعطيل المصادقة الثنائية.",
     "deleteGoogleAuthError": "تعذر حذف Google Authenticator.",
     "linkTextWebsite": "اذهب إلى الموقع للربط",
-    "linkTextStudio": "الاستوديو لا يمكنه ربط Steam"
+    "linkTextStudio": "الاستوديو لا يمكنه ربط Steam",
+    "profile": "الملف الشخصي",
+    "security": "الأمان",
+    "choosePicture": "اختر صورة",
+    "yourApiKey": "مفتاح API الخاص بك",
+    "integrations": "تكاملات OAuth2"
   },
   "footer": {
     "terms": "الشروط",

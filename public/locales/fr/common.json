@@ -617,7 +617,12 @@
     "deleteGoogleAuthConfirm": "Tu es sûr de vouloir supprimer Google Authenticator ? Ça désactivera la 2FA.",
     "deleteGoogleAuthError": "Impossible de supprimer Google Authenticator.",
     "linkTextWebsite": "Va sur le site pour lier",
-    "linkTextStudio": "Un studio ne peut pas lier Steam"
+    "linkTextStudio": "Un studio ne peut pas lier Steam",
+    "profile": "Profil",
+    "security": "Sécurité",
+    "choosePicture": "Choisir une photo",
+    "yourApiKey": "Ta clé API",
+    "integrations": "Intégrations OAuth2"
   },
   "footer": {
     "terms": "Conditions",

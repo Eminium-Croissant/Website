@@ -611,7 +611,12 @@
     "deleteGoogleAuthConfirm": "确定要删除 Google Authenticator？这将禁用两步验证。",
     "deleteGoogleAuthError": "删除 Google Authenticator 失败。",
     "linkTextWebsite": "前往网站进行绑定",
-    "linkTextStudio": "工作室无法绑定 Steam"
+    "linkTextStudio": "工作室无法绑定 Steam",
+    "profile": "个人资料",
+    "security": "安全",
+    "choosePicture": "选择图片",
+    "yourApiKey": "您的 API 密钥",
+    "integrations": "OAuth2 集成"
   },
   "footer": {
     "terms": "条款",
