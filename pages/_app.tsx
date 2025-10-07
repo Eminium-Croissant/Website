@@ -1,3 +1,5 @@
+
+import "github-markdown-css/github-markdown.css";
 import "../styles/main.css";
 // import "../styles/phone.css";
 import "../styles/atom-one-dark.min.css";
@@ -22,7 +24,6 @@ import { LobbyProvider } from "../hooks/LobbyContext";
 import { appWithTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { getMetaLinksProps } from "../components/common/metaLinks.server";
-import "github-markdown-css/github-markdown.css";
 import OgGameMetaLinks from "../components/common/OgGameMetaLinks";
 
 // Small presentational helpers extracted to shorten AppContent
