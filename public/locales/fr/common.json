@@ -1,4 +1,13 @@
 {
+  "success": {
+    "title": "Achat réussi !",
+    "description": "Votre transaction a été effectuée avec succès. Vos crédits ont été ajoutés à votre compte.",
+    "support": "Si vous avez des questions ou besoin d’aide, contactez notre support.",
+    "nextTitle": "Que souhaitez-vous faire maintenant ?",
+    "home": "Retour à l’accueil",
+    "dashboard": "Accéder au tableau de bord",
+    "contact": "Contacter le support"
+  },
   "404": {
     "title": {
       "desktop": "Oups ! Cette page n’existe pas.",

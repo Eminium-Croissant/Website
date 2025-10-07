@@ -1,4 +1,13 @@
 {
+  "success": {
+    "title": "Purchase successful!",
+    "description": "Your transaction was successful. Your credits have been added to your account.",
+    "support": "If you have any questions or need assistance, please contact our support team.",
+    "nextTitle": "What would you like to do next?",
+    "home": "Return to Home",
+    "dashboard": "Go to Dashboard",
+    "contact": "Contact Support"
+  },
   "404": {
     "title": {
       "desktop": "Hata! Bu sayfa mevcut değil.",

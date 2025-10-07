@@ -1,44 +1,50 @@
-import React, { useEffect, useState } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+}
+
+import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 export default function Success() {
-  const router = useRouter();
-  const [redirected, setRedirected] = useState(false);
-
-  useEffect(() => {
-    setRedirected(true);
-  }, [router, redirected]);
+  const { t } = useTranslation("common");
 
   return (
-    <main>
-      <div className="container">
-        <h2>Thank you for your purchase!</h2>
-        <div className="indent">
-          <p>
-            Your transaction was successful. Your credits have been added to
-            your account.
+    <div className="glass-page-container">
+      <div className="glass-content-card mx-auto max-w-xl">
+        <h1 className="text-4xl font-bold mb-8 text-center" style={{color: 'var(--glass-text)'}}>
+          <span className="glass-method put">{t("success.title")}</span>
+        </h1>
+        <div className="glass-card p-6 mb-8">
+          <p className="text-xl mb-4" style={{color: 'var(--glass-text-secondary)'}}>
+            {t("success.description")}
           </p>
-          <p>
-            If you have any questions or need assistance, please contact our
-            support team.
+          <p className="text-base mb-4" style={{color: 'var(--glass-text-secondary)'}}>
+            {t("success.support")}
           </p>
         </div>
-        <h3>What would you like to do next?</h3>
-        <div className="indent">
-          <ul>
+        <div className="glass-card p-6 mb-8">
+          <h2 className="text-2xl font-bold mb-4" style={{color: 'var(--glass-text)'}}>
+            {t("success.nextTitle")}
+          </h2>
+          <ul className="list-disc list-inside space-y-3 text-lg" style={{color: 'var(--glass-text-secondary)'}}>
             <li>
-              <Link href="/">Return to Home</Link>
+              <Link href="/" className="">{t("success.home")}</Link>
             </li>
             <li>
-              <Link href="/dashboard">Go to Dashboard</Link>
+              <Link href="/dashboard" className="">{t("success.dashboard")}</Link>
             </li>
             <li>
-              <Link href="/contact">Contact Support</Link>
+              <Link href="/contact" className="">{t("success.contact")}</Link>
             </li>
           </ul>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
