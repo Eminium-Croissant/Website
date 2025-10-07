@@ -168,7 +168,7 @@ export default function NavBarDesktop() {
             </div>
             <span className="whitespace-nowrap font-medium text-glass-text text-xs">
               {studio?.me.username || "Me"}
-              <Certification user={studio ? { ...studio, isStudio: true } : studio} className="w-3 h-3 ml-1 relative -top-0.5 align-middle" />
+              {/* <Certification user={studio ? { ...studio, isStudio: true } : studio} className="w-3 h-3 ml-1 relative -top-0.5 align-middle" /> */}
             </span>
           </button>
         );
