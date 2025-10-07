@@ -2487,6 +2487,6 @@ code.oauth2-code {
   border-radius: 4px;
 }
 
-p, span {
+p, span, li, ul, h1, h2, h3, h4, h5, h6 {
     color: #fff
 }
