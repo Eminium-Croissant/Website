@@ -78,7 +78,7 @@ export default function OAuth2Auth() {
 
   return (
     <div className="glass-page-container flex justify-center items-center min-h-screen">
-      <div className="glass-content-card max-w-xl w-full mx-auto mt-0 rounded-[18px] shadow-xl p-7 text-white font-['Segoe_UI',Arial,sans-serif] flex flex-col items-center justify-start relative">
+      <div className="glass-content-card w-full mx-auto mt-0 rounded-[18px] shadow-xl p-7 text-white font-['Segoe_UI',Arial,sans-serif] flex flex-col items-center justify-start relative">
         {/* App Info Section */}
         <div className="flex items-center gap-[18px] mb-4 w-full justify-center">
           <img src="/assets/icons/favicon-96x96.avif" alt="App avatar" className="w-14 h-14 rounded-2xl bg-[#333] object-cover shadow-md" />

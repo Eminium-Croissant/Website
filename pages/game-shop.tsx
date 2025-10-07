@@ -489,7 +489,7 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
       {/* Prompt Modal */}
       {prompt && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="glass-card rounded-xl p-5 w-full max-w-sm mx-4">
+          <div className="glass-card rounded-xl p-5 w-full  mx-4">
             <h3 className="text-lg font-bold mb-3" style={{color: 'var(--glass-text)'}}>{t("shop.confirmPurchase")}</h3>
             <p className="mb-4 text-sm" style={{color: 'var(--glass-text-secondary)'}}>{prompt.message}</p>
             <div className="flex gap-2">
@@ -507,7 +507,7 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
       {/* Alert Modal */}
       {alert && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="glass-card rounded-xl p-5 w-full max-w-sm mx-4">
+          <div className="glass-card rounded-xl p-5 w-full  mx-4">
             <p className="mb-4 text-sm" style={{color: 'var(--glass-text)'}}>{alert.message}</p>
             <button onClick={() => setAlert(null)} className="w-full glass-button-neon text-sm">
               {t("shop.ok")}

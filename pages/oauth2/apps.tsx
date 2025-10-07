@@ -287,7 +287,7 @@ function OAuth2AppModal({ title, name, setName, redirectUrls, setRedirectUrls, o
   const { t } = useTranslation("common");
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={onCancel}>
-      <div onClick={(e) => e.stopPropagation()} className="bg-[#1c1c24] rounded-xl p-6 w-full max-w-sm relative">
+      <div onClick={(e) => e.stopPropagation()} className="bg-[#1c1c24] rounded-xl p-6 w-full  relative">
         <button onClick={onCancel} className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
           ×
         </button>
@@ -325,7 +325,7 @@ function OAuth2CodeModal({ code, onClose }) {
   const { t } = useTranslation("common");
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={onClose}>
-      <div onClick={(e) => e.stopPropagation()} className="bg-[#1c1c24] rounded-xl p-6 w-full max-w-sm relative">
+      <div onClick={(e) => e.stopPropagation()} className="bg-[#1c1c24] rounded-xl p-6 w-full  relative">
         <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl">
           ×
         </button>
