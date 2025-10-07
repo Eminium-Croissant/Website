@@ -30,9 +30,6 @@ const PrivacyPolicy: React.FC = () => {
             <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-blue)" }}>
               {t("privacy.1.title")}
             </h3>
-            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
-              {t("privacy.1")}
-            </div>
             <p className="mb-3 indent" style={{ color: "var(--glass-text-secondary)" }}>
               {t("privacy.1.1")}
             </p>
@@ -48,9 +45,6 @@ const PrivacyPolicy: React.FC = () => {
             <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-purple)" }}>
               {t("privacy.2.title")}
             </h3>
-            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
-              {t("privacy.2")}
-            </div>
             <p className="mb-3 indent" style={{ color: "var(--glass-text-secondary)" }}>
               {t("privacy.2.1")}
             </p>
@@ -66,9 +60,6 @@ const PrivacyPolicy: React.FC = () => {
             <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-pink)" }}>
               {t("privacy.3.title")}
             </h3>
-            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
-              {t("privacy.3")}
-            </div>
             <p className="mb-3 indent" style={{ color: "var(--glass-text-secondary)" }}>
               {t("privacy.3.1")}
             </p>
@@ -84,9 +75,6 @@ const PrivacyPolicy: React.FC = () => {
             <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-green)" }}>
               {t("privacy.4.title")}
             </h3>
-            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
-              {t("privacy.4")}
-            </div>
             <p className="mb-3 indent" style={{ color: "var(--glass-text-secondary)" }}>
               {t("privacy.4.1")}
             </p>
@@ -99,9 +87,6 @@ const PrivacyPolicy: React.FC = () => {
             <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-orange)" }}>
               {t("privacy.5.title")}
             </h3>
-            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
-              {t("privacy.5")}
-            </div>
             <p className="mb-3 indent" style={{ color: "var(--glass-text-secondary)" }}>
               {t("privacy.5.1")}
             </p>
@@ -117,9 +102,6 @@ const PrivacyPolicy: React.FC = () => {
             <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-cyan)" }}>
               {t("privacy.6.title")}
             </h3>
-            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
-              {t("privacy.6")}
-            </div>
             <p className="indent" style={{ color: "var(--glass-text-secondary)" }}>
               {t("privacy.6.1")}
             </p>
