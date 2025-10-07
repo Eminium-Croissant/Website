@@ -1,0 +1,2189 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Croissant API",
+    "version": "1.0.0",
+    "description": "Comprehensive REST API documentation for Croissant."
+  },
+  "servers": [
+    {
+      "url": "https://api.croissant-api.fr/",
+      "description": "Production API"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Inventory": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string" },
+          "inventory": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/InventoryItem" }
+          }
+        }
+      },
+      "InventoryItem": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string" },
+          "item_id": { "type": "string" },
+          "amount": { "type": "number" },
+          "name": { "type": "string" },
+          "iconHash": { "type": "string" },
+          "description": { "type": "string" },
+          "metadata": { "type": "object" },
+          "sellable": { "type": "boolean" },
+          "purchasePrice": { "type": "number" },
+          "rarity": { "type": "string" },
+          "custom_url_link": { "type": "string" }
+        }
+      },
+      "Item": {
+        "type": "object",
+        "properties": {
+          "itemId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "iconHash": {
+            "type": "string"
+          },
+          "showInStore": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PublicUser": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string" },
+          "username": { "type": "string" },
+          "verified": { "type": "boolean" },
+          "isStudio": { "type": "boolean" },
+          "admin": { "type": "boolean" },
+          "badges": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "beta_user": { "type": "boolean" },
+          "created_at": { "type": "string" },
+          "updated_at": { "type": "string" },
+          "disabled": { "type": "boolean" }
+        }
+      },
+      "Lobby": {
+        "type": "object",
+        "properties": {
+          "lobbyId": { "type": "string" },
+          "users": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/PublicUser" }
+          }
+        }
+      },
+      "OAuth2App": {
+        "type": "object",
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_secret": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "redirect_urls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Trade": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "fromUserId": {
+            "type": "string"
+          },
+          "toUserId": {
+            "type": "string"
+          },
+          "fromUserItems": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "toUserItems": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "approvedFromUser": {
+            "type": "boolean"
+          },
+          "approvedToUser": {
+            "type": "boolean"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "steam_id": {
+            "type": "string"
+          },
+          "steam_username": {
+            "type": "string"
+          },
+          "steam_avatar_url": {
+            "type": "string"
+          },
+          "discord_id": {
+            "type": "string"
+          },
+          "google_id": {
+            "type": "string"
+          },
+          "balance": {
+            "type": "number"
+          },
+          "isStudio": {
+            "type": "boolean"
+          },
+          "admin": {
+            "type": "boolean"
+          },
+          "verificationKey": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/inventory/@me": {
+      "get": {
+        "tags": ["Inventory"],
+        "summary": "Get the inventory of the authenticated user with all item instances and item details",
+        "description": "Get the inventory of the authenticated user with all item instances and item details",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User inventory returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inventory"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required or invalid token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Authentication required" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching inventory",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "error": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Error fetching inventory", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/{userId}": {
+      "get": {
+        "tags": ["Inventory"],
+        "summary": "Get the inventory of a user with all item instances and item details",
+        "description": "Get the inventory of a user with all item instances and item details",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User inventory returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Inventory"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed for parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "errors": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  }
+                },
+                "example": { "message": "Validation failed", "errors": ["userId must match ..."] }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching inventory",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "error": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Error fetching inventory", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inventory/{userId}/item/{itemId}/amount": {
+      "get": {
+        "tags": ["Inventory"],
+        "summary": "Get the amount of a specific item for a user",
+        "description": "Get the amount of a specific item for a user",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the user"
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the item"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Amount returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": { "type": "string" },
+                    "itemId": { "type": "string" },
+                    "amount": { "type": "number" }
+                  }
+                },
+                "example": { "userId": "123", "itemId": "456", "amount": 3 }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching item amount",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "error": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Error fetching item amount", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Get all non-deleted items visible in store",
+        "description": "Get all non-deleted items visible in store",
+        "responses": {
+          "200": {
+            "description": "List of store items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Item" }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching items",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching items", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/@mine": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Get all items owned by the authenticated user",
+        "description": "Get all items owned by the authenticated user",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "User's items returned successfully",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Item" } }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or missing token",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching user's items",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching your items", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/search": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Search for items by name (only those visible in store)",
+        "description": "Search for items by name (only those visible in store)",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The search query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Item" } },
+                "example": [{ "itemId": "123", "name": "Apple", "description": "A fruit", "owner": "u1", "price": 100, "iconHash": "abc", "showInStore": true }]
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid query parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing search query" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while searching items",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error searching items", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/{itemId}": {
+      "get": {
+        "tags": ["Items"],
+        "summary": "Get a single item by itemId",
+        "description": "Get a single item by itemId",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the item"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Item returned successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Item" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid itemId parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "example": { "message": "Invalid itemId", "errors": ["itemId must be a valid UUID"] }
+              }
+            }
+          },
+          "404": {
+            "description": "Item not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Item not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching item",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching item", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/create": {
+      "post": {
+        "tags": ["Items"],
+        "summary": "Create a new item",
+        "description": "Create a new item",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "price": { "type": "number" },
+                  "iconHash": { "type": "string" },
+                  "showInStore": { "type": "boolean" }
+                }
+              },
+              "example": { "name": "Apple", "description": "A fruit", "price": 100, "iconHash": "abc123", "showInStore": true }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item created",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Item created" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid item data",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "example": { "message": "Invalid item data", "errors": ["name is required"] }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while creating item",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error creating item", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/update/{itemId}": {
+      "put": {
+        "tags": ["Items"],
+        "summary": "Update an existing item",
+        "description": "Update an existing item",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "itemId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The id of the item" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "description": { "type": "string" },
+                  "price": { "type": "number" },
+                  "iconHash": { "type": "string" },
+                  "showInStore": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item updated",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Item updated" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid itemId or update data",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "example": { "message": "Invalid update data", "errors": ["price must be a number"] }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (owner check failed)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Forbidden" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while updating item",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error updating item", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/delete/{itemId}": {
+      "delete": {
+        "tags": ["Items"],
+        "summary": "Delete an item",
+        "description": "Delete an item",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "itemId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The id of the item" }],
+        "responses": {
+          "200": {
+            "description": "Item deleted",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Item deleted" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid itemId parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Invalid itemId" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (owner check failed)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Forbidden" }
+              }
+            }
+          },
+          "404": {
+            "description": "Item not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Item not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while deleting item",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error deleting item", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lobbies": {
+      "post": {
+        "tags": ["Lobbies"],
+        "summary": "Create a new lobby",
+        "description": "Create a new lobby.",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "201": {
+            "description": "Lobby created",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Lobby created" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or missing token",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while creating lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error creating lobby", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lobbies/{lobbyId}": {
+      "get": {
+        "tags": ["Lobbies"],
+        "summary": "Get a lobby by lobbyId",
+        "description": "Get a lobby by lobbyId",
+        "parameters": [
+          {
+            "name": "lobbyId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the lobby"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lobby returned successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Lobby" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid lobbyId parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "example": { "message": "Validation failed", "errors": ["lobbyId must be a valid UUID"] }
+              }
+            }
+          },
+          "404": {
+            "description": "Lobby not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Lobby not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching lobby", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lobbies/user/@me": {
+      "get": {
+        "tags": ["Lobbies"],
+        "summary": "Get the lobby the authenticated user is in",
+        "description": "Get the lobby the authenticated user is in.",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "User lobby status returned",
+            "content": {
+              "application/json": {
+                "oneOf": [{ "type": "object", "properties": { "success": { "type": "boolean" }, "message": { "type": "string" } } }, { "$ref": "#/components/schemas/Lobby" }],
+                "examples": {
+                  "notInLobby": { "value": { "success": false, "message": "User is not in any lobby" } },
+                  "inLobby": { "value": { "lobbyId": "abc", "users": [{ "user_id": "u1", "username": "bob" }] } }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or missing token",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching user lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching user lobby", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lobbies/user/{userId}": {
+      "get": {
+        "tags": ["Lobbies"],
+        "summary": "Get the lobby a user is in",
+        "description": "Get the lobby a user is in",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User lobby returned successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Lobby" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid userId parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "example": { "message": "Validation failed", "errors": ["userId must be a valid UUID"] }
+              }
+            }
+          },
+          "404": {
+            "description": "User is not in any lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User is not in any lobby" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching user lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching user lobby", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lobbies/{lobbyId}/join": {
+      "post": {
+        "tags": ["Lobbies"],
+        "summary": "Join a lobby",
+        "description": "Join a lobby. This will make the user leave all other lobbies first.",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "lobbyId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the lobby"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Joined lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Joined lobby" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid lobbyId parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Validation failed" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or missing token",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while joining lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error joining lobby", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lobbies/{lobbyId}/leave": {
+      "post": {
+        "tags": ["Lobbies"],
+        "summary": "Leave a lobby",
+        "description": "Leave a lobby.",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "lobbyId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The id of the lobby"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Left lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Left lobby" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid lobbyId parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Validation failed" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized or missing token",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while leaving lobby",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error leaving lobby", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth2/app/{client_id}": {
+      "get": {
+        "tags": ["OAuth2"],
+        "summary": "Get an OAuth2 app by client_id",
+        "description": "Get an OAuth2 app by client_id",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The client_id of the app"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "App returned successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OAuth2App" }
+              }
+            }
+          },
+          "404": {
+            "description": "App not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "App not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching app",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching app", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["OAuth2"],
+        "summary": "Update an OAuth2 app",
+        "description": "Update an OAuth2 app",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "client_id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "redirect_urls": { "type": "array", "items": { "type": "string" } }
+                }
+              },
+              "example": { "name": "Updated App" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "App updated",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "success": { "type": "boolean" } } },
+                "example": { "success": true }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Invalid request" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while updating app",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error updating app", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["OAuth2"],
+        "summary": "Delete an OAuth2 app",
+        "description": "Delete an OAuth2 app",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "client_id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" }],
+        "responses": {
+          "204": {
+            "description": "App deleted (no content)"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while deleting app",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error deleting app", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth2/app": {
+      "post": {
+        "tags": ["OAuth2"],
+        "summary": "Create a new OAuth2 app",
+        "description": "Create a new OAuth2 app",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "redirect_urls": { "type": "array", "items": { "type": "string" } }
+                }
+              },
+              "example": { "name": "My App", "redirect_urls": ["https://example.com/callback"] }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "App created",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "client_id": { "type": "string" }, "client_secret": { "type": "string" } } },
+                "example": { "client_id": "abc123", "client_secret": "secretxyz" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Invalid request body" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while creating app",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error creating app", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth2/apps": {
+      "get": {
+        "tags": ["OAuth2"],
+        "summary": "Get all OAuth2 apps owned by the authenticated user",
+        "description": "Get all OAuth2 apps owned by the authenticated user",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "List of apps",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/OAuth2App" } }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching apps",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching apps", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth2/authorize": {
+      "get": {
+        "tags": ["OAuth2"],
+        "summary": "Authorize a user for an OAuth2 app",
+        "description": "Authorize a user for an OAuth2 app (requires auth)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "client_id", "in": "query", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" },
+          { "name": "redirect_uri", "in": "query", "required": true, "schema": { "type": "string" }, "description": "The redirect URI" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authorization code generated",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "code": { "type": "string" } } },
+                "example": { "code": "authcode123" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing client_id or redirect_uri",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing client_id or redirect_uri" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while generating authorization code",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error generating authorization code", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/oauth2/user": {
+      "get": {
+        "tags": ["OAuth2"],
+        "summary": "Get user information by authorization code",
+        "description": "Get user information by authorization code",
+        "parameters": [
+          { "name": "code", "in": "query", "required": true, "schema": { "type": "string" }, "description": "The authorization code" },
+          { "name": "client_id", "in": "query", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" }
+        ],
+        "responses": {
+          "200": {
+            "description": "User returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": { "type": "string" },
+                    "user_id": { "type": "string" },
+                    "email": { "type": "string" },
+                    "balance": { "type": "number" },
+                    "verified": { "type": "boolean" },
+                    "steam_username": { "type": "string" },
+                    "steam_avatar_url": { "type": "string" },
+                    "steam_id": { "type": "string" },
+                    "discord_id": { "type": "string" },
+                    "google_id": { "type": "string" },
+                    "verificationKey": { "type": "string" }
+                  }
+                },
+                "example": {
+                  "username": "bob",
+                  "user_id": "u1",
+                  "email": "bob@example.com",
+                  "balance": 100,
+                  "verified": true,
+                  "steam_username": "bob_steam",
+                  "steam_avatar_url": "https://...",
+                  "steam_id": "steam123",
+                  "discord_id": "disc123",
+                  "google_id": "google123",
+                  "verificationKey": "verif-key-xyz"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing code or client_id",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing code or client_id" }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching user",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching user", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/@me": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get the current authenticated user's profile",
+        "description": "Get the current authenticated user's profile, including studios, roles, inventory, owned items, and created games.",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "User profile returned",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/User" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching profile",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching profile", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/search": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Search for users by username",
+        "description": "Search for users by username",
+        "parameters": [{ "name": "q", "in": "query", "required": true, "schema": { "type": "string" }, "description": "The search query" }],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/PublicUser" } }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing search query",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing search query" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while searching users",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error searching users", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get a user by userId",
+        "description": "Get a user by userId (Croissant ID, Discord ID, Google ID or Steam ID).",
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The id of the user" }],
+        "responses": {
+          "200": {
+            "description": "User returned successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/PublicUser" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid userId parameter",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Invalid userId" }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching user",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching user", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/transfer-credits": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Transfer credits from one user to another",
+        "description": "Transfer credits from one user to another",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "targetUserId": { "type": "string" }, "amount": { "type": "number" } } },
+              "example": { "targetUserId": "456", "amount": 50 }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Credits transferred",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Credits transferred" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input or insufficient balance or cannot transfer to self",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Invalid input" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "404": {
+            "description": "Recipient not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Recipient not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while transferring credits",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error transferring credits", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/auth-verification": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Check the verification key for the user",
+        "description": "Check the verification key for the user",
+        "parameters": [
+          { "name": "userId", "in": "query", "required": true, "schema": { "type": "string" } },
+          { "name": "verificationKey", "in": "query", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification check result",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "success": { "type": "boolean" } } },
+                "example": { "success": true }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing userId or verificationKey",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing userId or verificationKey" }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid verification key",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "success": { "type": "boolean" } } },
+                "example": { "success": false }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User not found" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trades/start-or-latest/{userId}": {
+      "post": {
+        "tags": ["Trades"],
+        "summary": "Start a new trade or get the latest pending trade with a user",
+        "description": "Start a new trade or get the latest pending trade with a user",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Trade started or latest pending trade returned",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Trade" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request (e.g. cannot trade with yourself)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Cannot trade with yourself" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while starting/getting trade",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error starting or getting trade", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trades/{id}": {
+      "get": {
+        "tags": ["Trades"],
+        "summary": "Get a trade by ID",
+        "description": "Get a trade by ID with enriched item information",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Trade returned",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Trade" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (not a participant)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Forbidden" }
+              }
+            }
+          },
+          "404": {
+            "description": "Trade not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Trade not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching trade",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching trade", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trades/user/{userId}": {
+      "get": {
+        "tags": ["Trades"],
+        "summary": "Get all trades for a user",
+        "description": "Get all trades for a user with enriched item information",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Trades returned",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Trade" } }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (requesting another user's trades)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Forbidden" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching trades",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching trades", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trades/{id}/add-item": {
+      "post": {
+        "tags": ["Trades"],
+        "summary": "Add an item to a trade",
+        "description": "Add an item to a trade",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tradeItem": {
+                    "type": "object",
+                    "properties": {
+                      "itemId": { "type": "string" },
+                      "amount": { "type": "number" },
+                      "metadata": { "type": "object" }
+                    }
+                  }
+                }
+              },
+              "example": { "tradeItem": { "itemId": "item456", "amount": 1 } }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item added to trade",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Item added to trade" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid tradeItem format",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Invalid tradeItem format" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while adding item",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error adding item to trade", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trades/{id}/remove-item": {
+      "post": {
+        "tags": ["Trades"],
+        "summary": "Remove an item from a trade",
+        "description": "Remove an item from a trade",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tradeItem": {
+                    "type": "object",
+                    "properties": {
+                      "itemId": { "type": "string" },
+                      "amount": { "type": "number" },
+                      "metadata": { "type": "object" }
+                    }
+                  }
+                }
+              },
+              "example": { "tradeItem": { "itemId": "item456", "amount": 1 } }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item removed from trade",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Item removed from trade" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid tradeItem format or amount required",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "type": "string" } }
+              },
+              "example": { "message": "Amount is required for items without _unique_id" }
+            }
+          }
+        },
+        "500": {
+          "description": "Server error while removing item",
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+              "example": { "message": "Error removing item from trade", "error": "Internal error details" }
+            }
+          }
+        }
+      }
+    },
+    "/trades/{id}/approve": {
+      "put": {
+        "tags": ["Trades"],
+        "summary": "Approve a trade",
+        "description": "Approve a trade",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Trade approved",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Trade approved" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while approving trade",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error approving trade", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/trades/{id}/cancel": {
+      "put": {
+        "tags": ["Trades"],
+        "summary": "Cancel a trade",
+        "description": "Cancel a trade",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Trade canceled",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Trade canceled" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while canceling trade",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error canceling trade", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/studios": {
+      "post": {
+        "tags": ["Studios"],
+        "summary": "Create a new studio",
+        "description": "Create a new studio.",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "studioName": { "type": "string" } } },
+              "example": { "studioName": "My Studio" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Studio created",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Studio created" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing required fields" }
+              }
+            }
+          },
+          "403": {
+            "description": "A studio can't create another studio",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "A studio can't create another studio" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while creating studio",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error creating studio", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/studios/{studioId}": {
+      "get": {
+        "tags": ["Studios"],
+        "summary": "Get a studio by studioId",
+        "description": "Get a studio by studioId",
+        "parameters": [{ "name": "studioId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "Studio returned",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object" }
+              }
+            }
+          },
+          "404": {
+            "description": "Studio not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Studio not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching studio",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching studio", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/studios/user/@me": {
+      "get": {
+        "tags": ["Studios"],
+        "summary": "Get all studios the authenticated user is part of",
+        "description": "Get all studios the authenticated user is part of.",
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": {
+            "description": "Studios returned",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "type": "object" } }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while fetching user studios",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error fetching user studios", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/studios/{studioId}/add-user": {
+      "post": {
+        "tags": ["Studios"],
+        "summary": "Add a user to a studio",
+        "description": "Add a user to a studio.",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "studioId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "userId": { "type": "string" } } },
+              "example": { "userId": "user456" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User added to studio",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User added to studio" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing userId",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing userId" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (only studio admin can modify users)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Only the studio admin can modify users" }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while adding user to studio",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error adding user to studio", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/studios/{studioId}/remove-user": {
+      "post": {
+        "tags": ["Studios"],
+        "summary": "Remove a user from a studio",
+        "description": "Remove a user from a studio.",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "studioId", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "type": "object", "properties": { "userId": { "type": "string" } } },
+              "example": { "userId": "user456" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User removed from studio",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "User removed from studio" }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing userId",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Missing userId" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden (cannot remove studio admin or not admin)",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" } } },
+                "example": { "message": "Cannot remove the studio admin" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while removing user from studio",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
+                "example": { "message": "Error removing user from studio", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
