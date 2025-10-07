@@ -40,7 +40,7 @@ function DownloadLauncherDesktop() {
 
   return (
     <div className="glass-page-container">
-      <div className="glass-content-card max-w-4xl mx-auto">
+      <div className="glass-content-card  mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-center" style={{color: 'var(--glass-text)'}}>
           <span className="glass-method put">{t("downloadLauncher.title")}</span>
         </h1>
