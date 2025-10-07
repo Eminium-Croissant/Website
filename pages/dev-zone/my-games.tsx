@@ -443,9 +443,9 @@ const MyGames = () => {
                 {t("myGames.price")}
               </label>
               <input id="price" type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="mygames-input" required />
-              <label className="mygames-label">
+              <label className="mygames-label" style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="glass-checkbox" />
-                {t("myGames.showInStore")}
+                <span style={{ marginLeft: 4 }}>{t("myGames.showInStore")}</span>
               </label>
             </div>
             <div className="mygames-modal-col">
@@ -475,10 +475,10 @@ const MyGames = () => {
                 {t("myGames.downloadLink")}
               </label>
               <input id="download_link" type="url" name="download_link" value={formData.download_link} onChange={handleChange} placeholder="https://example.com/download" className="mygames-input" />
-              <label className="mygames-label">
+                <label className="mygames-label" style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <input type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="glass-checkbox" />
-                {t("myGames.multiplayer")}
-              </label>
+                <span style={{ marginLeft: 4 }}>{t("myGames.multiplayer")}</span>
+                </label>
             </div>
             <div className="mygames-modal-actions">
               {errors.submit && <div className="mygames-error">{errors.submit}</div>}

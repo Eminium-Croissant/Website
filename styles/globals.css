@@ -170,19 +170,7 @@ body {
 
   .glass-checkbox:checked {
     background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
-    border-color: rgba(74, 158, 255, 0.5);
-  }
-
-  .glass-checkbox:checked::after {
-    content: "";
-    position: absolute;
-    left: 5px;
-    top: 1px;
-    width: 5px;
-    height: 10px;
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    border-color: rgba(74, 158, 255, 0.778);
   }
 
   .glass-checkbox:focus {
