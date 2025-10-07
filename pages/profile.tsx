@@ -103,6 +103,28 @@ interface InventoryHandle {
   reload: () => void;
 }
 
+interface CreatedGame {
+  gameId: string;
+  name: string;
+  description?: string;
+  price?: number;
+  owner_id?: string;
+  showInStore?: number;
+  iconHash?: string;
+  splashHash?: string | null;
+  bannerHash?: string | null;
+  genre?: string;
+  release_date?: string;
+  developer?: string;
+  publisher?: string;
+  platforms?: string;
+  rating?: number;
+  website?: string;
+  trailer_link?: string;
+  multiplayer?: number;
+  download_link?: string;
+}
+
 interface User {
   verified: boolean;
   id: string;
@@ -121,6 +143,7 @@ interface User {
   } & { amount: number })[];
   ownedItems?: ShopItem[];
   badges: ("staff" | "moderator" | "community_manager" | "early_user" | "bug_hunter" | "contributor" | "partner")[];
+  createdGames?: CreatedGame[];
 }
 
 type ProfileProps = {
@@ -373,6 +396,7 @@ function useProfileLogic(userId: string) {
   const [inventoryReloadFlag, setInventoryReloadFlag] = useState(0);
   const [isProfileReloading, setIsProfileReloading] = useState(false);
   const [shopModalOpen, setShopModalOpen] = useState(false);
+  const [createdGamesModalOpen, setCreatedGamesModalOpen] = useState(false);
 
   const reloadInventory = () => setInventoryReloadFlag((f) => f + 1);
 
@@ -509,7 +533,42 @@ function useProfileLogic(userId: string) {
     }
   };
 
-  return { showTradeModal, setShowTradeModal, search, profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, setLoading, reloadProfile, setProfile, setError, setGiveCreditsSuccess, setGiveCreditsError, setGiveCreditsLoading, setIsProfileReloading, setInventoryReloadFlag, shopModalOpen, setShopModalOpen };
+  return {
+    showTradeModal,
+    setShowTradeModal,
+    search,
+    profile,
+    loading,
+    error,
+    giveCreditsOpen,
+    giveCreditsLoading,
+    giveCreditsError,
+    giveCreditsSuccess,
+    currentTradeId,
+    inventoryReloadFlag,
+    isProfileReloading,
+    setGiveCreditsOpen,
+    setCurrentTradeId,
+    reloadInventory,
+    handleDisableAccount,
+    handleReenableAccount,
+    handleProfilePictureChange,
+    handleStartTrade,
+    handleGiveCredits,
+    setLoading,
+    reloadProfile,
+    setProfile,
+    setError,
+    setGiveCreditsSuccess,
+    setGiveCreditsError,
+    setGiveCreditsLoading,
+    setIsProfileReloading,
+    setInventoryReloadFlag,
+    shopModalOpen,
+    setShopModalOpen,
+    createdGamesModalOpen,
+    setCreatedGamesModalOpen,
+  };
 }
 
 // Version Desktop
@@ -606,6 +665,11 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                         {t("profile.shop")}
                       </button>
                     ) : null}
+                    {profile.createdGames && profile.createdGames.length > 0 ? (
+                      <button className="glass-button" onClick={() => props.setCreatedGamesModalOpen(true)} style={{ minWidth: 90 }}>
+                        {t("profile.createdGamesTitle", "Games ")}
+                      </button>
+                    ) : null}
                   </>
                 ) : null}
               </div>
@@ -624,6 +688,11 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                 {hasShopItems ? (
                   <button className="glass-button" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
                     {t("profile.shop")}
+                  </button>
+                ) : null}
+                {profile.createdGames && profile.createdGames.length > 0 ? (
+                  <button className="glass-button" onClick={() => props.setCreatedGamesModalOpen(true)} style={{ minWidth: 90 }}>
+                    {t("profile.createdGamesTitle", "Games ")}
                   </button>
                 ) : null}
               </div>
@@ -700,6 +769,11 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
         </button>
       )} */}
       <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
+      <CreatedGamesModal
+        open={props.createdGamesModalOpen}
+        onClose={() => props.setCreatedGamesModalOpen(false)}
+        games={profile.createdGames || []}
+      />
     </div>
   );
 }
@@ -791,6 +865,11 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                         {t("profile.shop")}
                       </button>
                     ) : null}
+                    {profile.createdGames && profile.createdGames.length > 0 ? (
+                      <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setCreatedGamesModalOpen(true)}>
+                        {t("profile.createdGamesTitle", "Games ")}
+                      </button>
+                    ) : null}
                   </>
                 ) : null}
               </>
@@ -812,6 +891,11 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                 {hasShopItems ? (
                   <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
                     {t("profile.shop")}
+                  </button>
+                ) : null}
+                {profile.createdGames && profile.createdGames.length > 0 ? (
+                  <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setCreatedGamesModalOpen(true)}>
+                    {t("profile.createdGamesTitle", "Games ")}
                   </button>
                 ) : null}
               </>
@@ -888,6 +972,42 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
         </button>
       )} */}
       <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
+      <CreatedGamesModal
+        open={props.createdGamesModalOpen}
+        onClose={() => props.setCreatedGamesModalOpen(false)}
+        games={profile.createdGames || []}
+      />
+    </div>
+  );
+}
+
+// --- Created Games Modal ---
+function CreatedGamesModal({ open, onClose, games }) {
+  const { t } = useTranslation("common");
+  if (!open) return null;
+  return (
+    <div className="shop-prompt-overlay">
+      <div className="shop-prompt" style={{ minWidth: 400, maxWidth: 600 }}>
+        <button style={{ float: "right" }} onClick={onClose}>✕</button>
+        <h2 style={{ marginTop: 0 }}>{t("profile.createdGamesTitle", "Games ")}</h2>
+        {games.length === 0 ? (
+          <div>{t("profile.noCreatedGames", "Aucun jeu créé")}</div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {games.map((game) => (
+              <div key={game.gameId} style={{ border: "1px solid #36393f", borderRadius: 8, padding: 12, background: "#23272a" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <CachedImage src={`/games-icons/${game.iconHash ? game.iconHash : "default"}`} style={{ width: 48, height: 48, borderRadius: 8 }} />
+                  <div onClick={() => window.open(`/game?gameId=${game.gameId}`, "_blank")} style={{ cursor: "pointer", flex: 1 }}>
+                    <div style={{ fontWeight: 600, fontSize: 17 }}>{game.name}</div>
+                    <div style={{ color: "#aaa", fontSize: 13 }}>{game.description?.slice(0, 120) || ""}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
