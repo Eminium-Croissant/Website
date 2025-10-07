@@ -608,7 +608,9 @@ function useSettingsLogic() {
 function LanguageSelector() {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const [lang, setLang] = useState(i18n.language);
+  // Utilise la langue active du router ou d'i18n
+  const currentLang = router.locale || i18n.language;
+  const [lang, setLang] = useState(currentLang);
 
   const availableLanguages = [
     { code: "en", label: "English" },
@@ -623,6 +625,10 @@ function LanguageSelector() {
     { code: "ar", label: "العربية" },
     { code: "ru", label: "Русский" },
   ];
+
+  useEffect(() => {
+    setLang(currentLang);
+  }, [currentLang]);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLang = e.target.value;
@@ -639,7 +645,7 @@ function LanguageSelector() {
         className="glass-input"
         style={{
           minWidth: 120,
-          background: "#222", // fond foncé
+          background: "#222",
           color: "#fff",
           border: "1px solid #444",
         }}
@@ -649,7 +655,7 @@ function LanguageSelector() {
             key={l.code}
             value={l.code}
             style={{
-              background: "#222", // fond foncé pour chaque option
+              background: "#222",
               color: "#fff",
             }}
           >
@@ -1215,139 +1221,139 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
               </div>
               <p className="text-[10px] text-glass-text-muted text-center">{t("settings.thisKeyAllows")}</p>
             </div>
-          </div>
 
-          {user && (
-            <div className="glass-content-card">
-              <h2 className="glass-title text-xl mb-4">{t("settings.userId")}</h2>
-              <div className="flex items-center gap-2">
-                <code className="glass-input flex-1 cursor-pointer text-xs" onClick={() => navigator.clipboard.writeText(user.id || "")} title="Click to copy">
-                  {user.id}
-                </code>
-                <button onClick={() => navigator.clipboard.writeText(user.id || "")} className="glass-button text-xs">
-                  {t("settings.copy")}
-                </button>
-              </div>
-            </div>
-          )}
-
-          {user && !user?.isStudio && (
-            <div className="glass-content-card">
-              <h2 className="glass-title text-xl mb-4">{t("settings.integrations")}</h2>
-              <div className="space-y-3">
-                {/* Steam */}
-                {!user?.steam_id ? (
-                  <button
-                    onClick={() => {
-                      if (linkText === "Go on website to link") return;
-                      window.location.href = "/api/auth/steam";
-                    }}
-                    disabled={linkText === "Go on website to link" || user?.isStudio}
-                    className="glass-button-neon w-full text-sm flex items-center justify-center gap-2"
-                    style={{
-                      background: "linear-gradient(90deg, #1b2838 60%, #171a21 100%)",
-                      opacity: linkText === "Go on website to link" || user?.isStudio ? 0.5 : 1,
-                    }}
-                  >
-                    <i className="fab fa-steam text-lg" />
-                    {linkText}
+            {user && (
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4 text-glass-text">{t("settings.userId")}</h3>
+                <div className="flex items-center gap-2">
+                  <code className="glass-input flex-1 cursor-pointer text-xs" onClick={() => navigator.clipboard.writeText(user.id || "")} title="Click to copy">
+                    {user.id}
+                  </code>
+                  <button onClick={() => navigator.clipboard.writeText(user.id || "")} className="glass-button text-xs">
+                    {t("settings.copy")}
                   </button>
-                ) : (
-                  <div className="glass-card flex items-center gap-2 p-2 text-xs">
-                    <CachedImage src={user?.steam_avatar_url} alt="Steam" width={24} height={24} style={{ width: 24, height: 24, borderRadius: "20%" }} />
-                    <span className="flex-1">
-                      <i className="fab fa-steam mr-1" />
-                      {user?.steam_username}
-                    </span>
+                </div>
+              </div>
+            )}
+
+            {user && !user?.isStudio && (
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold mb-4 text-glass-text">{t("settings.integrations")}</h3>
+                <div className="space-y-3">
+                  {/* Steam */}
+                  {!user?.steam_id ? (
                     <button
-                      onClick={async () => {
-                        if (confirm("Unlink Steam?")) {
-                          try {
-                            const res = await fetch("/api/users/unlink-steam", {
-                              method: "POST",
-                              headers: { "Content-Type": "application/json" },
-                            });
-                            if (!res.ok) throw new Error("Failed");
-                            setUser({ ...user, steam_id: null, steam_username: null, steam_avatar_url: null });
-                          } catch (e) {
-                            alert("Error");
-                          }
-                        }
+                      onClick={() => {
+                        if (linkText === "Go on website to link") return;
+                        window.location.href = "/api/auth/steam";
                       }}
-                      className="glass-button-red text-[10px] px-2 py-1"
+                      disabled={linkText === "Go on website to link" || user?.isStudio}
+                      className="glass-button-neon w-full text-sm flex items-center justify-center gap-2"
+                      style={{
+                        background: "linear-gradient(90deg, #1b2838 60%, #171a21 100%)",
+                        opacity: linkText === "Go on website to link" || user?.isStudio ? 0.5 : 1,
+                      }}
                     >
-                      Unlink
+                      <i className="fab fa-steam text-lg" />
+                      {linkText}
                     </button>
-                  </div>
-                )}
+                  ) : (
+                    <div className="glass-card flex items-center gap-2 p-2 text-xs">
+                      <CachedImage src={user?.steam_avatar_url} alt="Steam" width={24} height={24} style={{ width: 24, height: 24, borderRadius: "20%" }} />
+                      <span className="flex-1">
+                        <i className="fab fa-steam mr-1" />
+                        {user?.steam_username}
+                      </span>
+                      <button
+                        onClick={async () => {
+                          if (confirm("Unlink Steam?")) {
+                            try {
+                              const res = await fetch("/api/users/unlink-steam", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                              });
+                              if (!res.ok) throw new Error("Failed");
+                              setUser({ ...user, steam_id: null, steam_username: null, steam_avatar_url: null });
+                            } catch (e) {
+                              alert("Error");
+                            }
+                          }
+                        }}
+                        className="glass-button-red text-[10px] px-2 py-1"
+                      >
+                        Unlink
+                      </button>
+                    </div>
+                  )}
 
-                {/* Discord */}
-                {!user?.discord_id ? (
-                  <button
-                    onClick={() => router.push("/auth/discord")}
-                    className="glass-button-neon w-full text-sm flex items-center justify-center gap-2"
-                    style={{
-                      background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
-                    }}
-                  >
-                    <i className="fab fa-discord text-lg" />
-                    {t("settings.linkDiscord")}
-                  </button>
-                ) : (
-                  <button
-                    disabled
-                    className="glass-button-neon w-full text-sm flex items-center justify-center gap-2 opacity-70"
-                    style={{
-                      background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
-                    }}
-                  >
-                    <i className="fab fa-discord text-lg" />
-                    {t("settings.discordLinked")}
-                  </button>
-                )}
+                  {/* Discord */}
+                  {!user?.discord_id ? (
+                    <button
+                      onClick={() => router.push("/auth/discord")}
+                      className="glass-button-neon w-full text-sm flex items-center justify-center gap-2"
+                      style={{
+                        background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
+                      }}
+                    >
+                      <i className="fab fa-discord text-lg" />
+                      {t("settings.linkDiscord")}
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className="glass-button-neon w-full text-sm flex items-center justify-center gap-2 opacity-70"
+                      style={{
+                        background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
+                      }}
+                    >
+                      <i className="fab fa-discord text-lg" />
+                      {t("settings.discordLinked")}
+                    </button>
+                  )}
 
-                {/* Google */}
-                {!user?.google_id ? (
-                  <button
-                    onClick={() => router.push("/auth/google")}
-                    className="glass-button w-full text-sm flex items-center justify-center gap-2"
-                    style={{
-                      background: "#fff",
-                      color: "#222",
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 48 48">
-                      <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
-                      <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
-                      <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
-                      <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
-                    </svg>
-                    {t("settings.linkGoogle")}
-                  </button>
-                ) : (
-                  <button
-                    disabled
-                    className="glass-button w-full text-sm flex items-center justify-center gap-2 opacity-70"
-                    style={{
-                      background: "#fff",
-                      color: "#222",
-                      border: "1px solid #e0e0e0",
-                    }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 48 48">
-                      <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
-                      <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
-                      <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
-                      <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
-                    </svg>
-                    {t("settings.googleLinked")}
-                  </button>
-                )}
-                <LanguageSelector />
+                  {/* Google */}
+                  {!user?.google_id ? (
+                    <button
+                      onClick={() => router.push("/auth/google")}
+                      className="glass-button w-full text-sm flex items-center justify-center gap-2"
+                      style={{
+                        background: "#fff",
+                        color: "#222",
+                        border: "1px solid #e0e0e0",
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 48 48">
+                        <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                        <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                        <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                        <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                      </svg>
+                      {t("settings.linkGoogle")}
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className="glass-button w-full text-sm flex items-center justify-center gap-2 opacity-70"
+                      style={{
+                        background: "#fff",
+                        color: "#222",
+                        border: "1px solid #e0e0e0",
+                      }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 48 48">
+                        <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                        <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                        <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                        <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                      </svg>
+                      {t("settings.googleLinked")}
+                    </button>
+                  )}
+                  <LanguageSelector />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         <ChangePasswordModal open={showPasswordModal} onClose={() => setShowPasswordModal(false)} onSubmit={handlePasswordChange} loading={passwordLoading} error={passwordError} success={passwordSuccess} />
