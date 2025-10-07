@@ -438,30 +438,36 @@
   },
   "privacy": {
     "1": {
+      "title": "Veri Toplama",
       "1": "1.1. Discord bilgileri: Bot'u kullandığınızda, sizi tanımlamak için Discord ID'nizi ve kullanıcı adınızı topluyoruz.",
       "2": "1.2. API kullanımı: Geliştiriciler için, API anahtarı kullanımlarını ve ilgili işlemleri topluyoruz.",
       "3": "1.3. Envanter verileri: Sanal eşyalarınızı, kredilerinizi ve takas geçmişinizi saklıyoruz."
     },
     "2": {
+      "title": "Veri Kullanımı",
       "1": "2.1. Hizmet işleyişi: Envanterinizi, takasları ve eşya sahipliğini yönetiyoruz.",
       "2": "2.2. API erişimi: API anahtarları hizmetlerimize erişimi güvence altına almak için kullanılır.",
       "3": "2.3. Analiz: Hizmeti iyileştirmek ve kötüye kullanımı önlemek için kullanımı analiz ediyoruz."
     },
     "3": {
+      "title": "Açık Veri ve API",
       "1": "3.1. Genel bilgiler: Eşya sahipliği ve takas geçmişi liderlik tablosu aracılığıyla görülebilir.",
       "2": "3.2. API entegrasyonu: Bağlı oyunlar oynarsanız, gerekli bilgiler paylaşılır.",
       "3": "3.3. API erişimi: Bazı hassas olmayan veriler API aracılığıyla erişilebilir."
     },
     "4": {
+      "title": "Veri Güvenliği",
       "1": "4.1. Bilgilerinizi güvenli API anahtarlarıyla koruyoruz.",
       "2": "4.2. Daha fazla güvenlik için API anahtarları veritabanımızda saklanmaz."
     },
     "5": {
+      "title": "Veri Erişimi ve Silme",
       "1": "5.1. Verilerinizi /inventory komutuyla görebilirsiniz.",
       "2": "5.2. Eşyalarınızı /delete-item ile silebilirsiniz.",
       "3": "5.3. Desteğe başvurarak hesabınızın silinmesini talep edebilirsiniz."
     },
     "6": {
+      "title": "Politika Güncellemeleri",
       "1": "6.1. Bu politikayı güncelleyebiliriz. Büyük değişiklikler Discord bot aracılığıyla duyurulacaktır."
     },
     "title": "Croissant - Gizlilik Politikası",
@@ -469,30 +475,36 @@
   },
   "tos": {
     "1": {
+      "title": "Hizmet Kullanımı",
       "1": "1.1. Hizmetlerimiz ücretsizdir ve oyun içi sanal eşyaları yönetmeye yarar.",
       "2": "1.2. Bot kullanıyorsanız Discord kurallarına uyarak hizmetlerimizi kullanın."
     },
     "2": {
+      "title": "Eşya Oluşturma ve Yönetimi",
       "1": "2.1. Launcher aracılığıyla eşyalarınızı oluşturabilir ve özelleştirebilirsiniz.",
       "2": "2.2. Yaratıcılar, eşyalarının satış fiyatının %75'ini alırlar.",
       "3": "2.3. Uygunsuz eşyaları kaldırma hakkımızı saklı tutarız."
     },
     "3": {
+      "title": "Takaslar ve İşlemler",
       "1": "3.1. Tüm takaslar her iki tarafça onaylanmalıdır.",
       "2": "3.2. Bir takası onaylamadan önce her zaman detayları kontrol edin.",
       "3": "3.3. Eşyalar ve kredilerin gerçek değeri yoktur. Krediler, özel bir işlem için bizimle iletişime geçerek gerçek paraya dönüştürülebilir."
     },
     "4": {
+      "title": "API Anahtarı ve Güvenlik",
       "1": "4.1. API anahtarları /api-key komutuyla alınır.",
       "2": "4.2. Geliştiriciler API anahtarlarını güvence altına almalıdır.",
       "3": "4.3. Kötüye kullanım durumunda API erişimini kaldırabiliriz."
     },
     "5": {
+      "title": "Kısıtlamalar ve Yasaklar",
       "1": "5.1. Sistemdeki hataları veya güvenlik açıklarını istismar etmek.",
       "2": "5.2. Hizmetlerimizi kullanmak için otomatik botlar oluşturmak.",
       "3": "5.3. Eşyaları gerçek para karşılığında satmak veya takas etmek."
     },
     "6": {
+      "title": "Hizmet Değişiklikleri",
       "1": "6.1. Hizmeti istediğimiz zaman değiştirebilir veya durdurabiliriz.",
       "2": "6.2. Büyük değişiklikler Discord bot aracılığıyla duyurulacaktır."
     },

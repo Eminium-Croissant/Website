@@ -438,30 +438,36 @@
   },
   "privacy": {
     "1": {
+      "title": "Data Collection",
       "1": "1.1. Discord Information: When you use our Discord bot, we collect your Discord user ID and username for account identification and service functionality.",
       "2": "1.2. API Usage: For developers using our API, we collect API key usage data and related transaction information.",
       "3": "1.3. Inventory Data: We store information about your virtual items, credits, and trading history."
     },
     "2": {
+      "title": "Data Usage",
       "1": "2.1. Service Operation: We use collected data to manage your inventory, process trades, and maintain item ownership records.",
       "2": "2.2. API Access: Developer API keys are used to authenticate requests and ensure secure access to our services.",
       "3": "2.3. Analytics: We analyze usage patterns to improve our services and prevent abuse."
     },
     "3": {
+      "title": "Public Data & API",
       "1": "3.1. Public Information: Item ownership and trading history may be visible to other users through our leaderboard system.",
       "2": "3.2. API Integration: When you use games integrated with our API, necessary inventory data is shared with those games.",
       "3": "3.3. API Data Access: Some non-sensitive data is accessible through our API for integrated services."
     },
     "4": {
+      "title": "Data Security",
       "1": "4.1. We implement security measures to protect your information, including secure API key generation and storage.",
       "2": "4.2. API keys are not stored in our database to ensure maximum security."
     },
     "5": {
+      "title": "Data Access & Deletion",
       "1": "5.1. You can view your data using the /inventory command.",
       "2": "5.2. You can delete items you own using the /delete-item command.",
       "3": "5.3. You may request deletion of your account data by contacting our support team."
     },
     "6": {
+      "title": "Policy Updates",
       "1": "6.1. We may update this policy as our services evolve. Significant changes will be announced through our Discord bot."
     },
     "title": "Croissant - Privacy Policy",
@@ -469,30 +475,36 @@
   },
   "tos": {
     "1": {
+      "title": "Service Usage",
       "1": "1.1. Our services are provided free of charge and are intended for managing virtual items in games.",
       "2": "1.2. You must use our services in accordance with Discord's Terms of Service when using our bot."
     },
     "2": {
+      "title": "Item Creation & Management",
       "1": "2.1. Users can create and customize their own items using launcher.",
       "2": "2.2. Item creators receive 75% of the sale price when their items are sold.",
       "3": "2.3. We reserve the right to remove inappropriate or offensive items."
     },
     "3": {
+      "title": "Trades & Transactions",
       "1": "3.1. All trades must be confirmed by both parties to be completed.",
       "2": "3.2. Users are responsible for verifying trade details before confirmation.",
       "3": "3.3. Virtual items and credits have no real-world monetary value. Credits can be converted into real life money by contacting us to make a cooperation operation."
     },
     "4": {
+      "title": "API Keys & Security",
       "1": "4.1. API keys must be obtained through the /api-key command.",
       "2": "4.2. Developers must ensure secure handling of API keys.",
       "3": "4.3. We reserve the right to revoke API access for misuse."
     },
     "5": {
+      "title": "Restrictions & Prohibitions",
       "1": "5.1. Exploiting bugs or vulnerabilities in our systems.",
       "2": "5.2. Creating automated bots to interact with our services.",
       "3": "5.3. Selling or trading items for real-world currency."
     },
     "6": {
+      "title": "Service Modifications",
       "1": "6.1. We may modify or discontinue services at any time.",
       "2": "6.2. Major changes will be announced through our Discord bot."
     },

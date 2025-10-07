@@ -438,30 +438,36 @@
   },
   "privacy": {
     "1": {
+      "title": "Raccolta dati",
       "1": "1.1. Informazioni Discord: quando usi il bot raccogliamo il tuo ID Discord e il tuo nickname per identificarti.",
       "2": "1.2. Uso dell'API: per gli sviluppatori raccogliamo l'utilizzo delle chiavi API e le transazioni correlate.",
       "3": "1.3. Dati di inventario: conserviamo i tuoi oggetti virtuali, i crediti e la cronologia delle transazioni."
     },
     "2": {
+      "title": "Utilizzo dei dati",
       "1": "2.1. Funzionamento del servizio: gestiamo l'inventario, gli scambi e la proprietà degli oggetti.",
       "2": "2.2. Accesso API: le chiavi API servono a proteggere l'accesso ai nostri servizi.",
       "3": "2.3. Analisi: analizziamo l'utilizzo per migliorare il servizio e prevenire abusi."
     },
     "3": {
+      "title": "Dati pubblici e API",
       "1": "3.1. Informazioni pubbliche: la proprietà degli oggetti e la cronologia degli scambi possono essere visibili tramite leaderboard.",
       "2": "3.2. Integrazione API: se colleghi un gioco, le informazioni necessarie vengono condivise.",
       "3": "3.3. Accesso API: alcuni dati non sensibili sono disponibili via API."
     },
     "4": {
+      "title": "Sicurezza dei dati",
       "1": "4.1. Proteggiamo le tue informazioni con chiavi API sicure.",
       "2": "4.2. Le chiavi API non vengono memorizzate nel nostro database per motivi di sicurezza."
     },
     "5": {
+      "title": "Accesso e cancellazione dati",
       "1": "5.1. Puoi vedere i tuoi dati con il comando /inventory.",
       "2": "5.2. Puoi rimuovere i tuoi oggetti con /delete-item.",
       "3": "5.3. Per richiedere la cancellazione dell'account contatta il supporto."
     },
     "6": {
+      "title": "Aggiornamenti della policy",
       "1": "6.1. Potremmo aggiornare questa politica. I cambiamenti importanti saranno annunciati tramite il bot Discord."
     },
     "title": "Croissant - Informativa sulla privacy",
@@ -469,30 +475,36 @@
   },
   "tos": {
     "1": {
+      "title": "Utilizzo del servizio",
       "1": "1.1. I nostri servizi sono gratuiti e servono a gestire oggetti virtuali di gioco.",
       "2": "1.2. Usa i nostri servizi rispettando le regole di Discord se utilizzi il bot."
     },
     "2": {
+      "title": "Creazione e gestione oggetti",
       "1": "2.1. Puoi creare e personalizzare oggetti tramite il launcher.",
       "2": "2.2. I creatori ricevono il 75% del prezzo di vendita.",
       "3": "2.3. Ci riserviamo il diritto di rimuovere oggetti inappropriati."
     },
     "3": {
+      "title": "Scambi e transazioni",
       "1": "3.1. Tutti gli scambi devono essere confermati da entrambe le parti.",
       "2": "3.2. Verifica sempre i dettagli prima di confermare uno scambio.",
       "3": "3.3. Gli oggetti e i crediti non hanno valore reale. Per convertire in denaro contatta l'operatore per una procedura speciale."
     },
     "4": {
+      "title": "Chiavi API e sicurezza",
       "1": "4.1. Le chiavi API si ottengono con il comando /api-key.",
       "2": "4.2. Gli sviluppatori devono proteggere le loro chiavi API.",
       "3": "4.3. Possiamo revocare l'accesso API in caso di abusi."
     },
     "5": {
+      "title": "Restrizioni e divieti",
       "1": "5.1. Sfruttamento di bug o vulnerabilità del sistema.",
       "2": "5.2. Creazione di bot automatici per usare il servizio.",
       "3": "5.3. Vendere o scambiare oggetti per denaro reale."
     },
     "6": {
+      "title": "Modifiche al servizio",
       "1": "6.1. Possiamo modificare o interrompere il servizio in qualsiasi momento.",
       "2": "6.2. I cambiamenti importanti verranno annunciati tramite il bot Discord."
     },
