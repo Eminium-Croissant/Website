@@ -255,17 +255,23 @@
   "downloadLauncher": {
     "title": "Télécharge le launcher",
     "note": "Note : Le launcher Croissant est dispo uniquement sur PC (Windows).",
+    "description": {
+      "desktop": "Télécharge le Croissant Launcher pour gérer tous tes jeux depuis une seule application sur PC (Windows).",
+      "mobile": "Télécharge le Croissant Launcher sur ton PC pour accéder rapidement à tes jeux depuis ton mobile."
+    },
+    "githubAllReleases": "Voir toutes les versions sur GitHub",
+    "githubView": "Voir sur GitHub",
+    "downloadButton": "Télécharger",
+    "previewTitleDesktop": "Aperçu du Launcher",
+    "previewTitleMobile": "Aperçu",
+    "previewAlt": "Capture d'écran du Croissant Launcher",
     "instructions": "Pour télécharger le launcher Croissant :",
     "step1": "Va sur la <link>page des releases</link> du repo GitHub Croissant API.",
     "step2": "Trouve la dernière version.",
     "step3": {
       "windows": "Télécharge le .exe pour Windows."
     },
-    "step4": "Lance le fichier pour installer le launcher.",
-    "description": {
-      "desktop": "Le launcher Croissant, c’est la clé pour gérer ton compte, tes objets, découvrir et lancer des jeux, et profiter des nouveautés en un clic.",
-      "mobile": "Le launcher Croissant te permet de gérer ton compte, tes objets, découvrir et lancer des jeux, et rester à jour."
-    }
+    "step4": "Lance le fichier pour installer le launcher."
   },
   "forgotPassword": {
     "title": "Mot de passe oublié",
