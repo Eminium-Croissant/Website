@@ -37,10 +37,13 @@ const TermsOfService: React.FC = () => {
 
           {/* Section 1 */}
           <div className="glass-card p-6 mb-6">
-            <h3 className="text-xl font-bold mb-4" style={{ color: "var(--neon-blue)" }}>
+            <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-blue)" }}>
               <FontAwesomeIcon icon={faGavel} className="mr-2" />
-              {t("tos.1")}
+              {t("tos.1.title")}
             </h3>
+            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
+              {t("tos.1")}
+            </div>
             <p className="mb-3" style={{ color: "var(--glass-text-secondary)" }}>
               {t("tos.1.1")}
             </p>
@@ -49,10 +52,13 @@ const TermsOfService: React.FC = () => {
 
           {/* Section 2 */}
           <div className="glass-card p-6 mb-6">
-            <h3 className="text-xl font-bold mb-4" style={{ color: "var(--neon-purple)" }}>
+            <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-purple)" }}>
               <FontAwesomeIcon icon={faGavel} className="mr-2" />
-              {t("tos.2")}
+              {t("tos.2.title")}
             </h3>
+            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
+              {t("tos.2")}
+            </div>
             <p className="mb-3" style={{ color: "var(--glass-text-secondary)" }}>
               {t("tos.2.1")}
             </p>
@@ -64,10 +70,13 @@ const TermsOfService: React.FC = () => {
 
           {/* Section 3 */}
           <div className="glass-card p-6 mb-6">
-            <h3 className="text-xl font-bold mb-4" style={{ color: "var(--neon-pink)" }}>
+            <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-pink)" }}>
               <FontAwesomeIcon icon={faGavel} className="mr-2" />
-              {t("tos.3")}
+              {t("tos.3.title")}
             </h3>
+            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
+              {t("tos.3")}
+            </div>
             <p className="mb-3" style={{ color: "var(--glass-text-secondary)" }}>
               {t("tos.3.1")}
             </p>
@@ -79,10 +88,13 @@ const TermsOfService: React.FC = () => {
 
           {/* Section 4 */}
           <div className="glass-card p-6 mb-6">
-            <h3 className="text-xl font-bold mb-4" style={{ color: "var(--neon-green)" }}>
+            <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-green)" }}>
               <FontAwesomeIcon icon={faGavel} className="mr-2" />
-              {t("tos.4")}
+              {t("tos.4.title")}
             </h3>
+            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
+              {t("tos.4")}
+            </div>
             <p className="mb-3" style={{ color: "var(--glass-text-secondary)" }}>
               {t("tos.4.1")}
             </p>
@@ -94,10 +106,13 @@ const TermsOfService: React.FC = () => {
 
           {/* Section 5 */}
           <div className="glass-card p-6 mb-6">
-            <h3 className="text-xl font-bold mb-4" style={{ color: "var(--neon-orange)" }}>
+            <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-orange)" }}>
               <FontAwesomeIcon icon={faGavel} className="mr-2" />
-              {t("tos.5")}
+              {t("tos.5.title")}
             </h3>
+            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
+              {t("tos.5")}
+            </div>
             <p className="mb-3" style={{ color: "var(--glass-text-secondary)" }}>
               {t("tos.5.1")}
             </p>
@@ -109,10 +124,13 @@ const TermsOfService: React.FC = () => {
 
           {/* Section 6 */}
           <div className="glass-card p-6 mb-8">
-            <h3 className="text-xl font-bold mb-4" style={{ color: "var(--neon-cyan)" }}>
+            <h3 className="text-xl font-bold mb-2" style={{ color: "var(--neon-cyan)" }}>
               <FontAwesomeIcon icon={faGavel} className="mr-2" />
-              {t("tos.6")}
+              {t("tos.6.title")}
             </h3>
+            <div className="font-semibold mb-4" style={{ color: "var(--glass-text)" }}>
+              {t("tos.6")}
+            </div>
             <p className="mb-3" style={{ color: "var(--glass-text-secondary)" }}>
               {t("tos.6.1")}
             </p>

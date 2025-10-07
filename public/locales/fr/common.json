@@ -438,30 +438,36 @@
   },
   "privacy": {
     "1": {
+      "title": "Collecte des données",
       "1": "1.1. Infos Discord : Quand tu utilises le bot, on récupère ton ID Discord et ton pseudo pour t’identifier.",
       "2": "1.2. Utilisation de l’API : Pour les devs, on collecte les usages de clé API et les transactions liées.",
       "3": "1.3. Données d’inventaire : On garde tes objets virtuels, crédits et historique d’échanges."
     },
     "2": {
+      "title": "Utilisation des données",
       "1": "2.1. Fonctionnement du service : On gère ton inventaire, les échanges et la propriété des objets.",
       "2": "2.2. Accès API : Les clés API servent à sécuriser l’accès à nos services.",
       "3": "2.3. Analyse : On analyse l’utilisation pour améliorer le service et éviter les abus."
     },
     "3": {
+      "title": "Données publiques et API",
       "1": "3.1. Infos publiques : La propriété des objets et l’historique d’échanges peuvent être visibles via le leaderboard.",
       "2": "3.2. Intégration API : Si tu joues à des jeux connectés, les infos nécessaires sont partagées.",
       "3": "3.3. Accès API : Certaines données non sensibles sont accessibles via l’API."
     },
     "4": {
+      "title": "Sécurité des données",
       "1": "4.1. On protège tes infos avec des clés API sécurisées.",
       "2": "4.2. Les clés API ne sont pas stockées dans notre base pour plus de sécurité."
     },
     "5": {
+      "title": "Accès et suppression des données",
       "1": "5.1. Tu peux voir tes données avec la commande /inventory.",
       "2": "5.2. Tu peux supprimer tes objets avec /delete-item.",
       "3": "5.3. Tu peux demander la suppression de ton compte en contactant le support."
     },
     "6": {
+      "title": "Mises à jour de la politique",
       "1": "6.1. On peut mettre à jour cette politique. Les gros changements seront annoncés via le bot Discord."
     },
     "title": "Croissant - Politique de confidentialité",
@@ -469,30 +475,36 @@
   },
   "tos": {
     "1": {
+      "title": "Utilisation des services",
       "1": "1.1. Nos services sont gratuits et servent à gérer des objets virtuels en jeu.",
       "2": "1.2. Utilise nos services en respectant les règles Discord si tu utilises le bot."
     },
     "2": {
+      "title": "Création et gestion des objets",
       "1": "2.1. Tu peux créer et personnaliser tes objets via le launcher.",
       "2": "2.2. Les créateurs touchent 75% du prix de vente de leurs objets.",
       "3": "2.3. On se réserve le droit de supprimer les objets inappropriés."
     },
     "3": {
+      "title": "Échanges et transactions",
       "1": "3.1. Tous les échanges doivent être confirmés par les deux parties.",
       "2": "3.2. Vérifie toujours les détails avant de confirmer un échange.",
       "3": "3.3. Les objets et crédits n’ont pas de valeur réelle. Les crédits peuvent être convertis en argent réel en nous contactant pour une opération spéciale."
     },
     "4": {
+      "title": "Clés API et sécurité",
       "1": "4.1. Les clés API s’obtiennent avec la commande /api-key.",
       "2": "4.2. Les devs doivent sécuriser leurs clés API.",
       "3": "4.3. On peut retirer l’accès API en cas d’abus."
     },
     "5": {
+      "title": "Restrictions et interdictions",
       "1": "5.1. Exploiter des bugs ou failles du système.",
       "2": "5.2. Créer des bots automatiques pour utiliser nos services.",
       "3": "5.3. Vendre ou échanger des objets contre de l’argent réel."
     },
     "6": {
+      "title": "Modifications du service",
       "1": "6.1. On peut modifier ou arrêter le service à tout moment.",
       "2": "6.2. Les gros changements seront annoncés via le bot Discord."
     },
