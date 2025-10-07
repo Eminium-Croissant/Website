@@ -23,15 +23,11 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
       <div className="relative h-32 bg-[#18181c]">
         <div className="absolute inset-0 bg-gradient-to-t from-[#1c1c24] to-transparent opacity-60" />
         <div className="absolute -bottom-8 left-8 flex items-center gap-3">
-          <CachedImage
-            src={"/avatar/" + studio.user_id}
-            alt="Studio Avatar"
-            className="w-24 h-24 rounded-xl object-cover border-2 border-[#444] shadow-lg bg-[#23232a]"
-          />
+          <CachedImage src={"/avatar/" + studio.user_id} alt="Studio Avatar" className="w-24 h-24 rounded-xl object-cover border-2 border-[#444] shadow-lg bg-[#23232a]" />
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold text-white">{studio.username}</span>
-              <Certification user={studio} className="w-5 h-5" />
+              <span className="text-xl font-bold text-white">{studio.name}</span>
+              <Certification user={{...studio, isStudio: true}} className="w-5 h-5" />
             </div>
           </div>
         </div>
@@ -44,28 +40,16 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm text-gray-400">{t("studios.apiKey")}:</span>
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => onToggleApiKey(studio.user_id)}
-                className="text-xs text-gray-400 hover:text-white transition-colors"
-              >
+              <button onClick={() => onToggleApiKey(studio.user_id)} className="text-xs text-gray-400 hover:text-white transition-colors">
                 {apiKeySpoilers[studio.user_id] ? t("studios.hide") : t("studios.show")}
               </button>
-              <button
-                onClick={() => navigator.clipboard.writeText(studio.apiKey)}
-                className="text-xs text-gray-400 hover:text-white transition-colors"
-              >
+              <button onClick={() => navigator.clipboard.writeText(studio.apiKey)} className="text-xs text-gray-400 hover:text-white transition-colors">
                 {t("studios.copy")}
               </button>
             </div>
           </div>
-          <code
-            onClick={() => navigator.clipboard.writeText(studio.apiKey)}
-            className="block w-full bg-[#1c1c24] rounded p-2 text-sm font-mono cursor-pointer select-all truncate overflow-hidden text-ellipsis"
-          >
-            {apiKeySpoilers[studio.user_id] 
-              ? studio.apiKey 
-              : "*".repeat(Math.max(8, String(studio.apiKey).length))
-            }
+          <code onClick={() => navigator.clipboard.writeText(studio.apiKey)} className="block w-full bg-[#1c1c24] rounded p-2 text-sm font-mono cursor-pointer select-all truncate overflow-hidden text-ellipsis">
+            {apiKeySpoilers[studio.user_id] ? studio.apiKey : "*".repeat(Math.max(8, String(studio.apiKey).length))}
           </code>
         </div>
 
@@ -73,10 +57,7 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-400">{t("studios.users")}</span>
-            <button
-              onClick={() => onAddUser(studio)}
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg transition-colors"
-            >
+            <button onClick={() => onAddUser(studio)} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg transition-colors">
               {t("studios.addUser")}
             </button>
           </div>
@@ -85,22 +66,13 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
               studio.users.map((user) => (
                 <li key={user.user_id} className="flex items-center justify-between py-2">
                   <div className="flex items-center gap-3">
-                    <CachedImage
-                      src={"/avatar/" + user.user_id}
-                      alt={user.username}
-                      className="w-8 h-8 rounded-full object-cover border border-[#444]"
-                    />
+                    <CachedImage src={"/avatar/" + user.user_id} alt={user.username} className="w-8 h-8 rounded-full object-cover border border-[#444]" />
                     <span className="text-white">{user.username}</span>
                     <Certification user={user} className="w-4 h-4" />
-                    {studio.admin_id === user.user_id && (
-                      <span className="text-xs text-green-500">(You)</span>
-                    )}
+                    {studio.admin_id === user.user_id && <span className="text-xs text-green-500">(You)</span>}
                   </div>
                   {studio.admin_id !== user.user_id && (
-                    <button
-                      onClick={() => onRemoveUser(studio.user_id, user.user_id)}
-                      className="text-red-500 hover:text-red-400 transition-colors"
-                    >
+                    <button onClick={() => onRemoveUser(studio.user_id, user.user_id)} className="text-red-500 hover:text-red-400 transition-colors">
                       <i className="fa fa-trash" aria-hidden="true" />
                     </button>
                   )}
@@ -266,17 +238,16 @@ export default function StudiosPage() {
     <div className="glass-page-container">
       {/* Header */}
       <div className="glass-content-card mb-8 flex justify-between items-center">
-        <h1 className="text-3xl font-bold" style={{color: 'var(--glass-text)'}}>{t("studios.title")}</h1>
-        <button
-          onClick={() => setShowForm(true)}
-          className="glass-button-neon"
-        >
+        <h1 className="text-3xl font-bold" style={{ color: "var(--glass-text)" }}>
+          {t("studios.title")}
+        </h1>
+        <button onClick={() => setShowForm(true)} className="glass-button-neon">
           {t("studios.create")}
         </button>
       </div>
 
-  {/* Studios Grid */}
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Studios Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {user?.studios && user.studios.length > 0 ? (
           user.studios.map(
             (studio) =>
@@ -297,9 +268,7 @@ export default function StudiosPage() {
               )
           )
         ) : (
-          <div className="col-span-full text-center py-12 text-gray-400">
-            {t("studios.noStudios")}
-          </div>
+          <div className="col-span-full text-center py-12 text-gray-400">{t("studios.noStudios")}</div>
         )}
       </div>
 

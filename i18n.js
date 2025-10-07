@@ -11,6 +11,7 @@ import translationKO from './public/locales/ko/common.json';
 import translationTR from './public/locales/tr/common.json';
 import translationZH from './public/locales/zh/common.json';
 import translationAR from './public/locales/ar/common.json';
+import translationRU from './public/locales/ru/common.json'; // Ajout russe
 
 i18n
   .use(initReactI18next)
@@ -26,6 +27,7 @@ i18n
       tr: { common: translationTR },
       zh: { common: translationZH },
       ar: { common: translationAR },
+      ru: { common: translationRU }, // Ajout russe
     },
     lng: 'en',
     fallbackLng: 'en',
