@@ -1134,7 +1134,6 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
   return (
     <div className="min-h-screen glass-bg-gradient">
       <div className="glass-page-container py-8">
-        <LanguageSelector />
         <div className="space-y-6">
           <div className="glass-content-card">
             <h2 className="glass-title text-xl mb-4">{t("settings.profile")}</h2>
