@@ -19,8 +19,7 @@ export default function NavBarDesktop() {
   // Groupe de liens desktop
   function DesktopLinks() {
     const { t } = useTranslation("common");
-    const rectBtn =
-      "px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-xs flex items-center";
+    const rectBtn = "px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-xs flex items-center";
     return (
       <>
         <Link href="/api-docs" className={`${rectBtn} text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow no-underline`}>
@@ -33,44 +32,44 @@ export default function NavBarDesktop() {
           {t("navbar.marketplace")}
         </Link>
         <DropdownButton label={t("navbar.install")} showKey="install">
-          {show === "install" && (
-            <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
-              <Link href="/download-launcher" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
-                {t("navbar.launcher")}
-              </Link>
-              <Link href="https://github.com/Croissant-API/Croissant-VPN/releases" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
-                {t("navbar.vpn")}
-              </Link>
-              <a href="https://ptb.discord.com/oauth2/authorize?client_id=1324530344900431923" className={`${rectBtn} block w-full text-left hover:bg-glass-accent`}>
-                {t("navbar.bot")}
-              </a>
-            </div>
-          )}
+            {show === "install" && (
+              <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
+                <Link href="/download-launcher" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
+                  {t("navbar.launcher")}
+                </Link>
+                <Link href="https://github.com/Croissant-API/Croissant-VPN/releases" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
+                  {t("navbar.vpn")}
+                </Link>
+                <a href="https://ptb.discord.com/oauth2/authorize?client_id=1324530344900431923" className={`${rectBtn} block w-full text-left hover:bg-glass-accent`} onClick={() => setShow("")}>
+                  {t("navbar.bot")}
+                </a>
+              </div>
+            )}
         </DropdownButton>
         {!loading && user && (
           <DropdownButton label={t("navbar.manage")} showKey="manage">
-            {show === "manage" && (
-              <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
-                {!user.isStudio && (
-                  <Link href="/studios" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
-                    {t("navbar.studios")}
+              {show === "manage" && (
+                <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
+                  {!user.isStudio && (
+                    <Link href="/studios" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
+                      {t("navbar.studios")}
+                    </Link>
+                  )}
+                  <Link href="/oauth2/apps" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
+                    {t("navbar.oauth2")}
                   </Link>
-                )}
-                <Link href="/oauth2/apps" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
-                  {t("navbar.oauth2")}
-                </Link>
-                <Link href="/dev-zone/my-items" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
-                  {t("navbar.items")}
-                </Link>
-                <Link href="/dev-zone/my-games" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
-                  {t("navbar.games")}
-                </Link>
-                <Divider />
-                <Link href="/settings" className={`${rectBtn} block w-full text-left hover:bg-glass-accent`}>
-                  {t("navbar.settings")}
-                </Link>
-              </div>
-            )}
+                  <Link href="/dev-zone/my-items" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
+                    {t("navbar.items")}
+                  </Link>
+                  <Link href="/dev-zone/my-games" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
+                    {t("navbar.games")}
+                  </Link>
+                  <Divider />
+                  <Link href="/settings" className={`${rectBtn} block w-full text-left hover:bg-glass-accent`} onClick={() => setShow("")}>
+                    {t("navbar.settings")}
+                  </Link>
+                </div>
+              )}
           </DropdownButton>
         )}
         {!user && !loading && (
@@ -98,9 +97,7 @@ export default function NavBarDesktop() {
   );
 
   // Convertir la ligne HR en div avec Tailwind
-  const Divider = () => (
-    <div className="h-px bg-gradient-to-r from-transparent via-neon-blue to-transparent my-3" />
-  );
+  const Divider = () => <div className="h-px bg-gradient-to-r from-transparent via-neon-blue to-transparent my-3" />;
 
   const rectBtn = "px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-xs flex items-center";
   // Bloc crédits + avatar + sélecteur de rôle
@@ -129,24 +126,18 @@ export default function NavBarDesktop() {
       >
         <span className="text-xs transition-transform duration-300">▼</span>
       </button>
-   
-        <button onClick={handleLogout} className={`${rectBtn} bg-glass-accent text-white border-none ml-3 gap-2`} title="Logout">
-          <i className="fa fa-sign-out-alt" aria-hidden="true"></i>
-        </button>
-   
+
+      <button onClick={handleLogout} className={`${rectBtn} bg-glass-accent text-white border-none ml-3 gap-2`} title="Logout">
+        <i className="fa fa-sign-out-alt" aria-hidden="true"></i>
+      </button>
     </div>
   );
 
   // Menu déroulant des rôles
   const RolesDropdown = ({ user }: any) => (
-    <div
-      className="glass-dropdown min-w-[140px] w-[220px]"
-      onMouseLeave={() => setShow("")}
-    >
+    <div className="glass-dropdown min-w-[140px] w-[220px]" onMouseLeave={() => setShow("")}>
       {user?.roles.map((role: any) => {
-        const studio = user.studios.find(
-          (studio: any) => studio.user_id === role
-        );
+        const studio = user.studios.find((studio: any) => studio.user_id === role);
         return (
           <button
             className="w-full text-left p-2 flex items-center gap-2 text-glass-text-secondary hover:bg-glass-accent rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-glass-glow text-xs font-medium"
@@ -157,9 +148,7 @@ export default function NavBarDesktop() {
                 method: "POST",
                 body: JSON.stringify({ role }),
               })
-                .then((res) =>
-                  res.ok ? res.json() : Promise.reject("Failed to change role")
-                )
+                .then((res) => (res.ok ? res.json() : Promise.reject("Failed to change role")))
                 .then(() =>
                   fetch("/api/users/@me", {
                     headers: { "Content-Type": "application/json" },
@@ -174,19 +163,12 @@ export default function NavBarDesktop() {
             }}
           >
             <div className="relative">
-              <CachedImage
-                src={"/avatar/" + role}
-                alt="avatar"
-                className="w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300"
-              />
+              <CachedImage src={"/avatar/" + role} alt="avatar" className="w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300" />
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 hover:opacity-20 transition-opacity duration-300"></div>
             </div>
             <span className="whitespace-nowrap font-medium text-glass-text text-xs">
               {studio?.me.username || "Me"}
-              <Certification
-                user={studio ? { ...studio, isStudio: true } : studio}
-                className="w-3 h-3 ml-1 relative -top-0.5 align-middle"
-              />
+              <Certification user={studio ? { ...studio, isStudio: true } : studio} className="w-3 h-3 ml-1 relative -top-0.5 align-middle" />
             </span>
           </button>
         );
