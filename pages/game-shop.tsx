@@ -527,10 +527,10 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
     >
       {/* Banner et Icon avec effet de verre */}
       <div className="relative h-40" style={{backgroundColor: 'var(--dark-secondary)'}}>
-        {game?.bannerHash && <img src={"/banners-icons/" + game.bannerHash} alt="banner" className="absolute inset-0 w-full h-full object-cover opacity-50" />}
+        {game?.bannerHash && <img src={"/banners-icons/" + (game.bannerHash ? game.bannerHash : "default")} alt="banner" className="absolute inset-0 w-full h-full object-cover opacity-50" />}
         <div className="absolute inset-0 bg-gradient-to-t from-dark-primary to-transparent opacity-60" />
         <img 
-          src={"/games-icons/" + game.iconHash} 
+          src={"/games-icons/" + (game.iconHash ? game.iconHash : "default")} 
           alt={game.name} 
           className="absolute -bottom-8 left-8 w-24 h-24 rounded-xl object-contain glass-card border-2 border-glass-border shadow-glass" 
         />

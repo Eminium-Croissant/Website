@@ -52,25 +52,70 @@ const formatMetadata = (metadata?: { [key: string]: unknown }) => {
 };
 
 // Sous-composant pour un item d'inventaire
-function TradeInventoryItem({ item, onClick, removable }: { item: TradeItem; onClick?: () => void; removable?: boolean }) {
+// Normalize incoming item objects to expected TradeItem shape
+const normalizeTradeItem = (raw: any): TradeItem => {
+  // Spread raw first, then override with normalized keys so normalized values take precedence
+  return {
+    ...raw,
+    item_id: raw.item_id ?? raw.itemId ?? (raw.itemId ? String(raw.itemId) : ""),
+    amount: raw.amount ?? raw.count ?? 0,
+    name: raw.name ?? raw.itemName ?? raw.label ?? "",
+    description: raw.description ?? raw.desc ?? "",
+    iconHash: raw.iconHash ?? raw.icon_hash ?? raw.icon ?? "",
+    metadata: raw.metadata ?? raw.meta ?? raw.data ?? undefined,
+    purchasePrice: raw.purchasePrice ?? raw.purchase_price ?? raw.price ?? undefined,
+  } as TradeItem;
+};
+
+// Sous-composant pour un item d'inventaire
+function TradeInventoryItem({ item: rawItem, onClick, removable }: { item: TradeItem; onClick?: () => void; removable?: boolean }) {
+  const item = normalizeTradeItem(rawItem);
   const [showTooltip, setShowTooltip] = useState(false);
   const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
   const formattedMetadata = formatMetadata(item.metadata);
 
   const handleMouseEnter = (e: React.MouseEvent) => {
     setShowTooltip(true);
-    const rect = (e.target as HTMLElement).getBoundingClientRect();
-    setMousePos({ x: rect.left, y: rect.top });
+    // Use the mouse cursor position instead of the element rect
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    // Update tooltip position as the mouse moves
+    if (showTooltip) {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    }
   };
 
   const handleMouseLeave = () => {
     setShowTooltip(false);
+    setMousePos(null);
   };
 
+  const iconId = item.iconHash || item.item_id || "";
+
   return (
-    <div className="trade-inventory-item" onClick={onClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} title={onClick ? `Add ${item.name} to the trade` : undefined} style={{ position: "relative" }}>
-      <CachedImage src={"/items-icons/" + (item.iconHash || item.item_id)} alt={item.name} />
-      <div>x{item.amount}</div>
+    <div className="trade-inventory-item" onClick={onClick} onMouseEnter={handleMouseEnter} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} title={onClick ? `Add ${item.name} to the trade` : undefined} style={{ position: "relative" }}>
+      <CachedImage src={"/items-icons/" + iconId} alt={item.name} />
+      <div
+        className="trade-item-qty"
+        style={{
+          position: "absolute",
+          zIndex: 3,
+          right: 6,
+          top: 42,
+          background: "rgba(0,0,0,0.65)",
+          color: "#fff",
+          padding: "2px 6px",
+          borderRadius: "10px",
+          fontSize: "12px",
+          fontWeight: 700,
+          lineHeight: "1",
+          pointerEvents: "none",
+        }}
+      >
+        x{item.amount}
+      </div>
       <div className="trade-item-name">{item.name}</div>
 
       {/* Indicateur visuel pour les items avec métadonnées */}
@@ -92,7 +137,22 @@ function TradeInventoryItem({ item, onClick, removable }: { item: TradeItem; onC
 
       {/* Tooltip avec métadonnées */}
       {showTooltip && mousePos && (
-        <div className="trade-tooltip" style={{ position: "fixed", left: mousePos.x - 65, top: mousePos.y + 180, backgroundColor: "#333", color: "white", padding: "8px", borderRadius: "4px", fontSize: "12px", zIndex: 1000, maxWidth: "200px", wordWrap: "break-word" }}>
+        <div
+          className="trade-tooltip"
+          style={{
+            position: "fixed",
+            left: mousePos.x + 12 - 290,
+            top: mousePos.y + 12 - 48,
+            backgroundColor: "#333",
+            color: "white",
+            padding: "8px",
+            borderRadius: "4px",
+            fontSize: "12px",
+            zIndex: 1000,
+            maxWidth: "200px",
+            wordWrap: "break-word",
+          }}
+        >
           <div style={{ fontWeight: "bold" }}>{item.name}</div>
           <div style={{ fontSize: "11px", color: "#ccc" }}>{item.description}</div>
           {formattedMetadata && (
@@ -123,13 +183,21 @@ function TradeInventoryItem({ item, onClick, removable }: { item: TradeItem; onC
         </div>
       )}
 
-      {removable && (
+      {/* {removable && (
         <div style={{ marginTop: 4 }}>
-          <button onClick={onClick} className="glass-button" style={{ padding: "4px 8px", fontSize: "0.9em" }}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation(); // Empêche le clic du bouton de déclencher aussi le onClick du parent
+              onClick && onClick();
+            }}
+            className="glass-button"
+            style={{ padding: "4px 8px", fontSize: "0.9em" }}
+          >
             –1
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
@@ -287,8 +355,10 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
 
   // Helpers
   const isCurrentUserFrom = trade?.fromUserId === userId;
-  const userItems = isCurrentUserFrom ? trade?.fromUserItems || [] : trade?.toUserItems || [];
-  const otherItems = isCurrentUserFrom ? trade?.toUserItems || [] : trade?.fromUserItems || [];
+  const rawUserItems = isCurrentUserFrom ? trade?.fromUserItems || [] : trade?.toUserItems || [];
+  const rawOtherItems = isCurrentUserFrom ? trade?.toUserItems || [] : trade?.fromUserItems || [];
+  const userItems: TradeItem[] = (rawUserItems || []).map(normalizeTradeItem);
+  const otherItems: TradeItem[] = (rawOtherItems || []).map(normalizeTradeItem);
   const userApproved = isCurrentUserFrom ? trade?.approvedFromUser : trade?.approvedToUser;
   const otherApproved = isCurrentUserFrom ? trade?.approvedToUser : trade?.approvedFromUser;
 
@@ -303,30 +373,41 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
         ×
       </div>
       <h2>Trade with {profile?.username || profile?.username}</h2>
-      <div className="trade-main-columns">
-        <TradeColumn title="Your items in the trade" items={userItems} approved={!!userApproved} removable={true} onRemoveItem={removeItem} />
-        <TradeColumn title="Other user's items" items={otherItems} approved={!!otherApproved} />
+      <div className="trade-main-columns" style={{ display: "flex", gap: 24 }}>
+        <div style={{ flex: 1 }}>
+          <TradeColumn title="Your items in the trade" items={userItems} approved={!!userApproved} removable={true} onRemoveItem={removeItem} />
+        </div>
+        <div style={{ flex: 1 }}>
+          <TradeColumn title="Other user's items" items={otherItems} approved={!!otherApproved} />
+        </div>
       </div>
       <div className="trade-inventory-section">
         <h3>Your inventory</h3>
         <div className="trade-inventory-grid" style={{ justifyContent: "flex-start" }}>
           {inventory
+            .map((raw) => normalizeTradeItem(raw))
             .map((item) => {
-              // Pour les items avec métadonnées, vérifier s'ils sont déjà dans le trade par leur _unique_id
+              // Nombre total possédé (assurer un nombre)
+              const totalOwned = Number(item.amount || 0);
+
               if (item.metadata?._unique_id) {
-                const isInTrade = userItems.some((ti) => ti.item_id === item.item_id && ti.metadata?._unique_id === item.metadata?._unique_id);
-                return { ...item, available: isInTrade ? 0 : 1 };
+                // Pour les items uniques, soustraire le nombre d'exemplaires du même _unique_id déjà proposés
+                const inTradeCount = userItems.filter((ti) => ti.item_id === item.item_id && ti.metadata?._unique_id === item.metadata?._unique_id).reduce((sum, ti) => sum + (ti.amount || 0), 0);
+                const available = Math.max(0, totalOwned - inTradeCount);
+                return { ...item, available };
               } else {
-                // Pour les items sans métadonnées, calculer par prix d'achat spécifique
-                const inTrade = userItems.filter((ti) => ti.item_id === item.item_id && !ti.metadata?._unique_id && ti.purchasePrice === item.purchasePrice).reduce((sum, ti) => sum + ti.amount, 0);
-                const available = item.amount - inTrade;
+                // Pour les items non-uniques, soustraire la quantité déjà proposée
+                // en faisant correspondre item_id + purchasePrice (traiter undefined comme null)
+                const priceKey = item.purchasePrice ?? null;
+                const inTrade = userItems.filter((ti) => !ti.metadata?._unique_id && ti.item_id === item.item_id && (ti.purchasePrice ?? null) === priceKey).reduce((sum, ti) => sum + (ti.amount || 0), 0);
+                const available = Math.max(0, totalOwned - inTrade);
                 return { ...item, available };
               }
             })
             .filter((item) => item.available > 0)
             .map((item) => (
               <TradeInventoryItem
-                key={item.metadata?._unique_id ? `${item.item_id}-${item.metadata._unique_id}` : `${item.item_id}-${item.purchasePrice || "no-price"}`}
+                key={item.metadata?._unique_id ? `${item.item_id}-${item.metadata._unique_id}` : `${item.item_id}-${item.purchasePrice ?? "no-price"}`}
                 item={{
                   ...item,
                   amount: item.available,
@@ -337,7 +418,7 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
                     item_id: item.item_id,
                     amount: 1,
                     metadata: item.metadata,
-                    purchasePrice: item.purchasePrice, // Passer le prix d'achat
+                    purchasePrice: item.purchasePrice,
                   })
                 }
               />

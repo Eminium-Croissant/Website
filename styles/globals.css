@@ -667,7 +667,7 @@ body {
 /* Ensure internal content doesn't push outside when centered */
 .trade-panel-centered .trade-main-columns {
   max-height: calc(90vh - 120px);
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 /* Remove hover/active shadow and translate effects on inventory items */

@@ -304,7 +304,7 @@ button:hover {
 }
 
 .trade-column {
-    width: 42vw;
+    /* width: 42vw; */
     flex: 1 1 0;
     min-width: 220px;
     background: #232323;
