@@ -306,7 +306,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
             />
           </div>
 
-          {/* Genre Filter */}
+          {/* Genre Filter
           <div className="flex gap-2 overflow-x-auto pb-2">
             <button 
               onClick={() => setSelectedGenre(null)} 
@@ -323,7 +323,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
                 {genre}
               </button>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
 
