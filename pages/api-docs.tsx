@@ -1,7 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCode, faBook } from "@fortawesome/free-solid-svg-icons";
+import { faCode, faBook, faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons"; // Ajout FA OpenInNew
 import useIsMobile from "../hooks/useIsMobile";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -52,8 +52,15 @@ export default function ApiDocs() {
                   const [id, name] = sdk.split(":");
                   return (
                     <li key={id}>
-                      <a href={`https://github.com/Croissant-API/Website/tree/main/public/downloadables/sdk-${id}/README.md`} target="_blank" rel="noreferrer" className="text-neon-blue no-underline hover:text-neon-purple transition-colors flex items-center gap-2">
-                        <FontAwesomeIcon icon={faCode} className="text-sm" />[{name} Library]
+                      <a
+                        href={`https://github.com/Croissant-API/Website/tree/main/public/downloadables/sdk-${id}/README.md`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-neon-blue no-underline hover:text-neon-purple transition-colors flex items-center gap-2"
+                      >
+                        <FontAwesomeIcon icon={faCode} className="text-sm" />
+                        [{name} Library]
+                        <FontAwesomeIcon icon={faUpRightFromSquare} className="ml-1 text-xs" /> {/* Ajout OpenInNew */}
                       </a>
                     </li>
                   );
