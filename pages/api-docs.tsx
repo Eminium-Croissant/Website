@@ -32,9 +32,17 @@ export default function ApiDocs() {
             <FontAwesomeIcon icon={faCode} className="mr-3 text-neon-blue" />
             {t("apiDocs.title") || "API Documentation"}
           </h2>{" "}
-          <div className="flex gap-6 p-5 ">
+          <div className={`flex gap-6 p-5 ${isMobile ? "flex-col" : ""}`}>
             {/* Sidebar */}
-            <aside style={{ height: swaggerHeight, overflow: "auto" }} className="glass-content-card rounded-lg p-6 h-fit flex-shrink-0 flex flex-col w-[300px] sticky top-5">
+            <aside
+              style={{
+                height: swaggerHeight,
+                overflow: "auto",
+                width: isMobile ? "100%" : "300px",
+                marginBottom: isMobile ? "1rem" : "0",
+              }}
+              className="glass-content-card rounded-lg p-6 h-fit flex-shrink-0 flex flex-col sticky top-5"
+            >
               <h3 className="text-lg font-medium mb-4" style={{ color: "var(--glass-text)" }}>
                 <FontAwesomeIcon icon={faBook} className="mr-2 text-neon-blue" />
                 {t("apiDocs.libraries") || "Libraries"}
@@ -52,7 +60,14 @@ export default function ApiDocs() {
                 })}
               </ul>
             </aside>
-            <div className="glass-content-card p-4" style={{ height: swaggerHeight, overflow: "auto" }}>
+            <div
+              className="glass-content-card p-4"
+              style={{
+                height: swaggerHeight,
+                overflow: "auto",
+                width: isMobile ? "100%" : "auto",
+              }}
+            >
               {/* Swagger UI with deepLinking enabled for anchors */}
               <Swagger />
             </div>

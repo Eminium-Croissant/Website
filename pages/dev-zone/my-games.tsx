@@ -468,7 +468,7 @@ const MyGames = () => {
                   {t("myGames.chooseBanner")}
                 </button>
                 <span style={{ color: "#888", fontSize: "0.95em" }}>{bannerFile ? bannerFile.name : formData.bannerHash ? t("myGames.bannerSelected") : t("myGames.noFile")}</span>
-                {(bannerFile || formData.bannerHash) && <img src={bannerFile ? URL.createObjectURL(bannerFile) : `/games-banners/${formData.bannerHash}`} alt="banner preview" style={{ width: "100%", maxWidth: 320, height: 80, objectFit: "cover", borderRadius: 8, marginTop: 4 }} />}
+                {(bannerFile || formData.bannerHash) && <img src={bannerFile ? URL.createObjectURL(bannerFile) : `/banners-icons/${formData.bannerHash}`} alt="banner preview" style={{ width: "100%", maxWidth: 320, height: 80, objectFit: "cover", borderRadius: 8, marginTop: 4 }} />}
                 <input id="banner-file-input" type="file" accept="image/*" style={{ display: "none" }} onChange={handleBannerChange} />
               </div>
               <label className="mygames-label" htmlFor="download_link">
