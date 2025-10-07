@@ -1020,7 +1020,14 @@ function CreatedGamesModal({ open, onClose, games }) {
               <div key={game.gameId} style={{ border: "1px solid #36393f", borderRadius: 8, padding: 12, background: "#23272a" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <CachedImage src={`/games-icons/${game.iconHash ? game.iconHash : "default"}`} style={{ width: 48, height: 48, borderRadius: 8 }} />
-                  <div onClick={() => window.open(`/game?gameId=${game.gameId}`, "_blank")} style={{ cursor: "pointer", flex: 1 }}>
+                  <div
+                    onClick={() => {
+                      const router = useRouter();
+                      router.push(`/game?gameId=${game.gameId}`);
+                      onClose();
+                    }}
+                    style={{ cursor: "pointer", flex: 1 }}
+                  >
                     <div style={{ fontWeight: 600, fontSize: 17 }}>{game.name}</div>
                     <div style={{ color: "#aaa", fontSize: 13 }}>{game.description?.slice(0, 120) || ""}</div>
                   </div>
