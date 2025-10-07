@@ -184,7 +184,7 @@ export default function NavBarDesktop() {
             <Link href="/" className="text-glass-text no-underline font-bold text-2xl tracking-wider transition-all duration-300 hover:scale-105">
               <span className="cursor-pointer flex items-center group">
                 <div className="relative">
-                  <CachedImage src="/assets/icons/favicon-32x32.avif" alt="Croissant Logo" className="w-10 h-10 relative -top-1 align-middle mr-4 transition-all duration-300 group-hover:animate-glass-glow" />
+                  <CachedImage src="/assets/icons/favicon-32x32.avif" alt="Croissant Logo" className="w-10 h-10 relative -top-1 align-middle mr-4 transition-all duration-300" />
                   <div className="absolute inset-0 bg-neon-blue opacity-0 group-hover:opacity-30 rounded-full blur-sm transition-opacity duration-300"></div>
                 </div>
                 <div className="inline-flex items-center font-black relative text-xl -top-0.5 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">CROISSANT</div>

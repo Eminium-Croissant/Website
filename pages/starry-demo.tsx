@@ -152,7 +152,7 @@ export default function StarryDemo() {
               <h3 className="font-semibold mb-2">Twinkle</h3>
               <p className="text-sm" style={{color: 'var(--glass-text-secondary)'}}>Animation scintillante</p>
             </div>
-            <div className="glass-card text-center animate-glass-glow">
+            <div className="glass-card text-center ">
               <div className="text-3xl mb-3">💫</div>
               <h3 className="font-semibold mb-2">Glow</h3>
               <p className="text-sm" style={{color: 'var(--glass-text-secondary)'}}>Effet de lueur</p>

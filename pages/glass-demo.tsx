@@ -152,7 +152,7 @@ export default function GlassDemo() {
               <h3 className="font-semibold mb-2">Float</h3>
               <p className="text-sm text-glass-text-secondary">Animation flottante</p>
             </div>
-            <div className="glass-card text-center animate-glass-glow">
+            <div className="glass-card text-center ">
               <div className="text-3xl mb-3">💫</div>
               <h3 className="font-semibold mb-2">Glow</h3>
               <p className="text-sm text-glass-text-secondary">Effet de lueur</p>
