@@ -416,7 +416,7 @@ function SecurityModal({
                   <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                 </g>
               </svg>
-              {t("settings.linkGoogle")}
+              {t("settings.googleLinked")}
             </button>
           ) : (
             <button
@@ -1041,10 +1041,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                   {t("settings.changePassword")}
                 </button>
               )}
-              <button onClick={() => setShowSecurityModal(true)} className="glass-button-neon w-full">
-                <i className="fas fa-link mr-2" />
-                {t("settings.securityLinks")}
-              </button>
             </div>
 
             {user && !user?.isStudio && (
@@ -1161,7 +1157,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                           <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                         </g>
                       </svg>
-                      {t("settings.linkGoogle")}
+                      {t("settings.googleLinked")}
                     </button>
                   )}
                 </div>
@@ -1546,7 +1542,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                         d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
                       />
                     </svg>
-                    {t("settings.googleLinked")}
+                    {t("settings.linkGoogle")}
                   </button>
                 ) : (
                   <button
@@ -1576,7 +1572,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                         d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
                       />
                     </svg>
-                    {t("settings.linkGoogle")}
+                    {t("settings.googleLinked")}
                   </button>
                 )}
               </div>
