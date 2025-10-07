@@ -986,10 +986,14 @@ function CreatedGamesModal({ open, onClose, games }) {
   const { t } = useTranslation("common");
   if (!open) return null;
   return (
-    <div className="shop-prompt-overlay">
-      <div className="shop-prompt" style={{ minWidth: 400, maxWidth: 600 }}>
-        <button style={{ float: "right" }} onClick={onClose}>✕</button>
-        <h2 style={{ marginTop: 0 }}>{t("profile.createdGamesTitle", "Games ")}</h2>
+    <div
+      className="shop-prompt-overlay"
+      onClick={(e) => {
+        // Ne ferme que si on clique sur l'overlay, pas sur le contenu
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="shop-prompt glass-container trade-panel trade-panel-centered" style={{ minWidth: 400, maxWidth: 600 }}>
         {games.length === 0 ? (
           <div>{t("profile.noCreatedGames", "Aucun jeu créé")}</div>
         ) : (

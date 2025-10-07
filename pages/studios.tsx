@@ -263,20 +263,20 @@ export default function StudiosPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
+    <div className="glass-page-container">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8 w-full">
-        <h1 className="text-3xl font-bold text-white">{t("studios.title")}</h1>
+      <div className="glass-content-card mb-8 flex justify-between items-center">
+        <h1 className="text-3xl font-bold" style={{color: 'var(--glass-text)'}}>{t("studios.title")}</h1>
         <button
           onClick={() => setShowForm(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors"
+          className="glass-button-neon"
         >
           {t("studios.create")}
         </button>
       </div>
 
-      {/* Studios Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {/* Studios Grid */}
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {user?.studios && user.studios.length > 0 ? (
           user.studios.map(
             (studio) =>
