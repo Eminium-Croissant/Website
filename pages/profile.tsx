@@ -126,6 +126,7 @@ interface CreatedGame {
 }
 
 interface User {
+  studios: any[];
   verified: boolean;
   id: string;
   username: string;
@@ -397,6 +398,7 @@ function useProfileLogic(userId: string) {
   const [isProfileReloading, setIsProfileReloading] = useState(false);
   const [shopModalOpen, setShopModalOpen] = useState(false);
   const [createdGamesModalOpen, setCreatedGamesModalOpen] = useState(false);
+  const [studiosModalOpen, setStudiosModalOpen] = useState(false);
 
   const reloadInventory = () => setInventoryReloadFlag((f) => f + 1);
 
@@ -568,6 +570,8 @@ function useProfileLogic(userId: string) {
     setShopModalOpen,
     createdGamesModalOpen,
     setCreatedGamesModalOpen,
+    studiosModalOpen,
+    setStudiosModalOpen,
   };
 }
 
@@ -670,6 +674,11 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                         {t("profile.createdGamesTitle", "Games ")}
                       </button>
                     ) : null}
+                    {profile.studios && profile.studios.length > 0 ? (
+                      <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
+                        {t("profile.studios", "Studios")}
+                      </button>
+                    ) : null}
                   </>
                 ) : null}
               </div>
@@ -693,6 +702,11 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                 {profile.createdGames && profile.createdGames.length > 0 ? (
                   <button className="glass-button" onClick={() => props.setCreatedGamesModalOpen(true)} style={{ minWidth: 90 }}>
                     {t("profile.createdGamesTitle", "Games ")}
+                  </button>
+                ) : null}
+                {profile.studios && profile.studios.length > 0 ? (
+                  <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
+                    {t("profile.studios", "Studios")}
                   </button>
                 ) : null}
               </div>
@@ -769,11 +783,8 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
         </button>
       )} */}
       <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
-      <CreatedGamesModal
-        open={props.createdGamesModalOpen}
-        onClose={() => props.setCreatedGamesModalOpen(false)}
-        games={profile.createdGames || []}
-      />
+      <CreatedGamesModal open={props.createdGamesModalOpen} onClose={() => props.setCreatedGamesModalOpen(false)} games={profile.createdGames || []} />
+      <UserStudiosModal open={props.studiosModalOpen} onClose={() => props.setStudiosModalOpen(false)} studios={profile.studios || []} />
     </div>
   );
 }
@@ -870,6 +881,11 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                         {t("profile.createdGamesTitle", "Games ")}
                       </button>
                     ) : null}
+                    {profile.studios && profile.studios.length > 0 ? (
+                      <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
+                        {t("profile.studios", "Studios")}
+                      </button>
+                    ) : null}
                   </>
                 ) : null}
               </>
@@ -896,6 +912,11 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                 {profile.createdGames && profile.createdGames.length > 0 ? (
                   <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setCreatedGamesModalOpen(true)}>
                     {t("profile.createdGamesTitle", "Games ")}
+                  </button>
+                ) : null}
+                {profile.studios && profile.studios.length > 0 ? (
+                  <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
+                    {t("profile.studios", "Studios")}
                   </button>
                 ) : null}
               </>
@@ -972,11 +993,8 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
         </button>
       )} */}
       <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag((f) => f + 1)} />
-      <CreatedGamesModal
-        open={props.createdGamesModalOpen}
-        onClose={() => props.setCreatedGamesModalOpen(false)}
-        games={profile.createdGames || []}
-      />
+      <CreatedGamesModal open={props.createdGamesModalOpen} onClose={() => props.setCreatedGamesModalOpen(false)} games={profile.createdGames || []} />
+      <UserStudiosModal open={props.studiosModalOpen} onClose={() => props.setStudiosModalOpen(false)} studios={profile.studios || []} />
     </div>
   );
 }
@@ -1005,6 +1023,72 @@ function CreatedGamesModal({ open, onClose, games }) {
                   <div onClick={() => window.open(`/game?gameId=${game.gameId}`, "_blank")} style={{ cursor: "pointer", flex: 1 }}>
                     <div style={{ fontWeight: 600, fontSize: 17 }}>{game.name}</div>
                     <div style={{ color: "#aaa", fontSize: 13 }}>{game.description?.slice(0, 120) || ""}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function UserStudiosModal({ open, onClose, studios }) {
+  const { t } = useTranslation("common");
+  const router = useRouter();
+  if (!open) return null;
+  return (
+    <div
+      className="shop-prompt-overlay"
+      onClick={(e) => {
+        // Ne ferme que si on clique sur l'overlay, pas sur le contenu
+        if (e.target !== e.currentTarget) return;
+        onClose();
+      }}
+    >
+      <div className="shop-prompt glass-container trade-panel trade-panel-centered" style={{ minWidth: 400, maxWidth: 600 }}>
+        {studios.length === 0 ? (
+          <div>{t("profile.noStudios", "Aucun studio")}</div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {studios.map((studio) => (
+              <div
+                key={studio.id}
+                style={{
+                  border: "1px solid #36393f",
+                  borderRadius: 8,
+                  padding: 12,
+                  background: "#23272a",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                }}
+                onClick={() => {
+                  router.push(`/profile?user=${studio.id}`);
+                  onClose();
+                }}
+              >
+                <CachedImage src={`/avatar/${studio.id}`} style={{ width: 48, height: 48, borderRadius: 8, background: "#181a1a" }} alt={studio.name} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 600, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>
+                    {studio.name}
+                    {studio.verified ? (
+                      <Certification
+                        user={{ ...studio, isStudio: true }}
+                        style={{
+                          marginLeft: 4,
+                          width: 24,
+                          height: 24,
+                          position: "relative",
+                          top: 0,
+                          verticalAlign: "middle",
+                          filter: "drop-shadow(0 0 2px #ffd700)",
+                        }}
+                        color="#ffd700"
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>

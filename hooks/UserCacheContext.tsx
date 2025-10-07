@@ -2,6 +2,7 @@ import React, { createContext, useContext, useRef, useCallback } from "react";
 
 export interface UserCacheUser {
     id: string;
+    studios: any[];
     username: string;
     verified: boolean;
     isStudio?: boolean;
