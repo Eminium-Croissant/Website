@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
-import Highlight from "react-highlight";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faCode, faBook, faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faCode, faBook } from "@fortawesome/free-solid-svg-icons";
 import useIsMobile from "../hooks/useIsMobile";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
