@@ -138,7 +138,7 @@ const CreateItem = () => {
 
   return (
     <div className="glass-page-container flex justify-center items-center min-h-screen">
-      <div className="glass-content-card max-w-2xl w-full mx-auto p-8 rounded-xl">
+      <div className="glass-content-card  w-full mx-auto p-8 rounded-xl">
         <div style={{ marginBottom: 18 }}>
           <Link href="/dev-zone/my-items" className="glass-button">
             &larr; {t("createItem.backToMyItems")}

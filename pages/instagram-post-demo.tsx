@@ -190,7 +190,7 @@ export default function InstagramPostDemo() {
         {/* Configuration Details Modal */}
         {selectedConfig && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-            <div className="glass-card max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="glass-card  w-full max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-start mb-6">
                 <h3 className="text-2xl font-bold text-glass-text">{selectedConfig.name} - Configuration</h3>
                 <button
