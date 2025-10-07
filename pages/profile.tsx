@@ -1002,6 +1002,8 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
 // --- Created Games Modal ---
 function CreatedGamesModal({ open, onClose, games }) {
   const { t } = useTranslation("common");
+
+  const router = useRouter();
   if (!open) return null;
   return (
     <div
@@ -1022,7 +1024,6 @@ function CreatedGamesModal({ open, onClose, games }) {
                   <CachedImage src={`/games-icons/${game.iconHash ? game.iconHash : "default"}`} style={{ width: 48, height: 48, borderRadius: 8 }} />
                   <div
                     onClick={() => {
-                      const router = useRouter();
                       router.push(`/game?gameId=${game.gameId}`);
                       onClose();
                     }}
