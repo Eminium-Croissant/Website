@@ -1,39 +1,29 @@
-// Global styles
 import "../styles/main.css";
+// import "../styles/phone.css";
 import "../styles/atom-one-dark.min.css";
 import "../styles/rarity.css";
 import "../styles/globals.css";
-import "github-markdown-css/github-markdown.css";
 
-// Next.js and i18n
 import type { AppProps } from "next/app";
-import { appWithTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import MetaLinks from "../components/common/MetaLinks";
+import Footer from "../components/common/Footer";
+import ImagePreloader from "../components/utils/ImagePreloader";
 
-// React
 import { useEffect, useState } from "react";
-
-// Providers
+import LauncherNavbar from "./launcher/components/Navbar";
+import LauncherLobby from "./launcher/components/Lobby";
 import { AuthProvider } from "../hooks/AuthContext";
 import { UserCacheProvider } from "../hooks/UserCacheContext";
 import { ImageCacheProvider } from "../hooks/ImageCacheContext";
-import { LobbyProvider } from "../hooks/LobbyContext";
-
-// Utils and hooks
 import useIsMobile from "../hooks/useIsMobile";
-import { getMetaLinksProps } from "../components/common/metaLinks.server";
-
-// Components - Common
-import MetaLinks from "../components/common/MetaLinks";
-import OgGameMetaLinks from "../components/common/OgGameMetaLinks";
-import Footer from "../components/common/Footer";
 import NavBarDesktop from "../components/common/NavBarDesktop";
 import NavBarMobile from "../components/common/NavBarMobile";
-import ImagePreloader from "../components/utils/ImagePreloader";
-
-// Components - Launcher
-import LauncherNavbar from "./launcher/components/Navbar";
-import LauncherLobby from "./launcher/components/Lobby";
+import { LobbyProvider } from "../hooks/LobbyContext";
+import { appWithTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { getMetaLinksProps } from "../components/common/metaLinks.server";
+import "github-markdown-css/github-markdown.css";
+import OgGameMetaLinks from "../components/common/OgGameMetaLinks";
 
 // Small presentational helpers extracted to shorten AppContent
 function BackgroundImage() {

@@ -438,7 +438,7 @@ const MyGames = () => {
               <label className="mygames-label" htmlFor="description">
                 {t("myGames.description")}
               </label>
-              <textarea id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="mygames-input" required />
+              <textarea id="description" name="description" value={formData.description} onChange={handleChange} placeholder="Description" rows={2} className="mygames-input" required style={{height :260}} />
               <label className="mygames-label" htmlFor="price">
                 {t("myGames.price")}
               </label>
