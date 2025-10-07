@@ -337,7 +337,7 @@ const MyItems = () => {
 
   return (
     <div className="glass-page-container min-h-screen py-10">
-      <div className="glass-content-card max-w-5xl w-full mx-auto p-8 rounded-xl">
+      <div className="glass-content-card  w-full mx-auto p-8 rounded-xl">
         <div
           style={{
             display: "flex",

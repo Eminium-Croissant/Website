@@ -318,7 +318,7 @@ const MyGames = () => {
 
   return (
     <div className="glass-page-container min-h-screen py-10">
-      <div className="glass-content-card max-w-5xl w-full mx-auto p-8 rounded-xl">
+      <div className="glass-content-card  w-full mx-auto p-8 rounded-xl">
         <div className="flex items-center justify-between mb-6">
           <h1 className="mygames-title">
             <span className="mygames-title-span">{t("myGames.title")}</span>
