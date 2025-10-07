@@ -129,7 +129,72 @@ body {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: var(--glass-text);
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); */
+  }
+
+  .glass-input[type="file"] {
+    @apply w-full px-4 py-3 rounded-xl border transition-all duration-300;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(74, 158, 255, 0.2);
+    color: var(--glass-text);
+    cursor: pointer;
+    /* Hide default file input button */
+    &::-webkit-file-upload-button {
+      @apply px-4 py-2 rounded-lg font-semibold transition-all duration-300;
+      background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+      color: var(--glass-text);
+      border: 1px solid rgba(74, 158, 255, 0.3);
+      cursor: pointer;
+    }
+    &::-ms-browse {
+      background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+      color: var(--glass-text);
+      border: 1px solid rgba(74, 158, 255, 0.3);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+
+  .glass-checkbox {
+    @apply w-5 h-5 rounded-md border transition-all duration-300 align-middle cursor-pointer;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(74, 158, 255, 0.2);
+    appearance: none;
+    position: relative;
+  }
+
+  .glass-checkbox:checked {
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+    border-color: rgba(74, 158, 255, 0.5);
+  }
+
+  .glass-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  .glass-checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(74, 158, 255, 0.3);
+    border-color: rgba(74, 158, 255, 0.5);
+  }
+
+  .glass-input[type="file"]:focus {
+    outline: none;
+    border-color: rgba(74, 158, 255, 0.5);
+    box-shadow: 0 0 20px rgba(74, 158, 255, 0.2);
   }
 
   .glass-button:hover {
@@ -152,6 +217,24 @@ body {
     backdrop-filter: blur(20px);
     border: 1px solid rgba(253, 224, 71, 0.3);
     box-shadow: 0 4px 12px rgba(253, 224, 71, 0.2);
+    color: #fff;
+  }
+
+  .glass-button-green {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+    color: #fff;
+  }
+
+  .glass-button-red {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(197, 34, 34, 0.2) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(197, 34, 34, 0.3);
+    box-shadow: 0 4px 12px rgba(197, 34, 34, 0.2);
     color: #fff;
   }
 
@@ -447,6 +530,7 @@ body {
   display: block;
   margin: 16px auto;
 }
+
 .markdown-body p img {
   display: inline-block;
   vertical-align: middle;
@@ -454,6 +538,7 @@ body {
   width: attr(width);
   height: attr(height);
 }
+
 .markdown-body p:has(img) {
   display: flex;
   align-items: center;

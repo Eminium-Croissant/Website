@@ -341,24 +341,24 @@ const MyGames = () => {
                   draggable={false}
                   onMouseEnter={(e) => {
                     const rect = (e.target as HTMLElement).getBoundingClientRect();
-                    setTooltip({
-                      x: rect.right + 8,
-                      y: rect.top,
-                      game,
-                    });
+                    // setTooltip({
+                    //   x: rect.right + 8,
+                    //   y: rect.top,
+                    //   game,
+                    // });
                   }}
                   onMouseLeave={() => setTooltip(null)}
                   onClick={() => handleEdit(game)}
                 >
-                  <img src={"/games-icons/" + game.iconHash} alt={game.name} className="mygames-card-icon" draggable={false} />
+                  <img src={"/games-icons/" + (game.iconHash ? game.iconHash : "default")} alt={game.name} className="mygames-card-icon" draggable={false} />
                   <div className="mygames-card-name">{game.name}</div>
                   <div className="mygames-card-price" style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     {game.price}
-                    <img src="/assets/credit.avif" className="mygames-card-credit" style={{ width: 18, height: 18, objectFit: "cover", position:"relative", top: 0 }} />
+                    <img src="/assets/credit.avif" className="mygames-card-credit" style={{ width: 18, height: 18, objectFit: "cover", position: "relative", top: 0 }} />
                   </div>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                     <button
-                      className="mygames-card-editbtn"
+                      className="glass-button-green"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleEdit(game);
@@ -367,7 +367,7 @@ const MyGames = () => {
                       {t("myGames.edit")}
                     </button>
                     <button
-                      className="mygames-card-editbtn"
+                      className="glass-button-green"
                       onClick={(e) => {
                         e.stopPropagation();
                         navigator.clipboard.writeText(game.gameId);
@@ -380,7 +380,7 @@ const MyGames = () => {
                       {t("myGames.id")}
                     </button>
                     <button
-                      className="mygames-card-editbtn"
+                      className="glass-button-green"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleOwnershipTransfer(game);
@@ -431,8 +431,6 @@ const MyGames = () => {
             }}
           >
             <div className="mygames-modal-col">
-              <h2 className="mygames-modal-title">Edit Game</h2>
-
               <label className="mygames-label" htmlFor="name">
                 {t("myGames.name")}
               </label>
@@ -446,67 +444,49 @@ const MyGames = () => {
               </label>
               <input id="price" type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" min={0} className="mygames-input" required />
               <label className="mygames-label">
-                <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="mygames-checkbox" />
+                <input type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="glass-checkbox" />
                 {t("myGames.showInStore")}
-              </label>
-              <label className="mygames-label">
-                <input type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="mygames-checkbox" />
-                {t("myGames.multiplayer")}
               </label>
             </div>
             <div className="mygames-modal-col">
               <label className="mygames-label" htmlFor="icon">
                 {t("myGames.icon")}
               </label>
-              <input id="icon" type="file" accept="image/*" onChange={handleIconChange} className="mygames-input" />
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <button type="button" className="glass-button" onClick={() => document.getElementById("icon-file-input")?.click()} style={{ zoom: 0.7 }}>
+                  {t("myGames.chooseIcon")}
+                </button>
+                <span style={{ color: "#888", fontSize: "0.95em" }}>{iconFile ? iconFile.name : formData.iconHash ? t("myGames.iconSelected") : t("myGames.noFile")}</span>
+                {(iconFile || formData.iconHash) && <img src={iconFile ? URL.createObjectURL(iconFile) : `/games-icons/${formData.iconHash}`} alt="icon preview" style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 8, marginTop: 4 }} />}
+                <input id="icon-file-input" type="file" accept="image/*" style={{ display: "none" }} onChange={handleIconChange} />
+              </div>
               <label className="mygames-label" htmlFor="banner">
                 {t("myGames.banner")}
               </label>
-              <input id="banner" type="file" accept="image/*" onChange={handleBannerChange} className="mygames-input" />
-              <label className="mygames-label" htmlFor="genre">
-                {t("myGames.genre")}
-              </label>
-              <input id="genre" type="text" name="genre" value={formData.genre} onChange={handleChange} placeholder="Genre" className="mygames-input" />
-              <label className="mygames-label" htmlFor="release_date">
-                {t("myGames.releaseDate")}
-              </label>
-              <input id="release_date" type="date" name="release_date" value={formData.release_date} onChange={handleChange} placeholder="Release Date" className="mygames-input" />
-              <label className="mygames-label" htmlFor="publisher">
-                {t("myGames.publisher")}
-              </label>
-              <input id="publisher" type="text" name="publisher" value={formData.publisher} onChange={handleChange} placeholder="Publisher" className="mygames-input" />
-            </div>
-            <div className="mygames-modal-col">
-              <label className="mygames-label" htmlFor="developer">
-                {t("myGames.developer")}
-              </label>
-              <input id="developer" type="text" name="developer" value={formData.developer} onChange={handleChange} placeholder="Developer" className="mygames-input" />
-              <label className="mygames-label" htmlFor="platforms">
-                {t("myGames.platforms")}
-              </label>
-              <input id="platforms" type="text" name="platforms" value={formData.platforms} onChange={handleChange} placeholder="Platforms" className="mygames-input" />
-              <label className="mygames-label" htmlFor="website">
-                {t("myGames.website")}
-              </label>
-              <input id="website" type="url" name="website" value={formData.website} onChange={handleChange} placeholder="Website" className="mygames-input" />
-              <label className="mygames-label" htmlFor="trailer_link">
-                {t("myGames.trailerLink")}
-              </label>
-              <input id="trailer_link" type="url" name="trailer_link" value={formData.trailer_link} onChange={handleChange} placeholder="Trailer Link" className="mygames-input" />
-            </div>
-            <div className="mygames-modal-col">
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <button type="button" className="glass-button" style={{ zoom: 0.7 }} onClick={() => document.getElementById("banner-file-input")?.click()}>
+                  {t("myGames.chooseBanner")}
+                </button>
+                <span style={{ color: "#888", fontSize: "0.95em" }}>{bannerFile ? bannerFile.name : formData.bannerHash ? t("myGames.bannerSelected") : t("myGames.noFile")}</span>
+                {(bannerFile || formData.bannerHash) && <img src={bannerFile ? URL.createObjectURL(bannerFile) : `/games-banners/${formData.bannerHash}`} alt="banner preview" style={{ width: "100%", maxWidth: 320, height: 80, objectFit: "cover", borderRadius: 8, marginTop: 4 }} />}
+                <input id="banner-file-input" type="file" accept="image/*" style={{ display: "none" }} onChange={handleBannerChange} />
+              </div>
               <label className="mygames-label" htmlFor="download_link">
                 {t("myGames.downloadLink")}
               </label>
               <input id="download_link" type="url" name="download_link" value={formData.download_link} onChange={handleChange} placeholder="https://example.com/download" className="mygames-input" />
+              <label className="mygames-label">
+                <input type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="glass-checkbox" />
+                {t("myGames.multiplayer")}
+              </label>
             </div>
             <div className="mygames-modal-actions">
               {errors.submit && <div className="mygames-error">{errors.submit}</div>}
               <div className="mygames-modal-btns">
-                <button type="submit" disabled={submitting} className="mygames-btn-save">
+                <button type="submit" disabled={submitting} className="glass-button-green">
                   {submitting ? t("myGames.saving") : t("myGames.save")}
                 </button>
-                <button type="button" onClick={handleCancel} disabled={submitting} className="mygames-btn-cancel">
+                <button type="button" onClick={handleCancel} disabled={submitting} className="glass-button-red">
                   {t("myGames.cancel")}
                 </button>
               </div>

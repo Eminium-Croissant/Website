@@ -259,10 +259,10 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
               >
                 {t("shop.back")}
               </button>
-              <img src={`/banners-icons/${game.bannerHash}`} alt={game.name} className="w-full h-full object-cover" loading="lazy" />
+              <img src={`/banners-icons/${game.bannerHash ? game.bannerHash : "default"}`} alt={game.name} className="w-full h-full object-cover" loading="lazy" />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
               <div className="absolute bottom-4 left-4 flex items-center gap-4">
-                <img src={`/games-icons/${game.iconHash}`} alt={game.name} className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border" loading="lazy" />
+                <img src={"/games-icons/" + (game.iconHash ? game.iconHash : "default")} alt={game.name} className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border" loading="lazy" />
                 <div>
                   <h2 className="text-3xl font-bold" style={{ color: "var(--glass-text)" }}>
                     {game.name}

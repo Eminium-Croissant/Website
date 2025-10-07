@@ -521,7 +521,7 @@ const Library: React.FC = () => {
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <CachedImage src={`/games-icons/${game.iconHash}`} alt={game.name} className="w-12 h-12 rounded-lg object-cover" />
+                    <CachedImage src={`/games-icons/${game.iconHash ? game.iconHash : "default"}`} alt={game.name} className="w-12 h-12 rounded-lg object-cover" />
                     <div className="flex-1">
                       <div className="font-medium" style={{ color: "var(--glass-text)" }}>
                         {game.name}
@@ -564,10 +564,10 @@ const Library: React.FC = () => {
             <div className="glass-content-card h-full" style={{ overflowY: "scroll"}}>
               {/* Game Banner */}
               <div className="relative h-64 mb-6 rounded-xl overflow-hidden">
-                <img src={`/banners-icons/${selected.bannerHash}`} alt={selected.name} className="w-full h-full object-cover" loading="lazy" />
+                <img src={`/banners-icons/${selected.bannerHash ? selected.bannerHash : "default"}`} alt={selected.name} className="w-full h-full object-cover" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
                 <div className="absolute bottom-4 left-4 flex items-center gap-4">
-                  <img src={`/games-icons/${selected.iconHash}`} alt={selected.name} className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border" loading="lazy" />
+                  <img src={`/games-icons/${selected.iconHash ? selected.iconHash : "default"}`} alt={selected.name} className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border" loading="lazy" />
                   <div>
                     <h2 className="text-3xl font-bold" style={{ color: "var(--glass-text)" }}>
                       {selected.name}

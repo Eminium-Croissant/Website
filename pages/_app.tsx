@@ -30,7 +30,7 @@ export async function getStaticProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common"])),
-      ...await getMetaLinksProps(locale),
+      ...(await getMetaLinksProps(locale)),
     },
   };
 }
@@ -115,17 +115,11 @@ function AppContent({ Component, pageProps }: AppProps) {
 
   const WebsiteLayout = () => {
     const isMobile = useIsMobile();
-
-    console.log("props:", pageProps);
     return (
       <div>
         <BackgroundImage />
         {/* Meta OG dynamique pour /game */}
-        {pageProps?.ogMeta ? (
-          <OgGameMetaLinks {...pageProps.ogMeta} />
-        ) : (
-          <MetaLinks metaLinksTitle={pageProps?.title} />
-        )}
+        {pageProps?.ogMeta ? <OgGameMetaLinks {...pageProps.ogMeta} /> : <MetaLinks metaLinksTitle={pageProps?.title} />}
         {!pageProps?.isOauth2Auth && !pageProps?.isLauncher && (isMobile ? <NavBarMobile /> : <NavBarDesktop />)}
         <main className={`${mainStyle}`}>
           <Component {...pageProps} />

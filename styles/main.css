@@ -1625,7 +1625,7 @@ input[type=text].required:focus {
     top: 0
 }
 
-.mygames-card-editbtn,
+.glass-button,
 .myitems-card-editbtn {
     margin-top: 8px;
     padding: 6px 12px;
@@ -1671,7 +1671,7 @@ input[type=text].required:focus {
     color: var(--text-color-primary);
     text-align: center;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 36px;
     position: relative;
     top: 50px

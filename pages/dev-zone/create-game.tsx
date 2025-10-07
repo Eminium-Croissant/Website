@@ -226,9 +226,9 @@ const GameForm = () => {
           {errors.name && <span className="error">{errors.name}</span>}
           <div className="form-row">
             <label htmlFor="description">
-              {t("createGame.description")} <span className="required">*</span>
+              {t("createGame.description") + " (Markdown ok)"} <span className="required">*</span>
             </label>
-            <textarea id="description" name="description" value={formData.description} onChange={handleChange} required rows={4} className="dark-input" />
+            <textarea id="description" name="description" value={formData.description} onChange={handleChange} required rows={2} className="dark-input" />
           </div>
           {errors.description && <span className="error">{errors.description}</span>}
           <div className="form-row">
@@ -269,7 +269,7 @@ const GameForm = () => {
               {t("createGame.showInStore")}
             </label>
           </div>
-          <div className="form-row">
+          {/* <div className="form-row">
             <label htmlFor="genre">{t("createGame.genre")}</label>
             <input id="genre" type="text" name="genre" value={formData.genre} onChange={handleChange} className="dark-input" />
           </div>
@@ -302,7 +302,7 @@ const GameForm = () => {
               <input id="multiplayer" type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="creategame-checkbox" />
               {t("createGame.multiplayer")}
             </label>
-          </div>
+          </div> */}
           {errors.submit && <span className="error">{errors.submit}</span>}
           {success && <span className="creategame-success">{success}</span>}
           <button type="submit" className="creategame-submit-btn" disabled={loading}>
