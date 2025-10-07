@@ -254,18 +254,24 @@
   },
   "downloadLauncher": {
     "title": "Scarica il launcher",
-    "note": "Nota: il launcher Croissant è disponibile solo su PC (Windows).",
+    "note": "Nota: Il launcher Croissant è disponibile solo per PC (Windows).",
+    "description": {
+      "desktop": "Scarica il Croissant Launcher per gestire tutti i tuoi giochi da un'unica applicazione su PC (Windows).",
+      "mobile": "Scarica il Croissant Launcher sul tuo PC per accedere rapidamente ai tuoi giochi dal mobile."
+    },
+    "githubAllReleases": "Vedi tutte le release su GitHub",
+    "githubView": "Vedi su GitHub",
+    "downloadButton": "Scarica",
+    "previewTitleDesktop": "Anteprima del Launcher",
+    "previewTitleMobile": "Anteprima",
+    "previewAlt": "Screenshot del Croissant Launcher",
     "instructions": "Per scaricare il launcher Croissant:",
-    "step1": "Vai alla <link>pagina delle release</link> del repo GitHub Croissant API.",
+    "step1": "Vai alla <link>pagina delle release</link> del repository Croissant API su GitHub.",
     "step2": "Trova l'ultima versione.",
     "step3": {
       "windows": "Scarica il .exe per Windows."
     },
-    "step4": "Esegui il file per installare il launcher.",
-    "description": {
-      "desktop": "Il launcher Croissant è la chiave per gestire il tuo account, i tuoi oggetti, scoprire e lanciare giochi e usufruire delle novità con un clic.",
-      "mobile": "Il launcher Croissant ti permette di gestire account, oggetti, scoprire e lanciare giochi e rimanere aggiornato."
-    }
+    "step4": "Esegui il file per installare il launcher."
   },
   "forgotPassword": {
     "title": "Password dimenticata",

@@ -254,18 +254,24 @@
   },
   "downloadLauncher": {
     "title": "Launcher herunterladen",
-    "note": "Hinweis: Der Croissant-Launcher gibt’s nur für PC (Windows).",
-    "instructions": "So holst du dir den Croissant-Launcher:",
-    "step1": "Geh auf die <link>Releases-Seite</link> vom Croissant API GitHub.",
-    "step2": "Such die neueste Version.",
-    "step3": {
-      "windows": "Lade die .exe für Windows runter."
-    },
-    "step4": "Starte die Datei, um den Launcher zu installieren.",
+    "note": "Hinweis: Der Croissant-Launcher ist nur für PC (Windows) verfügbar.",
     "description": {
-      "desktop": "Mit dem Croissant-Launcher hast du alles im Griff: Account, Items, Games entdecken und starten – alles mit einem Klick.",
-      "mobile": "Mit dem Croissant-Launcher verwaltest du Account, Items, Games und bleibst immer up to date."
-    }
+      "desktop": "Lade den Croissant Launcher herunter, um alle deine Spiele über eine Anwendung auf dem PC (Windows) zu verwalten.",
+      "mobile": "Lade den Croissant Launcher auf deinem PC herunter, um schnell von deinem Mobilgerät auf deine Spiele zuzugreifen."
+    },
+    "githubAllReleases": "Alle Releases auf GitHub ansehen",
+    "githubView": "Auf GitHub ansehen",
+    "downloadButton": "Herunterladen",
+    "previewTitleDesktop": "Launcher Vorschau",
+    "previewTitleMobile": "Vorschau",
+    "previewAlt": "Screenshot des Croissant Launchers",
+    "instructions": "Um den Croissant-Launcher herunterzuladen:",
+    "step1": "Gehe zur <link>Releases-Seite</link> des Croissant API GitHub-Repos.",
+    "step2": "Finde die neueste Version.",
+    "step3": {
+      "windows": "Lade die .exe für Windows herunter."
+    },
+    "step4": "Führe die Datei aus, um den Launcher zu installieren."
   },
   "forgotPassword": {
     "title": "Passwort vergessen",

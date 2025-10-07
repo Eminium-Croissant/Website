@@ -253,19 +253,25 @@
     "title": "Bu sayfayı kapatabilirsiniz"
   },
   "downloadLauncher": {
-    "title": "Launcher'ı indir",
-    "note": "Not: Croissant launcher yalnızca PC'de (Windows) kullanılabilir.",
-    "instructions": "Croissant launcher'ı indirmek için:",
-    "step1": "Croissant API GitHub deposunun <link>sürümler sayfasına</link> gidin.",
-    "step2": "En son sürümü bulun.",
-    "step3": {
-      "windows": "Windows için .exe'yi indirin."
-    },
-    "step4": "Launcher'ı yüklemek için dosyayı çalıştırın.",
+    "title": "Başlatıcıyı indir",
+    "note": "Not: Croissant başlatıcısı yalnızca PC (Windows) için kullanılabilir.",
     "description": {
-      "desktop": "Croissant launcher, hesabınızı yönetmenin, eşyalarınızı keşfetmenin, oyunları başlatmanın ve tek tıkla yeniliklerin tadını çıkarmanın anahtarıdır.",
-      "mobile": "Croissant launcher hesabınızı yönetmenize, eşyalarınızı keşfetmenize, oyunları başlatmanıza ve güncel kalmanıza olanak tanır."
-    }
+      "desktop": "Croissant Launcher'ı PC (Windows) için indirerek tüm oyunlarını tek bir uygulamada yönet.",
+      "mobile": "Croissant Launcher'ı PC'ne indirerek mobilinden oyunlarına hızlıca erişebilirsin."
+    },
+    "githubAllReleases": "Tüm sürümleri GitHub'ta gör",
+    "githubView": "GitHub'ta görüntüle",
+    "downloadButton": "İndir",
+    "previewTitleDesktop": "Başlatıcı Önizlemesi",
+    "previewTitleMobile": "Önizleme",
+    "previewAlt": "Croissant Launcher ekran görüntüsü",
+    "instructions": "Croissant başlatıcısını indirmek için:",
+    "step1": "Croissant API GitHub deposunun <link>releases sayfasına</link> git.",
+    "step2": "En son sürümü bul.",
+    "step3": {
+      "windows": "Windows için .exe dosyasını indir."
+    },
+    "step4": "Dosyayı çalıştırarak başlatıcıyı yükle."
   },
   "forgotPassword": {
     "title": "Şifremi Unuttum",

@@ -255,17 +255,23 @@
   "downloadLauncher": {
     "title": "تحميل المشغل",
     "note": "ملاحظة: مشغل Croissant متاح فقط على الحاسوب (Windows).",
-    "instructions": "لتحميل مشغل Croissant:",
-    "step1": "اذهب إلى صفحة الإصدارات <link>في repo Croissant API على GitHub</link>.",
-    "step2": "ابحث عن الإصدار الأخير.",
-    "step3": {
-      "windows": "حمّل ملف .exe لنظام Windows."
-    },
-    "step4": "شغّل الملف لتثبيت المشغل.",
     "description": {
-      "desktop": "مشغل Croissant هو مفتاح إدارة حسابك، عناصرَك، اكتشاف وتشغيل الألعاب، والاطلاع على الميزات الجديدة بنقرة واحدة.",
-      "mobile": "يتيح لك مشغل Croissant إدارة حسابك وعناصرَك، اكتشاف وتشغيل الألعاب، والبقاء محدثًا."
-    }
+      "desktop": "قم بتنزيل Croissant Launcher لإدارة جميع ألعابك من تطبيق واحد على الحاسوب (Windows).",
+      "mobile": "قم بتنزيل Croissant Launcher على حاسوبك للوصول بسرعة إلى ألعابك من جهازك المحمول."
+    },
+    "githubAllReleases": "عرض جميع الإصدارات على GitHub",
+    "githubView": "عرض على GitHub",
+    "downloadButton": "تحميل",
+    "previewTitleDesktop": "معاينة المشغل",
+    "previewTitleMobile": "معاينة",
+    "previewAlt": "لقطة شاشة لـ Croissant Launcher",
+    "instructions": "لتحميل مشغل Croissant:",
+    "step1": "اذهب إلى <link>صفحة الإصدارات</link> في مستودع Croissant API على GitHub.",
+    "step2": "ابحث عن أحدث إصدار.",
+    "step3": {
+      "windows": "قم بتنزيل ملف .exe لنظام Windows."
+    },
+    "step4": "شغّل الملف لتثبيت المشغل."
   },
   "forgotPassword": {
     "title": "نسيت كلمة المرور",

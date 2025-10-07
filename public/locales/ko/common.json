@@ -255,17 +255,23 @@
   "downloadLauncher": {
     "title": "런처 다운로드",
     "note": "참고: Croissant 런처는 PC(Windows)에서만 사용 가능합니다.",
-    "instructions": "Croissant 런처를 다운로드하려면：",
-    "step1": "GitHub의 Croissant API 저장소의 <link>릴리스 페이지</link>로 이동하세요。",
-    "step2": "최신 버전을 찾으세요。",
-    "step3": {
-      "windows": "Windows용 .exe를 다운로드하세요。"
-    },
-    "step4": "파일을 실행하여 런처를 설치하세요。",
     "description": {
-      "desktop": "Croissant 런처는 계정, 아이템 관리, 게임 발견 및 실행, 새 기능을 한 번에 이용할 수 있게 해줍니다。",
-      "mobile": "Croissant 런처는 계정과 아이템 관리, 게임 발견 및 실행, 업데이트 확인을 쉽게 해줍니다。"
-    }
+      "desktop": "Croissant Launcher를 다운로드하여 PC(Windows)에서 모든 게임을 하나의 앱으로 관리하세요.",
+      "mobile": "PC에 Croissant Launcher를 설치하면 모바일에서 게임에 빠르게 접근할 수 있습니다."
+    },
+    "githubAllReleases": "GitHub에서 모든 릴리스 보기",
+    "githubView": "GitHub에서 보기",
+    "downloadButton": "다운로드",
+    "previewTitleDesktop": "런처 미리보기",
+    "previewTitleMobile": "미리보기",
+    "previewAlt": "Croissant 런처 스크린샷",
+    "instructions": "Croissant 런처를 다운로드하려면:",
+    "step1": "Croissant API GitHub 리포지토리의 <link>releases 페이지</link>로 이동하세요.",
+    "step2": "최신 버전을 찾으세요.",
+    "step3": {
+      "windows": "Windows용 .exe를 다운로드하세요."
+    },
+    "step4": "파일을 실행하여 런처를 설치하세요."
   },
   "forgotPassword": {
     "title": "비밀번호를 잊으셨나요",

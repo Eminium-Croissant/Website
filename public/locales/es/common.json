@@ -253,19 +253,25 @@
     "title": "Ya puedes cerrar esta página"
   },
   "downloadLauncher": {
-    "title": "Descarga el launcher",
-    "note": "Nota: El launcher Croissant solo está disponible para PC (Windows).",
+    "title": "Descargar el launcher",
+    "note": "Nota: El launcher Croissant está disponible solo en PC (Windows).",
+    "description": {
+      "desktop": "Descarga Croissant Launcher para gestionar todos tus juegos desde una sola aplicación en PC (Windows).",
+      "mobile": "Descarga Croissant Launcher en tu PC para acceder rápidamente a tus juegos desde el móvil."
+    },
+    "githubAllReleases": "Ver todas las versiones en GitHub",
+    "githubView": "Ver en GitHub",
+    "downloadButton": "Descargar",
+    "previewTitleDesktop": "Vista previa del Launcher",
+    "previewTitleMobile": "Vista previa",
+    "previewAlt": "Captura de pantalla del Croissant Launcher",
     "instructions": "Para descargar el launcher Croissant:",
-    "step1": "Ve a la <link>página de releases</link> del repo Croissant API en GitHub.",
-    "step2": "Busca la última versión.",
+    "step1": "Ve a la <link>página de releases</link> del repositorio Croissant API en GitHub.",
+    "step2": "Encuentra la última versión.",
     "step3": {
       "windows": "Descarga el .exe para Windows."
     },
-    "step4": "Ejecuta el archivo para instalar el launcher.",
-    "description": {
-      "desktop": "El launcher Croissant es la clave para gestionar tu cuenta, tus objetos, descubrir y lanzar juegos, y disfrutar de novedades con un clic.",
-      "mobile": "El launcher Croissant te permite gestionar tu cuenta, tus objetos, descubrir y lanzar juegos, y estar siempre al día."
-    }
+    "step4": "Ejecuta el archivo para instalar el launcher."
   },
   "forgotPassword": {
     "title": "¿Olvidaste tu contraseña?",
@@ -820,7 +826,7 @@
     "edit": "Editar",
     "id": "Id",
     "transfer": "Transferir",
-    "transferring": "Transfiriendo...",
+    "transfiriendo": "Transfiriendo...",
     "price": "Precio",
     "showInStore": "Mostrar en la tienda",
     "yes": "Sí",

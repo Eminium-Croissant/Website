@@ -254,18 +254,24 @@
   },
   "downloadLauncher": {
     "title": "ランチャーをダウンロード",
-    "note": "注意：CroissantランチャーはPC（Windows）のみ対応です。",
-    "instructions": "Croissantランチャーをダウンロードする方法：",
-    "step1": "GitHubのCroissant APIリポジトリの<link>リリースページ</link>に行く。",
-    "step2": "最新バージョンを見つける。",
-    "step3": {
-      "windows": "Windows用の.exeをダウンロードする。"
-    },
-    "step4": "ファイルを実行してランチャーをインストールする。",
+    "note": "注意：CroissantランチャーはPC（Windows）のみに対応しています。",
     "description": {
-      "desktop": "Croissantランチャーはアカウント管理、アイテム管理、ゲームの発見と起動、新機能へのワンクリックアクセスを提供します。",
-      "mobile": "Croissantランチャーはアカウントやアイテムの管理、ゲームの発見・起動、更新の確認を簡単にします。"
-    }
+      "desktop": "Croissantランチャーをダウンロードして、PC（Windows）からすべてのゲームを1つのアプリで管理しましょう。",
+      "mobile": "PCにCroissantランチャーをダウンロードすると、モバイルからゲームに素早くアクセスできます。"
+    },
+    "githubAllReleases": "GitHubのすべてのリリースを見る",
+    "githubView": "GitHubで表示",
+    "downloadButton": "ダウンロード",
+    "previewTitleDesktop": "ランチャーのプレビュー",
+    "previewTitleMobile": "プレビュー",
+    "previewAlt": "Croissantランチャーのスクリーンショット",
+    "instructions": "Croissantランチャーをダウンロードするには：",
+    "step1": "Croissant APIのGitHubリポジトリの<link>リリースページ</link>にアクセスします。",
+    "step2": "最新版を探します。",
+    "step3": {
+      "windows": "Windows用の.exeをダウンロードします。"
+    },
+    "step4": "ファイルを実行してランチャーをインストールします。"
   },
   "forgotPassword": {
     "title": "パスワードを忘れた",

@@ -253,19 +253,25 @@
     "title": "You can close this page now"
   },
   "downloadLauncher": {
-    "title": "Download the Launcher",
-    "note": "Note: The Croissant launcher is only available for PC (Windows).",
-    "instructions": "To download the Croissant launcher:",
-    "step1": "Go to the <link>releases page</link> on the Croissant API GitHub repository.",
-    "step2": "Find the latest release.",
-    "step3": {
-      "windows": "Download the .exe file for Windows."
-    },
-    "step4": "Run the executable to install the launcher.",
+    "title": "下载启动器",
+    "note": "注意：Croissant 启动器仅在 PC（Windows）上可用。",
     "description": {
-      "desktop": "The Croissant launcher is important because it allows you to easily access and manage your Croissant account and items, discover and launch games, and automatically stay updated with the latest platform features.",
-      "mobile": "The Croissant launcher lets you manage your Croissant account and items, discover and launch games, and always stay updated with the latest features."
-    }
+      "desktop": "下载 Croissant 启动器，可在 PC（Windows）上一款应用中管理所有游戏。",
+      "mobile": "在你的 PC 上下载 Croissant 启动器，以便从手机快速访问你的游戏。"
+    },
+    "githubAllReleases": "在 GitHub 查看所有版本",
+    "githubView": "在 GitHub 查看",
+    "downloadButton": "下载",
+    "previewTitleDesktop": "启动器预览",
+    "previewTitleMobile": "预览",
+    "previewAlt": "Croissant 启动器截图",
+    "instructions": "下载 Croissant 启动器：",
+    "step1": "前往 Croissant API 的 GitHub 仓库的 <link>releases 页面</link>。",
+    "step2": "找到最新版本。",
+    "step3": {
+      "windows": "下载适用于 Windows 的 .exe。"
+    },
+    "step4": "运行该文件以安装启动器。"
   },
   "forgotPassword": {
     "title": "Forgot Password",
