@@ -81,47 +81,50 @@ const BadgesPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 md:px-8 py-8 max-w-4xl">
-      <h1 className="text-3xl font-bold text-white mb-6">{t("badges.title")}</h1>
+    <div className="min-h-screen bg-glass-gradient">
+      <div className="glass-page-container max-w-4xl">
+        <div className="mb-8">
+          <h1 className="glass-title text-4xl mb-6">{t("badges.title")}</h1>
+          <div className="glass-content-card">
+            <p className="text-lg text-glass-text-secondary">{t("badges.intro")}</p>
+          </div>
+        </div>
 
-      <div className="text-gray-300 mb-8">
-        <p className="text-lg">{t("badges.intro")}</p>
-      </div>
+        <div className="space-y-6">
+          {BADGES.map((badge) => {
+            const isHighlighted = highlighted === badge.key;
+            return (
+              <div
+                key={badge.key}
+                id={badge.key}
+                className={`
+                  flex items-start gap-5 p-6 shadow-md transition-all duration-200
+                  ${isHighlighted ? "glass-card ring-2 ring-neon-yellow glass-shimmer" : "glass-card glass-glow"}
+                `}
+              >
+                <div className="flex items-center justify-center w-12 h-12 rounded-lg shrink-0" style={{ backgroundColor: `${badge.color}22` }}>
+                  <FontAwesomeIcon icon={badge.icon} className="text-3xl" style={{ color: badge.color }} />
+                </div>
 
-      <div className="space-y-6">
-        {BADGES.map((badge) => {
-          const isHighlighted = highlighted === badge.key;
-          return (
-            <div
-              key={badge.key}
-              id={badge.key}
-              className={`
-                flex items-start gap-5 rounded-xl p-6 shadow-md transition-all duration-200
-                ${isHighlighted ? "bg-[#2d2300] border-2 border-[#ffe066]" : "bg-[#181a20] border border-[#333] hover:bg-[#1c1e24]"}
-              `}
-            >
-              <div className="flex items-center justify-center w-12 h-12 rounded-lg shrink-0" style={{ backgroundColor: `${badge.color}22` }}>
-                <FontAwesomeIcon icon={badge.icon} className="text-3xl" style={{ color: badge.color }} />
-              </div>
+                <div className="space-y-2">
+                  <h2 className="text-xl font-semibold" style={{ color: badge.color }}>
+                    {t(`badges.${badge.key}.label`)}
+                  </h2>
 
-              <div className="space-y-2">
-                <h2 className="text-xl font-semibold" style={{ color: badge.color }}>
-                  {t(`badges.${badge.key}.label`)}
-                </h2>
+                  <p className="text-glass-text">{t(`badges.${badge.key}.description`)}</p>
 
-                <p className="text-gray-200">{t(`badges.${badge.key}.description`)}</p>
-
-                <div className="text-sm text-gray-400">
-                  <span className="font-semibold">{t("badges.howtogetit")}</span>
-                  &nbsp;{t(`badges.${badge.key}.how`)}
+                  <div className="text-sm text-glass-text-secondary">
+                    <span className="font-semibold">{t("badges.howtogetit")}</span>
+                    &nbsp;{t(`badges.${badge.key}.how`)}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
 
-      <div className="mt-8 text-sm text-gray-500">{t("badges.lastUpdated")}</div>
+        <div className="mt-8 text-sm text-glass-text-secondary text-center">{t("badges.lastUpdated")}</div>
+      </div>
     </div>
   );
 };

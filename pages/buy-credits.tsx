@@ -68,32 +68,37 @@ const BuyCredits: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <h1 className="text-3xl font-bold text-white text-center mb-12">{t("buyCredits.title")}</h1>
+    <div className="min-h-screen bg-glass-gradient">
+      <div className="glass-page-container">
+        <div className="text-center mb-12">
+          <h1 className="glass-title text-5xl mb-4">{t("buyCredits.title")}</h1>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {tiers.map((tier) => (
-          <div
-            key={tier.credits}
-            className="bg-[#23272e] rounded-xl p-6 flex flex-col items-center gap-4 transform transition-all duration-200 
-                     hover:scale-105 hover:shadow-xl cursor-pointer border border-[#333] hover:border-[#444]
-                     focus:outline-none focus:ring-2 focus:ring-[#1e90ff] focus:ring-opacity-50"
-            tabIndex={0}
-            onClick={() => handlePurchase(tier)}
-            onKeyPress={(e) => e.key === "Enter" && handlePurchase(tier)}
-          >
-            <div className="relative w-32 h-32">
-              <CachedImage src={tier.img} alt={tier.alt} className="w-full h-full object-contain rounded-lg" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {tiers.map((tier) => (
+            <div
+              key={tier.credits}
+              className="glass-card glass-glow cursor-pointer transform transition-all duration-200 hover:scale-105
+                       focus:outline-none focus:ring-2 focus:ring-neon-blue focus:ring-opacity-50"
+              tabIndex={0}
+              onClick={() => handlePurchase(tier)}
+              onKeyPress={(e) => e.key === "Enter" && handlePurchase(tier)}
+            >
+              <div className="flex flex-col items-center gap-4">
+                <div className="relative w-32 h-32">
+                  <CachedImage src={tier.img} alt={tier.alt} className="w-full h-full object-contain rounded-lg" />
+                </div>
+
+                <div className="flex items-center gap-2 text-xl font-bold text-glass-text">
+                  {tier.credits}
+                  <CachedImage src="/assets/credit.avif" className="w-5 h-5" alt="credits" />
+                </div>
+
+                <div className="text-lg font-semibold text-neon-blue">{tier.price}</div>
+              </div>
             </div>
-
-            <div className="flex items-center gap-2 text-xl font-bold text-white">
-              {tier.credits}
-              <CachedImage src="/assets/credit.avif" className="w-5 h-5" alt="credits" />
-            </div>
-
-            <div className="text-lg font-semibold text-[#1e90ff]">{tier.price}</div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
