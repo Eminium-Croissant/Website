@@ -375,77 +375,40 @@ function SecurityModal({
           {/* Discord */}
           {!user?.discord_id ? (
             <button
-              type="button"
-              style={{
-                width: "100%",
-                height: "48px",
-                background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
-                color: "#fff",
-                border: "none",
-                borderRadius: "8px",
-                fontSize: "16px",
-                fontWeight: 600,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "12px",
-              }}
               onClick={() => router.push("/auth/discord")}
-              disabled={user?.isStudio}
+              className="glass-button-neon w-full flex items-center justify-center gap-3"
+              style={{
+                background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
+              }}
             >
-              <span className="fab fa-discord" style={{ fontSize: "22px" }} />
-              {t("linkDiscord")}
+              <i className="fab fa-discord text-xl" />
+              {t("settings.linkDiscord")}
             </button>
           ) : (
             <button
-              type="button"
+              disabled
+              className="glass-button-neon w-full flex items-center justify-center gap-3 opacity-70"
               style={{
-                width: "100%",
-                height: "48px",
                 background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
-                color: "#fff",
-                border: "none",
-                borderRadius: "8px",
-                fontSize: "16px",
-                fontWeight: 600,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "12px",
               }}
-              onClick={() => router.push("/auth/discord")}
-              disabled={user?.isStudio}
             >
-              <span className="fab fa-discord" style={{ fontSize: "22px" }} />
-              {t("linkDiscord")}
+              <i className="fab fa-discord text-xl" />
+              {t("settings.discordLinked")}
             </button>
           )}
 
           {/* Google */}
           {!user?.google_id ? (
             <button
-              type="button"
+              onClick={() => router.push("/auth/google")}
+              className="glass-button w-full flex items-center justify-center gap-3"
               style={{
-                width: "100%",
-                height: "48px",
                 background: "#fff",
                 color: "#222",
                 border: "1px solid #e0e0e0",
-                borderRadius: "8px",
-                fontSize: "16px",
-                fontWeight: 600,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "12px",
               }}
-              onClick={() => router.push("/auth/google")}
-              disabled={user?.isStudio}
             >
-              <svg width="22" height="22" viewBox="0 0 48 48">
+              <svg width="20" height="20" viewBox="0 0 48 48">
                 <g>
                   <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
                   <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
@@ -453,30 +416,19 @@ function SecurityModal({
                   <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                 </g>
               </svg>
-              {t("linkGoogle")}
+              {t("settings.linkGoogle")}
             </button>
           ) : (
             <button
-              type="button"
+              disabled
+              className="glass-button w-full flex items-center justify-center gap-3 opacity-70"
               style={{
-                width: "100%",
-                height: "48px",
                 background: "#fff",
                 color: "#222",
                 border: "1px solid #e0e0e0",
-                borderRadius: "8px",
-                fontSize: "16px",
-                fontWeight: 600,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "12px",
               }}
-              onClick={() => router.push("/auth/google")}
-              disabled={user?.isStudio}
             >
-              <svg width="22" height="22" viewBox="0 0 48 48">
+              <svg width="20" height="20" viewBox="0 0 48 48">
                 <g>
                   <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
                   <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
@@ -484,67 +436,9 @@ function SecurityModal({
                   <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                 </g>
               </svg>
-              {t("linkGoogle")}
+              {t("settings.linkGoogle")}
             </button>
           )}
-
-          {/* Passkey */}
-          <button type="button" style={{ ...modalButtonStyle, background: "#222", color: "#fff" }} onClick={handleRegisterPasskey} disabled={passkeyLoading || !user}>
-            {passkeyLoading ? t("registering") : t("registerPasskey")}
-          </button>
-          {passkeySuccess && <div style={{ color: "#4caf50" }}>{passkeySuccess}</div>}
-          {passkeyError && <div style={{ color: "#ff5252" }}>{passkeyError}</div>}
-
-          {/* Google Authenticator */}
-          {user && !user.haveAuthenticator ? (
-            <button
-              type="button"
-              style={{
-                ...modalButtonStyle,
-                background: "#222",
-                color: "#fff",
-                marginTop: 0,
-              }}
-              onClick={() => setShowGoogleAuthModal(true)}
-              disabled={!user}
-            >
-              {t("setupGoogleAuth")}
-            </button>
-          ) : (
-            <button
-              type="button"
-              style={{
-                ...modalButtonStyle,
-                background: "#222",
-                color: "#fff",
-                marginTop: 0,
-              }}
-              onClick={async () => {
-                const choice = confirm("Are you sure you want to delete Google Authenticator? This will disable 2FA for your account.");
-                if (choice) {
-                  const res = await fetch("/api/authenticator/delete", {
-                    method: "POST",
-                    body: JSON.stringify({ userId: user.user_id }),
-                    headers: { "Content-Type": "application/json" },
-                  });
-                  if (!res.ok) {
-                    alert("Failed to delete Google Authenticator.");
-                  } else {
-                    user.haveAuthenticator = false;
-                    setUser && setUser({ ...user });
-                  }
-                }
-              }}
-              disabled={!user}
-            >
-              {t("deleteGoogleAuth")}
-            </button>
-          )}
-          {success && <div style={{ color: "#4caf50", marginTop: 8 }}>{success}</div>}
-          {error && <div style={{ color: "#ff5252", marginTop: 8 }}>{error}</div>}
-          <button type="button" style={{ ...modalButtonStyle, background: "#444", marginTop: 16 }} onClick={onClose}>
-            {t("close")}
-          </button>
         </div>
       </div>
     </div>
@@ -1217,14 +1111,14 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                     </button>
                   ) : (
                     <button
-                      onClick={() => router.push("/auth/discord")}
-                      className="glass-button-neon w-full flex items-center justify-center gap-3"
+                      disabled
+                      className="glass-button-neon w-full flex items-center justify-center gap-3 opacity-70"
                       style={{
                         background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
                       }}
                     >
                       <i className="fab fa-discord text-xl" />
-                      {t("settings.linkDiscord")}
+                      {t("settings.discordLinked")}
                     </button>
                   )}
 
@@ -1240,17 +1134,19 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                       }}
                     >
                       <svg width="20" height="20" viewBox="0 0 48 48">
-                        <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
-                        <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
-                        <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
-                        <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                        <g>
+                          <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                          <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                          <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                          <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                        </g>
                       </svg>
                       {t("settings.linkGoogle")}
                     </button>
                   ) : (
                     <button
-                      onClick={() => router.push("/auth/google")}
-                      className="glass-button w-full flex items-center justify-center gap-3"
+                      disabled
+                      className="glass-button w-full flex items-center justify-center gap-3 opacity-70"
                       style={{
                         background: "#fff",
                         color: "#222",
@@ -1258,10 +1154,12 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                       }}
                     >
                       <svg width="20" height="20" viewBox="0 0 48 48">
-                        <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
-                        <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
-                        <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
-                        <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                        <g>
+                          <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                          <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                          <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                          <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
+                        </g>
                       </svg>
                       {t("settings.linkGoogle")}
                     </button>
@@ -1614,10 +1512,16 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                     {t("settings.linkDiscord")}
                   </button>
                 ) : (
-                  <div className="glass-card flex items-center gap-2 p-2 text-xs opacity-70">
+                  <button
+                    disabled
+                    className="glass-button-neon w-full text-sm flex items-center justify-center gap-2 opacity-70"
+                    style={{
+                      background: "linear-gradient(90deg, #5865F2 60%, #404EED 100%)",
+                    }}
+                  >
                     <i className="fab fa-discord text-lg" />
-                    <span className="flex-1">Discord linked</span>
-                  </div>
+                    {t("settings.discordLinked")}
+                  </button>
                 )}
 
                 {/* Google */}
@@ -1652,7 +1556,15 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                     {t("settings.linkGoogle")}
                   </button>
                 ) : (
-                  <div className="glass-card flex items-center gap-2 p-2 text-xs opacity-70">
+                  <button
+                    disabled
+                    className="glass-button w-full text-sm flex items-center justify-center gap-2 opacity-70"
+                    style={{
+                      background: "#fff",
+                      color: "#222",
+                      border: "1px solid #e0e0e0",
+                    }}
+                  >
                     <svg width="16" height="16" viewBox="0 0 48 48">
                       <path
                         fill="#4285F4"
@@ -1671,8 +1583,8 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                         d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
                       />
                     </svg>
-                    <span className="flex-1">Google linked</span>
-                  </div>
+                    {t("settings.linkGoogle")}
+                  </button>
                 )}
               </div>
             </div>
