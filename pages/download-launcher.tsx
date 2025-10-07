@@ -21,21 +21,21 @@ function DownloadLauncherDesktop() {
     {
       platform: "Windows",
       icon: faDesktop,
-      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher-Setup.exe",
+      url: "https://github.com/Croissant-API/Launcher/releases/download/v1.2.8/croissant-launcher-win32-x64.zip",
       color: "text-neon-blue"
     },
-    {
-      platform: "macOS",
-      icon: faLaptop,
-      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.dmg",
-      color: "text-neon-purple"
-    },
-    {
-      platform: "Linux",
-      icon: faServer,
-      url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.AppImage",
-      color: "text-neon-green"
-    }
+    // {
+    //   platform: "macOS",
+    //   icon: faLaptop,
+    //   url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.dmg",
+    //   color: "text-neon-purple"
+    // },
+    // {
+    //   platform: "Linux",
+    //   icon: faServer,
+    //   url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.AppImage",
+    //   color: "text-neon-green"
+    // }
   ];
 
   return (
@@ -62,7 +62,7 @@ function DownloadLauncherDesktop() {
           </div>
           
           {/* Boutons de téléchargement */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mb-8">
             {downloadLinks.map((link) => (
               <a
                 key={link.platform}
