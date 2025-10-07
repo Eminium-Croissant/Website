@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Highlight from "react-highlight";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faCode, faBook, faDownload } from "@fortawesome/free-solid-svg-icons";
-import useIsMobile from "../hooks/useIsMobile"; // Ajoutez ce hook
+import useIsMobile from "../hooks/useIsMobile";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Swagger from "../components/swagger";
+const Swagger = dynamic(() => import("../components/swagger"), { ssr: false });
 
 export async function getStaticProps({ locale }) {
   return {
@@ -60,38 +61,5 @@ export default function ApiDocs() {
         </div>
       </div>
     </div>
-  );
-}
-
-function GlassMethodBadge({ method }: { method: string }) {
-  // Méthodes stylées comme sur index.tsx
-  const methodClass = method === "GET" ? "glass-method get" : method === "POST" ? "glass-method post" : method === "PUT" ? "glass-method put" : method === "DELETE" ? "glass-method delete" : "glass-method";
-  return (
-    <span className={methodClass} style={{ marginRight: 8 }}>
-      {method}
-    </span>
-  );
-}
-
-// Bloc d'affichage d'un endpoint (utilisé dans mobile et desktop)
-
-function InfoSection({ title, content, language }: { title: string; content: any; language: string }) {
-  const { t } = useTranslation("common");
-  return (
-    <>
-      {content ? (
-        <div className="mb-4">
-          <h4 className="text-neon-blue mb-3 font-semibold flex items-center gap-2">
-            <FontAwesomeIcon icon={faCode} className="text-sm" />
-            {t(title)}:
-          </h4>
-          <div className="glass-card p-4 rounded-lg overflow-x-auto">
-            <Highlight className={language}>{typeof content === "string" ? content : JSON.stringify(content, null, 2)}</Highlight>
-          </div>
-        </div>
-      ) : (
-        ""
-      )}
-    </>
   );
 }
