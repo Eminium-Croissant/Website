@@ -75,9 +75,7 @@ const GiftPage: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to claim gift");
 
-      setAlert(
-        "Gift claimed successfully! The game has been added to your library."
-      );
+      setAlert("Gift claimed successfully! The game has been added to your library.");
       setTimeout(() => router.push("/"), 2000);
     } catch (err: any) {
       setAlert(err.message);
@@ -86,138 +84,147 @@ const GiftPage: React.FC = () => {
     }
   };
 
+  // Use glass container similar to pages/game.tsx
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <div className="inventory-loading-spinner" />
+      <div className="glass-page-container">
+        <div className="glass-content-card h-full flex items-center justify-center">
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div className="w-8 h-8 border-4 border-glass-border border-t-neon-blue rounded-full animate-spin" />
+            <span style={{ color: "var(--glass-text)" }}>{t("shop.loading") ?? "Loading..."}</span>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!giftCode) {
     return (
-      <div style={{ padding: "20px", textAlign: "center" }}>
-        <h2>{t("shop.invalidGiftLink")}</h2>
-        <p>{t("shop.noGiftCode")}</p>
-        <button onClick={() => router.push("/")} className="gamepage-back-btn">
-          {t("shop.goHome")}
-        </button>
+      <div className="glass-page-container">
+        <div className="glass-content-card h-full flex items-center justify-center">
+          <div style={{ textAlign: "center" }}>
+            <h2>{t("shop.invalidGiftLink")}</h2>
+            <p>{t("shop.noGiftCode")}</p>
+            <button onClick={() => router.push("/")} className="gamepage-back-btn">
+              {t("shop.goHome")}
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!giftInfo) {
     return (
-      <div style={{ padding: "20px", textAlign: "center" }}>
-        <h2>{t("shop.giftNotFound")}</h2>
-        <p>{alert || t("shop.giftNotFoundDesc")}</p>
-        <button onClick={() => router.push("/")} className="gamepage-back-btn">
-          {t("shop.goHome")}
-        </button>
+      <div className="glass-page-container">
+        <div className="glass-content-card h-full flex items-center justify-center">
+          <div style={{ textAlign: "center" }}>
+            <h2>{t("shop.giftNotFound")}</h2>
+            <p>{alert || t("shop.giftNotFoundDesc")}</p>
+            <button onClick={() => router.push("/")} className="gamepage-back-btn">
+              {t("shop.goHome")}
+            </button>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="main-details-steam gamepage-root">
-      <button onClick={() => router.back()} className="gamepage-back-btn">
-        ← Back
-      </button>
+    <div className="glass-page-container">
+      <div className="glass-content-card">
+        <button onClick={() => router.back()} className="gamepage-back-btn">
+          ← Back
+        </button>
 
-      <div style={{ textAlign: "center", padding: "40px 20px" }}>
-        <h2>🎁 {t("shop.youReceivedGift")}</h2>
+        <div style={{ textAlign: "center", padding: "40px 20px" }}>
+          <h2>🎁 {t("shop.youReceivedGift")}</h2>
 
-        {giftInfo?.game && (
-          <div style={{ margin: "20px 0" }}>
-            <CachedImage
-              src={`/games-icons/${giftInfo.game.iconHash}`}
-              alt={giftInfo.game.name}
-              style={{ width: 128, height: 128, borderRadius: 8 }}
-            />
-            <h3>{giftInfo.game.name}</h3>
-            <p>{giftInfo.game.description}</p>
-          </div>
-        )}
+          {giftInfo?.game && (
+            <div
+              style={{
+                margin: "20px 0",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                gap: 8,
+              }}
+            >
+              <CachedImage
+                src={`/games-icons/${giftInfo.game.iconHash}`}
+                alt={giftInfo.game.name}
+                style={{ width: 128, height: 128, borderRadius: 8 }}
+              />
+              <h3 style={{ margin: 0 }}>{giftInfo.game.name}</h3>
+              <p style={{ margin: "8px 0 0", maxWidth: 560 }}>{giftInfo.game.description}</p>
+            </div>
+          )}
 
-        {giftInfo?.fromUser && (
-          <div style={{ margin: "20px 0" }}>
-            <Trans
-              i18nKey="shop.from"
-              values={{ username: giftInfo.fromUser.username }}
-              components={{ strong: <strong /> }}
-            />
-          </div>
-        )}
+          {giftInfo?.fromUser && (
+            <div style={{ margin: "20px 0" }}>
+              <Trans i18nKey="shop.from" values={{ username: giftInfo.fromUser.username }} components={{ strong: <strong /> }} />
+            </div>
+          )}
 
-        {giftInfo?.gift.message && (
-          <div
-            style={{
-              background: "#f5f5f5",
-              padding: "15px",
-              borderRadius: 8,
-              margin: "20px 0",
-              color: "#333",
-            }}
-          >
-            <p>
-              <em>"{giftInfo.gift.message}"</em>
-            </p>
-          </div>
-        )}
-
-        {giftInfo?.gift.isActive && !giftInfo?.userOwnsGame ? (
-          <button
-            onClick={handleClaimGift}
-            disabled={claiming}
-            style={{
-              padding: "15px 30px",
-              fontSize: 18,
-              borderRadius: 8,
-              fontWeight: 700,
-              background: "#4caf50",
-              color: "white",
-              border: "none",
-              cursor: claiming ? "not-allowed" : "pointer",
-              opacity: claiming ? 0.7 : 1,
-            }}
-          >
-            {claiming ? t("shop.claiming") : t("shop.claimGift")}
-          </button>
-        ) : giftInfo?.userOwnsGame ? (
-          <div>
-            <p style={{ color: "#f44336", fontWeight: "bold" }}>
-              {t("shop.giftAlreadyOwned")}
-            </p>
-          </div>
-        ) : (
-          <div>
-            <p style={{ color: "#666" }}>{t("shop.giftAlreadyClaimed")}</p>
-            {giftInfo?.gift.claimedAt && (
-              <p style={{ fontSize: "0.9em", color: "#999" }}>
-                {t("shop.giftClaimedOn", {
-                  date: new Date(giftInfo.gift.claimedAt).toLocaleDateString(),
-                })}
+          {giftInfo?.gift.message && (
+            <div
+              style={{
+                background: "#f5f5f5",
+                padding: "15px",
+                borderRadius: 8,
+                margin: "20px 0",
+                color: "#333",
+              }}
+            >
+              <p>
+                <em>"{giftInfo.gift.message}"</em>
               </p>
-            )}
-          </div>
-        )}
+            </div>
+          )}
+
+          {giftInfo?.gift.isActive && !giftInfo?.userOwnsGame ? (
+            <button
+              onClick={handleClaimGift}
+              disabled={claiming}
+              style={{
+                padding: "15px 30px",
+                fontSize: 18,
+                borderRadius: 8,
+                fontWeight: 700,
+                background: "#4caf50",
+                color: "white",
+                border: "none",
+                cursor: claiming ? "not-allowed" : "pointer",
+                opacity: claiming ? 0.7 : 1,
+              }}
+            >
+              {claiming ? t("shop.claiming") : t("shop.claimGift")}
+            </button>
+          ) : giftInfo?.userOwnsGame ? (
+            <div>
+              <p style={{ color: "#f44336", fontWeight: "bold" }}>{t("shop.giftAlreadyOwned")}</p>
+            </div>
+          ) : (
+            <div>
+              <p style={{ color: "#666" }}>{t("shop.giftAlreadyClaimed")}</p>
+              {giftInfo?.gift.claimedAt && (
+                <p style={{ fontSize: "0.9em", color: "#999" }}>
+                  {t("shop.giftClaimedOn", {
+                    date: new Date(giftInfo.gift.claimedAt).toLocaleDateString(),
+                  })}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {alert && (
         <div className="shop-alert-overlay">
           <div className="shop-alert">
             <div className="shop-alert-message">{alert}</div>
-            <button
-              className="shop-alert-ok-btn"
-              onClick={() => setAlert(null)}
-            >
+            <button className="shop-alert-ok-btn" onClick={() => setAlert(null)}>
               OK
             </button>
           </div>
