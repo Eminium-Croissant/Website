@@ -33,7 +33,7 @@ export default function NavBarDesktop() {
         </Link>
         <DropdownButton label={t("navbar.install")} showKey="install">
             {show === "install" && (
-              <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
+              <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1" onMouseLeave={() => setShow("")}>
                 <Link href="/download-launcher" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
                   {t("navbar.launcher")}
                 </Link>
@@ -49,7 +49,7 @@ export default function NavBarDesktop() {
         {!loading && user && (
           <DropdownButton label={t("navbar.manage")} showKey="manage">
               {show === "manage" && (
-                <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
+                <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1" onMouseLeave={() => setShow("")}>
                   {!user.isStudio && (
                     <Link href="/studios" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`} onClick={() => setShow("")}>
                       {t("navbar.studios")}
