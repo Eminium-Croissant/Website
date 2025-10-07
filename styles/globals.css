@@ -500,6 +500,215 @@ body {
       margin: 0 !important;
     }
   }
+
+  /* Trade panel specific styles */
+  .trade-panel {
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: all 300ms;
+    max-width: 980px;
+    width: 100%;
+    margin: 12px auto;
+    background: #282833ee;
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    color: var(--glass-text);
+    position: relative;
+  }
+
+  .trade-panel h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.25rem;
+    color: var(--glass-text);
+  }
+
+  .trade-main-columns {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+
+  .trade-column h3 {
+    margin: 0 0 8px 0;
+    font-size: 0.95rem;
+    color: var(--glass-text-secondary);
+  }
+
+  .trade-inventory-grid {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .trade-inventory-item {
+    border-radius: 0.5rem;
+    transition: all 200ms;
+    width: 72px;
+    min-width: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid rgba(255,255,255,0.04);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+  }
+
+  .trade-inventory-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    border-color: rgba(255,255,255,0.08);
+  }
+
+  .trade-inventory-item img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+    border-radius: 6px;
+    background: #181818;
+  }
+
+  .trade-item-name {
+    max-width: 72px;
+    font-size: 0.78rem;
+    color: var(--glass-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .trade-tooltip {
+    border-radius: 0.375rem;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    color: var(--glass-text);
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.5);
+    max-width: 260px;
+    z-index: 1100;
+  }
+
+  .trade-tooltip .trade-tooltip-name {
+    font-weight: 700;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .trade-tooltip .trade-tooltip-desc {
+    color: var(--glass-text-secondary);
+    font-size: 0.85rem;
+    max-height: 3.6em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .trade-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  /* Responsive: stack columns on narrow screens */
+  @media (max-width: 860px) {
+    .trade-main-columns {
+      flex-direction: column;
+    }
+    .trade-inventory-item {
+      width: 64px;
+      min-width: 64px;
+    }
+    .trade-item-name {
+      max-width: 64px;
+    }
+  }
+}
+
+/* Performance: Disable heavy animations/transitions specifically for the trade panel
+   to reduce CPU/GPU usage while preserving layout and basic interactivity. */
+.trade-panel,
+.trade-panel * {
+  /* Remove transitions, transforms and animations */
+  transition: none !important;
+  -webkit-transition: none !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  animation: none !important;
+  -webkit-animation: none !important;
+  backface-visibility: visible !important;
+}
+
+/* Center the trade panel on screen and make it scrollable when needed */
+.trade-panel-centered {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  width: min(95vw, 980px) !important; /* responsive width */
+  max-height: 90vh !important; /* keep inside viewport */
+  overflow: auto !important; /* allow scrolling inside the panel */
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6) !important; /* subtle elevation */
+  border-radius: 12px !important;
+}
+
+/* Ensure internal content doesn't push outside when centered */
+.trade-panel-centered .trade-main-columns {
+  max-height: calc(90vh - 120px);
+  overflow: auto;
+}
+
+/* Remove hover/active shadow and translate effects on inventory items */
+.trade-panel .trade-inventory-item,
+.trade-panel .trade-inventory-item:hover,
+.trade-panel .trade-inventory-item:active,
+.trade-panel .trade-inventory-item:focus {
+  box-shadow: none !important;
+  border-color: rgba(255,255,255,0.04) !important;
+  transform: none !important;
+}
+
+/* Avoid animated pseudo-elements inside trade panel */
+.trade-panel ::before,
+.trade-panel ::after {
+  animation: none !important;
+  -webkit-animation: none !important;
+  transition: none !important;
+}
+
+/* Keep pointer events and basic focus states usable */
+.trade-panel button,
+.trade-panel a,
+.trade-panel input,
+.trade-panel label {
+  transition: none !important;
+}
+
+/* Reduce painting by disabling filters/backdrop-filter where present in trade panel */
+.trade-panel,
+.trade-panel * {
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* If specific neon/glow classes exist, unset heavy box-shadows */
+.trade-panel .glass-glow::after,
+.trade-panel .glass-button-neon,
+.trade-panel .glass-button-neon:hover {
+  box-shadow: none !important;
 }
 
 /* Ajoute dans ton CSS global ou local */

@@ -112,57 +112,63 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           <SearchBar />
-          <nav>
+            <nav>
             <div className="flex items-center gap-4 mt-0 flex-row relative">
               {show === "roles" && user && <RolesDropdown user={user} />}
               {user && <UserBlock user={user} />}
-              <Link href="/game-shop" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs font-medium">
-                Shop
+              <Link
+              href="/game-shop"
+              className="no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs font-medium"
+              >
+              Shop
               </Link>
-              <Link href="/launcher/home" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs font-medium">
-                Library
+              <Link
+              href="/launcher/home"
+              className="no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs font-medium"
+              >
+              Library
               </Link>
               <div className="inline-block relative">
-                <button
-                  className="cursor-pointer bg-transparent border-none outline-none inline-flex items-center gap-1 text-glass-text-secondary px-2 py-1 rounded-xl hover:bg-glass-accent transition-all duration-200 text-xs font-medium"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShow((prev) => (prev === "manage" ? "" : "manage"));
-                  }}
-                >
-                  Manage <span className="text-xs">▼</span>
-                </button>
-                {show === "manage" && (
-                  <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
-                    <Link href="/studios" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
-                      Studios
-                    </Link>
-                    <Link href="/oauth2/apps" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
-                      OAuth2
-                    </Link>
-                    <Link href="/dev-zone/my-items" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
-                      My Items
-                    </Link>
-                    <Link href="/dev-zone/my-games" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
-                      My Games
-                    </Link>
-                  </div>
-                )}
-              </div>
               <button
-                className="glass-button text-white border-none rounded-xl py-2 px-4 cursor-pointer transition-all duration-300 ml-3 flex items-center gap-2 hover:scale-105 text-xs font-medium"
-                title="Logout"
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  localStorage.removeItem("verificationKey");
-                  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                  location.reload();
+                className="cursor-pointer bg-transparent border-none outline-none inline-flex items-center gap-1 text-glass-text-secondary px-4 py-2 rounded-xl hover:bg-glass-accent transition-all duration-200 text-xs font-medium"
+                onClick={(e) => {
+                e.preventDefault();
+                setShow((prev) => (prev === "manage" ? "" : "manage"));
                 }}
               >
-                <i className="fa fa-sign-out-alt" aria-hidden="true"></i>
+                Manage <span className="text-xs">▼</span>
+              </button>
+              {show === "manage" && (
+                <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
+                <Link href="/studios" className="block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1">
+                  Studios
+                </Link>
+                <Link href="/oauth2/apps" className="block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1">
+                  OAuth2
+                </Link>
+                <Link href="/dev-zone/my-items" className="block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1">
+                  My Items
+                </Link>
+                <Link href="/dev-zone/my-games" className="block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1">
+                  My Games
+                </Link>
+                </div>
+              )}
+              </div>
+              <button
+              className="bg-transparent text-white border-none rounded-xl py-2 px-4 cursor-pointer transition-all duration-300 ml-3 flex items-center gap-2 hover:scale-105 text-xs font-medium"
+              title="Logout"
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("verificationKey");
+                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                location.reload();
+              }}
+              >
+              <i className="fa fa-sign-out-alt" aria-hidden="true"></i>
               </button>
             </div>
-          </nav>
+            </nav>
         </div>
       </header>
     </>

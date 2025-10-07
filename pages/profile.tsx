@@ -27,7 +27,7 @@ export async function getServerSideProps({ locale, query }) {
           bannerUrl: `https://croissant-api.fr/avatar/${user.id}`,
           // profileUrl: `https://croissant-api.fr/profile?user=${user.id}`,
           query: { user: user.id },
-          card: false
+          card: false,
         };
         profileFromQuery = user;
       }
@@ -77,10 +77,10 @@ function GiveCreditsModal({ open, onClose, onSubmit, maxAmount, username }) {
           {maxAmount ? <span className="shop-prompt-amount-max">{t("profile.max", { max: maxAmount })}</span> : null}
         </div>
         <div style={{ display: "inline-flex", gap: 8 }}>
-          <button className="shop-prompt-buy-btn" onClick={() => onSubmit(amount)}>
+          <button className="glass-button-green" onClick={() => onSubmit(amount)}>
             {t("profile.giveCredits")}
           </button>
-          <button className="shop-prompt-cancel-btn" onClick={onClose}>
+          <button className="glass-button-red" onClick={onClose}>
             {t("profile.cancel")}
           </button>
         </div>
@@ -147,18 +147,8 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [tooltip, setTooltip] = useState<{
-    x: number;
-    y: number;
-    item: ShopItem;
-  } | null>(null);
-  const [prompt, setPrompt] = useState<{
-    message: string;
-    resolve: (value: { confirmed: boolean; amount?: number }) => void;
-    maxAmount?: number;
-    amount?: number;
-    item?: ShopItem;
-  } | null>(null);
+  const [tooltip, setTooltip] = useState<{ x: number; y: number; item: ShopItem } | null>(null);
+  const [prompt, setPrompt] = useState<{ message: string; resolve: (value: { confirmed: boolean; amount?: number }) => void; maxAmount?: number; amount?: number; item?: ShopItem } | null>(null);
   const [promptOwnerUser, setPromptOwnerUser] = useState<any | null>(null);
   const [alert, setAlert] = useState<{ message: string } | null>(null);
   const [shopModalOpen, setShopModalOpen] = useState(false);
@@ -300,33 +290,10 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
       {/* Buy prompt overlay */}
       {prompt && (
         <div className="shop-prompt-overlay">
-          <div
-            className="shop-prompt shop-prompt-buy"
-            style={{
-              minWidth: 340,
-              maxWidth: 420,
-              background: "#23272a",
-              borderRadius: 12,
-              boxShadow: "0 2px 16px rgba(0,0,0,0.18)",
-              padding: 24,
-              display: "flex",
-              flexDirection: "column",
-              gap: 14,
-              color: "#fff",
-            }}
-          >
+          <div className="shop-prompt shop-prompt-buy" style={{ minWidth: 340, maxWidth: 420, background: "#23272a", borderRadius: 12, boxShadow: "0 2px 16px rgba(0,0,0,0.18)", padding: 24, display: "flex", flexDirection: "column", gap: 14, color: "#fff" }}>
             {prompt.item && (
               <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <CachedImage
-                  src={`/items-icons/${prompt.item.iconHash || prompt.item.itemId}`}
-                  alt={prompt.item.name}
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 8,
-                    background: "#181a1a",
-                  }}
-                />
+                <CachedImage src={`/items-icons/${prompt.item.iconHash || prompt.item.itemId}`} alt={prompt.item.name} style={{ width: 44, height: 44, borderRadius: 8, background: "#181a1a" }} />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 600, fontSize: 17 }}>{prompt.item.name}</div>
                   <div style={{ color: "#aaa", fontSize: 13 }}>{prompt.item.description}</div>
@@ -345,21 +312,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
             <div style={{ fontSize: 15 }}>{prompt.message}</div>
             {prompt.maxAmount !== 1 && (
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <input
-                  type="number"
-                  min={1}
-                  max={prompt.maxAmount || undefined}
-                  value={prompt.amount}
-                  onChange={handlePromptAmountChange}
-                  style={{
-                    width: 54,
-                    padding: "3px 7px",
-                    borderRadius: 4,
-                    border: "1px solid #36393f",
-                    background: "#181a1a",
-                    color: "#fff",
-                  }}
-                />
+                <input type="number" min={1} max={prompt.maxAmount || undefined} value={prompt.amount} onChange={handlePromptAmountChange} style={{ width: 54, padding: "3px 7px", borderRadius: 4, border: "1px solid #36393f", background: "#181a1a", color: "#fff" }} />
                 {prompt.maxAmount && <span style={{ color: "#888", fontSize: 12 }}>/ {prompt.maxAmount}</span>}
                 {prompt.item && (
                   <span style={{ display: "flex", alignItems: "center", gap: 4, fontWeight: 500 }}>
@@ -370,10 +323,10 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
               </div>
             )}
             <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
-              <button className="shop-prompt-buy-btn" onClick={() => handlePromptResult(true)}>
+              <button className="glass-button-green" onClick={() => handlePromptResult(true)}>
                 {t("profile.buy")}
               </button>
-              <button className="shop-prompt-cancel-btn" onClick={() => handlePromptResult(false)}>
+              <button className="glass-button-red" onClick={() => handlePromptResult(false)}>
                 {t("profile.cancel")}
               </button>
             </div>
@@ -384,7 +337,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
         <div className="shop-alert-overlay">
           <div className="shop-alert" style={{ display: "inline-flex", flexDirection: "column", gap: 8 }}>
             <div className="shop-alert-message">{alert.message}</div>
-            <button className="shop-alert-ok-btn" onClick={() => setAlert(null)}>
+            <button className="glass-button" onClick={() => setAlert(null)}>
               {t("profile.ok")}
             </button>
           </div>
@@ -624,19 +577,19 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
             {!isMe ? (
               <div style={{ display: "inline-flex", gap: 8, marginTop: 8 }}>
                 {user.admin && profile.disabled ? (
-                  <button className="shop-prompt-buy-btn" style={{ background: "#4c7aafff" }} onClick={handleReenableAccount}>
+                  <button className="glass-button" style={{ background: "#4c7aafff" }} onClick={handleReenableAccount}>
                     {t("profile.reenable")}
                   </button>
                 ) : null}
                 {user.admin && !profile.disabled ? (
-                  <button className="shop-prompt-buy-btn" style={{ background: "#f44336" }} onClick={handleDisableAccount}>
+                  <button className="glass-button" style={{ background: "#f44336" }} onClick={handleDisableAccount}>
                     {t("profile.disable")}
                   </button>
                 ) : null}
                 {!profile.disabled ? (
                   <>
                     <button
-                      className="shop-prompt-buy-btn"
+                      className="glass-button"
                       onClick={() => {
                         setGiveCreditsOpen(true);
                         setGiveCreditsError(null);
@@ -645,11 +598,11 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                     >
                       {t("profile.giveCredits")}
                     </button>
-                    <button className="shop-prompt-buy-btn" onClick={handleStartTrade}>
+                    <button className="glass-button" onClick={handleStartTrade}>
                       {t("profile.trade")}
                     </button>
                     {hasShopItems ? (
-                      <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+                      <button className="glass-button" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
                         {t("profile.shop")}
                       </button>
                     ) : null}
@@ -659,17 +612,17 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
             ) : (
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 8 }}>
                 <Link href="/my-market-listings">
-                  <button className="shop-prompt-buy-btn">{t("profile.myMarketListings")}</button>
+                  <button className="glass-button">{t("profile.myMarketListings")}</button>
                 </Link>
                 {/* <Link href="/settings" title={t("profile.settings")}>
-                  <button className="shop-prompt-buy-btn" style={{ padding: 0, background: "none", border: "none" }}>
+                  <button className="glass-button" style={{ padding: 0, background: "none", border: "none" }}>
                     <span style={{ display: "inline-flex", alignItems: "center", fontSize: 24, color: "#888" }}>
                       <i className="fa fa-cog" aria-hidden="true"></i>
                     </span>
                   </button>
                 </Link> */}
                 {hasShopItems ? (
-                  <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+                  <button className="glass-button" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
                     {t("profile.shop")}
                   </button>
                 ) : null}
@@ -742,7 +695,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
         </div>
       )}
       {/* {hasShopItems && (
-        <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+  <button className="glass-button" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
           {t("profile.shop")}
         </button>
       )} */}
@@ -808,19 +761,19 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
             {user && !isMe ? (
               <>
                 {user.admin && profile.disabled ? (
-                  <button className="shop-prompt-buy-btn" style={{ background: "#4c7aafff", minWidth: 90 }} onClick={handleReenableAccount}>
+                  <button className="glass-button" style={{ background: "#4c7aafff", minWidth: 90 }} onClick={handleReenableAccount}>
                     {t("profile.reenable")}
                   </button>
                 ) : null}
                 {user.admin && !profile.disabled ? (
-                  <button className="shop-prompt-buy-btn" style={{ background: "#f44336", minWidth: 90 }} onClick={handleDisableAccount}>
+                  <button className="glass-button" style={{ background: "#f44336", minWidth: 90 }} onClick={handleDisableAccount}>
                     {t("profile.disable")}
                   </button>
                 ) : null}
                 {!profile.disabled ? (
                   <>
                     <button
-                      className="shop-prompt-buy-btn"
+                      className="glass-button"
                       style={{ minWidth: 90 }}
                       onClick={() => {
                         setGiveCreditsOpen(true);
@@ -830,11 +783,11 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                     >
                       {t("profile.giveCredits")}
                     </button>
-                    <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }} onClick={handleStartTrade}>
+                    <button className="glass-button" style={{ minWidth: 90 }} onClick={handleStartTrade}>
                       {t("profile.trade")}
                     </button>
                     {hasShopItems ? (
-                      <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
+                      <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
                         {t("profile.shop")}
                       </button>
                     ) : null}
@@ -845,19 +798,19 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
             {user && isMe ? (
               <>
                 <Link href="/my-market-listings">
-                  <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }}>
+                  <button className="glass-button" style={{ minWidth: 90 }}>
                     {t("profile.myListings")}
                   </button>
                 </Link>
                 {/* <Link href="/settings" title={t("profile.settings")}>
-                  <button className="shop-prompt-buy-btn" style={{ minWidth: 90, padding: 0, background: "none", border: "none" }}>
+                  <button className="glass-button" style={{ minWidth: 90, padding: 0, background: "none", border: "none" }}>
                     <span style={{ display: "inline-flex", alignItems: "center", fontSize: 24, color: "#888" }}>
                       <i className="fa fa-cog" aria-hidden="true"></i>
                     </span>
                   </button>
                 </Link> */}
                 {hasShopItems ? (
-                  <button className="shop-prompt-buy-btn" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
+                  <button className="glass-button" style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
                     {t("profile.shop")}
                   </button>
                 ) : null}
@@ -874,19 +827,21 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
       </div>
       {/* Trade Panel - only show if not our own profile */}
       {user && user.id !== profile.id && currentTradeId && (
-        <TradePanel
-          tradeId={currentTradeId}
-          userId={user.id}
-          token={token}
-          inventory={user.inventory}
-          reloadInventory={reloadInventory}
-          onClose={() => {
-            setCurrentTradeId(null);
-            setShowTradeModal(false);
-          }}
-          profile={profile}
-          apiBase="/api"
-        />
+        <div className="trade-panel-centered">
+          <TradePanel
+            tradeId={currentTradeId}
+            userId={user.id}
+            token={token}
+            inventory={user.inventory}
+            reloadInventory={reloadInventory}
+            onClose={() => {
+              setCurrentTradeId(null);
+              setShowTradeModal(false);
+            }}
+            profile={profile}
+            apiBase="/api"
+          />
+        </div>
       )}
       {/* Give Credits Modal */}
       <GiveCreditsModal
@@ -928,7 +883,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
         </div>
       )}
       {/* {hasShopItems && (
-        <button className="shop-prompt-buy-btn" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
+  <button className="glass-button" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
           {t("profile.shop")}
         </button>
       )} */}

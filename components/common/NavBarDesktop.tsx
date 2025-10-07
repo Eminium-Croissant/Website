@@ -19,27 +19,29 @@ export default function NavBarDesktop() {
   // Groupe de liens desktop
   function DesktopLinks() {
     const { t } = useTranslation("common");
+    const rectBtn =
+      "px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-xs flex items-center";
     return (
       <>
-        <Link href="/api-docs" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs font-medium">
+        <Link href="/api-docs" className={`${rectBtn} text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow no-underline`}>
           {t("navbar.docs")}
         </Link>
-        <Link href="/game-shop" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs font-medium">
+        <Link href="/game-shop" className={`${rectBtn} text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow no-underline`}>
           {t("navbar.shop")}
         </Link>
-        <Link href="/marketplace" className="no-underline px-2 py-1 rounded-xl transition-all duration-300 hover:scale-105 text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow text-xs font-medium">
+        <Link href="/marketplace" className={`${rectBtn} text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow no-underline`}>
           {t("navbar.marketplace")}
         </Link>
         <DropdownButton label={t("navbar.install")} showKey="install">
           {show === "install" && (
             <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
-              <Link href="/download-launcher" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
+              <Link href="/download-launcher" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
                 {t("navbar.launcher")}
               </Link>
-              <Link href="https://github.com/Croissant-API/Croissant-VPN/releases" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
+              <Link href="https://github.com/Croissant-API/Croissant-VPN/releases" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
                 {t("navbar.vpn")}
               </Link>
-              <a href="https://ptb.discord.com/oauth2/authorize?client_id=1324530344900431923" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium">
+              <a href="https://ptb.discord.com/oauth2/authorize?client_id=1324530344900431923" className={`${rectBtn} block w-full text-left hover:bg-glass-accent`}>
                 {t("navbar.bot")}
               </a>
             </div>
@@ -50,57 +52,46 @@ export default function NavBarDesktop() {
             {show === "manage" && (
               <div className="absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1">
                 {!user.isStudio && (
-                  <Link href="/studios" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
+                  <Link href="/studios" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
                     {t("navbar.studios")}
                   </Link>
                 )}
-                <Link href="/oauth2/apps" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
+                <Link href="/oauth2/apps" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
                   {t("navbar.oauth2")}
                 </Link>
-                <Link href="/dev-zone/my-items" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
+                <Link href="/dev-zone/my-items" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
                   {t("navbar.items")}
                 </Link>
-                <Link href="/dev-zone/my-games" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium mb-1">
+                <Link href="/dev-zone/my-games" className={`${rectBtn} block w-full text-left mb-1 hover:bg-glass-accent`}>
                   {t("navbar.games")}
                 </Link>
                 <Divider />
-                <Link href="/settings" className="block w-full text-left px-2 py-2 rounded-lg hover:bg-glass-accent text-xs font-medium">
+                <Link href="/settings" className={`${rectBtn} block w-full text-left hover:bg-glass-accent`}>
                   {t("navbar.settings")}
                 </Link>
               </div>
             )}
           </DropdownButton>
         )}
-        {/* Afficher le bouton de connexion seulement si l'utilisateur n'est pas connecté */}
         {!user && !loading && (
-          <Link href="/login" className="glass-button-neon text-white no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105 text-xs font-medium">
+          <Link href="/login" className={`${rectBtn} bg-neon-blue text-white no-underline`}>
             {t("navbar.login")}
           </Link>
-        )}
-        {user && !loading && (
-          <button
-            onClick={handleLogout}
-            className="glass-button text-white border-none rounded-xl py-2 px-4 cursor-pointer transition-all duration-300 ml-3 flex items-center gap-2 hover:scale-105 text-xs font-medium"
-            title="Logout"
-          >
-            <i className="fa fa-sign-out-alt" aria-hidden="true"></i>
-          </button>
         )}
       </>
     );
   }
 
-  // Dropdown utilitaire
   const DropdownButton = ({ label, showKey, children }: any) => (
     <div className="inline-block relative">
       <button
-        className="cursor-pointer bg-transparent border-none outline-none inline-flex items-center gap-1 text-glass-text-secondary px-2 py-1 rounded-xl hover:bg-glass-accent transition-all duration-200 text-xs font-medium"
+        className="px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-xs flex items-center text-glass-text-secondary hover:text-neon-blue hover:bg-glass-accent hover:shadow-glass-glow"
         onClick={(e) => {
           e.preventDefault();
           setShow((prev) => (prev === showKey ? "" : showKey));
         }}
       >
-        {label} <span className="text-xs">▼</span>
+        {label} <span className="text-xs ml-1">▼</span>
       </button>
       {show === showKey && children}
     </div>
@@ -111,35 +102,26 @@ export default function NavBarDesktop() {
     <div className="h-px bg-gradient-to-r from-transparent via-neon-blue to-transparent my-3" />
   );
 
+  const rectBtn = "px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-xs flex items-center";
   // Bloc crédits + avatar + sélecteur de rôle
   const UserBlock = ({ loading, user }: any) => (
     <div className="inline-flex items-center gap-2 ml-2">
       <Link href="/buy-credits" className="no-underline">
-        <div className="flex items-center glass-card rounded-xl px-2 py-1 transition-all duration-300 hover:scale-105 hover:shadow-glass-glow">
+        <div className="nav-rect-btn flex items-center px-4 py-2">
           <CachedImage src="/assets/credit.avif" className="w-4 h-4 mr-1" />
           <div className="text-glass-text-secondary text-xs font-medium">
-            <span className="bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">
-              {loading ? "..." : user?.balance}
-            </span>
+            <span className="bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent">{loading ? "..." : user?.balance}</span>
           </div>
         </div>
       </Link>
       <Link href="/profile" className="group">
-        <div className="relative">
-          <CachedImage
-            src={
-              loading
-                ? "/avatar/default.avif"
-                : `/avatar/${user.role || user.id}`
-            }
-            alt="avatar"
-            className="w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300 group-hover:border-neon-blue group-hover:shadow-glass-glow"
-          />
+        <div className="nav-rect-btn relative px-4 py-2 flex items-center">
+          <CachedImage src={loading ? "/avatar/default.avif" : `/avatar/${user.role || user.id}`} alt="avatar" className="w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300 group-hover:border-neon-blue group-hover:shadow-glass-glow" />
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
         </div>
       </Link>
       <button
-        className="text-glass-text-secondary px-2 py-1 rounded-xl cursor-pointer glass-card border-none inline-flex items-center gap-1 transition-all duration-300 hover:shadow-glass-glow text-xs font-medium"
+        className="nav-rect-btn px-4 py-2 cursor-pointer flex items-center gap-1 text-glass-text-secondary border-none text-xs font-medium transition-all duration-300"
         onClick={(e) => {
           e.preventDefault();
           setShow((prev) => (prev === "roles" ? "" : "roles"));
@@ -147,6 +129,11 @@ export default function NavBarDesktop() {
       >
         <span className="text-xs transition-transform duration-300">▼</span>
       </button>
+   
+        <button onClick={handleLogout} className={`${rectBtn} bg-glass-accent text-white border-none ml-3 gap-2`} title="Logout">
+          <i className="fa fa-sign-out-alt" aria-hidden="true"></i>
+        </button>
+   
     </div>
   );
 
@@ -212,31 +199,26 @@ export default function NavBarDesktop() {
       <div className="flex items-center justify-between max-w-[1400px] mx-auto px-6">
         <div className="flex items-center justify-between w-full h-16">
           <div className="flex items-center mr-8">
-            <Link
-              href="/"
-              className="text-glass-text no-underline font-bold text-2xl tracking-wider transition-all duration-300 hover:scale-105"
-            >
+            <Link href="/" className="text-glass-text no-underline font-bold text-2xl tracking-wider transition-all duration-300 hover:scale-105">
               <span className="cursor-pointer flex items-center group">
                 <div className="relative">
-                  <CachedImage
-                    src="/assets/icons/favicon-32x32.avif"
-                    alt="Croissant Logo"
-                    className="w-10 h-10 relative -top-1 align-middle mr-4 transition-all duration-300 group-hover:animate-glass-glow"
-                  />
+                  <CachedImage src="/assets/icons/favicon-32x32.avif" alt="Croissant Logo" className="w-10 h-10 relative -top-1 align-middle mr-4 transition-all duration-300 group-hover:animate-glass-glow" />
                   <div className="absolute inset-0 bg-neon-blue opacity-0 group-hover:opacity-30 rounded-full blur-sm transition-opacity duration-300"></div>
                 </div>
-                <div className="inline-flex items-center font-black relative text-xl -top-0.5 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">
-                  CROISSANT
-                </div>
+                <div className="inline-flex items-center font-black relative text-xl -top-0.5 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent">CROISSANT</div>
               </span>
             </Link>
           </div>
           <Searchbar />
           <nav>
             <div className="flex items-center gap-4 mt-0 flex-row relative">
-              {show === "roles" && user && <RolesDropdown user={user} />}
-              {user && <UserBlock loading={loading} user={user} />}
               <DesktopLinks />
+              {user && <UserBlock loading={loading} user={user} />}
+              {show === "roles" && user && (
+                <div className="absolute right-0 top-full mt-2 -translate-x-[300px]">
+                  <RolesDropdown user={user} />
+                </div>
+              )}
             </div>
           </nav>
         </div>
