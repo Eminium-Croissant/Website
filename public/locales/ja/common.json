@@ -523,10 +523,10 @@
     "total": "合計：",
     "buy": "購入",
     "cancel": "キャンセル",
-  "giveCreditsTo": "<b>{{username}}</b> にクレジットを送る",
-  "max": "/ {{max}}",
-  "noItems": "ストアにアイテムがありません。",
-  "promptBuy": "いくつ「{{item}}」を購入しますか？\n価格： {{price}} 個あたり{{stock}}",
+    "giveCreditsTo": "<b>{{username}}</b> にクレジットを送る",
+    "max": "/ {{max}}",
+    "noItems": "ストアにアイテムがありません。",
+    "promptBuy": "いくつ「{{item}}」を購入しますか？\n価格： {{price}} 個あたり{{stock}}",
     "shopTooltipStock": "在庫： {{stock}}",
     "inventoryTitle": "インベントリ",
     "creatorLabel": "クリエイター：",
@@ -544,7 +544,7 @@
     "buy": "購入",
     "cancel": "キャンセル",
     "total": "合計： {{total}}",
-  "buyHowMany": "いくつ「{{item}}」を購入しますか？",
+    "buyHowMany": "いくつ「{{item}}」を購入しますか？",
     "itemPurchased": "アイテムを購入しました！",
     "buyingItem": "購入中...",
     "ok": "OK"
@@ -821,7 +821,12 @@
       "title": "モバイルでは利用できません",
       "desc": "このページはPCからのみアクセスできます。\nゲームを管理するにはPCを使用してください。"
     },
-    "searchUser": "ユーザー名で検索..."
+    "searchUser": "名前でユーザーを検索...",
+    "iconSelected": "アイコンが選択されました",
+    "bannerSelected": "バナーが選択されました",
+    "noFile": "ファイルなし",
+    "chooseIcon": "アイコンを選択",
+    "chooseBanner": "バナーを選択"
   },
   "myItems": {
     "title": "私のアイテム",
@@ -853,7 +858,7 @@
     "delete": "アンインストール",
     "transfer": "譲渡",
     "transferTitle": "ゲームを譲渡",
-  "transferDesc": "あなたの「{{game}}」のコピーを別のユーザーに譲渡します。",
+    "transferDesc": "あなたの「{{game}}」のコピーを別のユーザーに譲渡します。",
     "transferWarning": "⚠️ 注意：譲渡するとそのゲームへのアクセスを永久に失います。",
     "transferUserPlaceholder": "ユーザーを検索...",
     "transferSuccess": "ゲームの譲渡に成功しました！",

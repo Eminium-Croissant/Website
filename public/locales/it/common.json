@@ -821,7 +821,12 @@
       "title": "Non disponibile su mobile",
       "desc": "Questa pagina è accessibile solo da un computer.\nUsa un PC per gestire i tuoi giochi."
     },
-    "searchUser": "Cerca un utente per nome..."
+    "searchUser": "Cerca utente per nome...",
+    "iconSelected": "Icona selezionata",
+    "bannerSelected": "Banner selezionato",
+    "noFile": "Nessun file",
+    "chooseIcon": "Scegli icona",
+    "chooseBanner": "Scegli banner"
   },
   "myItems": {
     "title": "I miei oggetti",

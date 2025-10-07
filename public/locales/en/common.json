@@ -566,7 +566,7 @@
     "copy": "Copy",
     "addUser": "+ Add user",
     "addUserTitle": "Add user to studio",
-    "searchUserPlaceholder": "Search user by name...",
+    "searchUserPlaceholder": "Search for a user by name...",
     "addBtn": "Add",
     "removeUserConfirm": "Are you sure you want to remove this user?",
     "errorAddUser": "Error adding user",
@@ -821,7 +821,7 @@
       "title": "Not available on mobile",
       "desc": "This page is only accessible from a computer.\nPlease use a PC to manage your games."
     },
-    "searchUser": "Search user by name..."
+    "searchUser": "Search for a user by name..."
   },
   "myItems": {
     "title": "My Items",
@@ -839,7 +839,7 @@
     "saving": "Saving...",
     "save": "Save",
     "cancel": "Cancel",
-    "searchUser": "Search user by name..."
+    "searchUser": "Search for a user by name..."
   },
   "launcher": {
     "title": "Croissant Launcher",

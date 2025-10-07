@@ -821,7 +821,12 @@
       "title": "Nicht auf Mobilgeräten verfügbar",
       "desc": "Diese Seite ist nur auf einem Computer zugänglich.\nBitte benutze einen PC, um deine Spiele zu verwalten."
     },
-    "searchUser": "Benutzer nach Name suchen..."
+    "searchUser": "Benutzer nach Name suchen...",
+    "iconSelected": "Symbol ausgewählt",
+    "bannerSelected": "Banner ausgewählt",
+    "noFile": "Keine Datei",
+    "chooseIcon": "Symbol auswählen",
+    "chooseBanner": "Banner auswählen"
   },
   "myItems": {
     "title": "Meine Gegenstände",

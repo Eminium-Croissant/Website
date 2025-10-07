@@ -821,7 +821,12 @@
       "title": "Mobilde kullanılamaz",
       "desc": "Bu sayfa yalnızca bilgisayardan erişilebilir.\nOyunlarınızı yönetmek için lütfen PC kullanın."
     },
-    "searchUser": "İsme göre kullanıcı ara..."
+    "searchUser": "Kullanıcıyı ada göre ara...",
+    "iconSelected": "Simge seçildi",
+    "bannerSelected": "Banner seçildi",
+    "noFile": "Dosya yok",
+    "chooseIcon": "Simge seç",
+    "chooseBanner": "Banner seç"
   },
   "myItems": {
     "title": "Eşyalarım",

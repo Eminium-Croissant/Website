@@ -821,7 +821,12 @@
       "title": "모바일에서 사용할 수 없습니다",
       "desc": "이 페이지는 컴퓨터에서만 액세스할 수 있습니다。\n게임을 관리하려면 PC를 사용하세요。"
     },
-    "searchUser": "사용자 이름으로 검색..."
+    "searchUser": "이름으로 사용자 검색...",
+    "iconSelected": "아이콘 선택됨",
+    "bannerSelected": "배너 선택됨",
+    "noFile": "파일 없음",
+    "chooseIcon": "아이콘 선택",
+    "chooseBanner": "배너 선택"
   },
   "myItems": {
     "title": "내 아이템",
@@ -853,7 +858,7 @@
     "delete": "제거",
     "transfer": "양도",
     "transferTitle": "게임 양도",
-  "transferDesc": "당신의 \"{{game}}\" 복사본을 다른 사용자에게 양도합니다。",
+    "transferDesc": "당신의 \"{{game}}\" 복사본을 다른 사용자에게 양도합니다。",
     "transferWarning": "⚠️ 주의：양도하면 해당 게임에 대한 접근을 영구히 잃게 됩니다。",
     "transferUserPlaceholder": "사용자 검색...",
     "transferSuccess": "게임 양도 성공！",

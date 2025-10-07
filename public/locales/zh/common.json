@@ -815,7 +815,12 @@
       "title": "移动端不可用",
       "desc": "此页面仅可通过电脑访问。请使用 PC 管理你的游戏。"
     },
-    "searchUser": "按用户名搜索用户..."
+    "searchUser": "按姓名搜索用户...",
+    "iconSelected": "图标已选择",
+    "bannerSelected": "横幅已选择",
+    "noFile": "没有文件",
+    "chooseIcon": "选择图标",
+    "chooseBanner": "选择横幅"
   },
   "myItems": {
     "title": "我的物品",
