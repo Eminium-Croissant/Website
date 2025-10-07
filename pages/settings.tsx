@@ -5,6 +5,7 @@ import CachedImage from "../components/utils/CachedImage";
 import useIsMobile from "../hooks/useIsMobile";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import i18n from "../i18n"; // Ajout import i18n
 
 export async function getStaticProps({ locale }) {
   return {
@@ -61,25 +62,7 @@ const steamBtnStyleDef: React.CSSProperties = {
   padding: "0 24px",
 };
 
-function ChangePasswordModal({
-  open,
-  onClose,
-  onSubmit,
-  loading,
-  error,
-  success,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onSubmit: (data: {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }) => void;
-  loading: boolean;
-  error: string | null;
-  success: string | null;
-}) {
+function ChangePasswordModal({ open, onClose, onSubmit, loading, error, success }: { open: boolean; onClose: () => void; onSubmit: (data: { oldPassword: string; newPassword: string; confirmPassword: string }) => void; loading: boolean; error: string | null; success: string | null }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -109,72 +92,26 @@ function ChangePasswordModal({
           }}
         >
           <label style={modalLabelStyle}>Current password</label>
-          <input
-            type="password"
-            style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }}
-            placeholder="Enter current password"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
-            autoComplete="current-password"
-            required
-          />
+          <input type="password" style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }} placeholder="Enter current password" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} autoComplete="current-password" required />
           <label style={modalLabelStyle}>New password</label>
-          <input
-            type="password"
-            style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }}
-            placeholder="Enter new password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            autoComplete="new-password"
-            required
-          />
+          <input type="password" style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }} placeholder="Enter new password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} autoComplete="new-password" required />
           <label style={modalLabelStyle}>Confirm new password</label>
-          <input
-            type="password"
-            style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }}
-            placeholder="Confirm new password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            autoComplete="new-password"
-            required
-          />
-          <button
-            className="shop-prompt-buy-btn"
-            type="submit"
-            disabled={loading}
-            style={{ width: "280px", padding: "8px 18px" }}
-          >
+          <input type="password" style={{ ...modalInputStyle, marginBottom: 0, width: "256px" }} placeholder="Confirm new password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" required />
+          <button className="shop-prompt-buy-btn" type="submit" disabled={loading} style={{ width: "280px", padding: "8px 18px" }}>
             {loading ? "Saving..." : "Change"}
           </button>
-          <button
-            className="shop-prompt-cancel-btn"
-            type="button"
-            onClick={onClose}
-            style={{ width: "280px", padding: "8px 18px" }}
-          >
+          <button className="shop-prompt-cancel-btn" type="button" onClick={onClose} style={{ width: "280px", padding: "8px 18px" }}>
             Cancel
           </button>
-          {success && (
-            <div style={{ color: "#4caf50", marginTop: 8 }}>{success}</div>
-          )}
-          {error && (
-            <div style={{ color: "#ff5252", marginTop: 8 }}>{error}</div>
-          )}
+          {success && <div style={{ color: "#4caf50", marginTop: 8 }}>{success}</div>}
+          {error && <div style={{ color: "#ff5252", marginTop: 8 }}>{error}</div>}
         </form>
       </div>
     </div>
   );
 }
 
-function GoogleAuthenticatorSetupModal({
-  open,
-  onClose,
-  user,
-}: {
-  open: boolean;
-  onClose: (success: boolean) => void;
-  user: any;
-}) {
+function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean; onClose: (success: boolean) => void; user: any }) {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<"generate" | "validate">("generate");
   const [key, setKey] = useState<any>(null);
@@ -243,25 +180,15 @@ function GoogleAuthenticatorSetupModal({
       <div className="shop-prompt">
         <div className="shop-prompt-message">Setup Google Authenticator</div>
         {step === "generate" ? (
-          <button
-            style={{ ...modalButtonStyle, width: "100%" }}
-            onClick={handleGenerate}
-            disabled={loading}
-          >
+          <button style={{ ...modalButtonStyle, width: "100%" }} onClick={handleGenerate} disabled={loading}>
             {loading ? "Generating..." : "Generate Key & QR Code"}
           </button>
         ) : (
           <>
             {qrCode && (
               <div style={{ textAlign: "center", marginBottom: 12 }}>
-                <CachedImage
-                  src={qrCode}
-                  alt="QR Code"
-                  style={{ width: 180, height: 180 }}
-                />
-                <div style={{ fontSize: 14, marginTop: 8 }}>
-                  Scan with Google Authenticator
-                </div>
+                <CachedImage src={qrCode} alt="QR Code" style={{ width: 180, height: 180 }} />
+                <div style={{ fontSize: 14, marginTop: 8 }}>Scan with Google Authenticator</div>
               </div>
             )}
             <form
@@ -273,21 +200,8 @@ function GoogleAuthenticatorSetupModal({
               }}
             >
               <label style={modalLabelStyle}>Enter passcode from app</label>
-              <input
-                type="text"
-                style={modalInputStyle}
-                value={passcode}
-                onChange={(e) => setPasscode(e.target.value)}
-                placeholder="123456"
-                required
-                maxLength={6}
-                pattern="\d{6}"
-              />
-              <button
-                type="submit"
-                style={{ ...modalButtonStyle, width: "100%" }}
-                disabled={loading}
-              >
+              <input type="text" style={modalInputStyle} value={passcode} onChange={(e) => setPasscode(e.target.value)} placeholder="123456" required maxLength={6} pattern="\d{6}" />
+              <button type="submit" style={{ ...modalButtonStyle, width: "100%" }} disabled={loading}>
                 {loading ? "Validating..." : "Validate"}
               </button>
               <button
@@ -303,30 +217,13 @@ function GoogleAuthenticatorSetupModal({
           </>
         )}
         {error && <div style={{ color: "#ff5252", marginTop: 8 }}>{error}</div>}
-        {success && (
-          <div style={{ color: "#4caf50", marginTop: 8 }}>{success}</div>
-        )}
+        {success && <div style={{ color: "#4caf50", marginTop: 8 }}>{success}</div>}
       </div>
     </div>
   );
 }
 
-function SecurityModal({
-  open,
-  onClose,
-  user,
-  setUser,
-  passkeyLoading,
-  passkeySuccess,
-  passkeyError,
-  handleRegisterPasskey,
-  setShowGoogleAuthModal,
-  success,
-  error,
-  setError,
-  router,
-  linkText,
-}: any) {
+function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySuccess, passkeyError, handleRegisterPasskey, setShowGoogleAuthModal, success, error, setError, router, linkText }: any) {
   const { t } = useTranslation("common");
   if (!open) return null;
   return (
@@ -456,9 +353,7 @@ function useSettingsLogic() {
   const [usernameError, setUsernameError] = useState<string | null>(null);
 
   const [showApiKey, setShowApiKey] = useState(false);
-  const [avatar, setAvatar] = useState(
-    user?.id ? `/avatar/${user.id}` : "/avatar/default.avif"
-  );
+  const [avatar, setAvatar] = useState(user?.id ? `/avatar/${user.id}` : "/avatar/default.avif");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -478,23 +373,14 @@ function useSettingsLogic() {
   const [showSecurityModal, setShowSecurityModal] = useState(false);
 
   useEffect(() => {
-    if (typeof document !== "undefined" && document.cookie.includes("from=app"))
-      setLinkText("Go on website to link");
-    else
-      setLinkText(
-        !user?.isStudio ? t("settings.linkSteam") : "Studio can't link Steam"
-      );
+    if (typeof document !== "undefined" && document.cookie.includes("from=app")) setLinkText("Go on website to link");
+    else setLinkText(!user?.isStudio ? t("settings.linkSteam") : "Studio can't link Steam");
   }, [user, linkText]);
 
   useEffect(() => {
     if (typeof document == "undefined") return;
     setTimeout(() => {
-      if (
-        document
-          .querySelector("img[alt='Profile']")
-          ?.getAttribute("src")
-          ?.includes("default.avif")
-      ) {
+      if (document.querySelector("img[alt='Profile']")?.getAttribute("src")?.includes("default.avif")) {
         router.push("/login");
       }
     }, 2000);
@@ -558,15 +444,7 @@ function useSettingsLogic() {
     }
   };
 
-  const handlePasswordChange = async ({
-    oldPassword,
-    newPassword,
-    confirmPassword,
-  }: {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }) => {
+  const handlePasswordChange = async ({ oldPassword, newPassword, confirmPassword }: { oldPassword: string; newPassword: string; confirmPassword: string }) => {
     setPasswordLoading(true);
     setPasswordError(null);
     setPasswordSuccess(null);
@@ -624,14 +502,10 @@ function useSettingsLogic() {
       options.requireResidentKey = true;
 
       if (typeof options.challenge === "string") {
-        options.challenge = Uint8Array.from(atob(options.challenge), (c) =>
-          c.charCodeAt(0)
-        );
+        options.challenge = Uint8Array.from(atob(options.challenge), (c) => c.charCodeAt(0));
       }
       if (typeof options.user.id === "string") {
-        options.user.id = Uint8Array.from(atob(options.user.id), (c) =>
-          c.charCodeAt(0)
-        );
+        options.user.id = Uint8Array.from(atob(options.user.id), (c) => c.charCodeAt(0));
       }
       if (!options.user.name) {
         options.user.name = user?.email || user?.username || "user";
@@ -658,14 +532,8 @@ function useSettingsLogic() {
           rawId: bufferToBase64url(publicKeyCred.rawId), // <-- base64url
           type: publicKeyCred.type,
           response: {
-            attestationObject: bufferToBase64url(
-              (publicKeyCred.response as AuthenticatorAttestationResponse)
-                .attestationObject
-            ),
-            clientDataJSON: bufferToBase64url(
-              (publicKeyCred.response as AuthenticatorAttestationResponse)
-                .clientDataJSON
-            ),
+            attestationObject: bufferToBase64url((publicKeyCred.response as AuthenticatorAttestationResponse).attestationObject),
+            clientDataJSON: bufferToBase64url((publicKeyCred.response as AuthenticatorAttestationResponse).clientDataJSON),
           },
           clientExtensionResults: publicKeyCred.getClientExtensionResults(),
         };
@@ -737,6 +605,62 @@ function useSettingsLogic() {
   };
 }
 
+function LanguageSelector() {
+  const { t } = useTranslation("common");
+  const router = useRouter();
+  const [lang, setLang] = useState(i18n.language);
+
+  const availableLanguages = [
+    { code: "en", label: "English" },
+    { code: "fr", label: "Français" },
+    { code: "es", label: "Español" },
+    { code: "de", label: "Deutsch" },
+    { code: "it", label: "Italiano" },
+    { code: "ja", label: "日本語" },
+    { code: "ko", label: "한국어" },
+    { code: "tr", label: "Türkçe" },
+    { code: "zh", label: "中文" },
+    { code: "ar", label: "العربية" },
+    { code: "ru", label: "Русский" },
+  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLang = e.target.value;
+    setLang(newLang);
+    i18n.changeLanguage(newLang);
+    router.push(router.pathname, router.asPath, { locale: newLang });
+  };
+
+  return (
+    <div className="mb-6">
+      <select
+        value={lang}
+        onChange={handleChange}
+        className="glass-input"
+        style={{
+          minWidth: 120,
+          background: "#222", // fond foncé
+          color: "#fff",
+          border: "1px solid #444",
+        }}
+      >
+        {availableLanguages.map((l) => (
+          <option
+            key={l.code}
+            value={l.code}
+            style={{
+              background: "#222", // fond foncé pour chaque option
+              color: "#fff",
+            }}
+          >
+            {l.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
   const { user, setUser, apiKey } = useAuth();
   const router = useRouter();
@@ -775,10 +699,8 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
       setUsernameLoading(false);
     }
   };
-  const [avatar, setAvatar] = useState(
-    user?.id ? `/avatar/${user.id}` : "/avatar/default.avif"
-  );
-    const { t } = useTranslation("common");
+  const [avatar, setAvatar] = useState(user?.id ? `/avatar/${user.id}` : "/avatar/default.avif");
+  const { t } = useTranslation("common");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -797,17 +719,10 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
   const [showGoogleAuthModal, setShowGoogleAuthModal] = useState(false);
   const [showSecurityModal, setShowSecurityModal] = useState(false);
 
-
-
   useEffect(() => {
     if (typeof document == "undefined") return;
     setTimeout(() => {
-      if (
-        document
-          .querySelector("img[alt='Profile']")
-          ?.getAttribute("src")
-          ?.includes("default.avif")
-      ) {
+      if (document.querySelector("img[alt='Profile']")?.getAttribute("src")?.includes("default.avif")) {
         // Do something with the document
         console.log("Default avatar detected, setting to user avatar");
         router.push("/login");
@@ -843,15 +758,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
     }
   };
 
-  const handlePasswordChange = async ({
-    oldPassword,
-    newPassword,
-    confirmPassword,
-  }: {
-    oldPassword: string;
-    newPassword: string;
-    confirmPassword: string;
-  }) => {
+  const handlePasswordChange = async ({ oldPassword, newPassword, confirmPassword }: { oldPassword: string; newPassword: string; confirmPassword: string }) => {
     setPasswordLoading(true);
     setPasswordError(null);
     setPasswordSuccess(null);
@@ -860,9 +767,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         throw new Error("Veuillez remplir tous les champs de mot de passe.");
       }
       if (newPassword !== confirmPassword) {
-        throw new Error(
-          "Le nouveau mot de passe et la confirmation ne correspondent pas."
-        );
+        throw new Error("Le nouveau mot de passe et la confirmation ne correspondent pas.");
       }
       const res = await fetch("/api/users/change-password", {
         method: "POST",
@@ -872,10 +777,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         body: JSON.stringify({ oldPassword, newPassword, confirmPassword }),
       });
       const data = await res.json();
-      if (!res.ok)
-        throw new Error(
-          data.message || "Erreur lors du changement de mot de passe"
-        );
+      if (!res.ok) throw new Error(data.message || "Erreur lors du changement de mot de passe");
       setPasswordSuccess("Mot de passe mis à jour !");
       setShowPasswordModal(false);
     } catch (e: any) {
@@ -914,14 +816,10 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
       options.requireResidentKey = true;
 
       if (typeof options.challenge === "string") {
-        options.challenge = Uint8Array.from(atob(options.challenge), (c) =>
-          c.charCodeAt(0)
-        );
+        options.challenge = Uint8Array.from(atob(options.challenge), (c) => c.charCodeAt(0));
       }
       if (typeof options.user.id === "string") {
-        options.user.id = Uint8Array.from(atob(options.user.id), (c) =>
-          c.charCodeAt(0)
-        );
+        options.user.id = Uint8Array.from(atob(options.user.id), (c) => c.charCodeAt(0));
       }
       if (!options.user.name) {
         options.user.name = user?.email || user?.username || "user";
@@ -948,14 +846,8 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
           rawId: bufferToBase64url(publicKeyCred.rawId), // <-- base64url
           type: publicKeyCred.type,
           response: {
-            attestationObject: bufferToBase64url(
-              (publicKeyCred.response as AuthenticatorAttestationResponse)
-                .attestationObject
-            ),
-            clientDataJSON: bufferToBase64url(
-              (publicKeyCred.response as AuthenticatorAttestationResponse)
-                .clientDataJSON
-            ),
+            attestationObject: bufferToBase64url((publicKeyCred.response as AuthenticatorAttestationResponse).attestationObject),
+            clientDataJSON: bufferToBase64url((publicKeyCred.response as AuthenticatorAttestationResponse).clientDataJSON),
           },
           clientExtensionResults: publicKeyCred.getClientExtensionResults(),
         };
@@ -982,8 +874,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
   return (
     <div className="min-h-screen glass-bg-gradient">
       <div className="glass-page-container py-12">
-
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="glass-content-card">
             <h2 className="glass-title text-2xl mb-6">{t("settings.profile")}</h2>
@@ -1137,7 +1027,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                           <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                         </g>
                       </svg>
-                      {t("settings.linkGoogle")}
+                      {t("settings.googleLinked")}
                     </button>
                   ) : (
                     <button
@@ -1157,9 +1047,11 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                           <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                         </g>
                       </svg>
-                      {t("settings.googleLinked")}
+                      {t("settings.linkGoogle")}
                     </button>
                   )}
+
+                  <LanguageSelector />
                 </div>
               </div>
             )}
@@ -1230,48 +1122,13 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
   const { apiKey } = useAuth();
   // Version mobile : layout vertical, padding réduit, boutons plus gros, police plus petite
   // Adaptez les styles pour mobile
-  const {
-    user,
-    setUser,
-    username,
-    usernameLoading,
-    usernameSuccess,
-    usernameError,
-    showApiKey,
-    setShowApiKey,
-    avatar,
-    avatarFile,
-    loading,
-    success,
-    error,
-    fileInputRef,
-    linkText,
-    showPasswordModal,
-    setShowPasswordModal,
-    passwordLoading,
-    passwordSuccess,
-    passwordError,
-    handleAvatarChange,
-    handleAvatarUpload,
-    handleUsernameChange,
-    handleUsernameSave,
-    handlePasswordChange,
-    passkeyLoading,
-    passkeySuccess,
-    passkeyError,
-    handleRegisterPasskey,
-    showGoogleAuthModal,
-    setShowGoogleAuthModal,
-    showSecurityModal,
-    setShowSecurityModal,
-    router,
-  } = props;
+  const { user, setUser, username, usernameLoading, usernameSuccess, usernameError, showApiKey, setShowApiKey, avatar, avatarFile, loading, success, error, fileInputRef, linkText, showPasswordModal, setShowPasswordModal, passwordLoading, passwordSuccess, passwordError, handleAvatarChange, handleAvatarUpload, handleUsernameChange, handleUsernameSave, handlePasswordChange, passkeyLoading, passkeySuccess, passkeyError, handleRegisterPasskey, showGoogleAuthModal, setShowGoogleAuthModal, showSecurityModal, setShowSecurityModal, router } = props;
   const { t } = useTranslation("common");
 
   return (
     <div className="min-h-screen glass-bg-gradient">
       <div className="glass-page-container py-8">
-
+        <LanguageSelector />
         <div className="space-y-6">
           <div className="glass-content-card">
             <h2 className="glass-title text-xl mb-4">{t("settings.profile")}</h2>
@@ -1292,66 +1149,30 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                 }}
                 onClick={() => fileInputRef.current?.click()}
               />
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleAvatarChange}
-                accept="image/*"
-                style={{ display: "none" }}
-              />
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="glass-button-neon w-full mb-2 text-sm"
-              >
+              <input type="file" ref={fileInputRef} onChange={handleAvatarChange} accept="image/*" style={{ display: "none" }} />
+              <button onClick={() => fileInputRef.current?.click()} className="glass-button-neon w-full mb-2 text-sm">
                 {t("settings.choosePicture")}
               </button>
               {avatarFile && (
-                <button
-                  onClick={handleAvatarUpload}
-                  disabled={loading}
-                  className="glass-button-green w-full text-sm"
-                >
+                <button onClick={handleAvatarUpload} disabled={loading} className="glass-button-green w-full text-sm">
                   {loading ? t("settings.uploading") : t("settings.uploadNewPicture")}
                 </button>
               )}
-              {success && (
-                <p className="text-green-400 text-xs mt-2 text-center">{success}</p>
-              )}
-              {error && (
-                <p className="text-red-400 text-xs mt-2 text-center">{error}</p>
-              )}
+              {success && <p className="text-green-400 text-xs mt-2 text-center">{success}</p>}
+              {error && <p className="text-red-400 text-xs mt-2 text-center">{error}</p>}
             </div>
 
             {!user?.isStudio && (
               <form onSubmit={handleUsernameSave} className="space-y-3">
                 <div>
-                  <label className="block text-xs font-medium text-glass-text-secondary mb-2">
-                    {t("settings.username")}
-                  </label>
-                  <input
-                    type="text"
-                    value={username}
-                    onChange={handleUsernameChange}
-                    className="glass-input text-sm"
-                    disabled={usernameLoading}
-                    minLength={3}
-                    maxLength={32}
-                    required
-                  />
+                  <label className="block text-xs font-medium text-glass-text-secondary mb-2">{t("settings.username")}</label>
+                  <input type="text" value={username} onChange={handleUsernameChange} className="glass-input text-sm" disabled={usernameLoading} minLength={3} maxLength={32} required />
                 </div>
-                <button
-                  type="submit"
-                  disabled={usernameLoading}
-                  className="glass-button-neon w-full text-sm"
-                >
+                <button type="submit" disabled={usernameLoading} className="glass-button-neon w-full text-sm">
                   {usernameLoading ? t("settings.saving") : t("settings.save")}
                 </button>
-                {usernameSuccess && (
-                  <p className="text-green-400 text-xs text-center">{usernameSuccess}</p>
-                )}
-                {usernameError && (
-                  <p className="text-red-400 text-xs text-center">{usernameError}</p>
-                )}
+                {usernameSuccess && <p className="text-green-400 text-xs text-center">{usernameSuccess}</p>}
+                {usernameError && <p className="text-red-400 text-xs text-center">{usernameError}</p>}
               </form>
             )}
           </div>
@@ -1360,10 +1181,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
             <h2 className="glass-title text-xl mb-4">{t("settings.security")}</h2>
             <div className="space-y-3">
               {!user?.isStudio && (
-                <button
-                  onClick={() => setShowPasswordModal(true)}
-                  className="glass-button-neon w-full text-sm"
-                >
+                <button onClick={() => setShowPasswordModal(true)} className="glass-button-neon w-full text-sm">
                   <i className="fas fa-key mr-2" />
                   {t("settings.changePassword")}
                 </button>
@@ -1375,9 +1193,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
             <h2 className="glass-title text-xl mb-4">{t("settings.apiKey")}</h2>
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-glass-text-secondary mb-2">
-                  {t("settings.yourApiKey")}
-                </label>
+                <label className="block text-xs font-medium text-glass-text-secondary mb-2">{t("settings.yourApiKey")}</label>
                 <input
                   type={showApiKey ? "text" : "password"}
                   value={apiKey || ""}
@@ -1390,24 +1206,14 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                 />
               </div>
               <div className="flex gap-2">
-                <button
-                  onClick={() => setShowApiKey(!showApiKey)}
-                  className="glass-button flex-1 text-xs"
-                >
+                <button onClick={() => setShowApiKey(!showApiKey)} className="glass-button flex-1 text-xs">
                   {showApiKey ? t("settings.hide") : t("settings.show")}
                 </button>
-                <button
-                  onClick={() => navigator.clipboard.writeText(apiKey || "")}
-                  disabled={!showApiKey}
-                  className="glass-button flex-1 text-xs"
-                  style={{ opacity: !showApiKey ? 0.5 : 1 }}
-                >
+                <button onClick={() => navigator.clipboard.writeText(apiKey || "")} disabled={!showApiKey} className="glass-button flex-1 text-xs" style={{ opacity: !showApiKey ? 0.5 : 1 }}>
                   {t("settings.copy")}
                 </button>
               </div>
-              <p className="text-[10px] text-glass-text-muted text-center">
-                {t("settings.thisKeyAllows")}
-              </p>
+              <p className="text-[10px] text-glass-text-muted text-center">{t("settings.thisKeyAllows")}</p>
             </div>
           </div>
 
@@ -1415,17 +1221,10 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
             <div className="glass-content-card">
               <h2 className="glass-title text-xl mb-4">{t("settings.userId")}</h2>
               <div className="flex items-center gap-2">
-                <code
-                  className="glass-input flex-1 cursor-pointer text-xs"
-                  onClick={() => navigator.clipboard.writeText(user.id || "")}
-                  title="Click to copy"
-                >
+                <code className="glass-input flex-1 cursor-pointer text-xs" onClick={() => navigator.clipboard.writeText(user.id || "")} title="Click to copy">
                   {user.id}
                 </code>
-                <button
-                  onClick={() => navigator.clipboard.writeText(user.id || "")}
-                  className="glass-button text-xs"
-                >
+                <button onClick={() => navigator.clipboard.writeText(user.id || "")} className="glass-button text-xs">
                   {t("settings.copy")}
                 </button>
               </div>
@@ -1455,13 +1254,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                   </button>
                 ) : (
                   <div className="glass-card flex items-center gap-2 p-2 text-xs">
-                    <CachedImage
-                      src={user?.steam_avatar_url}
-                      alt="Steam"
-                      width={24}
-                      height={24}
-                      style={{ width: 24, height: 24, borderRadius: "20%" }}
-                    />
+                    <CachedImage src={user?.steam_avatar_url} alt="Steam" width={24} height={24} style={{ width: 24, height: 24, borderRadius: "20%" }} />
                     <span className="flex-1">
                       <i className="fab fa-steam mr-1" />
                       {user?.steam_username}
@@ -1525,22 +1318,10 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                     }}
                   >
                     <svg width="16" height="16" viewBox="0 0 48 48">
-                      <path
-                        fill="#4285F4"
-                        d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
-                      />
-                      <path
-                        fill="#34A853"
-                        d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
-                      />
-                      <path
-                        fill="#FBBC05"
-                        d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
-                      />
-                      <path
-                        fill="#EA4335"
-                        d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
-                      />
+                      <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                      <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                      <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                      <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                     </svg>
                     {t("settings.linkGoogle")}
                   </button>
@@ -1555,39 +1336,21 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                     }}
                   >
                     <svg width="16" height="16" viewBox="0 0 48 48">
-                      <path
-                        fill="#4285F4"
-                        d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z"
-                      />
-                      <path
-                        fill="#34A853"
-                        d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z"
-                      />
-                      <path
-                        fill="#FBBC05"
-                        d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z"
-                      />
-                      <path
-                        fill="#EA4335"
-                        d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z"
-                      />
+                      <path fill="#4285F4" d="M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z" />
+                      <path fill="#34A853" d="M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z" />
+                      <path fill="#FBBC05" d="M10.67 28.29a14.5 14.5 0 0 1 0-8.58l-7.98-6.2A23.97 23.97 0 0 0 0 24c0 3.77.9 7.34 2.69 10.49l7.98-6.2z" />
+                      <path fill="#EA4335" d="M24 48c6.48 0 11.92-2.15 15.89-5.85l-7.1-5.53c-2 1.34-4.56 2.13-8.79 2.13-6.26 0-11.59-3.91-13.33-9.29l-7.98 6.2C6.73 42.2 14.82 48 24 48z" />
                     </svg>
                     {t("settings.googleLinked")}
                   </button>
                 )}
+                <LanguageSelector />
               </div>
             </div>
           )}
         </div>
 
-        <ChangePasswordModal
-          open={showPasswordModal}
-          onClose={() => setShowPasswordModal(false)}
-          onSubmit={handlePasswordChange}
-          loading={passwordLoading}
-          error={passwordError}
-          success={passwordSuccess}
-        />
+        <ChangePasswordModal open={showPasswordModal} onClose={() => setShowPasswordModal(false)} onSubmit={handlePasswordChange} loading={passwordLoading} error={passwordError} success={passwordSuccess} />
         <GoogleAuthenticatorSetupModal
           open={showGoogleAuthModal}
           onClose={(success) => {
@@ -1599,24 +1362,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
           }}
           user={user}
         />
-        <SecurityModal
-          open={showSecurityModal}
-          onClose={() => setShowSecurityModal(false)}
-          user={user}
-          setUser={setUser}
-          passkeyLoading={passkeyLoading}
-          passkeySuccess={passkeySuccess}
-          passkeyError={passkeyError}
-          handleRegisterPasskey={handleRegisterPasskey}
-          showGoogleAuthModal={showGoogleAuthModal}
-          setShowGoogleAuthModal={setShowGoogleAuthModal}
-          success={success}
-          error={error}
-          setError={props.setError}
-          setSuccess={props.setSuccess}
-          router={router}
-          linkText={linkText}
-        />
+        <SecurityModal open={showSecurityModal} onClose={() => setShowSecurityModal(false)} user={user} setUser={setUser} passkeyLoading={passkeyLoading} passkeySuccess={passkeySuccess} passkeyError={passkeyError} handleRegisterPasskey={handleRegisterPasskey} showGoogleAuthModal={showGoogleAuthModal} setShowGoogleAuthModal={setShowGoogleAuthModal} success={success} error={error} setError={props.setError} setSuccess={props.setSuccess} router={router} linkText={linkText} />
       </div>
     </div>
   );
@@ -1625,9 +1371,5 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
 export default function Settings() {
   const isMobile = useIsMobile();
   const logic = useSettingsLogic();
-  return isMobile ? (
-    <SettingsMobile {...logic} />
-  ) : (
-    <SettingsDesktop {...logic} />
-  );
+  return isMobile ? <SettingsMobile {...logic} /> : <SettingsDesktop {...logic} />;
 }
