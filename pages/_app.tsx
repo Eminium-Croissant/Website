@@ -1,8 +1,7 @@
 import 'github-markdown-css/github-markdown.css';
-import '../styles/main.css';
-// import "../styles/phone.css";
 import '../styles/atom-one-dark.min.css';
 import '../styles/globals.css';
+import '../styles/main.css';
 import '../styles/rarity.css';
 
 import type { AppProps } from 'next/app';
@@ -25,7 +24,6 @@ import { UserCacheProvider } from '../hooks/UserCacheContext';
 import LauncherLobby from './launcher/components/Lobby';
 import LauncherNavbar from './launcher/components/Navbar';
 
-// Small presentational helpers extracted to shorten AppContent
 function BackgroundImage() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
@@ -85,7 +83,7 @@ function AppContent({ Component, pageProps }: AppProps) {
   const [isLauncher, setIsLauncher] = useState(false);
   const [mainStyle, setMainStyle] = useState('');
 
-  // Set main style for oauth pages and expose --app-height CSS var
+  
   useEffect(() => {
     setMainStyle(window.location.href.includes('/oauth2/auth') ? 'flex justify-center items-center p-0 m-auto h-[calc(100vh-30px)] top-0 left-0 right-0 bottom-0 fixed' : '');
     const setAppHeight = () => document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
@@ -116,3 +114,5 @@ export function App(props: AppProps) {
 }
 
 export default appWithTranslation(App);
+
+

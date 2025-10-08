@@ -1,4 +1,3 @@
-
 type Props = {
   title: string;
   description: string;
@@ -10,7 +9,6 @@ type Props = {
 export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl, card }: Props) {
   return (
     <>
-      {/* Primary Meta Tags */}
       <title>{title}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,8 +16,7 @@ export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl
       <meta name="keywords" content="Croissant, Inventory, System, API, Opensource, Scalable, Network Technology, Game" />
       <meta name="author" content="Fox3000foxy" />
       <meta name="theme-color" content="#222222" />
-
-      {/* Open Graph / Facebook */}
+ 
       <meta property="og:title" content={title + " on Croissant API"} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
@@ -29,7 +26,6 @@ export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl
       <meta property="og:image:secure_url" content={bannerUrl} />
       <meta property="og:site_name" content={title} />
 
-      {/* Twitter */}
       {card && (
         <>
           <meta name="twitter:card" content="summary_large_image" />
@@ -39,13 +35,12 @@ export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl
         </>
       )}
 
-      {/* Icons */}
+      <link rel="icon" href="/favicon.ico" />
       <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png" />
       <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-icon-192x192.png" />
 
-      {/* Apple touch icons */}
       <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/apple-icon-57x57.png" />
       <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/apple-icon-60x60.png" />
       <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/apple-icon-72x72.png" />
@@ -56,7 +51,6 @@ export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl
       <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/apple-icon-152x152.png" />
       <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-icon-180x180.png" />
 
-      {/* Manifest & Misc */}
       <link rel="manifest" href="/manifest.json" />
       <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
       <link rel="robots" type="text/plain" href="/robots.txt" />
@@ -66,3 +60,5 @@ export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl
     </>
   );
 }
+
+

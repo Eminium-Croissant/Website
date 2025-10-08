@@ -17,7 +17,6 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
 
   return (
     <>
-      {/* Primary Meta Tags */}
       <title>{defaultTitle}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,30 +25,25 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <meta name="author" content="Fox3000foxy" />
       <meta name="theme-color" content="#222222" />
 
-      {/* Open Graph / Facebook - use PNG for social previews (Discord doesn't support AVIF) */}
       <meta property="og:title" content={defaultTitle} />
       <meta property="og:description" content={defaultDescription} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://croissant-api.fr/" />
-      {/* Use PNG for maximum compatibility */}
       <meta property="og:image" content="/assets/launcher.png" />
       <meta property="og:image:type" content="image/png" />
       <meta property="og:image:secure_url" content="https://croissant-api.fr/assets/launcher.png" />
       <meta property="og:site_name" content={defaultTitle} />
 
-      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={defaultTitle} />
       <meta name="twitter:description" content={defaultDescription} />
       <meta name="twitter:image" content="/assets/launcher.png" />
-
-      {/* Icons - use PNG-only for maximum compatibility across social platforms and older browsers */}
+      <link rel="icon" href="/favicon.ico" />
       <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16x16.png" />
       <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="96x96" href="/assets/icons/favicon-96x96.png" />
       <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-icon-192x192.png" />
 
-      {/* Apple touch icons (use PNG as AVIF is not widely supported on iOS) */}
       <link rel="apple-touch-icon" sizes="57x57" href="/assets/icons/apple-icon-57x57.png" />
       <link rel="apple-touch-icon" sizes="60x60" href="/assets/icons/apple-icon-60x60.png" />
       <link rel="apple-touch-icon" sizes="72x72" href="/assets/icons/apple-icon-72x72.png" />
@@ -60,15 +54,14 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <link rel="apple-touch-icon" sizes="152x152" href="/assets/icons/apple-icon-152x152.png" />
       <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-icon-180x180.png" />
 
-      {/* Manifest & Misc */}
       <link rel="manifest" href="/manifest.json" />
       <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-      {/* Use correct MIME type for robots.txt for Firefox compatibility */}
       <link rel="robots" type="text/plain" href="/robots.txt" />
       <meta name="msapplication-TileColor" content="#ffffff" />
-      {/* Use PNG for ms tile (better compatibility) */}
       <meta name="msapplication-TileImage" content="/assets/icons/ms-icon-144x144.png" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     </>
   );
 }
+
+
