@@ -190,7 +190,7 @@ function useShopLogic() {
     []
   );
 
-  const [ownerInfoMap, setOwnerInfoMap] = useState<Record<string, OwnerInfo>>();
+  const [ownerInfoMap, setOwnerInfoMap] = useState<Record<string, OwnerInfo>>({});
   const [invalidOwnerIds, setInvalidOwnerIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -282,6 +282,8 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
           <div className='flex-1'>
             <input type='text' placeholder={t('shop.searchPlaceholder')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className='glass-input w-full py-3 px-4' style={{ minWidth: 0 }} />
           </div>
+
+          {}
         </div>
       </div>
 
@@ -555,3 +557,4 @@ const GameShop: React.FC = () => {
 };
 
 export default GameShop;
+
