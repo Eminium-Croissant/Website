@@ -438,6 +438,20 @@ const Library: React.FC = () => {
     setTransferError(null);
   };
 
+  const handleStop = () => {
+    if (selected && selected.state === 'playing') {
+      ws.send(
+        JSON.stringify({
+          action: 'stopGame',
+          gameId: selected.gameId,
+        })
+      );
+      clearGameActivity();
+      setIsPlaying(false);
+      updateGameState(selected.gameId, 'installed');
+    }
+  };
+
   if (loading || error) {
     return (
       <div className='glass-page-container'>
@@ -609,8 +623,8 @@ const Library: React.FC = () => {
                     </>
                   )}
                   {selected.state === 'playing' && (
-                    <button className='glass-button' disabled>
-                      {t('launcher.play')}
+                    <button className='glass-button-red' onClick={handleStop}>
+                      Stop
                     </button>
                   )}
                   {selected.state !== 'installing' && selected.state !== 'updating' && (
