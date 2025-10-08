@@ -1,16 +1,13 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const params = new URLSearchParams({
     client_id: process.env.GOOGLE_CLIENT_ID!,
     redirect_uri: process.env.GOOGLE_CALLBACK_URL!,
-    response_type: "code",
-    access_type: "offline",
-    prompt: "consent",
-    scope: [
-      "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/userinfo.email",
-    ].join(" "),
+    response_type: 'code',
+    access_type: 'offline',
+    prompt: 'consent',
+    scope: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'].join(' '),
   });
   return {
     redirect: {

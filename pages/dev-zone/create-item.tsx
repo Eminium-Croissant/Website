@@ -1,20 +1,20 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import Link from "next/link";
-import useIsMobile from "../../hooks/useIsMobile";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import useAuth from '../../hooks/useAuth';
+import Link from 'next/link';
+import useIsMobile from '../../hooks/useIsMobile';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const endpoint = "/api"; // Replace with your actual API endpoint
+const endpoint = '/api'; // Replace with your actual API endpoint
 
 const CreateItem = () => {
   const isMobile = useIsMobile();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
+    name: '',
+    description: '',
+    price: '',
     showInStore: false,
   });
   const [iconFile, setIconFile] = useState<File | null>(null);
@@ -29,7 +29,7 @@ const CreateItem = () => {
     const { name, value, type, checked } = e.target as any;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -41,9 +41,9 @@ const CreateItem = () => {
 
   const validate = () => {
     const newErrors: any = {};
-    if (!formData.name) newErrors.name = t("createItem.error.name");
-    if (!formData.description) newErrors.description = t("createItem.error.description");
-    if (!formData.price) newErrors.price = t("createItem.error.price");
+    if (!formData.name) newErrors.name = t('createItem.error.name');
+    if (!formData.description) newErrors.description = t('createItem.error.description');
+    if (!formData.price) newErrors.price = t('createItem.error.price');
     // iconFile is now optional
     return newErrors;
   };
@@ -62,10 +62,10 @@ const CreateItem = () => {
     let iconHash = null;
     if (iconFile) {
       const iconData = new FormData();
-      iconData.append("icon", iconFile);
+      iconData.append('icon', iconFile);
       try {
-        const res = await fetch("/upload/item-icon", {
-          method: "POST",
+        const res = await fetch('/upload/item-icon', {
+          method: 'POST',
           body: iconData,
         });
         if (res.ok) {
@@ -73,12 +73,12 @@ const CreateItem = () => {
           iconHash = data.hash;
         } else {
           const err = await res.json();
-          setErrors({ submit: err.error || t("createItem.error.iconUpload") });
+          setErrors({ submit: err.error || t('createItem.error.iconUpload') });
           setLoading(false);
           return;
         }
       } catch (err: any) {
-        setErrors({ submit: err.message || t("createItem.error.iconUpload") });
+        setErrors({ submit: err.message || t('createItem.error.iconUpload') });
         setLoading(false);
         return;
       }
@@ -93,33 +93,33 @@ const CreateItem = () => {
     };
 
     try {
-      const res = await fetch(endpoint + "/items/create", {
-        method: "POST",
+      const res = await fetch(endpoint + '/items/create', {
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
 
       if (res.ok) {
-        setSuccess(t("createItem.success"));
+        setSuccess(t('createItem.success'));
         setFormData({
-          name: "",
-          description: "",
-          price: "",
+          name: '',
+          description: '',
+          price: '',
           showInStore: false,
         });
         setIconFile(null);
         // Redirection après succès
-        router.push("/dev-zone/my-items");
+        router.push('/dev-zone/my-items');
         return;
       } else {
         const err = await res.json();
-        setErrors({ submit: err.message || t("createItem.error.submit") });
+        setErrors({ submit: err.message || t('createItem.error.submit') });
       }
     } catch (err: any) {
-      setErrors({ submit: err.message || t("createItem.error.submit") });
+      setErrors({ submit: err.message || t('createItem.error.submit') });
     } finally {
       setLoading(false);
     }
@@ -127,70 +127,70 @@ const CreateItem = () => {
 
   if (isMobile) {
     return (
-      <div className="glass-page-container flex justify-center items-center min-h-screen">
-        <div className="glass-content-card max-w-[340px] w-full mx-auto p-6 rounded-xl text-center">
-          <h2 className="mb-2">{t("createItem.mobile.title")}</h2>
-          <p>{t("createItem.mobile.desc")}</p>
+      <div className='glass-page-container flex justify-center items-center min-h-screen'>
+        <div className='glass-content-card max-w-[340px] w-full mx-auto p-6 rounded-xl text-center'>
+          <h2 className='mb-2'>{t('createItem.mobile.title')}</h2>
+          <p>{t('createItem.mobile.desc')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="glass-page-container flex justify-center items-center min-h-screen">
-      <div className="glass-content-card  w-full mx-auto p-8 rounded-xl">
+    <div className='glass-page-container flex justify-center items-center min-h-screen'>
+      <div className='glass-content-card  w-full mx-auto p-8 rounded-xl'>
         <div style={{ marginBottom: 18 }}>
-          <Link href="/dev-zone/my-items" className="glass-button">
-            &larr; {t("createItem.backToMyItems")}
+          <Link href='/dev-zone/my-items' className='glass-button'>
+            &larr; {t('createItem.backToMyItems')}
           </Link>
         </div>
-        <h1 className="createitem-title mb-6">
-          <span>{t("createItem.title")}</span>
+        <h1 className='createitem-title mb-6'>
+          <span>{t('createItem.title')}</span>
         </h1>
-        <form onSubmit={handleSubmit} className="game-form">
-          <div className="form-row">
-            <label htmlFor="name">
-              {t("createItem.name")} <span className="required">*</span>
+        <form onSubmit={handleSubmit} className='game-form'>
+          <div className='form-row'>
+            <label htmlFor='name'>
+              {t('createItem.name')} <span className='required'>*</span>
             </label>
-            <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} required className="dark-input" />
+            <input id='name' type='text' name='name' value={formData.name} onChange={handleChange} required className='dark-input' />
           </div>
-          {errors.name && <span className="error">{errors.name}</span>}
-          <div className="form-row">
-            <label htmlFor="description">
-              {t("createItem.description")} <span className="required">*</span>
+          {errors.name && <span className='error'>{errors.name}</span>}
+          <div className='form-row'>
+            <label htmlFor='description'>
+              {t('createItem.description')} <span className='required'>*</span>
             </label>
-            <textarea id="description" name="description" value={formData.description} onChange={handleChange} required rows={4} className="dark-input" />
+            <textarea id='description' name='description' value={formData.description} onChange={handleChange} required rows={4} className='dark-input' />
           </div>
-          {errors.description && <span className="error">{errors.description}</span>}
-          <div className="form-row">
-            <label htmlFor="price">
-              {t("createItem.price")} <span className="required">*</span>
+          {errors.description && <span className='error'>{errors.description}</span>}
+          <div className='form-row'>
+            <label htmlFor='price'>
+              {t('createItem.price')} <span className='required'>*</span>
             </label>
-            <input id="price" type="number" name="price" value={formData.price} onChange={handleChange} required min={0} step="any" className="dark-input" />
+            <input id='price' type='number' name='price' value={formData.price} onChange={handleChange} required min={0} step='any' className='dark-input' />
           </div>
-          {errors.price && <span className="error">{errors.price}</span>}
-          <div className="form-row">
-            <label htmlFor="showInStore" className="createitem-checkbox-label">
-              <input id="showInStore" type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="createitem-checkbox" />
-              {t("createItem.showInStore")}
+          {errors.price && <span className='error'>{errors.price}</span>}
+          <div className='form-row'>
+            <label htmlFor='showInStore' className='createitem-checkbox-label'>
+              <input id='showInStore' type='checkbox' name='showInStore' checked={formData.showInStore} onChange={handleChange} className='createitem-checkbox' />
+              {t('createItem.showInStore')}
             </label>
           </div>
-          <div className="form-row">
-            <label htmlFor="icon">{t("createItem.icon")}</label>
-            <label htmlFor="icon" className="custom-file-label createitem-file-label">
-              {iconFile ? t("createItem.changeIcon") : t("createItem.chooseIcon")}
-              <input id="icon" type="file" accept="image/*" name="icon" onChange={handleIconChange} className="dark-input" style={{ display: "none" }} />
+          <div className='form-row'>
+            <label htmlFor='icon'>{t('createItem.icon')}</label>
+            <label htmlFor='icon' className='custom-file-label createitem-file-label'>
+              {iconFile ? t('createItem.changeIcon') : t('createItem.chooseIcon')}
+              <input id='icon' type='file' accept='image/*' name='icon' onChange={handleIconChange} className='dark-input' style={{ display: 'none' }} />
             </label>
             {iconFile && (
-              <span className="createitem-ready">
-                {t("createItem.selected")}: {iconFile.name}
+              <span className='createitem-ready'>
+                {t('createItem.selected')}: {iconFile.name}
               </span>
             )}
           </div>
-          {errors.submit && <span className="error">{errors.submit}</span>}
-          {success && <span className="createitem-success">{success}</span>}
-          <button type="submit" className="createitem-submit-btn" disabled={loading}>
-            {loading ? t("createItem.submitting") : t("createItem.submit")}
+          {errors.submit && <span className='error'>{errors.submit}</span>}
+          {success && <span className='createitem-success'>{success}</span>}
+          <button type='submit' className='createitem-submit-btn' disabled={loading}>
+            {loading ? t('createItem.submitting') : t('createItem.submit')}
           </button>
         </form>
       </div>
@@ -203,7 +203,7 @@ export default CreateItem;
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 }

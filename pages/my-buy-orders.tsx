@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
-import CachedImage from "../components/utils/CachedImage";
-import Link from "next/link";
-import useIsMobile from "../hooks/useIsMobile";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { useEffect, useState } from 'react';
+import useAuth from '../hooks/useAuth';
+import CachedImage from '../components/utils/CachedImage';
+import Link from 'next/link';
+import useIsMobile from '../hooks/useIsMobile';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 }
@@ -37,22 +37,19 @@ function useMyBuyOrdersLogic() {
   const [orders, setOrders] = useState<BuyOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [itemDetails, setItemDetails] = useState<Record<string, ItemDetails>>(
-    {}
-  );
+  const [itemDetails, setItemDetails] = useState<Record<string, ItemDetails>>({});
 
   useEffect(() => {
     if (!user || userLoading) return;
     setLoading(true);
     fetch(`/api/buy-orders/user/${user.id}`)
-      .then(async (res) => {
+      .then(async res => {
         const data = await res.json();
-        if (!res.ok)
-          throw new Error(data.message || "Failed to fetch buy orders");
+        if (!res.ok) throw new Error(data.message || 'Failed to fetch buy orders');
         setOrders(data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setError(err.message);
         setLoading(false);
       });
@@ -60,16 +57,16 @@ function useMyBuyOrdersLogic() {
 
   // Fetch item details for all unique item_ids
   useEffect(() => {
-    const uniqueItemIds = Array.from(new Set(orders.map((o) => o.item_id)));
-    const missing = uniqueItemIds.filter((id) => !(id in itemDetails));
+    const uniqueItemIds = Array.from(new Set(orders.map(o => o.item_id)));
+    const missing = uniqueItemIds.filter(id => !(id in itemDetails));
     if (missing.length === 0) return;
     Promise.all(
-      missing.map((id) =>
+      missing.map(id =>
         fetch(`/api/items/${id}`)
-          .then((res) => (res.ok ? res.json() : null))
+          .then(res => (res.ok ? res.json() : null))
           .catch(() => null)
       )
-    ).then((items) => {
+    ).then(items => {
       const newDetails: Record<string, ItemDetails> = {};
       items.forEach((item, idx) => {
         if (item && item.itemId)
@@ -80,19 +77,19 @@ function useMyBuyOrdersLogic() {
             iconHash: item.iconHash,
           };
       });
-      setItemDetails((prev) => ({ ...prev, ...newDetails }));
+      setItemDetails(prev => ({ ...prev, ...newDetails }));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orders]);
 
   const handleCancel = async (order: BuyOrder) => {
-    if (!window.confirm("Cancel this buy order?")) return;
+    if (!window.confirm('Cancel this buy order?')) return;
     try {
       const res = await fetch(`/api/buy-orders/${order.id}/cancel`, {
-        method: "PUT",
+        method: 'PUT',
       });
       if (!res.ok) throw new Error((await res.json()).message);
-      setOrders((orders) => orders.filter((o) => o.id !== order.id));
+      setOrders(orders => orders.filter(o => o.id !== order.id));
     } catch (e: any) {
       alert(e.message);
     }
@@ -110,56 +107,43 @@ function useMyBuyOrdersLogic() {
 }
 
 function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
-  const {
-    user,
-    userLoading,
-    orders,
-    loading,
-    error,
-    itemDetails,
-    handleCancel,
-  } = props;
-  const { t } = useTranslation("common");
+  const { user, userLoading, orders, loading, error, itemDetails, handleCancel } = props;
+  const { t } = useTranslation('common');
 
-  if (userLoading) return <div>{t("myBuyOrders.loading")}</div>;
-  if (!user) return <div>{t("myBuyOrders.mustLogin")}</div>;
+  if (userLoading) return <div>{t('myBuyOrders.loading')}</div>;
+  if (!user) return <div>{t('myBuyOrders.mustLogin')}</div>;
 
   return (
-    <div style={{ maxWidth: 900, margin: "0 auto", padding: 24 }}>
+    <div style={{ maxWidth: 900, margin: '0 auto', padding: 24 }}>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        <h2>{t("myBuyOrders.title")}</h2>
-        <Link
-          href="/marketplace"
-          style={{ color: "#fff", fontWeight: 600, fontSize: 16 }}
-        >
-          {t("myBuyOrders.back")}
+        <h2>{t('myBuyOrders.title')}</h2>
+        <Link href='/marketplace' style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>
+          {t('myBuyOrders.back')}
         </Link>
       </div>
-      {loading && <div>{t("myBuyOrders.loading")}</div>}
-      {error && <div style={{ color: "red" }}>{error}</div>}
-      {!loading && orders.length === 0 && (
-        <div>{t("myBuyOrders.noOrders")}</div>
-      )}
-      <div className="market-table-wrapper">
-        <table className="market-table">
+      {loading && <div>{t('myBuyOrders.loading')}</div>}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+      {!loading && orders.length === 0 && <div>{t('myBuyOrders.noOrders')}</div>}
+      <div className='market-table-wrapper'>
+        <table className='market-table'>
           <thead>
             <tr>
-              <th>{t("myBuyOrders.item")}</th>
-              <th>{t("myBuyOrders.description")}</th>
-              <th>{t("myBuyOrders.price")}</th>
-              <th>{t("myBuyOrders.status")}</th>
-              <th>{t("myBuyOrders.placed")}</th>
+              <th>{t('myBuyOrders.item')}</th>
+              <th>{t('myBuyOrders.description')}</th>
+              <th>{t('myBuyOrders.price')}</th>
+              <th>{t('myBuyOrders.status')}</th>
+              <th>{t('myBuyOrders.placed')}</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => {
+            {orders.map(order => {
               const item = itemDetails[order.item_id];
               return (
                 <tr key={order.id}>
@@ -167,54 +151,42 @@ function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
                     {item ? (
                       <span
                         style={{
-                          display: "flex",
-                          alignItems: "center",
+                          display: 'flex',
+                          alignItems: 'center',
                           gap: 8,
                         }}
                       >
-                        <CachedImage
-                          src={`/items-icons/${item.iconHash || item.itemId}`}
-                          alt=""
-                          width={32}
-                          height={32}
-                        />
+                        <CachedImage src={`/items-icons/${item.iconHash || item.itemId}`} alt='' width={32} height={32} />
                         {item.name}
                       </span>
                     ) : (
                       order.item_id
                     )}
                   </td>
-                  <td style={{ maxWidth: 220, color: "#bbb" }}>
-                    {item ? item.description : ""}
-                  </td>
+                  <td style={{ maxWidth: 220, color: '#bbb' }}>{item ? item.description : ''}</td>
                   <td>
-                    {order.price}{" "}
-                    <CachedImage
-                      src="/assets/credit.avif"
-                      alt="credits"
-                      style={{ width: 14, verticalAlign: "middle" }}
-                    />
+                    {order.price} <CachedImage src='/assets/credit.avif' alt='credits' style={{ width: 14, verticalAlign: 'middle' }} />
                   </td>
                   <td>{order.status}</td>
                   <td>{new Date(order.created_at).toLocaleString()}</td>
                   <td>
-                    {order.status === "active" ? (
+                    {order.status === 'active' ? (
                       <button
                         onClick={() => handleCancel(order)}
                         style={{
-                          background: "#ff6666",
-                          color: "#fff",
-                          border: "none",
+                          background: '#ff6666',
+                          color: '#fff',
+                          border: 'none',
                           borderRadius: 6,
-                          padding: "6px 14px",
+                          padding: '6px 14px',
                           fontWeight: 600,
-                          cursor: "pointer",
+                          cursor: 'pointer',
                         }}
                       >
-                        {t("myBuyOrders.cancel")}
+                        {t('myBuyOrders.cancel')}
                       </button>
                     ) : (
-                      <span style={{ color: "#888" }}>—</span>
+                      <span style={{ color: '#888' }}>—</span>
                     )}
                   </td>
                 </tr>
@@ -313,139 +285,103 @@ function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
 }
 
 function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
-  const {
-    user,
-    userLoading,
-    orders,
-    loading,
-    error,
-    itemDetails,
-    handleCancel,
-  } = props;
-  const { t } = useTranslation("common");
+  const { user, userLoading, orders, loading, error, itemDetails, handleCancel } = props;
+  const { t } = useTranslation('common');
 
-  if (userLoading) return <div>{t("myBuyOrders.loading")}</div>;
-  if (!user) return <div>{t("myBuyOrders.mustLogin")}</div>;
+  if (userLoading) return <div>{t('myBuyOrders.loading')}</div>;
+  if (!user) return <div>{t('myBuyOrders.mustLogin')}</div>;
 
   return (
     <div
       style={{
         maxWidth: 480,
-        margin: "0 auto",
+        margin: '0 auto',
         padding: 8,
-        fontSize: "0.98em",
+        fontSize: '0.98em',
       }}
     >
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
+          display: 'flex',
+          flexDirection: 'column',
           gap: 10,
           marginBottom: 10,
         }}
       >
-        <h2 style={{ fontSize: "1.1em" }}>{t("myBuyOrders.title")}</h2>
-        <Link
-          href="/marketplace"
-          style={{ color: "#fff", fontWeight: 600, fontSize: "1em" }}
-        >
-          {t("myBuyOrders.back")}
+        <h2 style={{ fontSize: '1.1em' }}>{t('myBuyOrders.title')}</h2>
+        <Link href='/marketplace' style={{ color: '#fff', fontWeight: 600, fontSize: '1em' }}>
+          {t('myBuyOrders.back')}
         </Link>
       </div>
-      {loading && <div>{t("myBuyOrders.loading")}</div>}
-      {error && <div style={{ color: "red" }}>{error}</div>}
+      {loading && <div>{t('myBuyOrders.loading')}</div>}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
       {!loading && orders.length === 0 ? (
-        <div>{t("myBuyOrders.noOrders")}</div>
+        <div>{t('myBuyOrders.noOrders')}</div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {orders.map((order) => {
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {orders.map(order => {
             const item = itemDetails[order.item_id];
             return (
               <div
                 key={order.id}
                 style={{
-                  background: "#23272e",
+                  background: '#23272e',
                   borderRadius: 10,
-                  boxShadow: "0 2px 8px #0003",
+                  boxShadow: '0 2px 8px #0003',
                   padding: 12,
                   marginBottom: 2,
-                  display: "flex",
-                  flexDirection: "column",
+                  display: 'flex',
+                  flexDirection: 'column',
                   gap: 6,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  {item ? (
-                    <CachedImage
-                      src={`/items-icons/${item.iconHash || item.itemId}`}
-                      alt=""
-                      width={36}
-                      height={36}
-                      style={{ borderRadius: 8, background: "#181b20" }}
-                    />
-                  ) : (
-                    <span style={{ fontWeight: 600 }}>{order.item_id}</span>
-                  )}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  {item ? <CachedImage src={`/items-icons/${item.iconHash || item.itemId}`} alt='' width={36} height={36} style={{ borderRadius: 8, background: '#181b20' }} /> : <span style={{ fontWeight: 600 }}>{order.item_id}</span>}
                   <div>
                     <div
                       style={{
                         fontWeight: 600,
-                        fontSize: "1.05em",
-                        color: "#fff",
+                        fontSize: '1.05em',
+                        color: '#fff',
                       }}
                     >
                       {item ? item.name : order.item_id}
                     </div>
-                    <div style={{ color: "#bbb", fontSize: "0.97em" }}>
-                      {item ? item.description : ""}
-                    </div>
+                    <div style={{ color: '#bbb', fontSize: '0.97em' }}>{item ? item.description : ''}</div>
                   </div>
                 </div>
                 <div
                   style={{
-                    display: "flex",
-                    alignItems: "center",
+                    display: 'flex',
+                    alignItems: 'center',
                     gap: 8,
                     marginTop: 4,
                   }}
                 >
-                  <span style={{ color: "#fff", fontWeight: 600 }}>
-                    {order.price}{" "}
-                    <CachedImage
-                      src="/assets/credit.avif"
-                      alt="credits"
-                      style={{ width: 14, verticalAlign: "middle" }}
-                    />
+                  <span style={{ color: '#fff', fontWeight: 600 }}>
+                    {order.price} <CachedImage src='/assets/credit.avif' alt='credits' style={{ width: 14, verticalAlign: 'middle' }} />
                   </span>
-                  <span
-                    style={{ color: "#aaa", fontSize: "0.93em", marginLeft: 8 }}
-                  >
-                    {order.status}
-                  </span>
-                  <span
-                    style={{ color: "#aaa", fontSize: "0.93em", marginLeft: 8 }}
-                  >
-                    {new Date(order.created_at).toLocaleString()}
-                  </span>
-                  <span style={{ marginLeft: "auto" }}>
-                    {order.status === "active" ? (
+                  <span style={{ color: '#aaa', fontSize: '0.93em', marginLeft: 8 }}>{order.status}</span>
+                  <span style={{ color: '#aaa', fontSize: '0.93em', marginLeft: 8 }}>{new Date(order.created_at).toLocaleString()}</span>
+                  <span style={{ marginLeft: 'auto' }}>
+                    {order.status === 'active' ? (
                       <button
                         onClick={() => handleCancel(order)}
                         style={{
-                          background: "#ff6666",
-                          color: "#fff",
-                          border: "none",
+                          background: '#ff6666',
+                          color: '#fff',
+                          border: 'none',
                           borderRadius: 6,
-                          padding: "5px 14px",
+                          padding: '5px 14px',
                           fontWeight: 600,
-                          fontSize: "0.97em",
-                          cursor: "pointer",
+                          fontSize: '0.97em',
+                          cursor: 'pointer',
                         }}
                       >
-                        {t("myBuyOrders.cancel")}
+                        {t('myBuyOrders.cancel')}
                       </button>
                     ) : (
-                      <span style={{ color: "#888" }}>—</span>
+                      <span style={{ color: '#888' }}>—</span>
                     )}
                   </span>
                 </div>
@@ -461,9 +397,5 @@ function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
 export default function MyBuyOrdersPage() {
   const isMobile = useIsMobile();
   const logic = useMyBuyOrdersLogic();
-  return isMobile ? (
-    <MyBuyOrdersMobile {...logic} />
-  ) : (
-    <MyBuyOrdersDesktop {...logic} />
-  );
+  return isMobile ? <MyBuyOrdersMobile {...logic} /> : <MyBuyOrdersDesktop {...logic} />;
 }

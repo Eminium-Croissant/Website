@@ -1,18 +1,18 @@
-import React, { JSX } from "react";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
-import useAuth from "../hooks/useAuth";
-import useUserCache from "../hooks/useUserCache";
-import CachedImage from "../components/utils/CachedImage";
-import useIsMobile from "../hooks/useIsMobile";
-import Certification from "../components/common/Certification";
-import { useTranslation } from "react-i18next";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeRaw from "rehype-raw";
+import React, { JSX } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
+import useAuth from '../hooks/useAuth';
+import useUserCache from '../hooks/useUserCache';
+import CachedImage from '../components/utils/CachedImage';
+import useIsMobile from '../hooks/useIsMobile';
+import Certification from '../components/common/Certification';
+import { useTranslation } from 'react-i18next';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 
 export async function getServerSideProps({ locale, query }) {
-  const translations = await import("next-i18next/serverSideTranslations").then((mod) => mod.serverSideTranslations(locale, ["common"]));
+  const translations = await import('next-i18next/serverSideTranslations').then(mod => mod.serverSideTranslations(locale, ['common']));
   let ogMeta = null;
   let gameFromQuery = null;
 
@@ -24,9 +24,9 @@ export async function getServerSideProps({ locale, query }) {
         ogMeta = {
           title: game.name,
           description: game.description,
-          bannerUrl: game.bannerHash ? `https://croissant-api.fr/banners-icons/${game.bannerHash}` : "https://croissant.gg/assets/launcher.png",
+          bannerUrl: game.bannerHash ? `https://croissant-api.fr/banners-icons/${game.bannerHash}` : 'https://croissant.gg/assets/launcher.png',
           gameUrl: `https://croissant-api.fr/game?gameId=${game.gameId}`,
-          card: true
+          card: true,
         };
         gameFromQuery = game;
       }
@@ -43,11 +43,11 @@ export async function getServerSideProps({ locale, query }) {
   };
 }
 
-const endpoint = "/api";
+const endpoint = '/api';
 
 function useGamePageLogic() {
   const searchParams = useSearchParams();
-  const gameId = searchParams.get("gameId");
+  const gameId = searchParams.get('gameId');
   const [game, setGame] = React.useState<any>(null);
   const [loading, setLoading] = React.useState(true);
   const router = useRouter();
@@ -56,7 +56,7 @@ function useGamePageLogic() {
   const [alert, setAlert] = React.useState<string | JSX.Element | null>(null);
   const [buying, setBuying] = React.useState(false);
   const [isGifting, setIsGifting] = React.useState(false);
-  const [giftMessage, setGiftMessage] = React.useState("");
+  const [giftMessage, setGiftMessage] = React.useState('');
   const [showGiftModal, setShowGiftModal] = React.useState(false);
   const [giftCode, setGiftCode] = React.useState<string | null>(null);
   const [userOwnsGame, setUserOwnsGame] = React.useState(false);
@@ -72,8 +72,8 @@ function useGamePageLogic() {
 
   React.useEffect(() => {
     if (!gameId) return;
-    fetch(endpoint + "/games/" + gameId)
-      .then((res) => res.json())
+    fetch(endpoint + '/games/' + gameId)
+      .then(res => res.json())
       .then(setGame)
       .finally(() => setLoading(false));
   }, [gameId]);
@@ -96,9 +96,9 @@ function useGamePageLogic() {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((res) => res.json())
-        .then((userGames) => {
-          setUserOwnsGame(userGames.some((g) => g.gameId === game.gameId));
+        .then(res => res.json())
+        .then(userGames => {
+          setUserOwnsGame(userGames.some(g => g.gameId === game.gameId));
         })
         .catch(() => setUserOwnsGame(false));
     }
@@ -109,20 +109,20 @@ function useGamePageLogic() {
     setPrompt(`Acheter "${game.name}" ?\nPrix : ${game.price}`);
   };
 
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
   const confirmBuy = async () => {
     setPrompt(null);
     setBuying(true);
     try {
       const res = await fetch(`${endpoint}/games/${game.gameId}/buy`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur lors de l'achat");
-      setAlert(t("shop.purchaseSuccess"));
+      setAlert(t('shop.purchaseSuccess'));
     } catch (err: any) {
       setAlert(err.message);
     } finally {
@@ -140,9 +140,9 @@ function useGamePageLogic() {
     setIsGifting(true);
     try {
       const res = await fetch(`${endpoint}/gifts/create`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
@@ -151,15 +151,15 @@ function useGamePageLogic() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Erreur lors du gift");
+      if (!res.ok) throw new Error(data.message || 'Erreur lors du gift');
 
       setGiftCode(data.gift.giftCode);
-      setGiftMessage("");
+      setGiftMessage('');
       setAlert(
         <>
-          Cadeau créé ! Partage ce lien :{" "}
-          <a href={`/gift?code=${data.gift.giftCode}`} target="_blank" rel="noopener noreferrer" style={{ color: "#4caf50", textDecoration: "underline" }}>
-            {typeof window !== "undefined" ? window.location.origin + `/gift?code=${data.gift.giftCode}` : `/gift?code=${data.gift.giftCode}`}
+          Cadeau créé ! Partage ce lien :{' '}
+          <a href={`/gift?code=${data.gift.giftCode}`} target='_blank' rel='noopener noreferrer' style={{ color: '#4caf50', textDecoration: 'underline' }}>
+            {typeof window !== 'undefined' ? window.location.origin + `/gift?code=${data.gift.giftCode}` : `/gift?code=${data.gift.giftCode}`}
           </a>
         </>
       );
@@ -170,19 +170,41 @@ function useGamePageLogic() {
     }
   };
 
-  return { game, loading, router, ownerInfo, userOwnsGame, prompt, setPrompt, alert, setAlert, buying, handleBuyGame, confirmBuy, isGifting, handleGiftGame, confirmGift, showGiftModal, setShowGiftModal, giftMessage, setGiftMessage, token, user };
+  return {
+    game,
+    loading,
+    router,
+    ownerInfo,
+    userOwnsGame,
+    prompt,
+    setPrompt,
+    alert,
+    setAlert,
+    buying,
+    handleBuyGame,
+    confirmBuy,
+    isGifting,
+    handleGiftGame,
+    confirmGift,
+    showGiftModal,
+    setShowGiftModal,
+    giftMessage,
+    setGiftMessage,
+    token,
+    user,
+  };
 }
 
 function MarkdownDescription({ children }: { children: string }) {
   return (
-    <div className="markdown-body glass-card">
+    <div className='markdown-body glass-card'>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[
           [
             rehypeRaw,
             {
-              passThrough: ["element"],
+              passThrough: ['element'],
             },
           ],
         ]}
@@ -191,13 +213,13 @@ function MarkdownDescription({ children }: { children: string }) {
             <img
               {...props}
               style={{
-                maxWidth: "100%",
+                maxWidth: '100%',
                 borderRadius: 8,
-                boxShadow: "none",
-                margin: "8px 4px",
-                background: "none",
+                boxShadow: 'none',
+                margin: '8px 4px',
+                background: 'none',
               }}
-              alt={props.alt ?? ""}
+              alt={props.alt ?? ''}
             />
           ),
         }}
@@ -210,16 +232,16 @@ function MarkdownDescription({ children }: { children: string }) {
 
 function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
   const { game, loading, ownerInfo, userOwnsGame, prompt, setPrompt, alert, setAlert, buying, handleBuyGame, confirmBuy, isGifting, handleGiftGame, confirmGift, showGiftModal, setShowGiftModal, giftMessage, setGiftMessage, token, user, router } = props;
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
 
   if (loading) {
     return (
-      <div className="glass-page-container">
-        <div className="glass-content-card">
-          <div className="flex items-center justify-center py-12">
-            <div className="flex items-center gap-4">
-              <div className="w-8 h-8 border-4 border-glass-border border-t-neon-blue rounded-full animate-spin"></div>
-              <span style={{ color: "var(--glass-text)" }}>Chargement du jeu...</span>
+      <div className='glass-page-container'>
+        <div className='glass-content-card'>
+          <div className='flex items-center justify-center py-12'>
+            <div className='flex items-center gap-4'>
+              <div className='w-8 h-8 border-4 border-glass-border border-t-neon-blue rounded-full animate-spin'></div>
+              <span style={{ color: 'var(--glass-text)' }}>Chargement du jeu...</span>
             </div>
           </div>
         </div>
@@ -228,14 +250,14 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
   }
   if (!game) {
     return (
-      <div className="glass-page-container">
-        <div className="glass-content-card h-full flex items-center justify-center">
-          <div className="text-center">
-            <div className="text-2xl mb-4" style={{ color: "var(--glass-text)" }}>
+      <div className='glass-page-container'>
+        <div className='glass-content-card h-full flex items-center justify-center'>
+          <div className='text-center'>
+            <div className='text-2xl mb-4' style={{ color: 'var(--glass-text)' }}>
               ⚠️ Jeu introuvable
             </div>
-            <button className="glass-button-neon" style={{ marginTop: 16, minWidth: 80 }} onClick={() => router.back()}>
-              ← {t("shop.back")}
+            <button className='glass-button-neon' style={{ marginTop: 16, minWidth: 80 }} onClick={() => router.back()}>
+              ← {t('shop.back')}
             </button>
           </div>
         </div>
@@ -244,71 +266,74 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
   }
 
   return (
-    <div className="glass-page-container">
-      <div className="flex gap-6 h-screen">
-        <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)" }}>
-          <div className="glass-content-card h-full" style={{ overflowY: "scroll" }}>
+    <div className='glass-page-container'>
+      <div className='flex gap-6 h-screen'>
+        <main
+          className='flex-1 overflow-y-auto'
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: 'rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)',
+          }}
+        >
+          <div className='glass-content-card h-full' style={{ overflowY: 'scroll' }}>
             {/* Game Banner + Back Button + Action Buttons */}
-            <div className="relative h-64 mb-6 rounded-xl overflow-hidden">
+            <div className='relative h-64 mb-6 rounded-xl overflow-hidden'>
               {/* Back Button in banner */}
-              <button
-                className="glass-button-neon absolute top-4 left-4 z-10"
-                onClick={() => router.back()}
-                style={{ minWidth: 80 }}
-              >
-                {t("shop.back")}
+              <button className='glass-button-neon absolute top-4 left-4 z-10' onClick={() => router.back()} style={{ minWidth: 80 }}>
+                {t('shop.back')}
               </button>
-              <img src={`/banners-icons/${game.bannerHash ? game.bannerHash : "default"}`} alt={game.name} className="w-full h-full object-cover" loading="lazy" />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent"></div>
-              <div className="absolute bottom-4 left-4 flex items-center gap-4">
-                <img src={"/games-icons/" + (game.iconHash ? game.iconHash : "default")} alt={game.name} className="w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border" loading="lazy" />
+              <img src={`/banners-icons/${game.bannerHash ? game.bannerHash : 'default'}`} alt={game.name} className='w-full h-full object-cover' loading='lazy' />
+              <div className='absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent'></div>
+              <div className='absolute bottom-4 left-4 flex items-center gap-4'>
+                <img src={'/games-icons/' + (game.iconHash ? game.iconHash : 'default')} alt={game.name} className='w-20 h-20 rounded-xl object-cover glass-card border-2 border-glass-border' loading='lazy' />
                 <div>
-                  <h2 className="text-3xl font-bold" style={{ color: "var(--glass-text)" }}>
+                  <h2 className='text-3xl font-bold' style={{ color: 'var(--glass-text)' }}>
                     {game.name}
                   </h2>
                   {ownerInfo && (
-                    <div className="flex items-center gap-2 mt-2">
-                      <a href={`/profile?user=${ownerInfo.id}`} className="flex items-center gap-2 no-underline">
-                        <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} className="w-8 h-8 rounded-full object-cover border-2 border-glass-border" />
-                        <span className="text-sm" style={{ color: "var(--glass-text-secondary)" }}>
+                    <div className='flex items-center gap-2 mt-2'>
+                      <a href={`/profile?user=${ownerInfo.id}`} className='flex items-center gap-2 no-underline'>
+                        <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} className='w-8 h-8 rounded-full object-cover border-2 border-glass-border' />
+                        <span className='text-sm' style={{ color: 'var(--glass-text-secondary)' }}>
                           {ownerInfo.username}
                         </span>
-                        <Certification user={{ ...ownerInfo, verified: ownerInfo.verified ?? false }} className="w-4 h-4" />
+                        <Certification
+                          user={{
+                            ...ownerInfo,
+                            verified: ownerInfo.verified ?? false,
+                          }}
+                          className='w-4 h-4'
+                        />
                       </a>
                     </div>
                   )}
                 </div>
               </div>
               {/* Action Buttons in banner */}
-              <div className="absolute bottom-4 right-4 flex gap-4">
+              <div className='absolute bottom-4 right-4 flex gap-4'>
                 {!userOwnsGame && (
-                  <button className="glass-button-neon" onClick={handleBuyGame} disabled={buying}>
-                    {t("shop.buy")}
+                  <button className='glass-button-neon' onClick={handleBuyGame} disabled={buying}>
+                    {t('shop.buy')}
                   </button>
                 )}
                 {token && (
-                  <button
-                    className="glass-button-yellow"
-                    onClick={handleGiftGame}
-                    disabled={isGifting}
-                    type="button"
-                  >
-                    {t("shop.giftWithPrice", { price: game.price })}
+                  <button className='glass-button-yellow' onClick={handleGiftGame} disabled={isGifting} type='button'>
+                    {t('shop.giftWithPrice', { price: game.price })}
                   </button>
                 )}
               </div>
             </div>
             {/* Game Description */}
             {game.description && (
-              <div className="mt-6">
+              <div className='mt-6'>
                 <MarkdownDescription>{game.description}</MarkdownDescription>
               </div>
             )}
             {/* Game Properties */}
-            <div className="game-properties mt-6">
+            <div className='game-properties mt-6'>
               {game.genre && (
                 <div>
-                  <b>{t("shop.genre")}</b> {game.genre}
+                  <b>{t('shop.genre')}</b> {game.genre}
                 </div>
               )}
               {game.developer && (
@@ -337,18 +362,31 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
       </div>
       {/* Gift Modal */}
       {showGiftModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50" onClick={() => setShowGiftModal(false)}>
-          <div className="glass-card p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-2xl font-bold mb-4" style={{ color: "var(--glass-text)" }}>
-              {t("shop.gift")} "{game.name}"
+        <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50' onClick={() => setShowGiftModal(false)}>
+          <div className='glass-card p-6 max-w-md w-full mx-4' onClick={e => e.stopPropagation()}>
+            <h3 className='text-2xl font-bold mb-4' style={{ color: 'var(--glass-text)' }}>
+              {t('shop.gift')} "{game.name}"
             </h3>
-            <textarea placeholder={t("shop.giftMessagePlaceholder")} value={giftMessage} onChange={(e) => setGiftMessage(e.target.value)} style={{ width: "100%", height: "80px", margin: "10px 0", padding: "8px", borderRadius: "4px", border: "1px solid #ccc", resize: "vertical" }} />
-            <div className="flex gap-4 mt-4">
-              <button className="glass-button flex-1" onClick={() => setShowGiftModal(false)} disabled={isGifting}>
-                {t("shop.cancel")}
+            <textarea
+              placeholder={t('shop.giftMessagePlaceholder')}
+              value={giftMessage}
+              onChange={e => setGiftMessage(e.target.value)}
+              style={{
+                width: '100%',
+                height: '80px',
+                margin: '10px 0',
+                padding: '8px',
+                borderRadius: '4px',
+                border: '1px solid #ccc',
+                resize: 'vertical',
+              }}
+            />
+            <div className='flex gap-4 mt-4'>
+              <button className='glass-button flex-1' onClick={() => setShowGiftModal(false)} disabled={isGifting}>
+                {t('shop.cancel')}
               </button>
-              <button className="glass-button-neon flex-1" onClick={confirmGift} disabled={isGifting}>
-                {t("shop.createGift")}
+              <button className='glass-button-neon flex-1' onClick={confirmGift} disabled={isGifting}>
+                {t('shop.createGift')}
               </button>
             </div>
           </div>
@@ -356,15 +394,15 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
       )}
       {/* Prompt overlay */}
       {prompt && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="glass-card p-6 max-w-md w-full mx-4">
-            <div className="mb-4">{prompt}</div>
-            <div className="flex gap-4">
-              <button className="glass-button flex-1" onClick={() => setPrompt(null)} disabled={buying}>
-                {t("shop.cancel")}
+        <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50'>
+          <div className='glass-card p-6 max-w-md w-full mx-4'>
+            <div className='mb-4'>{prompt}</div>
+            <div className='flex gap-4'>
+              <button className='glass-button flex-1' onClick={() => setPrompt(null)} disabled={buying}>
+                {t('shop.cancel')}
               </button>
-              <button className="glass-button-neon flex-1" onClick={confirmBuy} disabled={buying}>
-                {t("shop.buy")}
+              <button className='glass-button-neon flex-1' onClick={confirmBuy} disabled={buying}>
+                {t('shop.buy')}
               </button>
             </div>
           </div>
@@ -372,11 +410,11 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
       )}
       {/* Alert overlay */}
       {alert && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="glass-card p-6 max-w-md w-full mx-4">
-            <div className="mb-4">{alert}</div>
-            <button className="glass-button-neon w-full" onClick={() => setAlert(null)}>
-              {t("shop.ok")}
+        <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50'>
+          <div className='glass-card p-6 max-w-md w-full mx-4'>
+            <div className='mb-4'>{alert}</div>
+            <button className='glass-button-neon w-full' onClick={() => setAlert(null)}>
+              {t('shop.ok')}
             </button>
           </div>
         </div>

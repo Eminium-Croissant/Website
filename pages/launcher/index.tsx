@@ -1,7 +1,7 @@
-import { useRouter } from "next/dist/client/components/navigation";
-import React, { useEffect, useState } from "react";
+import { useRouter } from 'next/dist/client/components/navigation';
+import React, { useEffect, useState } from 'react';
 
-const endpoint = "/api";
+const endpoint = '/api';
 
 declare global {
   interface Window {
@@ -28,21 +28,19 @@ declare global {
 const LauncherPage: React.FC = () => {
   const router = useRouter();
   useEffect(() => {
-    console.log("Croissant Launcher v0.1.0");
-    console.log(
-      "Croissant Launcher is running in " + process.env.NODE_ENV + " mode."
-    );
-    router.push("/launcher/home");
+    console.log('Croissant Launcher v0.1.0');
+    console.log('Croissant Launcher is running in ' + process.env.NODE_ENV + ' mode.');
+    router.push('/launcher/home');
   }, []);
   return <></>;
 };
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ['common'])),
       isLauncher: true,
     },
   };

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import useAuth from "../hooks/useAuth";
-import { useTranslation } from "react-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import React, { useState, useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 }
@@ -23,7 +23,7 @@ export interface MarketListing {
   buyer_id?: string; // ID de l'acheteur (optionnel, rempli quand vendu)
 }
 
-export type MarketListingStatus = "active" | "sold" | "cancelled";
+export type MarketListingStatus = 'active' | 'sold' | 'cancelled';
 
 // Interface pour l'affichage enrichi avec les détails de l'item
 export interface EnrichedMarketListing extends MarketListing {
@@ -46,27 +46,27 @@ export interface CreateMarketListingRequest {
 function ItemTooltip({ listing }: { listing: EnrichedMarketListing }) {
   return (
     <div
-      className="inventory-tooltip"
+      className='inventory-tooltip'
       style={{
-        position: "fixed",
-        left: "auto",
-        top: "auto",
+        position: 'fixed',
+        left: 'auto',
+        top: 'auto',
         zIndex: 1000,
-        background: "#222",
-        color: "#fff",
+        background: '#222',
+        color: '#fff',
         padding: 12,
         borderRadius: 8,
         fontSize: 13,
         maxWidth: 320,
-        boxShadow: "0 2px 12px #0008",
+        boxShadow: '0 2px 12px #0008',
       }}
     >
-      <div style={{ fontWeight: "bold", fontSize: 15 }}>{listing.item_name}</div>
-      <div style={{ color: "#bbb", marginBottom: 4 }}>{listing.item_description}</div>
+      <div style={{ fontWeight: 'bold', fontSize: 15 }}>{listing.item_name}</div>
+      <div style={{ color: '#bbb', marginBottom: 4 }}>{listing.item_description}</div>
       {listing.metadata && Object.keys(listing.metadata).length > 0 && (
-        <div style={{ color: "#ffd700", fontSize: 12, marginBottom: 4 }}>
+        <div style={{ color: '#ffd700', fontSize: 12, marginBottom: 4 }}>
           {Object.entries(listing.metadata)
-            .filter(([k]) => k !== "_unique_id")
+            .filter(([k]) => k !== '_unique_id')
             .map(([k, v]) => (
               <div key={k}>
                 {k}: {String(v)}
@@ -75,11 +75,11 @@ function ItemTooltip({ listing }: { listing: EnrichedMarketListing }) {
         </div>
       )}
       {listing.price !== undefined && (
-        <div style={{ color: "#ffd700", fontSize: 12, marginBottom: 4 }}>
-          {` ${listing.price} `} <img src="/assets/credit.avif" alt="credits" style={{ width: 12, verticalAlign: "middle" }} />
+        <div style={{ color: '#ffd700', fontSize: 12, marginBottom: 4 }}>
+          {` ${listing.price} `} <img src='/assets/credit.avif' alt='credits' style={{ width: 12, verticalAlign: 'middle' }} />
         </div>
       )}
-      {listing.metadata?._unique_id && <div style={{ color: "#888", fontSize: 11, fontFamily: "monospace" }}>{listing.metadata._unique_id}</div>}
+      {listing.metadata?._unique_id && <div style={{ color: '#888', fontSize: 11, fontFamily: 'monospace' }}>{listing.metadata._unique_id}</div>}
     </div>
   );
 }
@@ -100,49 +100,49 @@ export default function MyMarketListingsPage() {
     if (!user || userLoading) return;
     setLoading(true);
     fetch(`/api/market-listings/user/${user.id}`)
-      .then(async (res) => {
+      .then(async res => {
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Failed to fetch listings");
+        if (!res.ok) throw new Error(data.message || 'Failed to fetch listings');
         setListings(data);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(err => {
         setError(err.message);
         setLoading(false);
       });
   }, [user, userLoading]);
 
-  if (userLoading) return <div>{t("myMarketListings.loading")}</div>;
-  if (!user) return <div>{t("myMarketListings.mustLogin")}</div>;
+  if (userLoading) return <div>{t('myMarketListings.loading')}</div>;
+  if (!user) return <div>{t('myMarketListings.mustLogin')}</div>;
 
   return (
-    <div className="glass-page-container">
-      <div className="glass-content-card" style={{ maxWidth: 800, margin: "0 auto", padding: 24 }}>
-        <h2>{t("myMarketListings.title")}</h2>
-        {loading && <div>{t("myMarketListings.loading")}</div>}
-        {error && <div style={{ color: "red" }}>{error}</div>}
-        {!loading && listings.filter((listing) => listing.status !== "cancelled").length === 0 ? (
-          <div>{t("myMarketListings.noActive")}</div>
+    <div className='glass-page-container'>
+      <div className='glass-content-card' style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
+        <h2>{t('myMarketListings.title')}</h2>
+        {loading && <div>{t('myMarketListings.loading')}</div>}
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+        {!loading && listings.filter(listing => listing.status !== 'cancelled').length === 0 ? (
+          <div>{t('myMarketListings.noActive')}</div>
         ) : (
           <>
-            <div className="market-table-wrapper">
-              <table className="market-table">
+            <div className='market-table-wrapper'>
+              <table className='market-table'>
                 <thead>
                   <tr>
-                    <th>{t("myMarketListings.item")}</th>
-                    <th>{t("myMarketListings.price")}</th>
-                    <th>{t("myMarketListings.status")}</th>
-                    <th>{t("myMarketListings.created")}</th>
-                    <th>{t("myMarketListings.actions")}</th>
+                    <th>{t('myMarketListings.item')}</th>
+                    <th>{t('myMarketListings.price')}</th>
+                    <th>{t('myMarketListings.status')}</th>
+                    <th>{t('myMarketListings.created')}</th>
+                    <th>{t('myMarketListings.actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {listings
-                    .filter((listing) => listing.status !== "cancelled")
-                    .map((listing) => (
+                    .filter(listing => listing.status !== 'cancelled')
+                    .map(listing => (
                       <tr key={listing.id}>
                         <td
-                          onMouseEnter={(e) => {
+                          onMouseEnter={e => {
                             const rect = (e.target as HTMLElement).getBoundingClientRect();
                             setTooltip({
                               x: rect.right + 8,
@@ -152,47 +152,47 @@ export default function MyMarketListingsPage() {
                           }}
                           onMouseLeave={() => setTooltip(null)}
                           style={{
-                            cursor: "pointer",
-                            justifyContent: "center",
-                            display: "flex",
-                            alignItems: "center",
+                            cursor: 'pointer',
+                            justifyContent: 'center',
+                            display: 'flex',
+                            alignItems: 'center',
                             gap: 8,
                           }}
                         >
                           <span
                             style={{
-                              display: "flex",
-                              alignItems: "center",
+                              display: 'flex',
+                              alignItems: 'center',
                               gap: 8,
                             }}
                           >
-                            <img src={`/items-icons/${listing.item_icon_hash || listing.item_id}`} alt="" width={32} height={32} />
+                            <img src={`/items-icons/${listing.item_icon_hash || listing.item_id}`} alt='' width={32} height={32} />
                             {listing.item_name}
                           </span>
                         </td>
-                        <td style={{ textAlign: "center" }}>
-                          {listing.price} <img src="/assets/credit.avif" alt="credits" style={{ width: 14, verticalAlign: "middle" }} />
+                        <td style={{ textAlign: 'center' }}>
+                          {listing.price} <img src='/assets/credit.avif' alt='credits' style={{ width: 14, verticalAlign: 'middle' }} />
                         </td>
-                        <td style={{ textAlign: "center" }}>{listing.status}</td>
-                        <td style={{ textAlign: "center" }}>{new Date(listing.created_at).toISOString().slice(0, 16).replace("T", " ")}</td>
-                        <td style={{ textAlign: "center" }}>
-                          {listing.status === "active" ? (
+                        <td style={{ textAlign: 'center' }}>{listing.status}</td>
+                        <td style={{ textAlign: 'center' }}>{new Date(listing.created_at).toISOString().slice(0, 16).replace('T', ' ')}</td>
+                        <td style={{ textAlign: 'center' }}>
+                          {listing.status === 'active' ? (
                             <button
                               onClick={async () => {
-                                if (!confirm("Cancel this listing?")) return;
+                                if (!confirm('Cancel this listing?')) return;
                                 try {
-                                  const res = await fetch(`/api/market-listings/${listing.id}/cancel`, { method: "PUT" });
+                                  const res = await fetch(`/api/market-listings/${listing.id}/cancel`, { method: 'PUT' });
                                   if (!res.ok) throw new Error((await res.json()).message);
-                                  setListings((listings) => listings.filter((l) => l.id !== listing.id));
+                                  setListings(listings => listings.filter(l => l.id !== listing.id));
                                 } catch (e: any) {
                                   alert(e.message);
                                 }
                               }}
                             >
-                              {t("myMarketListings.cancel")}
+                              {t('myMarketListings.cancel')}
                             </button>
                           ) : (
-                            <span style={{ color: "#888" }}>—</span>
+                            <span style={{ color: '#888' }}>—</span>
                           )}
                         </td>
                       </tr>
@@ -201,7 +201,7 @@ export default function MyMarketListingsPage() {
               </table>
             </div>
             {tooltip && (
-              <div style={{ position: "fixed", left: tooltip.x, top: tooltip.y }}>
+              <div style={{ position: 'fixed', left: tooltip.x, top: tooltip.y }}>
                 <ItemTooltip listing={tooltip.listing} />
               </div>
             )}

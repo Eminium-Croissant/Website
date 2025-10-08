@@ -1,11 +1,11 @@
-import { GetServerSideProps } from "next";
+import { GetServerSideProps } from 'next';
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const params = new URLSearchParams({
     client_id: process.env.DISCORD_CLIENT_ID!,
     redirect_uri: process.env.DISCORD_CALLBACK_URL!,
-    response_type: "code",
-    scope: "identify email",
+    response_type: 'code',
+    scope: 'identify email',
   });
   return {
     redirect: {

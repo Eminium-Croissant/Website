@@ -1,32 +1,32 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import useAuth from "../../hooks/useAuth";
-import Link from "next/link";
-import useIsMobile from "../../hooks/useIsMobile";
-import { useRouter } from "next/router";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-const endpoint = "/api";
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import useAuth from '../../hooks/useAuth';
+import Link from 'next/link';
+import useIsMobile from '../../hooks/useIsMobile';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+const endpoint = '/api';
 
 const GameForm = () => {
   const isMobile = useIsMobile();
   const { token } = useAuth();
   const router = useRouter();
-  const { t } = useTranslation("common");
+  const { t } = useTranslation('common');
   const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    downloadLink: "",
-    iconHash: "",
-    bannerHash: "",
+    name: '',
+    description: '',
+    price: '',
+    downloadLink: '',
+    iconHash: '',
+    bannerHash: '',
     showInStore: true,
-    genre: "",
-    release_date: "",
-    developer: "",
-    publisher: "",
-    platforms: "",
-    website: "",
-    trailer_link: "",
+    genre: '',
+    release_date: '',
+    developer: '',
+    publisher: '',
+    platforms: '',
+    website: '',
+    trailer_link: '',
     multiplayer: false,
   });
 
@@ -40,30 +40,30 @@ const GameForm = () => {
     const { name, value, type, checked } = e.target as any;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setIconFile(e.target.files[0]);
-      setFormData((f) => ({ ...f, iconHash: "" })); // reset hash if changing file
+      setFormData(f => ({ ...f, iconHash: '' })); // reset hash if changing file
     }
   };
 
   const handleBannerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setBannerFile(e.target.files[0]);
-      setFormData((f) => ({ ...f, bannerHash: "" }));
+      setFormData(f => ({ ...f, bannerHash: '' }));
     }
   };
 
   const validate = () => {
     const newErrors: any = {};
-    if (!formData.name) newErrors.name = t("createGame.error.name");
-    if (!formData.description) newErrors.description = t("createGame.error.description");
-    if (!formData.price) newErrors.price = t("createGame.error.price");
-    if (!formData.downloadLink) newErrors.downloadLink = t("createGame.error.downloadLink");
+    if (!formData.name) newErrors.name = t('createGame.error.name');
+    if (!formData.description) newErrors.description = t('createGame.error.description');
+    if (!formData.price) newErrors.price = t('createGame.error.price');
+    if (!formData.downloadLink) newErrors.downloadLink = t('createGame.error.downloadLink');
     // iconFile is now optional
     // Banner is now optional
     return newErrors;
@@ -86,22 +86,28 @@ const GameForm = () => {
     // Upload icon if file selected
     if (iconFile) {
       const iconData = new FormData();
-      iconData.append("icon", iconFile);
+      iconData.append('icon', iconFile);
       try {
-        const res = await fetch("/upload/game-icon", {
-          method: "POST",
+        const res = await fetch('/upload/game-icon', {
+          method: 'POST',
           body: iconData,
         });
         const data = await res.json();
         if (data.hash) {
           iconHash = data.hash;
         } else {
-          setErrors((err: any) => ({ ...err, iconHash: t("createGame.error.iconUpload") }));
+          setErrors((err: any) => ({
+            ...err,
+            iconHash: t('createGame.error.iconUpload'),
+          }));
           setLoading(false);
           return;
         }
       } catch {
-        setErrors((err: any) => ({ ...err, iconHash: t("createGame.error.iconUpload") }));
+        setErrors((err: any) => ({
+          ...err,
+          iconHash: t('createGame.error.iconUpload'),
+        }));
         setLoading(false);
         return;
       }
@@ -110,22 +116,28 @@ const GameForm = () => {
     // Upload banner if file selected
     if (bannerFile) {
       const bannerData = new FormData();
-      bannerData.append("banner", bannerFile);
+      bannerData.append('banner', bannerFile);
       try {
-        const res = await fetch("/upload/banner", {
-          method: "POST",
+        const res = await fetch('/upload/banner', {
+          method: 'POST',
           body: bannerData,
         });
         const data = await res.json();
         if (data.hash) {
           bannerHash = data.hash;
         } else {
-          setErrors((err: any) => ({ ...err, bannerHash: t("createGame.error.bannerUpload") }));
+          setErrors((err: any) => ({
+            ...err,
+            bannerHash: t('createGame.error.bannerUpload'),
+          }));
           setLoading(false);
           return;
         }
       } catch {
-        setErrors((err: any) => ({ ...err, bannerHash: t("createGame.error.bannerUpload") }));
+        setErrors((err: any) => ({
+          ...err,
+          bannerHash: t('createGame.error.bannerUpload'),
+        }));
         setLoading(false);
         return;
       }
@@ -150,45 +162,45 @@ const GameForm = () => {
     };
 
     try {
-      const res = await fetch(endpoint + "/games", {
-        method: "POST",
+      const res = await fetch(endpoint + '/games', {
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
 
       if (res.ok) {
-        setSuccess(t("createGame.success"));
+        setSuccess(t('createGame.success'));
         setFormData({
-          name: "",
-          description: "",
-          price: "",
-          downloadLink: "",
-          iconHash: "",
-          bannerHash: "",
+          name: '',
+          description: '',
+          price: '',
+          downloadLink: '',
+          iconHash: '',
+          bannerHash: '',
           showInStore: true,
-          genre: "",
-          release_date: "",
-          developer: "",
-          publisher: "",
-          platforms: "",
-          website: "",
-          trailer_link: "",
+          genre: '',
+          release_date: '',
+          developer: '',
+          publisher: '',
+          platforms: '',
+          website: '',
+          trailer_link: '',
           multiplayer: false,
         });
         setIconFile(null);
         setBannerFile(null);
         // Redirection après succès
-        router.push("/dev-zone/my-games");
+        router.push('/dev-zone/my-games');
         return;
       } else {
         const err = await res.json();
-        setErrors({ submit: err.message || t("createGame.error.submit") });
+        setErrors({ submit: err.message || t('createGame.error.submit') });
       }
     } catch (err: any) {
-      setErrors({ submit: err.message || t("createGame.error.submit") });
+      setErrors({ submit: err.message || t('createGame.error.submit') });
     } finally {
       setLoading(false);
     }
@@ -196,77 +208,77 @@ const GameForm = () => {
 
   if (isMobile) {
     return (
-      <div className="glass-page-container flex justify-center items-center min-h-screen">
-        <div className="glass-content-card max-w-[340px] w-full mx-auto p-6 rounded-xl text-center">
-          <h2 className="mb-2">{t("createGame.mobile.title")}</h2>
-          <p>{t("createGame.mobile.desc")}</p>
+      <div className='glass-page-container flex justify-center items-center min-h-screen'>
+        <div className='glass-content-card max-w-[340px] w-full mx-auto p-6 rounded-xl text-center'>
+          <h2 className='mb-2'>{t('createGame.mobile.title')}</h2>
+          <p>{t('createGame.mobile.desc')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="glass-page-container flex justify-center items-center min-h-screen">
-      <div className="glass-content-card  w-full mx-auto p-8 rounded-xl">
+    <div className='glass-page-container flex justify-center items-center min-h-screen'>
+      <div className='glass-content-card  w-full mx-auto p-8 rounded-xl'>
         <div style={{ marginBottom: 18 }}>
-          <Link href="/dev-zone/my-games" className="glass-button">
-            &larr; {t("createGame.backToMyGames")}
+          <Link href='/dev-zone/my-games' className='glass-button'>
+            &larr; {t('createGame.backToMyGames')}
           </Link>
         </div>
-        <h1 className="creategame-title mb-6">
-          <span>{t("createGame.title")}</span>
+        <h1 className='creategame-title mb-6'>
+          <span>{t('createGame.title')}</span>
         </h1>
-        <form onSubmit={handleSubmit} className="game-form">
-          <div className="form-row">
-            <label htmlFor="name">
-              {t("createGame.name")} <span className="required">*</span>
+        <form onSubmit={handleSubmit} className='game-form'>
+          <div className='form-row'>
+            <label htmlFor='name'>
+              {t('createGame.name')} <span className='required'>*</span>
             </label>
-            <input id="name" type="text" name="name" value={formData.name} onChange={handleChange} required className="dark-input" />
+            <input id='name' type='text' name='name' value={formData.name} onChange={handleChange} required className='dark-input' />
           </div>
-          {errors.name && <span className="error">{errors.name}</span>}
-          <div className="form-row">
-            <label htmlFor="description">
-              {t("createGame.description") + " (Markdown ok)"} <span className="required">*</span>
+          {errors.name && <span className='error'>{errors.name}</span>}
+          <div className='form-row'>
+            <label htmlFor='description'>
+              {t('createGame.description') + ' (Markdown ok)'} <span className='required'>*</span>
             </label>
-            <textarea id="description" name="description" value={formData.description} onChange={handleChange} required rows={2} className="dark-input" />
+            <textarea id='description' name='description' value={formData.description} onChange={handleChange} required rows={2} className='dark-input' />
           </div>
-          {errors.description && <span className="error">{errors.description}</span>}
-          <div className="form-row">
-            <label htmlFor="price">
-              {t("createGame.price")} <span className="required">*</span>
+          {errors.description && <span className='error'>{errors.description}</span>}
+          <div className='form-row'>
+            <label htmlFor='price'>
+              {t('createGame.price')} <span className='required'>*</span>
             </label>
-            <input id="price" type="number" name="price" value={formData.price} onChange={handleChange} required min={0} step="any" className="dark-input" />
+            <input id='price' type='number' name='price' value={formData.price} onChange={handleChange} required min={0} step='any' className='dark-input' />
           </div>
-          {errors.price && <span className="error">{errors.price}</span>}
-          <div className="form-row">
-            <label htmlFor="downloadLink">
-              {t("createGame.downloadLink")} <span className="required">*</span>
+          {errors.price && <span className='error'>{errors.price}</span>}
+          <div className='form-row'>
+            <label htmlFor='downloadLink'>
+              {t('createGame.downloadLink')} <span className='required'>*</span>
             </label>
-            <input id="downloadLink" type="url" name="downloadLink" value={formData.downloadLink} onChange={handleChange} required className="dark-input" />
+            <input id='downloadLink' type='url' name='downloadLink' value={formData.downloadLink} onChange={handleChange} required className='dark-input' />
           </div>
-          {errors.downloadLink && <span className="error">{errors.downloadLink}</span>}
-          <div className="form-row">
-            <label htmlFor="image">{t("createGame.icon")}</label>
-            <label htmlFor="image" className="custom-file-label creategame-file-label">
-              {iconFile || formData.iconHash ? t("createGame.changeIcon") : t("createGame.chooseIcon")}
-              <input id="image" type="file" name="image" accept="image/*" onChange={handleIconChange} className="dark-input" style={{ display: "none" }} />
+          {errors.downloadLink && <span className='error'>{errors.downloadLink}</span>}
+          <div className='form-row'>
+            <label htmlFor='image'>{t('createGame.icon')}</label>
+            <label htmlFor='image' className='custom-file-label creategame-file-label'>
+              {iconFile || formData.iconHash ? t('createGame.changeIcon') : t('createGame.chooseIcon')}
+              <input id='image' type='file' name='image' accept='image/*' onChange={handleIconChange} className='dark-input' style={{ display: 'none' }} />
             </label>
-            {(iconFile || formData.iconHash) && <span className="creategame-ready">{t("createGame.ready")}</span>}
+            {(iconFile || formData.iconHash) && <span className='creategame-ready'>{t('createGame.ready')}</span>}
           </div>
-          {errors.iconHash && <span className="error">{errors.iconHash}</span>}
-          <div className="form-row">
-            <label htmlFor="banner">{t("createGame.banner")}</label>
-            <label htmlFor="banner" className="custom-file-label creategame-file-label">
-              {bannerFile || formData.bannerHash ? t("createGame.changeBanner") : t("createGame.chooseBanner")}
-              <input id="banner" type="file" name="banner" accept="image/*" onChange={handleBannerChange} className="dark-input" style={{ display: "none" }} />
+          {errors.iconHash && <span className='error'>{errors.iconHash}</span>}
+          <div className='form-row'>
+            <label htmlFor='banner'>{t('createGame.banner')}</label>
+            <label htmlFor='banner' className='custom-file-label creategame-file-label'>
+              {bannerFile || formData.bannerHash ? t('createGame.changeBanner') : t('createGame.chooseBanner')}
+              <input id='banner' type='file' name='banner' accept='image/*' onChange={handleBannerChange} className='dark-input' style={{ display: 'none' }} />
             </label>
-            {(bannerFile || formData.bannerHash) && <span className="creategame-ready">{t("createGame.ready")}</span>}
+            {(bannerFile || formData.bannerHash) && <span className='creategame-ready'>{t('createGame.ready')}</span>}
           </div>
-          {errors.bannerHash && <span className="error">{errors.bannerHash}</span>}
-          <div className="form-row">
-            <label htmlFor="showInStore" className="creategame-checkbox-label">
-              <input id="showInStore" type="checkbox" name="showInStore" checked={formData.showInStore} onChange={handleChange} className="creategame-checkbox" />
-              {t("createGame.showInStore")}
+          {errors.bannerHash && <span className='error'>{errors.bannerHash}</span>}
+          <div className='form-row'>
+            <label htmlFor='showInStore' className='creategame-checkbox-label'>
+              <input id='showInStore' type='checkbox' name='showInStore' checked={formData.showInStore} onChange={handleChange} className='creategame-checkbox' />
+              {t('createGame.showInStore')}
             </label>
           </div>
           {/* <div className="form-row">
@@ -303,10 +315,10 @@ const GameForm = () => {
               {t("createGame.multiplayer")}
             </label>
           </div> */}
-          {errors.submit && <span className="error">{errors.submit}</span>}
-          {success && <span className="creategame-success">{success}</span>}
-          <button type="submit" className="creategame-submit-btn" disabled={loading}>
-            {loading ? t("createGame.submitting") : t("createGame.submit")}
+          {errors.submit && <span className='error'>{errors.submit}</span>}
+          {success && <span className='creategame-success'>{success}</span>}
+          <button type='submit' className='creategame-submit-btn' disabled={loading}>
+            {loading ? t('createGame.submitting') : t('createGame.submit')}
           </button>
         </form>
       </div>
@@ -319,7 +331,7 @@ export default GameForm;
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale, ['common'])),
     },
   };
 }
