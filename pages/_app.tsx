@@ -1,5 +1,6 @@
 import 'github-markdown-css/github-markdown.css';
 import '../styles/amain.css';
+
 import '../styles/atom-one-dark.min.css';
 import '../styles/globals.css';
 import '../styles/rarity.css';
