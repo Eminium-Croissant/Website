@@ -467,13 +467,13 @@ export default function Home() {
                 {t('index.hero.subtitle')}
               </p>
               <div className='flex justify-center gap-4'>
-                <button className='glass-button-neon glass-glow'>
+                <button className='glass-button-neon glass-glow' onClick={() => router.push('/game-shop')}>
                   <span className='flex items-center gap-2'>
                     <FontAwesomeIcon icon={faStar} />
                     {t('index.hero.startAdventure')}
                   </span>
                 </button>
-                <button className='glass-button'>
+                <button className='glass-button' onClick={() => router.push('/api-docs')}>
                   <span className='flex items-center gap-2'>
                     <FontAwesomeIcon icon={faCode} />
                     {t('index.hero.learnMore')}
@@ -608,26 +608,28 @@ export default function Home() {
   }
 
   function HomeMobile() {
+    const router = useRouter();
+
     return (
       <>
         <div className='glass-page-container !max-w-[1000px]'>
           <div className='glass-card !mt-0 !mx-0 mb-8 text-center relative overflow-hidden'>
             <div className='mb-6 relative z-10'>
-              <h1 className='text-3xl font-bold mb-4 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent'>Bienvenue dans l'univers Croissant</h1>
+              <h1 className='text-3xl font-bold mb-4 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent'>{t('index.hero.title')}</h1>
               <p className='text-base mb-6' style={{ color: 'var(--glass-text-secondary)' }}>
-                Plongez dans l'univers gaming ultime avec une expérience immersive unique
+                {t('index.hero.subtitle')}
               </p>
               <div className='flex flex-col gap-3'>
-                <button className='glass-button-neon glass-glow w-full'>
+                <button className='glass-button-neon glass-glow w-full' onClick={() => router.push('/game-shop')}>
                   <span className='flex items-center justify-center gap-2'>
                     <FontAwesomeIcon icon={faStar} />
-                    Commencer l'aventure
+                    {t('index.hero.startAdventure')}
                   </span>
                 </button>
-                <button className='glass-button w-full'>
+                <button className='glass-button w-full' onClick={() => router.push('/api-docs')}>
                   <span className='flex items-center justify-center gap-2'>
                     <FontAwesomeIcon icon={faCode} />
-                    En savoir plus
+                    {t('index.hero.learnMore')}
                   </span>
                 </button>
               </div>
@@ -747,3 +749,4 @@ export default function Home() {
 
   return isMobile ? <HomeMobile /> : <HomeDesktop />;
 }
+
