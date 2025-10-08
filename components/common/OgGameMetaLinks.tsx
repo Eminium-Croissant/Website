@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 type Props = {
   title: string;
   description: string;
@@ -8,7 +10,7 @@ type Props = {
 
 export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl, card }: Props) {
   return (
-    <>
+    <Head>
       <title>{title}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,7 +59,7 @@ export default function OgGameMetaLinks({ title, description, bannerUrl, gameUrl
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta name="msapplication-TileImage" content="/assets/icons/ms-icon-144x144.png" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    </>
+    </Head>
   );
 }
 

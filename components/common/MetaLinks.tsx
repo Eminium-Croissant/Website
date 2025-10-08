@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import Head from "next/head";
 
 type Props = {
   metaLinksTitle?: string;
@@ -16,7 +17,7 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
   const defaultDescription = metaDescription || descFromKeys || `${defaultTitle} - Manage your inventory with ease.`;
 
   return (
-    <>
+    <Head>
       <title>{defaultTitle}</title>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -60,7 +61,7 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <meta name="msapplication-TileColor" content="#ffffff" />
       <meta name="msapplication-TileImage" content="/assets/icons/ms-icon-144x144.png" />
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    </>
+    </Head>
   );
 }
 
