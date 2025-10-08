@@ -21,7 +21,7 @@ export default function InstagramPost({
   size = "medium"
 }: InstagramPostProps) {
   
-  // Configurations des thèmes
+  
   const themeConfig = {
     default: {
       bgGradient: "from-neon-blue via-neon-purple to-neon-pink",
@@ -45,7 +45,7 @@ export default function InstagramPost({
     }
   };
 
-  // Configurations des tailles
+  
   const sizeConfig = {
     small: {
       container: "w-80 h-80",
@@ -81,20 +81,20 @@ export default function InstagramPost({
 
   return (
     <div className={`${currentSize.container} relative overflow-hidden rounded-3xl bg-gradient-to-br ${currentTheme.bgGradient} p-1`}>
-      {/* Glassmorphism background */}
+      
       <div className="w-full h-full rounded-[22px] glass-card relative overflow-hidden">
         
-        {/* Background pattern */}
+        
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-4 right-4 w-16 h-16 rounded-full bg-white/10 blur-xl"></div>
           <div className="absolute bottom-8 left-8 w-24 h-24 rounded-full bg-white/5 blur-2xl"></div>
           <div className="absolute top-1/2 left-1/4 w-8 h-8 rounded-full bg-white/15 blur-lg"></div>
         </div>
 
-        {/* Main content */}
+        
         <div className={`relative z-10 h-full flex flex-col justify-between ${currentSize.padding}`}>
           
-          {/* Header */}
+          
           <div className={`flex items-center justify-between ${currentSize.gap}`}>
             <div className="flex items-center gap-3">
               <div className={`${currentSize.logoSize} flex items-center justify-center w-16 h-16 rounded-2xl glass-card glass-glow`}>
@@ -116,14 +116,14 @@ export default function InstagramPost({
             />
           </div>
 
-          {/* Main description */}
+          
           <div className="flex-1 flex items-center justify-center text-center">
             <p className={`${currentSize.descriptionSize} text-glass-text leading-relaxed max-w-[80%]`}>
               {description}
             </p>
           </div>
 
-          {/* Features badges */}
+          
           <div className="flex flex-wrap justify-center gap-2">
             {features.map((feature, index) => (
               <span
@@ -138,7 +138,7 @@ export default function InstagramPost({
             ))}
           </div>
 
-          {/* Bottom decoration */}
+          
           <div className="flex justify-center items-center gap-2 mt-4">
             {[...Array(5)].map((_, i) => (
               <FontAwesomeIcon
@@ -151,7 +151,7 @@ export default function InstagramPost({
           </div>
         </div>
 
-        {/* Glassmorphism overlay effects */}
+        
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
           <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
           <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
@@ -160,3 +160,4 @@ export default function InstagramPost({
     </div>
   );
 }
+

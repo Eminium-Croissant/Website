@@ -79,10 +79,10 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         }
     }, [lobby]);
 
-    // Auto-refresh lobby on mount
+    
     useEffect(() => {
         refreshLobby();
-        // Optionally, add polling here if you want
+        
     }, [refreshLobby]);
 
     return (
@@ -106,3 +106,4 @@ export function useLobby() {
     if (!ctx) throw new Error("useLobby must be used within a LobbyProvider");
     return ctx;
 }
+

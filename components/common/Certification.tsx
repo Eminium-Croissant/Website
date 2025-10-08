@@ -4,7 +4,7 @@ export interface ShopItem {
     name: string;
     description: string;
     price: number;
-    stock?: number; // optionnel, si le backend le fournit,
+    stock?: number; 
     iconHash: string;
 }
 interface User {

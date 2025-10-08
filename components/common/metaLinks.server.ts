@@ -2,7 +2,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export async function getMetaLinksProps(locale = 'en') {
   const translations = await serverSideTranslations(locale, ['common']);
-  // Charge le fichier JSON manuellement
+  
   const common = (await import(`../../public/locales/${locale}/common.json`)).default;
 
   const metaLinksTitle =
@@ -25,3 +25,4 @@ export async function getMetaLinksProps(locale = 'en') {
     metaDescription,
   };
 }
+

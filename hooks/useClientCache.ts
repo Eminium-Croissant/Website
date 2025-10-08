@@ -1,22 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
 
-// Interface pour les données en cache
 interface CacheData {
   data: any;
   timestamp: number;
   expiresAt: number;
 }
 
-// Clé de chiffrement (en production, utiliser une clé sécurisée)
 const ENCRYPTION_KEY = 'croissant-cache-key-2024';
 
-// Fonction de chiffrement simple (Base64 + XOR)
 function encrypt(text: string, key: string): string {
   try {
-    // Encoder d'abord en base64 pour éviter les problèmes de caractères
+
     const base64Text = btoa(unescape(encodeURIComponent(text)));
-    
-    // Puis appliquer XOR
+
     let encrypted = '';
     for (let i = 0; i < base64Text.length; i++) {
       encrypted += String.fromCharCode(
@@ -30,21 +26,18 @@ function encrypt(text: string, key: string): string {
   }
 }
 
-// Fonction de déchiffrement
 function decrypt(encryptedText: string, key: string): string {
   try {
-    // Décoder la base64
+
     const decrypted = atob(encryptedText);
-    
-    // Appliquer XOR inverse
+
     let text = '';
     for (let i = 0; i < decrypted.length; i++) {
       text += String.fromCharCode(
         decrypted.charCodeAt(i) ^ key.charCodeAt(i % key.length)
       );
     }
-    
-    // Décoder la base64 finale
+
     return decodeURIComponent(escape(atob(text)));
   } catch (error) {
     console.error('Erreur de déchiffrement:', error);
@@ -52,48 +45,47 @@ function decrypt(encryptedText: string, key: string): string {
   }
 }
 
-// Hook pour la gestion du cache côté client
 export function useClientCache() {
   const [cache, setCache] = useState<Map<string, CacheData>>(new Map());
 
-  // Charger le cache depuis localStorage au montage
   useEffect(() => {
     try {
       const cachedData = localStorage.getItem('croissant-cache');
       if (cachedData) {
         const decryptedData = decrypt(cachedData, ENCRYPTION_KEY);
-        
-        // Vérifier si les données déchiffrées sont valides
+
         if (decryptedData && decryptedData !== cachedData) {
           const parsedCache = JSON.parse(decryptedData);
-          
-          // Vérifier l'expiration des données
+
           const now = Date.now();
           const validCache = new Map();
-          
+
           for (const [key, value] of Object.entries(parsedCache)) {
-            if (value && typeof value === 'object' && value.expiresAt > now) {
-              validCache.set(key, value);
+            if (
+              value &&
+              typeof value === 'object' &&
+              (value as CacheData).expiresAt > now
+            ) {
+              validCache.set(key, value as CacheData);
             }
           }
-          
+
           setCache(validCache);
         } else {
-          // Données corrompues, nettoyer le cache
+
           localStorage.removeItem('croissant-cache');
         }
       }
     } catch (error) {
       console.error('Erreur lors du chargement du cache:', error);
-      // Nettoyer le cache corrompu
+
       localStorage.removeItem('croissant-cache');
     }
   }, []);
 
-  // Sauvegarder le cache dans localStorage
   const saveCache = useCallback((newCache: Map<string, CacheData>) => {
     try {
-      // Vérifier que le cache n'est pas vide
+
       if (newCache.size === 0) {
         localStorage.removeItem('croissant-cache');
         return;
@@ -101,25 +93,22 @@ export function useClientCache() {
 
       const cacheObject = Object.fromEntries(newCache);
       const jsonString = JSON.stringify(cacheObject);
-      
-      // Vérifier que la chaîne JSON est valide
+
       if (jsonString && jsonString !== '{}') {
         const encryptedData = encrypt(jsonString, ENCRYPTION_KEY);
-        
-        // Vérifier que le chiffrement a réussi
+
         if (encryptedData && encryptedData !== jsonString) {
           localStorage.setItem('croissant-cache', encryptedData);
         }
       }
     } catch (error) {
       console.error('Erreur lors de la sauvegarde du cache:', error);
-      // En cas d'erreur, nettoyer le cache
+
       localStorage.removeItem('croissant-cache');
     }
   }, []);
 
-  // Mettre en cache des données
-  const setCacheData = useCallback((key: string, data: any, ttl: number = 3600000) => { // TTL par défaut: 1 heure
+  const setCacheData = useCallback((key: string, data: any, ttl: number = 3600000) => {
     const now = Date.now();
     const cacheData: CacheData = {
       data,
@@ -133,14 +122,13 @@ export function useClientCache() {
     saveCache(newCache);
   }, [cache, saveCache]);
 
-  // Récupérer des données du cache
   const getCacheData = useCallback((key: string) => {
     const cachedItem = cache.get(key);
     if (!cachedItem) return null;
 
     const now = Date.now();
     if (cachedItem.expiresAt <= now) {
-      // Supprimer l'élément expiré
+
       const newCache = new Map(cache);
       newCache.delete(key);
       setCache(newCache);
@@ -151,7 +139,6 @@ export function useClientCache() {
     return cachedItem.data;
   }, [cache, saveCache]);
 
-  // Vérifier si des données sont en cache
   const hasCacheData = useCallback((key: string) => {
     const cachedItem = cache.get(key);
     if (!cachedItem) return false;
@@ -168,7 +155,6 @@ export function useClientCache() {
     return true;
   }, [cache, saveCache]);
 
-  // Supprimer des données du cache
   const removeCacheData = useCallback((key: string) => {
     const newCache = new Map(cache);
     newCache.delete(key);
@@ -176,30 +162,27 @@ export function useClientCache() {
     saveCache(newCache);
   }, [cache, saveCache]);
 
-  // Nettoyer tout le cache
   const clearCache = useCallback(() => {
     setCache(new Map());
     localStorage.removeItem('croissant-cache');
   }, []);
 
-  // Nettoyer les données expirées
   const cleanExpiredData = useCallback(() => {
     const now = Date.now();
     const newCache = new Map();
-    
+
     for (const [key, value] of cache) {
       if (value.expiresAt > now) {
         newCache.set(key, value);
       }
     }
-    
+
     if (newCache.size !== cache.size) {
       setCache(newCache);
       saveCache(newCache);
     }
   }, [cache, saveCache]);
 
-  // Obtenir les statistiques du cache
   const getCacheStats = useCallback(() => {
     const now = Date.now();
     let totalItems = 0;
@@ -233,23 +216,19 @@ export function useClientCache() {
   };
 }
 
-// Hook spécialisé pour les données de l'API
 export function useApiCache() {
   const cache = useClientCache();
 
-  // Mettre en cache une réponse API
-  const cacheApiResponse = useCallback((endpoint: string, data: any, ttl: number = 1800000) => { // 30 minutes par défaut
+  const cacheApiResponse = useCallback((endpoint: string, data: any, ttl: number = 1800000) => {
     const cacheKey = `api_${endpoint}`;
     cache.setCacheData(cacheKey, data, ttl);
   }, [cache]);
 
-  // Récupérer une réponse API du cache
   const getCachedApiResponse = useCallback((endpoint: string) => {
     const cacheKey = `api_${endpoint}`;
     return cache.getCacheData(cacheKey);
   }, [cache]);
 
-  // Vérifier si une réponse API est en cache
   const hasCachedApiResponse = useCallback((endpoint: string) => {
     const cacheKey = `api_${endpoint}`;
     return cache.hasCacheData(cacheKey);
@@ -263,3 +242,5 @@ export function useApiCache() {
     getCacheStats: cache.getCacheStats
   };
 }
+
+

@@ -1,4 +1,4 @@
-// TradePanel.tsx
+
 import { useEffect, useRef, useState } from "react";
 import type { Item } from "./Inventory";
 import CachedImage from "./utils/CachedImage";
@@ -33,7 +33,6 @@ interface TradePanelProps {
   apiBase?: string;
 }
 
-// Fonction pour formater les métadonnées pour l'affichage
 const formatMetadata = (metadata?: { [key: string]: unknown }) =>
   metadata
     ? Object.entries(metadata)
@@ -42,8 +41,6 @@ const formatMetadata = (metadata?: { [key: string]: unknown }) =>
       .join(", ") || null
     : null;
 
-// Sous-composant pour un item d'inventaire
-// Normalize incoming item objects to expected TradeItem shape
 const normalizeTradeItem = (raw: any): TradeItem => ({
   ...raw,
   item_id: raw.item_id ?? raw.itemId ?? (raw.itemId ? String(raw.itemId) : ""),
@@ -55,7 +52,6 @@ const normalizeTradeItem = (raw: any): TradeItem => ({
   purchasePrice: raw.purchasePrice ?? raw.purchase_price ?? raw.price ?? undefined,
 });
 
-// Sous-composant pour un item d'inventaire
 function TradeInventoryItem({ item: rawItem, onClick }: { item: TradeItem; onClick?: () => void }) {
   const item = normalizeTradeItem(rawItem);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -97,7 +93,6 @@ function TradeInventoryItem({ item: rawItem, onClick }: { item: TradeItem; onCli
   );
 }
 
-// Sous-composant pour une colonne d'items de trade
 function TradeColumn({ title, items, approved, removable, onRemoveItem }: { title: string; items: TradeItem[]; approved: boolean; removable?: boolean; onRemoveItem?: (item: TradeItem) => void }) {
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -123,7 +118,7 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Poll trade state every second
+  
   useEffect(() => {
     const fetchTrade = async () => {
       try {
@@ -142,12 +137,12 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
     return () => intervalRef.current && clearInterval(intervalRef.current);
   }, [tradeId, token, apiBase]);
 
-  // Close panel if trade is completed
+  
   useEffect(() => {
     if (trade?.status === "completed" || trade?.status === "canceled") onClose();
   }, [trade?.status, onClose]);
 
-  // Actions
+  
   const approve = async () => {
     setLoading(true);
     try {
@@ -206,7 +201,7 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
     }
   };
 
-  // Helpers
+  
   const isCurrentUserFrom = trade?.fromUserId === userId;
   const rawUserItems = isCurrentUserFrom ? trade?.fromUserItems || [] : trade?.toUserItems || [];
   const rawOtherItems = isCurrentUserFrom ? trade?.toUserItems || [] : trade?.fromUserItems || [];
@@ -215,7 +210,7 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
   const userApproved = isCurrentUserFrom ? trade?.approvedFromUser : trade?.approvedToUser;
   const otherApproved = isCurrentUserFrom ? trade?.approvedToUser : trade?.approvedFromUser;
 
-  // UI
+  
   if (loading && !trade) return <div>Loading trade...</div>;
   if (error) return <div style={{ color: "red" }}>{error}</div>;
   if (!trade) return <div>Trade not found.</div>;
@@ -268,3 +263,4 @@ export default function TradePanel({ tradeId, userId, token, inventory, reloadIn
     </div>
   );
 }
+

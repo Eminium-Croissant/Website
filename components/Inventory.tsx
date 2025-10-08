@@ -13,7 +13,7 @@ export interface Item {
   description: string;
   amount: number;
   price?: number;
-  purchasePrice?: number; // Ajouter le prix d'achat
+  purchasePrice?: number; 
   owner?: string;
   showInStore?: boolean;
   deleted?: boolean;
@@ -50,7 +50,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     maxAmount?: number;
     amount?: number;
     price?: number;
-    showPrice?: boolean; // <--- nouveau
+    showPrice?: boolean; 
   } | null>(null);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [ownerUser, setOwnerUser] = useState<any | null>(null);
@@ -60,11 +60,11 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
   const { t } = useTranslation("common");
 
   useEffect(() => {
-    // Traiter les items de l'inventaire pour extraire l'uniqueId et sellable
+    
     const processedItems = (profile.inventory || []).map((item) => ({
       ...item,
       uniqueId: item.metadata?._unique_id as string | undefined,
-      sellable: item.sellable ?? false, // S'assurer que sellable est défini
+      sellable: item.sellable ?? false, 
     }));
     setItems(processedItems);
     setLoading(false);
@@ -80,12 +80,12 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     })
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error("Failed to fetch inventory"))))
       .then((data) => {
-        // Traiter les items pour extraire l'uniqueId et sellable
+        
         const processedItems = (data.inventory || []).map((item: any) => ({
           ...item,
           uniqueId: item.metadata?._unique_id as string | undefined,
           sellable: item.sellable ?? false,
-          iconHash: item.iconHash || item.item_id, // Assurer que iconHash est défini
+          iconHash: item.iconHash || item.item_id, 
         }));
         setItems(processedItems);
         setLoading(false);
@@ -110,7 +110,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     }
   };
 
-  // Prompt pour SELL
+  
   const customPromptSell = (item: Item) => {
     return new Promise<{ confirmed: boolean; amount?: number }>((resolve) => {
       setPrompt({
@@ -123,7 +123,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     });
   };
 
-  // Prompt pour DROP
+  
   const customPromptDrop = (item: Item) => {
     return new Promise<{ confirmed: boolean; amount?: number }>((resolve) => {
       setPrompt({
@@ -136,7 +136,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     });
   };
 
-  // Prompt pour AUCTION
+  
 
   const handleSell = async (item: Item, dataItemIndex: number) => {
     if (!isMe) return;
@@ -168,11 +168,11 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
       .catch((err) => setError(err.message));
   };
 
-  // Add handleAuction function
+  
   const handleAuction = async (item: Item) => {
     if (!isMe) return;
 
-    // Demander le prix de mise en vente (prompt personnalisé)
+    
     let price = 0;
     let confirmed = false;
     await new Promise<void>((resolve) => {
@@ -189,7 +189,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     });
     if (!confirmed || price <= 0) return;
 
-    // Appel API pour créer l'ordre de vente
+    
     fetch("/api/market-listings", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -248,7 +248,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
         ...item,
         ...details,
         amount: item.amount,
-        uniqueId: item.metadata._unique_id, // Conserver l'uniqueId
+        uniqueId: item.metadata._unique_id, 
       });
       setOwnerUser(ownerUser);
     } catch {
@@ -262,11 +262,11 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     setOwnerUser(null);
   };
 
-  // Fonction pour formater les métadonnées pour l'affichage
+  
   const formatMetadata = (metadata?: { [key: string]: unknown }) => {
     if (!metadata) return null;
 
-    // Exclure _unique_id de l'affichage
+    
     const displayMetadata = Object.entries(metadata)
       .filter(([key]) => key !== "_unique_id")
       .map(([key, value]) => `${key}: ${value}`)
@@ -275,7 +275,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     return displayMetadata || null;
   };
 
-  // Map des couleurs de rareté (doit correspondre à rarity.css)
+  
   const rarityColors: Record<string, string> = {
     "very-common": "#B0B0B0",
     common: "#9E9E9E",
@@ -363,7 +363,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
         <div className="inventory-item-qty" style={{ position: "absolute", zIndex: 3 }}>
           x{item.amount}
         </div>
-        {/* Indicateur visuel pour les items avec métadonnées */}
+        
         {item.metadata && (
           <div
             className="inventory-item-metadata-indicator"
@@ -384,7 +384,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
           <div className="inventory-tooltip" style={{ left: mousePos.x, top: mousePos.y }}>
             <div className="inventory-tooltip-name">{item.name}</div>
             <div className="inventory-tooltip-desc">{item.description}</div>
-            {/* Affichage de la rareté */}
+            
             <div
               className="inventory-tooltip-rarity"
               style={
@@ -422,7 +422,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                 {formattedMetadata}
               </div>
             )}
-            {/* Affichage du prix d'achat */}
+            
             {item.purchasePrice && (
               <div
                 className="inventory-tooltip-price"
@@ -449,7 +449,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                 />
               </div>
             )}
-            {/* Affichage du statut sellable */}
+            
             {!item.metadata && (
               <div
                 className="inventory-tooltip-sellable"
@@ -463,7 +463,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                 {item.sellable && item.purchasePrice != null ? t("inventory.canBeSold") : t("inventory.cannotBeSold")}
               </div>
             )}
-            {/* Affichage de l'unique ID pour debug (optionnel) */}
+            
             {item.metadata?._unique_id && (
               <>
                 <div
@@ -494,13 +494,13 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
         )}
         {showContext && isMe && mousePos && (
           <div className="inventory-context-menu" style={{ left: mousePos.x, top: mousePos.y }} onClick={(e) => e.stopPropagation()}>
-            {/* Afficher "Sell" seulement si l'item n'a pas de métadonnées ET est sellable */}
+            
             {!item.metadata && item.sellable && item.purchasePrice != null ? (
               <div className="inventory-context-sell" onClick={() => onSell(item, dataItemIndex)}>
                 Sell
               </div>
             ) : null}
-            {/* Auction button: show only if item is sellable and has no metadata */}
+            
             {item.purchasePrice != null ? (
               <div className="inventory-context-auction" onClick={() => onAuction(item)}>
                 Auction
@@ -543,7 +543,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                   {selectedItem.amount}x {selectedItem.name}
                 </div>
                 <div className="inventory-details-desc">{selectedItem.description}</div>
-                {/* Affichage de la rareté */}
+                
                 <div
                   className="inventory-details-rarity"
                   style={
@@ -568,7 +568,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                 >
                   {t("inventory.rarity")}: {selectedItem.rarity?.replace(/-/g, " ")}
                 </div>
-                {/* Affichage des métadonnées dans la vue détaillée */}
+                
                 {formatMetadata(selectedItem.metadata) && (
                   <div
                     className="inventory-details-metadata"
@@ -582,7 +582,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                     {t("inventory.metadata")}: {formatMetadata(selectedItem.metadata)}
                   </div>
                 )}
-                {/* Affichage du prix d'achat dans la vue détaillée */}
+                
                 {selectedItem.purchasePrice !== undefined && (
                   <div
                     className="inventory-details-purchase-price"
@@ -608,7 +608,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                     />
                   </div>
                 )}
-                {/* Affichage du statut sellable dans la vue détaillée */}
+                
                 {!selectedItem.metadata && (
                   <div
                     className="inventory-details-sellable"
@@ -622,7 +622,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
                     {selectedItem.sellable && selectedItem.purchasePrice != null ? t("inventory.thisCanBeSold") : t("inventory.thisCannotBeSold")}
                   </div>
                 )}
-                {/* Affichage de l'unique ID dans la vue détaillée */}
+                
                 {selectedItem.metadata?._unique_id && (
                   <div
                     className="inventory-details-unique-id"
@@ -698,3 +698,5 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     </div>
   );
 }
+
+

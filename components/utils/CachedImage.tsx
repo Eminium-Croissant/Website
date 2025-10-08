@@ -7,8 +7,8 @@ interface CachedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     fallback?: string;
     onLoad?: () => void;
     onError?: () => void;
-    blurEffect?: boolean; // Option pour activer/désactiver l'effet de flou
-    directLoad?: boolean; // Option pour charger directement sans cache
+    blurEffect?: boolean; 
+    directLoad?: boolean; 
 }
 
 const CachedImage: React.FC<CachedImageProps> = ({
@@ -29,11 +29,11 @@ const CachedImage: React.FC<CachedImageProps> = ({
         />
     );
 
-    // Useless cache
+    
     const { getCachedImage, loadImage } = useImageCache();
     const cached = getCachedImage(src);
     const [imageSrc, setImageSrc] = useState<string>(cached || '');
-    const [isLoading, setIsLoading] = useState(!cached); // <-- ici
+    const [isLoading, setIsLoading] = useState(!cached); 
     const [hasError, setHasError] = useState(false);
     const mountedRef = useRef(true);
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -59,7 +59,7 @@ const CachedImage: React.FC<CachedImageProps> = ({
             setIsLoading(true);
             setHasError(false);
 
-            // Utilisation de l'objet Image natif pour profiter du cache navigateur
+            
             const img = new window.Image();
             img.onload = () => {
                 if (mountedRef.current) {
@@ -74,7 +74,7 @@ const CachedImage: React.FC<CachedImageProps> = ({
                     setHasError(true);
 
                     if (fallback) {
-                        // Essayer de charger le fallback de la même façon
+                        
                         const fallbackImg = new window.Image();
                         fallbackImg.onload = () => {
                             if (mountedRef.current) {
@@ -92,7 +92,7 @@ const CachedImage: React.FC<CachedImageProps> = ({
                 }
             };
             img.src = imageUrl;
-        }, 50); // Debounce de 50ms
+        }, 50); 
     }, [fallback, onLoad, onError]);
 
     useEffect(() => {
@@ -106,7 +106,7 @@ const CachedImage: React.FC<CachedImageProps> = ({
             return;
         }
 
-        // Vérifier immédiatement le cache
+        
         const cached = getCachedImage(src);
         if (cached) {
             setImageSrc(cached);
@@ -116,7 +116,7 @@ const CachedImage: React.FC<CachedImageProps> = ({
             return;
         }
 
-        // Sinon, charger avec debounce
+        
         debouncedLoadImage(src);
     }, [src, getCachedImage, debouncedLoadImage, onLoad, directLoad]);
 
@@ -149,7 +149,7 @@ const CachedImage: React.FC<CachedImageProps> = ({
         );
     }
 
-    // Don't render if no valid image source
+    
     if (!imageSrc) {
         return null;
     }

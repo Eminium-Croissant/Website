@@ -63,7 +63,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      credentials: "include", // Ensure cookies are sent with the request
+      credentials: "include", 
     })
       .then(async (res) => {
         if (res.status === 200) {
@@ -87,7 +87,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       .finally(() => setLoading(false));
   }, []);
 
-  // Met à jour le cookie balance quand la balance change
+  
   useEffect(() => {
     if (balance !== null && !isNaN(balance)) {
       document.cookie = `balance=${balance}; path=/;`;
@@ -109,3 +109,4 @@ export function useAuthContext() {
     throw new Error("useAuthContext must be used within an AuthProvider");
   return context;
 }
+
