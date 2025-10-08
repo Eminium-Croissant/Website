@@ -355,7 +355,10 @@ const Library: React.FC = () => {
   };
 
   const handleDelete = () => {
-    if (selected && selected.state === 'installed') {
+    if (
+      selected &&
+      (selected.state === 'installed' || selected.state === 'to_update')
+    ) {
       ws.send(JSON.stringify({ action: 'deleteGame', gameId: selected.gameId }));
     }
   };
