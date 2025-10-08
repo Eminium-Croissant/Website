@@ -296,8 +296,7 @@ function MarketplaceDesktop(props: ReturnType<typeof useMarketplaceLogic>) {
                             setBuyOrderItemSearch(item.name);
                             setBuyOrderPrice(item.price || 1);
                             setBuyOrderDropdownOpen(false);
-                          }}
-                        >
+                          }}>
                           <CachedImage src={`/items-icons/${item.iconHash || item.itemId}`} alt='icon' className='w-6 h-6 rounded bg-glass-dark/50' />
                           <span className='text-glass-text'>{item.name}</span>
                         </li>
@@ -449,8 +448,7 @@ function MarketplaceMobile(props: ReturnType<typeof useMarketplaceLogic>) {
                             setBuyOrderItemSearch(item.name);
                             setBuyOrderPrice(item.price || 1);
                             setBuyOrderDropdownOpen(false);
-                          }}
-                        >
+                          }}>
                           <CachedImage src={`/items-icons/${item.iconHash || item.itemId}`} alt='icon' className='w-6 h-6 rounded bg-glass-dark/50' />
                           <span className='text-glass-text'>{item.name}</span>
                         </li>

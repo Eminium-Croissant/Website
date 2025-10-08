@@ -511,8 +511,7 @@ const Library: React.FC = () => {
               style={{
                 scrollbarWidth: 'thin',
                 scrollbarColor: 'rgba(255, 255, 255, 0.1) transparent',
-              }}
-            >
+              }}>
               {filteredGames.map(game => (
                 <div
                   key={game.gameId}
@@ -524,8 +523,7 @@ const Library: React.FC = () => {
                     } else if (game.state === 'to_update') {
                       handleUpdate();
                     }
-                  }}
-                >
+                  }}>
                   <div className='flex items-center gap-3'>
                     <CachedImage src={`/games-icons/${game.iconHash ? game.iconHash : 'default'}`} alt={game.name} className='w-12 h-12 rounded-lg object-cover' />
                     <div className='flex-1'>
@@ -553,8 +551,7 @@ const Library: React.FC = () => {
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)',
-          }}
-        >
+          }}>
           {!selected ? (
             <div className='glass-content-card h-full flex items-center justify-center'>
               <div className='text-center'>
@@ -695,8 +692,7 @@ const Library: React.FC = () => {
                   style={{
                     scrollbarWidth: 'thin',
                     scrollbarColor: 'rgba(255, 255, 255, 0.1) transparent',
-                  }}
-                >
+                  }}>
                   {transferUserResults.map(user => (
                     <div
                       key={user.userId || user.user_id || user.id}
@@ -705,8 +701,7 @@ const Library: React.FC = () => {
                         setTransferTargetId(user.userId || user.user_id || user.id);
                         setTransferTarget(user.username);
                         setTransferUserDropdownOpen(false);
-                      }}
-                    >
+                      }}>
                       <img
                         src={`/avatar/${user.userId || user.user_id || user.id}`}
                         alt='avatar'
@@ -729,8 +724,7 @@ const Library: React.FC = () => {
                 style={{
                   backgroundColor: 'rgba(255, 68, 68, 0.1)',
                   border: '1px solid rgba(255, 68, 68, 0.3)',
-                }}
-              >
+                }}>
                 <div className='text-sm' style={{ color: '#ff4444' }}>
                   {transferError}
                 </div>
@@ -804,8 +798,7 @@ function MarkdownDescription({ children }: { children: string }) {
               alt={props.alt ?? ''}
             />
           ),
-        }}
-      >
+        }}>
         {children}
       </ReactMarkdown>
     </div>

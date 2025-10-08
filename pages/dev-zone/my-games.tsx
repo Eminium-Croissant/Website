@@ -348,8 +348,7 @@ const MyGames = () => {
                     // });
                   }}
                   onMouseLeave={() => setTooltip(null)}
-                  onClick={() => handleEdit(game)}
-                >
+                  onClick={() => handleEdit(game)}>
                   <img src={'/games-icons/' + (game.iconHash ? game.iconHash : 'default')} alt={game.name} className='mygames-card-icon' draggable={false} />
                   <div className='mygames-card-name'>{game.name}</div>
                   <div className='mygames-card-price' style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -372,15 +371,13 @@ const MyGames = () => {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       gap: 8,
-                    }}
-                  >
+                    }}>
                     <button
                       className='glass-button-green'
                       onClick={e => {
                         e.stopPropagation();
                         handleEdit(game);
-                      }}
-                    >
+                      }}>
                       {t('myGames.edit')}
                     </button>
                     <button
@@ -392,8 +389,7 @@ const MyGames = () => {
                         setTimeout(() => {
                           e.currentTarget.textContent = 'Id';
                         }, 1000);
-                      }}
-                    >
+                      }}>
                       {t('myGames.id')}
                     </button>
                     <button
@@ -401,8 +397,7 @@ const MyGames = () => {
                       onClick={e => {
                         e.stopPropagation();
                         handleOwnershipTransfer(game);
-                      }}
-                    >
+                      }}>
                       {t('myGames.transfer')}
                     </button>
                   </div>
@@ -420,8 +415,7 @@ const MyGames = () => {
                 style={{
                   left: tooltip.x,
                   top: tooltip.y,
-                }}
-              >
+                }}>
                 <div className='mygames-tooltip-title'>{tooltip.game.name}</div>
                 <div className='mygames-tooltip-desc'>{tooltip.game.description}</div>
                 <div className='mygames-tooltip-price' style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -455,8 +449,7 @@ const MyGames = () => {
             style={{
               maxHeight: '90vh',
               overflowY: 'auto',
-            }}
-          >
+            }}>
             <div className='mygames-modal-col'>
               <label className='mygames-label' htmlFor='name'>
                 {t('myGames.name')}
@@ -561,8 +554,7 @@ const MyGames = () => {
                 color: '#fff',
                 fontSize: 24,
                 cursor: 'pointer',
-              }}
-            >
+              }}>
               &times;
             </button>
             <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
@@ -613,8 +605,7 @@ const MyGames = () => {
                       listStyle: 'none',
                       margin: 0,
                       padding: 0,
-                    }}
-                  >
+                    }}>
                     {ownershipUserResults.map(u => (
                       <li
                         key={u.userId || u.user_id || u.id}
@@ -630,8 +621,7 @@ const MyGames = () => {
                           setOwnershipUserId(u.userId || u.user_id || u.id);
                           setOwnershipUserSearch(u.username);
                           setOwnershipUserDropdownOpen(false);
-                        }}
-                      >
+                        }}>
                         <img
                           src={`/avatar/${u.userId || u.user_id || u.id}`}
                           alt='avatar'
@@ -669,8 +659,7 @@ const MyGames = () => {
                     padding: '10px 24px',
                     fontSize: '1rem',
                     cursor: ownershipUserId ? 'pointer' : 'not-allowed',
-                  }}
-                >
+                  }}>
                   {ownershipLoading ? t('myGames.transferring') : t('myGames.transfer')}
                 </button>
                 <button
@@ -684,8 +673,7 @@ const MyGames = () => {
                     padding: '10px 24px',
                     fontSize: '1rem',
                     cursor: 'pointer',
-                  }}
-                >
+                  }}>
                   {t('myGames.cancel')}
                 </button>
               </div>

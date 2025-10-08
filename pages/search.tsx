@@ -285,8 +285,7 @@ const SearchPage: React.FC = () => {
                                 alt={props.alt ?? ''}
                               />
                             ),
-                          }}
-                        >
+                          }}>
                           {game.description || ''}
                         </ReactMarkdown>
                       </div>
@@ -317,8 +316,7 @@ const SearchPage: React.FC = () => {
                   e.preventDefault();
                   handleBuy(item);
                 }}
-                className='no-underline'
-              >
+                className='no-underline'>
                 <div className='glass-card p-4 hover:scale-105 transition-transform duration-300 hover:shadow-glass-glow'>
                   <div className='flex items-center gap-4'>
                     <CachedImage src={`/items-icons/${item?.iconHash || item.itemId ? item.iconHash || item.itemId : 'default.aviv'}`} alt={item.name} className='w-16 h-16 object-contain rounded-xl glass-card border-2 border-glass-border' />
@@ -346,8 +344,7 @@ const SearchPage: React.FC = () => {
                                 alt={props.alt ?? ''}
                               />
                             ),
-                          }}
-                        >
+                          }}>
                           {item.description || ''}
                         </ReactMarkdown>
                       </div>

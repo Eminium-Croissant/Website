@@ -222,8 +222,7 @@ function MarkdownDescription({ children }: { children: string }) {
               alt={props.alt ?? ''}
             />
           ),
-        }}
-      >
+        }}>
         {children}
       </ReactMarkdown>
     </div>
@@ -273,8 +272,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
           style={{
             scrollbarWidth: 'thin',
             scrollbarColor: 'rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)',
-          }}
-        >
+          }}>
           <div className='glass-content-card h-full' style={{ overflowY: 'scroll' }}>
             {/* Game Banner + Back Button + Action Buttons */}
             <div className='relative h-64 mb-6 rounded-xl overflow-hidden'>

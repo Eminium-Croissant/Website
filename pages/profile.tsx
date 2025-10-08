@@ -337,8 +337,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
               flexDirection: 'column',
               gap: 14,
               color: '#fff',
-            }}
-          >
+            }}>
             {prompt.item && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
                 <CachedImage
@@ -360,8 +359,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
                       alignItems: 'center',
                       gap: 7,
                       marginTop: 2,
-                    }}
-                  >
+                    }}>
                     {t('profile.price')} {prompt.item.price}
                     <CachedImage src='/assets/credit.avif' style={{ width: 16, height: 16 }} />
                     {prompt.item.stock !== undefined && (
@@ -399,8 +397,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
                       alignItems: 'center',
                       gap: 4,
                       fontWeight: 500,
-                    }}
-                  >
+                    }}>
                     {t('profile.totalLabel')} {(prompt.amount || 1) * (prompt.item.price || 0)}
                     <CachedImage src='/assets/credit.avif' style={{ width: 15, height: 15 }} />
                   </span>
@@ -447,8 +444,7 @@ const ShopItemImage = React.memo(function ShopItemImage({ item }: { item: ShopIt
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-      }}
-    >
+      }}>
       <CachedImage
         src={iconUrl}
         alt='default'
@@ -708,8 +704,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-        }}
-      >
+        }}>
         <div className='profile-picture-container'>
           <div
             style={{
@@ -717,8 +712,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
               flexDirection: 'row',
               alignItems: 'center',
               gap: '64px',
-            }}
-          >
+            }}>
             <label htmlFor='profile-picture-input' style={{ cursor: isMe ? 'pointer' : 'default', margin: 0 }}>
               <CachedImage src={'/avatar/' + (search || user?.id)} alt={profile.username} className='profile-avatar' />
               {isMe && <input id='profile-picture-input' type='file' accept='image/*' style={{ display: 'none' }} onChange={handleProfilePictureChange} />}
@@ -767,8 +761,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                         setGiveCreditsOpen(true);
                         setGiveCreditsError(null);
                         setGiveCreditsSuccess(null);
-                      }}
-                    >
+                      }}>
                       {t('profile.giveCredits')}
                     </button>
                     <button className='glass-button' onClick={handleStartTrade}>
@@ -799,8 +792,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                   alignItems: 'center',
                   gap: 8,
                   marginTop: 8,
-                }}
-              >
+                }}>
                 <Link href='/my-market-listings'>
                   <button className='glass-button'>{t('profile.myMarketListings')}</button>
                 </Link>
@@ -965,8 +957,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
           flexDirection: 'column',
           alignItems: 'center',
           width: '100%',
-        }}
-      >
+        }}>
         <div className='profile-picture-container'>
           <label
             htmlFor='profile-picture-input'
@@ -975,8 +966,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
               flexDirection: 'column',
               alignItems: 'center',
               cursor: isMe ? 'pointer' : 'default',
-            }}
-          >
+            }}>
             <CachedImage src={'/avatar/' + (search || user?.id)} alt={profile.username} className='profile-avatar' />
           </label>
           {isMe && <input id='profile-picture-input' type='file' accept='image/*' style={{ display: 'none' }} onChange={handleProfilePictureChange} />}
@@ -989,8 +979,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-          }}
-        >
+          }}>
           <div className='profile-name' style={{ fontSize: '1.2em', fontWeight: 600 }}>
             {profile.username}{' '}
             <Certification
@@ -1015,8 +1004,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
               justifyContent: 'center',
               marginTop: 8,
               marginBottom: 8,
-            }}
-          >
+            }}>
             {user && !isMe ? (
               <>
                 {user.admin && profile.disabled ? (
@@ -1038,8 +1026,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                         setGiveCreditsOpen(true);
                         setGiveCreditsError(null);
                         setGiveCreditsSuccess(null);
-                      }}
-                    >
+                      }}>
                       {t('profile.giveCredits')}
                     </button>
                     <button className='glass-button' style={{ minWidth: 90 }} onClick={handleStartTrade}>
@@ -1103,8 +1090,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
             flexDirection: 'column',
             width: '100%',
             padding: '0 8px',
-          }}
-        >
+          }}>
           <div className='profile-shop-section'>
             <h2 className='profile-inventory-title'>{t('profile.inventoryTitle')}</h2>
             <Inventory
@@ -1205,8 +1191,7 @@ function CreatedGamesModal({ open, onClose, games }) {
       onClick={e => {
         // Ne ferme que si on clique sur l'overlay, pas sur le contenu
         if (e.target === e.currentTarget) onClose();
-      }}
-    >
+      }}>
       <div className='shop-prompt glass-container trade-panel trade-panel-centered' style={{ minWidth: 400, maxWidth: 600 }}>
         {games.length === 0 ? (
           <div>{t('profile.noCreatedGames', 'Aucun jeu créé')}</div>
@@ -1220,8 +1205,7 @@ function CreatedGamesModal({ open, onClose, games }) {
                   borderRadius: 8,
                   padding: 12,
                   background: '#23272a',
-                }}
-              >
+                }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <CachedImage src={`/games-icons/${game.iconHash ? game.iconHash : 'default'}`} style={{ width: 48, height: 48, borderRadius: 8 }} />
                   <div
@@ -1229,8 +1213,7 @@ function CreatedGamesModal({ open, onClose, games }) {
                       router.push(`/game?gameId=${game.gameId}`);
                       onClose();
                     }}
-                    style={{ cursor: 'pointer', flex: 1 }}
-                  >
+                    style={{ cursor: 'pointer', flex: 1 }}>
                     <div style={{ fontWeight: 600, fontSize: 17 }}>{game.name}</div>
                     <div style={{ color: '#aaa', fontSize: 13 }}>{game.description?.slice(0, 120) || ''}</div>
                   </div>
@@ -1255,8 +1238,7 @@ function UserStudiosModal({ open, onClose, studios }) {
         // Ne ferme que si on clique sur l'overlay, pas sur le contenu
         if (e.target !== e.currentTarget) return;
         onClose();
-      }}
-    >
+      }}>
       <div className='shop-prompt glass-container trade-panel trade-panel-centered' style={{ minWidth: 400, maxWidth: 600 }}>
         {studios.length === 0 ? (
           <div>{t('profile.noStudios', 'Aucun studio')}</div>
@@ -1278,8 +1260,7 @@ function UserStudiosModal({ open, onClose, studios }) {
                 onClick={() => {
                   router.push(`/profile?user=${studio.id}`);
                   onClose();
-                }}
-              >
+                }}>
                 <CachedImage
                   src={`/avatar/${studio.id}`}
                   style={{
@@ -1298,8 +1279,7 @@ function UserStudiosModal({ open, onClose, studios }) {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 8,
-                    }}
-                  >
+                    }}>
                     {studio.name}
                     {studio.verified ? (
                       <Certification
@@ -1385,8 +1365,7 @@ function BadgesBox({ badges, studio }: { badges: string[]; studio?: boolean }) {
         alignItems: 'center',
         flexWrap: 'wrap',
         boxShadow: '0 1px 4px 0 rgba(0,0,0,0.12)',
-      }}
-    >
+      }}>
       {filteredBadges.map(badge => {
         const info = BADGE_INFO[badge];
         if (!info) return null;
@@ -1407,8 +1386,7 @@ function BadgesBox({ badges, studio }: { badges: string[]; studio?: boolean }) {
                 cursor: 'pointer',
                 outline: 'none',
               }}
-              tabIndex={0}
-            >
+              tabIndex={0}>
               <FontAwesomeIcon
                 icon={icon}
                 style={{

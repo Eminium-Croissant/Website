@@ -70,8 +70,7 @@ function OAuth2DemoDesktop() {
             }
 
             lookForCode();
-          }}
-        >
+          }}>
           <img src='https://croissant-api.fr/assets/icons/favicon-32x32.avif' alt='icon' className='w-6 h-6' />
           <span>{t('oauth2.demo.connectButton')}</span>
         </button>
@@ -146,8 +145,7 @@ function OAuth2DemoMobile() {
             }
 
             lookForCode();
-          }}
-        >
+          }}>
           <img src='https://croissant-api.fr/assets/icons/favicon-32x32.avif' alt='icon' className='w-5 h-5' />
           <span>{t('oauth2.demo.connectButton')}</span>
         </button>

@@ -84,8 +84,7 @@ export default function LobbyPage() {
                             } catch {
                               showTooltip('Failed to copy link.');
                             }
-                          }}
-                        >
+                          }}>
                           Copy Lobby Link
                         </button>
                         <button onClick={leaveLobby} disabled={actionLoading}>

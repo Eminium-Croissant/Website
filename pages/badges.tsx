@@ -100,8 +100,7 @@ const BadgesPage: React.FC = () => {
                 className={`
                   flex items-start gap-5 p-6 shadow-md transition-all duration-200
                   ${isHighlighted ? 'glass-card ring-2 ring-neon-yellow glass-shimmer' : 'glass-card glass-glow'}
-                `}
-              >
+                `}>
                 <div className='flex items-center justify-center w-12 h-12 rounded-lg shrink-0' style={{ backgroundColor: `${badge.color}22` }}>
                   <FontAwesomeIcon icon={badge.icon} className='text-3xl' style={{ color: badge.color }} />
                 </div>

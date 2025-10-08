@@ -89,8 +89,7 @@ function ChangePasswordModal({ open, onClose, onSubmit, loading, error, success 
             gap: 12,
             alignItems: 'stretch',
             marginBottom: 8,
-          }}
-        >
+          }}>
           <label style={modalLabelStyle}>Current password</label>
           <input type='password' style={{ ...modalInputStyle, marginBottom: 0, width: '256px' }} placeholder='Enter current password' value={oldPassword} onChange={e => setOldPassword(e.target.value)} autoComplete='current-password' required />
           <label style={modalLabelStyle}>New password</label>
@@ -197,8 +196,7 @@ function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean;
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 12,
-              }}
-            >
+              }}>
               <label style={modalLabelStyle}>Enter passcode from app</label>
               <input type='text' style={modalInputStyle} value={passcode} onChange={e => setPasscode(e.target.value)} placeholder='123456' required maxLength={6} pattern='\d{6}' />
               <button type='submit' style={{ ...modalButtonStyle, width: '100%' }} disabled={loading}>
@@ -213,8 +211,7 @@ function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean;
                 }}
                 onClick={() => {
                   onClose(false);
-                }}
-              >
+                }}>
                 Cancel
               </button>
             </form>
@@ -262,8 +259,7 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
                     setError(err.message);
                   }
                 }
-              }}
-            >
+              }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 <CachedImage src={user?.steam_avatar_url} alt='Steam Avatar' style={{ width: 32, height: 32, borderRadius: '20%' }} />
                 <span>
@@ -280,8 +276,7 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
               className='glass-button-neon w-full flex items-center justify-center gap-3'
               style={{
                 background: 'linear-gradient(90deg, #5865F2 60%, #404EED 100%)',
-              }}
-            >
+              }}>
               <i className='fab fa-discord text-xl' />
               {t('settings.linkDiscord')}
             </button>
@@ -291,8 +286,7 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
               className='glass-button-neon w-full flex items-center justify-center gap-3 opacity-70'
               style={{
                 background: 'linear-gradient(90deg, #5865F2 60%, #404EED 100%)',
-              }}
-            >
+              }}>
               <i className='fab fa-discord text-xl' />
               {t('settings.discordLinked')}
             </button>
@@ -307,8 +301,7 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
                 background: '#fff',
                 color: '#222',
                 border: '1px solid #e0e0e0',
-              }}
-            >
+              }}>
               <svg width='20' height='20' viewBox='0 0 48 48'>
                 <g>
                   <path fill='#4285F4' d='M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z' />
@@ -327,8 +320,7 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
                 background: '#fff',
                 color: '#222',
                 border: '1px solid #e0e0e0',
-              }}
-            >
+              }}>
               <svg width='20' height='20' viewBox='0 0 48 48'>
                 <g>
                   <path fill='#4285F4' d='M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z' />
@@ -652,8 +644,7 @@ function LanguageSelector() {
           background: '#222',
           color: '#fff',
           border: '1px solid #444',
-        }}
-      >
+        }}>
         {availableLanguages.map(l => (
           <option
             key={l.code}
@@ -661,8 +652,7 @@ function LanguageSelector() {
             style={{
               background: '#222',
               color: '#fff',
-            }}
-          >
+            }}>
             {l.label}
           </option>
         ))}
@@ -959,8 +949,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                       style={{
                         background: 'linear-gradient(90deg, #1b2838 60%, #171a21 100%)',
                         opacity: linkText === 'Go on website to link' || user?.isStudio ? 0.5 : 1,
-                      }}
-                    >
+                      }}>
                       <i className='fab fa-steam text-xl' />
                       {linkText}
                     </button>
@@ -993,8 +982,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                             }
                           }
                         }}
-                        className='glass-button-red text-xs px-3 py-1'
-                      >
+                        className='glass-button-red text-xs px-3 py-1'>
                         Unlink
                       </button>
                     </div>
@@ -1007,8 +995,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                       className='glass-button-neon w-full flex items-center justify-center gap-3'
                       style={{
                         background: 'linear-gradient(90deg, #5865F2 60%, #404EED 100%)',
-                      }}
-                    >
+                      }}>
                       <i className='fab fa-discord text-xl' />
                       {t('settings.linkDiscord')}
                     </button>
@@ -1018,8 +1005,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                       className='glass-button-neon w-full flex items-center justify-center gap-3 opacity-70'
                       style={{
                         background: 'linear-gradient(90deg, #5865F2 60%, #404EED 100%)',
-                      }}
-                    >
+                      }}>
                       <i className='fab fa-discord text-xl' />
                       {t('settings.discordLinked')}
                     </button>
@@ -1034,8 +1020,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                         background: '#fff',
                         color: '#222',
                         border: '1px solid #e0e0e0',
-                      }}
-                    >
+                      }}>
                       <svg width='20' height='20' viewBox='0 0 48 48'>
                         <g>
                           <path fill='#4285F4' d='M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z' />
@@ -1054,8 +1039,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                         background: '#fff',
                         color: '#222',
                         border: '1px solid #e0e0e0',
-                      }}
-                    >
+                      }}>
                       <svg width='20' height='20' viewBox='0 0 48 48'>
                         <g>
                           <path fill='#4285F4' d='M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z' />
@@ -1139,7 +1123,42 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
   const { apiKey } = useAuth();
   // Version mobile : layout vertical, padding réduit, boutons plus gros, police plus petite
   // Adaptez les styles pour mobile
-  const { user, setUser, username, usernameLoading, usernameSuccess, usernameError, showApiKey, setShowApiKey, avatar, avatarFile, loading, success, error, fileInputRef, linkText, showPasswordModal, setShowPasswordModal, passwordLoading, passwordSuccess, passwordError, handleAvatarChange, handleAvatarUpload, handleUsernameChange, handleUsernameSave, handlePasswordChange, passkeyLoading, passkeySuccess, passkeyError, handleRegisterPasskey, showGoogleAuthModal, setShowGoogleAuthModal, showSecurityModal, setShowSecurityModal, router } = props;
+  const {
+    user,
+    setUser,
+    username,
+    usernameLoading,
+    usernameSuccess,
+    usernameError,
+    showApiKey,
+    setShowApiKey,
+    avatar,
+    avatarFile,
+    loading,
+    success,
+    error,
+    fileInputRef,
+    linkText,
+    showPasswordModal,
+    setShowPasswordModal,
+    passwordLoading,
+    passwordSuccess,
+    passwordError,
+    handleAvatarChange,
+    handleAvatarUpload,
+    handleUsernameChange,
+    handleUsernameSave,
+    handlePasswordChange,
+    passkeyLoading,
+    passkeySuccess,
+    passkeyError,
+    handleRegisterPasskey,
+    showGoogleAuthModal,
+    setShowGoogleAuthModal,
+    showSecurityModal,
+    setShowSecurityModal,
+    router,
+  } = props;
   const { t } = useTranslation('common');
 
   return (
@@ -1262,8 +1281,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                       style={{
                         background: 'linear-gradient(90deg, #1b2838 60%, #171a21 100%)',
                         opacity: linkText === 'Go on website to link' || user?.isStudio ? 0.5 : 1,
-                      }}
-                    >
+                      }}>
                       <i className='fab fa-steam text-lg' />
                       {linkText}
                     </button>
@@ -1296,8 +1314,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                             }
                           }
                         }}
-                        className='glass-button-red text-[10px] px-2 py-1'
-                      >
+                        className='glass-button-red text-[10px] px-2 py-1'>
                         Unlink
                       </button>
                     </div>
@@ -1310,8 +1327,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                       className='glass-button-neon w-full text-sm flex items-center justify-center gap-2'
                       style={{
                         background: 'linear-gradient(90deg, #5865F2 60%, #404EED 100%)',
-                      }}
-                    >
+                      }}>
                       <i className='fab fa-discord text-lg' />
                       {t('settings.linkDiscord')}
                     </button>
@@ -1321,8 +1337,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                       className='glass-button-neon w-full text-sm flex items-center justify-center gap-2 opacity-70'
                       style={{
                         background: 'linear-gradient(90deg, #5865F2 60%, #404EED 100%)',
-                      }}
-                    >
+                      }}>
                       <i className='fab fa-discord text-lg' />
                       {t('settings.discordLinked')}
                     </button>
@@ -1337,8 +1352,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                         background: '#fff',
                         color: '#222',
                         border: '1px solid #e0e0e0',
-                      }}
-                    >
+                      }}>
                       <svg width='16' height='16' viewBox='0 0 48 48'>
                         <path fill='#4285F4' d='M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z' />
                         <path fill='#34A853' d='M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z' />
@@ -1355,8 +1369,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                         background: '#fff',
                         color: '#222',
                         border: '1px solid #e0e0e0',
-                      }}
-                    >
+                      }}>
                       <svg width='16' height='16' viewBox='0 0 48 48'>
                         <path fill='#4285F4' d='M24 9.5c3.54 0 6.7 1.22 9.19 3.23l6.86-6.86C36.64 2.69 30.74 0 24 0 14.82 0 6.73 5.8 2.69 14.09l7.98 6.2C12.41 13.41 17.74 9.5 24 9.5z' />
                         <path fill='#34A853' d='M46.1 24.55c0-1.64-.15-3.22-.43-4.74H24v9.01h12.41c-.54 2.91-2.16 5.38-4.61 7.04l7.1 5.53C43.96 37.47 46.1 31.61 46.1 24.55z' />

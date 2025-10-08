@@ -13,8 +13,7 @@ export default class extends Component {
             textAlign: 'center',
             verticalAlign: 'middle',
             justifyContent: 'center',
-          }}
-        >
+          }}>
           <Link href='/terms'>Terms of Service</Link>
           <Link href='/privacy'>Privacy Policy</Link>
         </div>

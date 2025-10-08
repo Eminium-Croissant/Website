@@ -82,8 +82,7 @@ const BuyCredits: React.FC = () => {
                        focus:outline-none focus:ring-2 focus:ring-neon-blue focus:ring-opacity-50'
               tabIndex={0}
               onClick={() => handlePurchase(tier)}
-              onKeyPress={e => e.key === 'Enter' && handlePurchase(tier)}
-            >
+              onKeyPress={e => e.key === 'Enter' && handlePurchase(tier)}>
               <div className='flex flex-col items-center gap-4'>
                 <div className='relative w-32 h-32'>
                   <CachedImage src={tier.img} alt={tier.alt} className='w-full h-full object-contain rounded-lg' />

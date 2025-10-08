@@ -249,8 +249,7 @@ function OAuth2AppsDesktop(props: ReturnType<typeof useOAuth2AppsLogic>) {
               setName('');
               setRedirectUrls('');
             }}
-            className='glass-button-neon'
-          >
+            className='glass-button-neon'>
             {t('oauth2.apps.addButton')}
           </button>
         </div>
@@ -286,8 +285,7 @@ function OAuth2AppsMobile(props: ReturnType<typeof useOAuth2AppsLogic>) {
               setName('');
               setRedirectUrls('');
             }}
-            className='glass-button-neon text-sm'
-          >
+            className='glass-button-neon text-sm'>
             {t('+ Add')}
           </button>
         </div>

@@ -120,8 +120,7 @@ function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-        }}
-      >
+        }}>
         <h2>{t('myBuyOrders.title')}</h2>
         <Link href='/marketplace' style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>
           {t('myBuyOrders.back')}
@@ -154,8 +153,7 @@ function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
                           display: 'flex',
                           alignItems: 'center',
                           gap: 8,
-                        }}
-                      >
+                        }}>
                         <CachedImage src={`/items-icons/${item.iconHash || item.itemId}`} alt='' width={32} height={32} />
                         {item.name}
                       </span>
@@ -181,8 +179,7 @@ function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
                           padding: '6px 14px',
                           fontWeight: 600,
                           cursor: 'pointer',
-                        }}
-                      >
+                        }}>
                         {t('myBuyOrders.cancel')}
                       </button>
                     ) : (
@@ -298,16 +295,14 @@ function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
         margin: '0 auto',
         padding: 8,
         fontSize: '0.98em',
-      }}
-    >
+      }}>
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           gap: 10,
           marginBottom: 10,
-        }}
-      >
+        }}>
         <h2 style={{ fontSize: '1.1em' }}>{t('myBuyOrders.title')}</h2>
         <Link href='/marketplace' style={{ color: '#fff', fontWeight: 600, fontSize: '1em' }}>
           {t('myBuyOrders.back')}
@@ -333,8 +328,7 @@ function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
                   display: 'flex',
                   flexDirection: 'column',
                   gap: 6,
-                }}
-              >
+                }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   {item ? <CachedImage src={`/items-icons/${item.iconHash || item.itemId}`} alt='' width={36} height={36} style={{ borderRadius: 8, background: '#181b20' }} /> : <span style={{ fontWeight: 600 }}>{order.item_id}</span>}
                   <div>
@@ -343,8 +337,7 @@ function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
                         fontWeight: 600,
                         fontSize: '1.05em',
                         color: '#fff',
-                      }}
-                    >
+                      }}>
                       {item ? item.name : order.item_id}
                     </div>
                     <div style={{ color: '#bbb', fontSize: '0.97em' }}>{item ? item.description : ''}</div>
@@ -356,8 +349,7 @@ function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
                     alignItems: 'center',
                     gap: 8,
                     marginTop: 4,
-                  }}
-                >
+                  }}>
                   <span style={{ color: '#fff', fontWeight: 600 }}>
                     {order.price} <CachedImage src='/assets/credit.avif' alt='credits' style={{ width: 14, verticalAlign: 'middle' }} />
                   </span>
@@ -376,8 +368,7 @@ function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
                           fontWeight: 600,
                           fontSize: '0.97em',
                           cursor: 'pointer',
-                        }}
-                      >
+                        }}>
                         {t('myBuyOrders.cancel')}
                       </button>
                     ) : (

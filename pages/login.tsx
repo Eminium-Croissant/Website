@@ -176,8 +176,7 @@ function LoginDesktop(props: any) {
                   setAuthenticatorCode('');
                   setAuthenticatorError(null);
                   setPendingUserId(null);
-                }}
-              >
+                }}>
                 {t('login.cancel')}
               </button>
             </div>
@@ -334,8 +333,7 @@ function LoginMobile(props: any) {
                   setAuthenticatorCode('');
                   setAuthenticatorError(null);
                   setPendingUserId(null);
-                }}
-              >
+                }}>
                 {t('login.cancel')}
               </button>
             </div>

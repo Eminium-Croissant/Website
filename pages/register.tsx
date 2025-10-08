@@ -238,8 +238,7 @@ export default function Register() {
             cursor: 'pointer',
             marginTop: 8,
           }}
-          disabled={registerLoading}
-        >
+          disabled={registerLoading}>
           {registerLoading ? t('register.registering') : t('register.register')}
         </button>
         {registerError && <div style={{ color: '#ff5252', marginTop: 12 }}>{registerError === 'All fields are required.' ? t('register.error.allFields') : registerError === 'Passwords do not match.' ? t('register.error.passwords') : registerError === 'Registration failed' ? t('register.error.failed') : registerError}</div>}
@@ -254,8 +253,7 @@ export default function Register() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-        }}
-      >
+        }}>
         <span style={{ color: '#aaa', fontSize: 14, alignSelf: 'flex-end' }}>
           <Link href='/login' style={{ color: '#8ab4f8', textDecoration: 'none' }}>
             {t('register.haveAccount')}
@@ -271,8 +269,7 @@ export default function Register() {
           display: 'flex',
           alignItems: 'center',
           gap: 8,
-        }}
-      >
+        }}>
         <div style={{ flex: 1, height: 1, background: '#444' }} />
         <span style={{ color: '#888', fontSize: 14 }}>{t('register.or')}</span>
         <div style={{ flex: 1, height: 1, background: '#444' }} />

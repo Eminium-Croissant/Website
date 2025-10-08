@@ -186,8 +186,7 @@ export default function ResetPassword() {
                   cursor: 'pointer',
                   marginTop: 6,
                 }}
-                disabled={loading || !!error}
-              >
+                disabled={loading || !!error}>
                 {loading ? t('resetPassword.resetting') : t('resetPassword.reset')}
               </button>
               {success && <div style={{ color: '#4caf50', marginTop: 10 }}>{t('resetPassword.success')}</div>}
@@ -260,8 +259,7 @@ export default function ResetPassword() {
                 cursor: 'pointer',
                 marginTop: 8,
               }}
-              disabled={loading || !!error}
-            >
+              disabled={loading || !!error}>
               {loading ? t('resetPassword.resetting') : t('resetPassword.reset')}
             </button>
             {success && <div style={{ color: '#4caf50', marginTop: 12 }}>{t('resetPassword.success')}</div>}

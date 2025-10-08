@@ -97,8 +97,7 @@ function ForgotPasswordDesktop(props: any) {
             cursor: 'pointer',
             marginTop: 8,
           }}
-          disabled={loading}
-        >
+          disabled={loading}>
           {loading ? t('forgotPassword.sending') : t('forgotPassword.send')}
         </button>
         {error && <div style={{ color: '#ff5252', marginTop: 12 }}>{t('forgotPassword.error')}</div>}
@@ -110,8 +109,7 @@ function ForgotPasswordDesktop(props: any) {
           width: '260px',
           maxWidth: 340,
           textAlign: 'center',
-        }}
-      >
+        }}>
         {t('forgotPassword.info')}
       </div>
       <div
@@ -122,8 +120,7 @@ function ForgotPasswordDesktop(props: any) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'flex-start',
-        }}
-      >
+        }}>
         <span style={{ color: '#aaa', fontSize: 14, alignSelf: 'center' }}>
           <Link href='/login' style={{ color: '#8ab4f8', textDecoration: 'none' }}>
             {t('forgotPassword.remembered')}
@@ -174,8 +171,7 @@ function ForgotPasswordMobile(props: any) {
             cursor: 'pointer',
             marginTop: 6,
           }}
-          disabled={loading}
-        >
+          disabled={loading}>
           {loading ? t('forgotPassword.sending') : t('forgotPassword.send')}
         </button>
         {error && <div style={{ color: '#ff5252', marginTop: 10 }}>{t('forgotPassword.error')}</div>}
@@ -187,8 +183,7 @@ function ForgotPasswordMobile(props: any) {
           width: '100%',
           maxWidth: 300,
           textAlign: 'center',
-        }}
-      >
+        }}>
         {t('forgotPassword.info')}
       </div>
       <div
@@ -199,8 +194,7 @@ function ForgotPasswordMobile(props: any) {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-        }}
-      >
+        }}>
         <span style={{ color: '#aaa', fontSize: 13 }}>
           <Link href='/login' style={{ color: '#8ab4f8', textDecoration: 'none' }}>
             {t('forgotPassword.remembered')}

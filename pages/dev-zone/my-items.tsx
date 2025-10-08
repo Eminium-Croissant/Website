@@ -346,8 +346,7 @@ const MyItems = () => {
             alignItems: 'center',
             justifyContent: 'space-between',
             marginBottom: 18,
-          }}
-        >
+          }}>
           <h1 className='myitems-title'>
             <span className='myitems-title-span'>{t('myItems.title')}</span>
           </h1>
@@ -367,8 +366,7 @@ const MyItems = () => {
                 gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
                 gap: '28px',
                 marginBottom: '32px',
-              }}
-            >
+              }}>
               {items.map(item => (
                 <div
                   key={`item-${item.itemId}`}
@@ -384,8 +382,7 @@ const MyItems = () => {
                     });
                   }}
                   onMouseLeave={() => setTooltip(null)}
-                  onClick={() => handleEdit(item)}
-                >
+                  onClick={() => handleEdit(item)}>
                   <img src={'/items-icons/' + (item?.iconHash || item.itemId)} alt={item.name} className='myitems-card-icon' draggable={false} />
                   <div className='myitems-card-name'>{item.name}</div>
                   <div className='myitems-card-price'>
@@ -398,15 +395,13 @@ const MyItems = () => {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       gap: '8px',
-                    }}
-                  >
+                    }}>
                     <button
                       className='myitems-card-editbtn'
                       onClick={e => {
                         e.stopPropagation();
                         handleEdit(item);
-                      }}
-                    >
+                      }}>
                       {t('myItems.edit')}
                     </button>
                     <button
@@ -418,8 +413,7 @@ const MyItems = () => {
                         setTimeout(() => {
                           e.currentTarget.textContent = 'Id';
                         }, 1000);
-                      }}
-                    >
+                      }}>
                       {t('myItems.id')}
                     </button>
                     <button
@@ -427,8 +421,7 @@ const MyItems = () => {
                       onClick={e => {
                         e.stopPropagation();
                         handleOwnershipTransfer(item);
-                      }}
-                    >
+                      }}>
                       {t('myItems.transfer')}
                     </button>
                   </div>
@@ -446,8 +439,7 @@ const MyItems = () => {
                 style={{
                   left: tooltip.x,
                   top: tooltip.y,
-                }}
-              >
+                }}>
                 <div className='myitems-tooltip-title'>{tooltip.item.name}</div>
                 <div className='myitems-tooltip-desc'>{tooltip.item.description}</div>
                 <div className='myitems-tooltip-price'>
@@ -474,8 +466,7 @@ const MyItems = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
-                onClick={() => setShowTransferModal(false)}
-              >
+                onClick={() => setShowTransferModal(false)}>
                 <div
                   className='modal-content'
                   style={{
@@ -486,8 +477,7 @@ const MyItems = () => {
                     position: 'relative',
                     boxShadow: '0 2px 16px #0005',
                   }}
-                  onClick={e => e.stopPropagation()}
-                >
+                  onClick={e => e.stopPropagation()}>
                   <button
                     className='close-modal-btn'
                     onClick={() => setShowTransferModal(false)}
@@ -500,8 +490,7 @@ const MyItems = () => {
                       color: '#fff',
                       fontSize: 24,
                       cursor: 'pointer',
-                    }}
-                  >
+                    }}>
                     &times;
                   </button>
                   <h3 style={{ marginBottom: 18 }}>Transfer Item</h3>
@@ -513,8 +502,7 @@ const MyItems = () => {
                           color: '#fff',
                           marginBottom: 4,
                           display: 'block',
-                        }}
-                      >
+                        }}>
                         Amount:
                       </label>
 
@@ -542,8 +530,7 @@ const MyItems = () => {
                           color: '#fff',
                           marginBottom: 4,
                           display: 'block',
-                        }}
-                      >
+                        }}>
                         Select user:
                       </label>
 
@@ -589,8 +576,7 @@ const MyItems = () => {
                             listStyle: 'none',
                             margin: 0,
                             padding: 0,
-                          }}
-                        >
+                          }}>
                           {transferUserResults.map(u => (
                             <li
                               key={u.user_id || u.id}
@@ -603,8 +589,7 @@ const MyItems = () => {
                                 setTransferUserId(u.user_id || u.id);
                                 setTransferUserSearch(u.username);
                                 setTransferUserDropdownOpen(false);
-                              }}
-                            >
+                              }}>
                               {u.username}
                             </li>
                           ))}
@@ -624,8 +609,7 @@ const MyItems = () => {
                           padding: '10px 24px',
                           fontSize: '1rem',
                           cursor: transferUserId ? 'pointer' : 'not-allowed',
-                        }}
-                      >
+                        }}>
                         {transferLoading ? t('myItems.transferring') : t('myItems.transfer')}
                       </button>
                       <button
@@ -639,8 +623,7 @@ const MyItems = () => {
                           padding: '10px 24px',
                           fontSize: '1rem',
                           cursor: 'pointer',
-                        }}
-                      >
+                        }}>
                         {t('myItems.cancel')}
                       </button>
                     </div>
@@ -664,8 +647,7 @@ const MyItems = () => {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
-                onClick={() => setShowOwnershipModal(false)}
-              >
+                onClick={() => setShowOwnershipModal(false)}>
                 <div
                   className='modal-content'
                   style={{
@@ -676,8 +658,7 @@ const MyItems = () => {
                     position: 'relative',
                     boxShadow: '0 2px 16px #0005',
                   }}
-                  onClick={e => e.stopPropagation()}
-                >
+                  onClick={e => e.stopPropagation()}>
                   <button
                     className='close-modal-btn'
                     onClick={() => setShowOwnershipModal(false)}
@@ -690,8 +671,7 @@ const MyItems = () => {
                       color: '#fff',
                       fontSize: 24,
                       cursor: 'pointer',
-                    }}
-                  >
+                    }}>
                     &times;
                   </button>
                   <h3 style={{ marginBottom: 18 }}>Transfer ownership</h3>
@@ -703,8 +683,7 @@ const MyItems = () => {
                           color: '#fff',
                           marginBottom: 4,
                           display: 'block',
-                        }}
-                      >
+                        }}>
                         Select user:
                       </label>
 
@@ -751,8 +730,7 @@ const MyItems = () => {
                             margin: 0,
                             padding: 0,
                             width: '304px',
-                          }}
-                        >
+                          }}>
                           {ownershipUserResults.map(u => (
                             <li
                               key={u.userId || u.user_id || u.id}
@@ -768,8 +746,7 @@ const MyItems = () => {
                                 setOwnershipUserId(u.userId || u.user_id || u.id);
                                 setOwnershipUserSearch(u.username);
                                 setOwnershipUserDropdownOpen(false);
-                              }}
-                            >
+                              }}>
                               <img
                                 src={`/avatar/${u.userId || u.user_id || u.id}`}
                                 alt='avatar'
@@ -807,8 +784,7 @@ const MyItems = () => {
                           padding: '10px 24px',
                           fontSize: '1rem',
                           cursor: ownershipUserId ? 'pointer' : 'not-allowed',
-                        }}
-                      >
+                        }}>
                         {ownershipLoading ? t('myItems.transferring') : t('myItems.transfer')}
                       </button>
                       <button
@@ -822,8 +798,7 @@ const MyItems = () => {
                           padding: '10px 24px',
                           fontSize: '1rem',
                           cursor: 'pointer',
-                        }}
-                      >
+                        }}>
                         {t('myItems.cancel')}
                       </button>
                     </div>
@@ -844,8 +819,7 @@ const MyItems = () => {
             style={{
               maxHeight: '90vh',
               overflowY: 'auto',
-            }}
-          >
+            }}>
             <h2 className='myitems-modal-title'>Edit Item</h2>
             <input type='text' name='name' value={formData.name} onChange={handleChange} placeholder='Name' className='myitems-input' required />
             <textarea name='description' value={formData.description} onChange={handleChange} placeholder='Description' rows={2} className='myitems-input' required />

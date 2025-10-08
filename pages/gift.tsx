@@ -149,8 +149,7 @@ const GiftPage: React.FC = () => {
                 alignItems: 'center',
                 textAlign: 'center',
                 gap: 8,
-              }}
-            >
+              }}>
               <CachedImage src={`/games-icons/${giftInfo.game.iconHash}`} alt={giftInfo.game.name} style={{ width: 128, height: 128, borderRadius: 8 }} />
               <h3 style={{ margin: 0 }}>{giftInfo.game.name}</h3>
               <p style={{ margin: '8px 0 0', maxWidth: 560 }}>{giftInfo.game.description}</p>
@@ -171,8 +170,7 @@ const GiftPage: React.FC = () => {
                 borderRadius: 8,
                 margin: '20px 0',
                 color: '#333',
-              }}
-            >
+              }}>
               <p>
                 <em>"{giftInfo.gift.message}"</em>
               </p>
@@ -193,8 +191,7 @@ const GiftPage: React.FC = () => {
                 border: 'none',
                 cursor: claiming ? 'not-allowed' : 'pointer',
                 opacity: claiming ? 0.7 : 1,
-              }}
-            >
+              }}>
               {claiming ? t('shop.claiming') : t('shop.claimGift')}
             </button>
           ) : giftInfo?.userOwnsGame ? (

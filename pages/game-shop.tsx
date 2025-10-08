@@ -168,16 +168,14 @@ function useShopLogic() {
             border: '2px solid var(--border-color)',
             filter: 'blur(0.5px) grayscale(0.2) brightness(0.8)',
             pointerEvents: 'none',
-          }}
-        >
+          }}>
           <div
             style={{
               position: 'relative',
               width: '100%',
               height: 160,
               background: '#18181c',
-            }}
-          >
+            }}>
             <div className='skeleton-banner' />
             <div className='skeleton-icon' style={{ left: 32, bottom: -48, position: 'absolute' }} />
           </div>
@@ -189,8 +187,7 @@ function useShopLogic() {
               gap: 8,
               position: 'relative',
               minHeight: 160,
-            }}
-          >
+            }}>
             <div className='skeleton-title' style={{ width: '60%' }} />
             <div className='skeleton-desc' style={{ width: '90%' }} />
             <div className='skeleton-properties' style={{ width: '40%', height: 32 }} />
@@ -343,16 +340,14 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
                   border: '2px solid var(--border-color)',
                   filter: 'blur(0.5px) grayscale(0.2) brightness(0.8)',
                   pointerEvents: 'none',
-                }}
-              >
+                }}>
                 <div
                   style={{
                     position: 'relative',
                     width: '100%',
                     height: 160,
                     background: '#18181c',
-                  }}
-                >
+                  }}>
                   <div className='skeleton-banner' />
                   <div className='skeleton-icon' style={{ left: 32, bottom: -48, position: 'absolute' }} />
                 </div>
@@ -364,8 +359,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
                     gap: 8,
                     position: 'relative',
                     minHeight: 160,
-                  }}
-                >
+                  }}>
                   <div className='skeleton-title' style={{ width: '60%' }} />
                   <div className='skeleton-desc' style={{ width: '90%' }} />
                   <div className='skeleton-properties' style={{ width: '40%', height: 32 }} />

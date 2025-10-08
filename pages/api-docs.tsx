@@ -40,8 +40,7 @@ export default function ApiDocs() {
                 width: isMobile ? '100%' : '300px',
                 marginBottom: isMobile ? '1rem' : '0',
               }}
-              className='glass-content-card rounded-lg p-6 h-fit flex-shrink-0 flex flex-col sticky top-5'
-            >
+              className='glass-content-card rounded-lg p-6 h-fit flex-shrink-0 flex flex-col sticky top-5'>
               <h3 className='text-lg font-medium mb-4' style={{ color: 'var(--glass-text)' }}>
                 <FontAwesomeIcon icon={faBook} className='mr-2 text-neon-blue' />
                 {t('apiDocs.libraries') || 'Libraries'}
@@ -66,8 +65,7 @@ export default function ApiDocs() {
                 height: swaggerHeight,
                 overflow: 'auto',
                 width: isMobile ? '100%' : 'auto',
-              }}
-            >
+              }}>
               {/* Swagger UI with deepLinking enabled for anchors */}
               <Swagger />
             </div>

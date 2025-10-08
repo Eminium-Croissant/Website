@@ -321,8 +321,7 @@ export default function Home() {
               color: 'var(--glass-text)',
               fontSize: '1.5rem',
               fontWeight: 'bold',
-            }}
-          >
+            }}>
             <span className='glass-method get'>{t('index.carousel.popularGames')}</span>
           </h2>
           <div className='flex justify-center items-center py-12'>
@@ -344,8 +343,7 @@ export default function Home() {
               color: 'var(--glass-text)',
               fontSize: '1.5rem',
               fontWeight: 'bold',
-            }}
-          >
+            }}>
             <span className='glass-method get'>{t('index.carousel.popularGames')}</span>
           </h2>
           <div className='text-center py-12' style={{ color: 'var(--glass-text-secondary)' }}>
@@ -363,8 +361,7 @@ export default function Home() {
             color: 'var(--glass-text)',
             fontSize: '1.5rem',
             fontWeight: 'bold',
-          }}
-        >
+          }}>
           <span className='glass-method get'>Jeux Populaires</span>
           {fromCache && (
             <span
@@ -372,8 +369,7 @@ export default function Home() {
               style={{
                 backgroundColor: 'var(--glass-accent)',
                 color: 'var(--glass-text)',
-              }}
-            >
+              }}>
               📦 Cache
             </span>
           )}
@@ -512,8 +508,7 @@ export default function Home() {
                   color: 'var(--glass-text)',
                   fontSize: '1.5rem',
                   fontWeight: 'bold',
-                }}
-              >
+                }}>
                 <span className='glass-method post'>{t('index.overview.title')}</span>
               </h2>
               {overviewDetails.map(({ summary, content }) => (
@@ -533,8 +528,7 @@ export default function Home() {
                   color: 'var(--glass-text)',
                   fontSize: '1.5rem',
                   fontWeight: 'bold',
-                }}
-              >
+                }}>
                 <span className='glass-method put'>{t('index.about.title')}</span>
               </h2>
               {aboutDetails.map(({ summary, content }) => (
@@ -554,8 +548,7 @@ export default function Home() {
                 color: 'var(--glass-text)',
                 fontSize: '1.5rem',
                 fontWeight: 'bold',
-              }}
-            >
+              }}>
               {t('index.openSource.title')}
             </h2>
             <div className='text-center mb-8'>

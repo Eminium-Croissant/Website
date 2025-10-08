@@ -34,8 +34,7 @@ const Navbar: React.FC = () => {
           onClick={e => {
             e.preventDefault();
             setShow(prev => (prev === 'roles' ? '' : 'roles'));
-          }}
-        >
+          }}>
           <span className='text-xs transition-transform duration-300'>▼</span>
         </button>
       )}
@@ -63,8 +62,7 @@ const Navbar: React.FC = () => {
               const userData = await res.json();
               setUser(userData);
               setShow('');
-            }}
-          >
+            }}>
             <div className='relative'>
               <CachedImage src={'/avatar/' + role} alt='avatar' className='w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300' />
               <div className='absolute inset-0 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 hover:opacity-20 transition-opacity duration-300'></div>
@@ -91,8 +89,7 @@ const Navbar: React.FC = () => {
           left: 0,
           zIndex: 100,
           background: '#333', // fond uni gris
-        }}
-      >
+        }}>
         <img src='/assets/icons/favicon-32x32.avif' alt='Croissant Icon' className='w-6 h-6 mr-3' />
         <span className='text-white font-bold text-base'>Croissant Launcher</span>
       </div>
@@ -126,8 +123,7 @@ const Navbar: React.FC = () => {
                   onClick={e => {
                     e.preventDefault();
                     setShow(prev => (prev === 'manage' ? '' : 'manage'));
-                  }}
-                >
+                  }}>
                   Manage <span className='text-xs'>▼</span>
                 </button>
                 {show === 'manage' && (
@@ -158,8 +154,7 @@ const Navbar: React.FC = () => {
                   localStorage.removeItem('verificationKey');
                   document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                   location.reload();
-                }}
-              >
+                }}>
                 <i className='fa fa-sign-out-alt' aria-hidden='true'></i>
               </button>
             </div>

@@ -59,8 +59,7 @@ function ItemTooltip({ listing }: { listing: EnrichedMarketListing }) {
         fontSize: 13,
         maxWidth: 320,
         boxShadow: '0 2px 12px #0008',
-      }}
-    >
+      }}>
       <div style={{ fontWeight: 'bold', fontSize: 15 }}>{listing.item_name}</div>
       <div style={{ color: '#bbb', marginBottom: 4 }}>{listing.item_description}</div>
       {listing.metadata && Object.keys(listing.metadata).length > 0 && (
@@ -157,15 +156,13 @@ export default function MyMarketListingsPage() {
                             display: 'flex',
                             alignItems: 'center',
                             gap: 8,
-                          }}
-                        >
+                          }}>
                           <span
                             style={{
                               display: 'flex',
                               alignItems: 'center',
                               gap: 8,
-                            }}
-                          >
+                            }}>
                             <img src={`/items-icons/${listing.item_icon_hash || listing.item_id}`} alt='' width={32} height={32} />
                             {listing.item_name}
                           </span>
@@ -181,14 +178,15 @@ export default function MyMarketListingsPage() {
                               onClick={async () => {
                                 if (!confirm('Cancel this listing?')) return;
                                 try {
-                                  const res = await fetch(`/api/market-listings/${listing.id}/cancel`, { method: 'PUT' });
+                                  const res = await fetch(`/api/market-listings/${listing.id}/cancel`, {
+                                    method: 'PUT',
+                                  });
                                   if (!res.ok) throw new Error((await res.json()).message);
                                   setListings(listings => listings.filter(l => l.id !== listing.id));
                                 } catch (e: any) {
                                   alert(e.message);
                                 }
-                              }}
-                            >
+                              }}>
                               {t('myMarketListings.cancel')}
                             </button>
                           ) : (
