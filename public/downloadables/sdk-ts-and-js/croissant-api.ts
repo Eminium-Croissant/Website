@@ -138,14 +138,12 @@ export interface OAuth2App {
 export class CroissantAPI {
     private token?: string;
 
-    
     constructor(params: { token?: string } = {}) {
         this.token = params.token;
     }
 
-    
     users = {
-        
+
         getMe: async (): Promise<User> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/users/@me`, {
@@ -155,21 +153,18 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         search: async (query: string): Promise<User[]> => {
             const res = await fetch(`${croissantBaseUrl}/users/search?q=${encodeURIComponent(query)}`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        
         getUser: async (userId: string): Promise<User> => {
             const res = await fetch(`${croissantBaseUrl}/users/${userId}`);
             if (!res.ok) throw new Error('User not found');
             return await res.json();
         },
 
-        
         transferCredits: async (targetUserId: string, amount: number): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/users/transfer-credits`, {
@@ -184,7 +179,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         verify: async (userId: string, verificationKey: string): Promise<{ success: boolean }> => {
             const res = await fetch(`${croissantBaseUrl}/users/auth-verification`, {
                 method: 'POST',
@@ -196,23 +190,20 @@ export class CroissantAPI {
         }
     };
 
-    
     games = {
-        
+
         list: async (): Promise<Game[]> => {
             const res = await fetch(`${croissantBaseUrl}/games`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        
         search: async (query: string): Promise<Game[]> => {
             const res = await fetch(`${croissantBaseUrl}/games/search?q=${encodeURIComponent(query)}`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        
         getMyCreatedGames: async (): Promise<Game[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/games/@mine`, {
@@ -222,7 +213,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         getMyOwnedGames: async (): Promise<Game[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/games/list/@me`, {
@@ -232,7 +222,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         get: async (gameId: string): Promise<Game> => {
             const res = await fetch(`${croissantBaseUrl}/games/${gameId}`);
             if (!res.ok) throw new Error('Game not found');
@@ -240,9 +229,8 @@ export class CroissantAPI {
         }
     };
 
-    
     inventory = {
-        
+
         getMyInventory: async (): Promise<{ user_id: string; inventory: InventoryItem[] }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/inventory/@me`, {
@@ -252,7 +240,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         get: async (userId: string): Promise<{ user_id: string; inventory: InventoryItem[] }> => {
             const res = await fetch(`${croissantBaseUrl}/inventory/${userId}`);
             if (!res.ok) throw new Error('Failed to fetch inventory');
@@ -260,16 +247,14 @@ export class CroissantAPI {
         }
     };
 
-    
     items = {
-        
+
         list: async (): Promise<Item[]> => {
             const res = await fetch(`${croissantBaseUrl}/items`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        
         getMyItems: async (): Promise<Item[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/@mine`, {
@@ -279,21 +264,18 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         search: async (query: string): Promise<Item[]> => {
             const res = await fetch(`${croissantBaseUrl}/items/search?q=${encodeURIComponent(query)}`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        
         get: async (itemId: string): Promise<Item> => {
             const res = await fetch(`${croissantBaseUrl}/items/${itemId}`);
             if (!res.ok) throw new Error('Item not found');
             return await res.json();
         },
 
-        
         create: async (itemData: { name: string; description: string; price: number; iconHash?: string; showInStore?: boolean }): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/create`, {
@@ -308,7 +290,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         update: async (itemId: string, itemData: Partial<Item>): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/update/${itemId}`, {
@@ -323,7 +304,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         delete: async (itemId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/delete/${itemId}`, {
@@ -334,7 +314,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         buy: async (itemId: string, amount: number): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/buy/${itemId}`, {
@@ -349,7 +328,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         sell: async (itemId: string, amount: number): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/sell/${itemId}`, {
@@ -364,7 +342,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         give: async (itemId: string, amount: number, userId: string, metadata?: Record<string, any>): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const body: any = { amount, userId };
@@ -381,7 +358,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         consume: async (itemId: string, params: { amount?: number; uniqueId?: string; userId: string }): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/consume/${itemId}`, {
@@ -396,7 +372,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         updateMetadata: async (itemId: string, uniqueId: string, metadata: Record<string, any>): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/update-metadata/${itemId}`, {
@@ -411,7 +386,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         drop: async (itemId: string, params: { amount?: number; uniqueId?: string }): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/drop/${itemId}`, {
@@ -427,9 +401,8 @@ export class CroissantAPI {
         }
     };
 
-    
     lobbies = {
-        
+
         create: async (): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies`, {
@@ -440,14 +413,12 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         get: async (lobbyId: string): Promise<Lobby> => {
             const res = await fetch(`${croissantBaseUrl}/lobbies/${lobbyId}`);
             if (!res.ok) throw new Error('Lobby not found');
             return await res.json();
         },
 
-        
         getMyLobby: async (): Promise<Lobby> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies/user/@me`, {
@@ -457,14 +428,12 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         getUserLobby: async (userId: string): Promise<Lobby> => {
             const res = await fetch(`${croissantBaseUrl}/lobbies/user/${userId}`);
             if (!res.ok) throw new Error('User not in any lobby');
             return await res.json();
         },
 
-        
         join: async (lobbyId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies/${lobbyId}/join`, {
@@ -475,7 +444,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         leave: async (lobbyId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies/${lobbyId}/leave`, {
@@ -487,9 +455,8 @@ export class CroissantAPI {
         }
     };
 
-    
     studios = {
-        
+
         create: async (studioName: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios`, {
@@ -504,14 +471,12 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         get: async (studioId: string): Promise<Studio> => {
             const res = await fetch(`${croissantBaseUrl}/studios/${studioId}`);
             if (!res.ok) throw new Error('Studio not found');
             return await res.json();
         },
 
-        
         getMyStudios: async (): Promise<Studio[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios/user/@me`, {
@@ -521,7 +486,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         addUser: async (studioId: string, userId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios/${studioId}/add-user`, {
@@ -536,7 +500,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         removeUser: async (studioId: string, userId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios/${studioId}/remove-user`, {
@@ -552,9 +515,8 @@ export class CroissantAPI {
         }
     };
 
-    
     trades = {
-        
+
         startOrGetPending: async (userId: string): Promise<Trade> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/start-or-latest/${userId}`, {
@@ -565,7 +527,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         get: async (tradeId: string): Promise<Trade> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}`, {
@@ -575,7 +536,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         getUserTrades: async (userId: string): Promise<Trade[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/user/${userId}`, {
@@ -585,7 +545,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         addItem: async (tradeId: string, tradeItem: TradeItem): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/add-item`, {
@@ -600,7 +559,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         removeItem: async (tradeId: string, tradeItem: TradeItem): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/remove-item`, {
@@ -615,7 +573,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         approve: async (tradeId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/approve`, {
@@ -626,7 +583,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         cancel: async (tradeId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/cancel`, {
@@ -638,16 +594,14 @@ export class CroissantAPI {
         }
     };
 
-    
     oauth2 = {
-        
+
         getApp: async (client_id: string): Promise<OAuth2App> => {
             const res = await fetch(`${croissantBaseUrl}/oauth2/app/${client_id}`);
             if (!res.ok) throw new Error('OAuth2 app not found');
             return await res.json();
         },
 
-        
         createApp: async (name: string, redirect_urls: string[]): Promise<{ client_id: string; client_secret: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/app`, {
@@ -662,7 +616,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         getMyApps: async (): Promise<OAuth2App[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/apps`, {
@@ -672,7 +625,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         updateApp: async (client_id: string, data: { name?: string; redirect_urls?: string[] }): Promise<{ success: boolean }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/app/${client_id}`, {
@@ -687,7 +639,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         deleteApp: async (client_id: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/app/${client_id}`, {
@@ -698,7 +649,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         authorize: async (client_id: string, redirect_uri: string): Promise<{ code: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/authorize?client_id=${encodeURIComponent(client_id)}&redirect_uri=${encodeURIComponent(redirect_uri)}`, {
@@ -708,7 +658,6 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        
         getUserByCode: async (code: string, client_id: string): Promise<User> => {
             const res = await fetch(`${croissantBaseUrl}/oauth2/user?code=${encodeURIComponent(code)}&client_id=${encodeURIComponent(client_id)}`);
             if (!res.ok) throw new Error('Failed to fetch user by code');
@@ -718,3 +667,4 @@ export class CroissantAPI {
 }
 
 export default CroissantAPI;
+

@@ -25,13 +25,13 @@ export async function getServerSideProps({ locale, query }) {
           title: user.username,
           description: `Check out ${user.username}'s profile on Croissant!`,
           bannerUrl: `https://croissant-api.fr/avatar/${user.id}`,
-          // profileUrl: `https://croissant-api.fr/profile?user=${user.id}`,
+          
           query: { user: user.id },
           card: false,
         };
         profileFromQuery = user;
       }
-    } catch {}
+    } catch { }
   }
 
   return {
@@ -58,7 +58,6 @@ function ProfileShopModal({ open, onClose, user, onBuySuccess }) {
   );
 }
 
-// --- Give Credits Modal ---
 function GiveCreditsModal({ open, onClose, onSubmit, maxAmount, username }) {
   const { t } = useTranslation('common');
   const [amount, setAmount] = useState(1);
@@ -94,11 +93,10 @@ export interface ShopItem {
   name: string;
   description: string;
   price: number;
-  stock?: number; // optionnel, si le backend le fournit,
+  stock?: number; 
   iconHash: string;
 }
 
-// Define the InventoryHandle interface for the ref
 interface InventoryHandle {
   reload: () => void;
 }
@@ -148,11 +146,9 @@ interface User {
 }
 
 type ProfileProps = {
-  userId: string; // userId
+  userId: string; 
 };
 
-// ProfileShop: Shop section for a user's profile
-// --- Style constants for ProfileShop ---
 const inventoryGridStyle = (columns: number): React.CSSProperties => ({
   gridTemplateColumns: `repeat(${columns}, 1fr)`,
 });
@@ -191,23 +187,23 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     setItems(user.ownedItems || []);
     setLoading(false);
   }, [user.ownedItems]);
-  // Tooltip handlers
+  
   const handleMouseEnter = (e: React.MouseEvent, item: ShopItem) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
-    // Calculate tooltip position to avoid out-of-bounds
-    const tooltipWidth = 320; // Approximate width of tooltip (px)
-    const tooltipHeight = 120; // Approximate height of tooltip (px)
+    
+    const tooltipWidth = 320; 
+    const tooltipHeight = 120; 
     const padding = 8;
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
     let x = rect.right + padding;
     let y = rect.top;
-    // Adjust X if tooltip would overflow right
+    
     if (x + tooltipWidth > windowWidth) {
       x = rect.left - tooltipWidth - padding;
       if (x < 0) x = windowWidth - tooltipWidth - padding;
     }
-    // Adjust Y if tooltip would overflow bottom
+    
     if (y + tooltipHeight > windowHeight) {
       y = windowHeight - tooltipHeight - padding;
       if (y < 0) y = padding;
@@ -216,16 +212,16 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
   };
   const handleMouseLeave = () => setTooltip(null);
 
-  // Custom prompt for buying items
+  
   const { getUser: getUserFromCache } = useUserCache();
   const customPrompt = async (message: string, maxAmount?: number, item?: ShopItem) => {
     let ownerUser: any = null;
     if (item && (item as any).owner) {
       try {
         ownerUser = await getUserFromCache((item as any).owner);
-      } catch {}
+      } catch { }
     }
-    setPrompt({ message, resolve: () => {}, maxAmount, amount: 1, item });
+    setPrompt({ message, resolve: () => { }, maxAmount, amount: 1, item });
     setPromptOwnerUser(ownerUser);
     return new Promise<{ confirmed: boolean; amount?: number }>(resolve => {
       setPrompt({ message, resolve, maxAmount, amount: 1, item });
@@ -233,7 +229,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     });
   };
 
-  // Handle prompt result
+  
   const handlePromptResult = (confirmed: boolean) => {
     if (prompt) {
       const { amount } = prompt;
@@ -243,13 +239,13 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     }
   };
 
-  // Handle amount change in prompt
+  
   const handlePromptAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(1, Math.min(Number(e.target.value), prompt?.maxAmount || Number.MAX_SAFE_INTEGER));
     setPrompt(prev => (prev ? { ...prev, amount: value } : null));
   };
 
-  // Buy logic
+  
   const handleBuy = async (item: ShopItem) => {
     const maxAmount = item.stock ?? undefined;
     const result = await customPrompt(`Buy how many "${item.name}"?\nPrice: ${item.price} each${maxAmount ? `\nStock: ${maxAmount}` : ''}`, maxAmount, item);
@@ -267,7 +263,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
           return data;
         })
         .then(() => {
-          // Refresh items
+          
           fetch(endpoint + '/items', {
             headers: {
               'Content-Type': 'application/json',
@@ -284,7 +280,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     }
   };
 
-  // Grid layout calculations
+  
   const columns = 4;
   const minRows = 8;
   const totalItems = items.length;
@@ -309,7 +305,6 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
           <div key={`empty-${idx}`} className='inventory-item-empty' draggable={false} />
         ))}
       </div>
-      {/* Tooltip overlay */}
       {tooltip && (
         <div className='shop-tooltip' style={tooltipStyle(tooltip.x, tooltip.y)}>
           <div className='shop-tooltip-name'>{tooltip.item.name}</div>
@@ -321,7 +316,6 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
           </div>
         </div>
       )}
-      {/* Buy prompt overlay */}
       {prompt && (
         <div className='shop-prompt-overlay'>
           <div
@@ -429,7 +423,6 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
   );
 }
 
-// Sous-composant pour préchargement/flou progressif des images d'item du shop
 const ShopItemImage = React.memo(function ShopItemImage({ item }: { item: ShopItem }) {
   const iconUrl = '/items-icons/' + (item?.iconHash || item.itemId);
   return (
@@ -468,7 +461,7 @@ function useProfileLogic(userId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Give credits modal state
+  
   const [giveCreditsOpen, setGiveCreditsOpen] = useState(false);
   const [giveCreditsLoading, setGiveCreditsLoading] = useState(false);
   const [giveCreditsError, setGiveCreditsError] = useState<string | null>(null);
@@ -485,13 +478,13 @@ function useProfileLogic(userId: string) {
   const reloadInventory = () => setInventoryReloadFlag(f => f + 1);
 
   const searchParams = useSearchParams();
-  const search = searchParams.get('user'); // Use directly, don't store in state
+  const search = searchParams.get('user'); 
 
   const { user, token } = useAuth();
   const router = useRouter();
   const { getUser: getUserFromCache } = useUserCache();
 
-  // Helper to reload profile (debounced to avoid too many fetches)
+  
   const reloadProfile = useCallback(
     (reloadCache: boolean = false) => {
       setLoading(true);
@@ -518,17 +511,17 @@ function useProfileLogic(userId: string) {
     [token, user?.admin, search, router]
   );
 
-  // Debounce reloadProfile to avoid too many fetches
+  
   useEffect(() => {
     if (isProfileReloading) return;
     const handler = setTimeout(() => {
       reloadProfile();
       setIsProfileReloading(false);
-    }, 250); // 250ms debounce
+    }, 250); 
     return () => clearTimeout(handler);
   }, [search, isProfileReloading, reloadProfile]);
 
-  // Désactiver le compte (admin)
+  
   const handleDisableAccount = async () => {
     if (!user?.admin || !token || !profile) return;
     try {
@@ -543,7 +536,7 @@ function useProfileLogic(userId: string) {
     }
   };
 
-  // Réactiver le compte (admin)
+  
   const handleReenableAccount = async () => {
     if (!user?.admin || !token || !profile) return;
     try {
@@ -575,16 +568,16 @@ function useProfileLogic(userId: string) {
         throw new Error('Failed to upload avatar');
       }
 
-      // Reload the profile picture
-      // setProfile((prev) =>
-      //   prev ? { ...prev, avatar: `${prev.avatar}?t=${Date.now()}` } : null
-      // );
+      
+      
+      
+      
     } catch (error) {
       console.error('Error uploading avatar:', error);
     }
   };
 
-  // Start or resume trade with the profile owner
+  
   const handleStartTrade = async () => {
     const res = await fetch(`/api/trades/start-or-latest/${profile.id}`, {
       method: 'POST',
@@ -593,7 +586,7 @@ function useProfileLogic(userId: string) {
     setCurrentTradeId(data.id);
   };
 
-  // Handler for giving credits
+  
   const handleGiveCredits = async (amount: number) => {
     setGiveCreditsLoading(true);
     setGiveCreditsError(null);
@@ -609,7 +602,7 @@ function useProfileLogic(userId: string) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to transfer credits');
       setGiveCreditsSuccess('Credits sent!');
-      setInventoryReloadFlag(f => f + 1); // Optionally reload inventory
+      setInventoryReloadFlag(f => f + 1); 
     } catch (e) {
       setGiveCreditsError(e.message);
     } finally {
@@ -657,20 +650,19 @@ function useProfileLogic(userId: string) {
   };
 }
 
-// Version Desktop
 function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
   const { profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, search, setIsProfileReloading, reloadProfile, setGiveCreditsError, setGiveCreditsSuccess, setInventoryReloadFlag, setLoading, setShowTradeModal } = props;
 
   const { user, token } = useAuth();
   const { t } = useTranslation('common');
 
-  // Debounce reloadProfile to avoid too many fetches
+  
   useEffect(() => {
     if (isProfileReloading) return;
     const handler = setTimeout(() => {
       reloadProfile();
       setIsProfileReloading(false);
-    }, 250); // 250ms debounce
+    }, 250); 
     return () => clearTimeout(handler);
   }, [search, isProfileReloading, reloadProfile]);
 
@@ -693,7 +685,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
       </div>
     );
 
-  // Only show give credits if not our own profile
+  
   const isMe = !search || search === user?.id;
   const hasShopItems = profile.ownedItems && profile.ownedItems.length > 0;
 
@@ -796,13 +788,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                 <Link href='/my-market-listings'>
                   <button className='glass-button'>{t('profile.myMarketListings')}</button>
                 </Link>
-                {/* <Link href="/settings" title={t("profile.settings")}>
-                  <button className="glass-button" style={{ padding: 0, background: "none", border: "none" }}>
-                    <span style={{ display: "inline-flex", alignItems: "center", fontSize: 24, color: "#888" }}>
-                      <i className="fa fa-cog" aria-hidden="true"></i>
-                    </span>
-                  </button>
-                </Link> */}
+
                 {hasShopItems ? (
                   <button className='glass-button' onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
                     {t('profile.shop')}
@@ -832,10 +818,10 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                 ...profile,
                 inventory: profile.inventory
                   ? profile.inventory.map(item => ({
-                      ...item,
-                      item_id: item.itemId,
-                      icon_hash: item.iconHash,
-                    }))
+                    ...item,
+                    item_id: item.itemId,
+                    icon_hash: item.iconHash,
+                  }))
                   : [],
               }}
               isMe={isMe}
@@ -844,7 +830,6 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
           </div>
         </div>
       </div>
-      {/* Trade Panel - only show if not our own profile */}
       {user && user.id !== profile.id && currentTradeId && (
         <TradePanel
           tradeId={currentTradeId}
@@ -860,7 +845,6 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
           apiBase='/api'
         />
       )}
-      {/* Give Credits Modal */}
       <GiveCreditsModal
         open={giveCreditsOpen}
         onClose={() => setGiveCreditsOpen(false)}
@@ -871,7 +855,6 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
         maxAmount={user?.balance}
         username={profile.username || profile.username}
       />
-      {/* Feedback for give credits */}
       {giveCreditsLoading && (
         <div className='shop-alert-overlay'>
           <div className='shop-alert' style={{ display: 'inline-flex', flexDirection: 'column', gap: 8 }}>
@@ -899,11 +882,6 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
           </div>
         </div>
       )}
-      {/* {hasShopItems && (
-  <button className="glass-button" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
-          {t("profile.shop")}
-        </button>
-      )} */}
       <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag(f => f + 1)} />
       <CreatedGamesModal open={props.createdGamesModalOpen} onClose={() => props.setCreatedGamesModalOpen(false)} games={profile.createdGames || []} />
       <UserStudiosModal open={props.studiosModalOpen} onClose={() => props.setStudiosModalOpen(false)} studios={profile.studios || []} />
@@ -911,7 +889,6 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
   );
 }
 
-// Version Mobile
 function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
   const { profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, search, setIsProfileReloading, reloadProfile, setGiveCreditsError, setShowTradeModal, setInventoryReloadFlag, setGiveCreditsSuccess } = props;
 
@@ -1058,13 +1035,6 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                     {t('profile.myListings')}
                   </button>
                 </Link>
-                {/* <Link href="/settings" title={t("profile.settings")}>
-                  <button className="glass-button" style={{ minWidth: 90, padding: 0, background: "none", border: "none" }}>
-                    <span style={{ display: "inline-flex", alignItems: "center", fontSize: 24, color: "#888" }}>
-                      <i className="fa fa-cog" aria-hidden="true"></i>
-                    </span>
-                  </button>
-                </Link> */}
                 {hasShopItems ? (
                   <button className='glass-button' style={{ minWidth: 90 }} onClick={() => props.setShopModalOpen(true)}>
                     {t('profile.shop')}
@@ -1098,10 +1068,10 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                 ...profile,
                 inventory: profile.inventory
                   ? profile.inventory.map(item => ({
-                      ...item,
-                      item_id: item.itemId,
-                      icon_hash: item.iconHash,
-                    }))
+                    ...item,
+                    item_id: item.itemId,
+                    icon_hash: item.iconHash,
+                  }))
                   : [],
               }}
               isMe={isMe}
@@ -1110,7 +1080,6 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
           </div>
         </div>
       </div>
-      {/* Trade Panel - only show if not our own profile */}
       {user && user.id !== profile.id && currentTradeId && (
         <div className='trade-panel-centered'>
           <TradePanel
@@ -1128,7 +1097,6 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
           />
         </div>
       )}
-      {/* Give Credits Modal */}
       <GiveCreditsModal
         open={giveCreditsOpen}
         onClose={() => setGiveCreditsOpen(false)}
@@ -1139,7 +1107,6 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
         maxAmount={user?.balance}
         username={profile.username || profile.username}
       />
-      {/* Feedback for give credits */}
       {giveCreditsLoading && (
         <div className='shop-alert-overlay'>
           <div className='shop-alert' style={{ display: 'inline-flex', flexDirection: 'column', gap: 8 }}>
@@ -1167,11 +1134,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
           </div>
         </div>
       )}
-      {/* {hasShopItems && (
-  <button className="glass-button" onClick={() => props.setShopModalOpen(true)} style={{ minWidth: 90 }}>
-          {t("profile.shop")}
-        </button>
-      )} */}
+
       <ProfileShopModal open={props.shopModalOpen} onClose={() => props.setShopModalOpen(false)} user={profile} onBuySuccess={() => setInventoryReloadFlag(f => f + 1)} />
       <CreatedGamesModal open={props.createdGamesModalOpen} onClose={() => props.setCreatedGamesModalOpen(false)} games={profile.createdGames || []} />
       <UserStudiosModal open={props.studiosModalOpen} onClose={() => props.setStudiosModalOpen(false)} studios={profile.studios || []} />
@@ -1179,7 +1142,6 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
   );
 }
 
-// --- Created Games Modal ---
 function CreatedGamesModal({ open, onClose, games }) {
   const { t } = useTranslation('common');
 
@@ -1189,7 +1151,7 @@ function CreatedGamesModal({ open, onClose, games }) {
     <div
       className='shop-prompt-overlay'
       onClick={e => {
-        // Ne ferme que si on clique sur l'overlay, pas sur le contenu
+        
         if (e.target === e.currentTarget) onClose();
       }}>
       <div className='shop-prompt glass-container trade-panel trade-panel-centered' style={{ minWidth: 400, maxWidth: 600 }}>
@@ -1235,7 +1197,7 @@ function UserStudiosModal({ open, onClose, studios }) {
     <div
       className='shop-prompt-overlay'
       onClick={e => {
-        // Ne ferme que si on clique sur l'overlay, pas sur le contenu
+        
         if (e.target !== e.currentTarget) return;
         onClose();
       }}>
@@ -1307,7 +1269,6 @@ function UserStudiosModal({ open, onClose, studios }) {
   );
 }
 
-// Utilitaire pour badge
 const BADGE_INFO: Record<string, { label: string; icon: string; color: string }> = {
   staff: { label: 'Staff', icon: 'fa-screwdriver-wrench', color: '#7289DA' },
   moderator: {
@@ -1409,3 +1370,4 @@ export default function Profile({ userId }: ProfileProps) {
   const logic = useProfileLogic(userId);
   return isMobile ? <ProfileMobile {...logic} /> : <ProfileDesktop {...logic} />;
 }
+

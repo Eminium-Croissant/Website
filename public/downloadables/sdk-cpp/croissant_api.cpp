@@ -1,4 +1,4 @@
-#include "croissant_api_new.hpp"
+#include "croissant_api.hpp"
 #include <stdexcept>
 #include <sstream>
 #include <algorithm>
@@ -1169,4 +1169,5 @@ json Client::globalSearch(const std::string& query) const {
     }
     return json::object();
 }
+
 
