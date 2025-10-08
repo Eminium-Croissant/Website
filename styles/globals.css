@@ -1,10 +1,408 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+.trade-panel,
+body {
+  overflow-x: hidden;
+}
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+*,
+body,
+main {
+  scrollbar-width: thin;
+}
+
+.gamepage-credit-icon,
+.markdown-body li img,
+.markdown-body p img,
+.shop-root {
+  vertical-align: middle;
+}
+
+.links-group,
+.trade-actions {
+  justify-content: center;
+  display: flex;
+}
+
+.delete,
+.endpoint-link,
+.get,
+.links-group,
+.links-group a,
+.params-info h4,
+.post,
+.put,
+.response-info h4,
+.trade-close-x:hover,
+body,
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+p,
+span,
+strong,
+ul {
+  color: #fff;
+}
+
+button,
+footer,
+header,
+strong {
+  background-color: #222;
+}
+
+body,
+main {
+  scrollbar-color: #555 #333;
+}
+
+header {
+  border-bottom: 1px solid #444;
+}
+
+footer {
+  border-top: 1px solid #444;
+}
+
+.container,
+.form-group,
+.form-row,
+.library-details-row,
+form,
+form.game-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.api-doc {
+  background: #2c2c2c;
+}
+
+.post {
+  background: #3cbf7f;
+}
+
+.patch {
+  background: #bf3cab;
+}
+
+pre {
+  font-size: 1.1rem;
+  overflow-x: auto;
+}
+
+a {
+  color: #1e90ff;
+}
+
+.api-docs-container,
+.form-group {
+  flex-direction: column;
+}
+
+.api-docs-sidebar {
+  min-width: auto !important;
+  width: 100%;
+}
+
+.api-docs-main {
+  overflow-y: scroll;
+  max-height: 246vh;
+}
+
+.trade-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #232323 80%, #2c2c2c 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85), 0 0 0 2px #222 inset;
+  width: 90vw;
+  overflow-y: auto;
+  color: #fff;
+  border: 1.5px solid #444;
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+.trade-column,
+.trade-panel li {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+}
+
+@keyframes tradepanel-pop {
+  from {
+    transform: translate(-50%, -60%) scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.trade-panel h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.6rem;
+  text-align: center;
+  color: #fff;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #1a1a1a;
+}
+
+.trade-actions,
+.trade-inventory-section,
+.trade-panel h3 {
+  margin-top: 18px;
+}
+
+.trade-panel h3 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  color: #ccc;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.trade-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+}
+
+.trade-panel li {
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  background: #232323;
+  border-radius: 7px;
+  padding: 6px 12px;
+  border: 1px solid #444;
+}
+
+.trade-panel button,
+button:hover {
+  background-color: #444;
+}
+
+.trade-panel button {
+  margin: 0 4px;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 16px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trade-panel button:disabled {
+  background: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.trade-panel .trade-close-btn {
+  background: linear-gradient(90deg, #444 70%, #222 100%);
+  color: #fff;
+  margin-top: 18px;
+  float: right;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trade-panel .trade-close-btn:hover {
+  background: #222;
+}
+
+.trade-panel .trade-inventory-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  justify-content: flex-start;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.trade-panel .trade-inventory-item {
+  background: linear-gradient(135deg, #232323 80%, #2c2c2c 100%);
+  border: 2.5px solid #444;
+  border-radius: 10px;
+  width: 84px;
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 6px 8px;
+  cursor: pointer;
+  transition: border 0.15s, background 0.15s, box-shadow 0.15s;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trade-panel .trade-inventory-item:hover {
+  border: 2.5px solid #888;
+  background: #232323;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.trade-panel .trade-inventory-item img {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  background: #444;
+  border: 1.5px solid #444;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.trade-panel .trade-inventory-item div {
+  font-size: 1em;
+  text-align: center;
+  margin-bottom: 2px;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: 0 1px 2px #1a1a1a;
+}
+
+.trade-panel .trade-inventory-item div.trade-item-name {
+  font-size: 0.88em;
+  color: #ccc;
+  font-weight: 400;
+}
+
+.trade-panel .trade-inventory-item[disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+  filter: grayscale(0.5);
+}
+
+.trade-panel {
+  flex-direction: column;
+  min-width: 700px;
+  gap: 0;
+  padding: 32px 24px 18px;
+}
+
+.trade-main-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  height: 100%;
+}
+
+.trade-main-columns > .trade-column {
+  flex: 1 1 0;
+  margin: 0 8px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.trade-column {
+  flex: 1 1 0;
+  min-width: 220px;
+  background: #232323;
+  border-radius: 10px;
+  padding: 16px 12px;
+  border: 1.5px solid #444;
+  justify-content: space-between;
+}
+
+.trade-actions {
+  gap: 16px;
+}
+
+.trade-status {
+  text-align: center;
+  margin-top: 10px;
+  color: #ccc;
+  font-weight: 600;
+}
+
+.trade-close-x {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 2rem;
+  color: #aaa;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+  transition: color 0.15s;
+}
+
+.trade-column.trade-approved {
+  border-color: #3cbf7f !important;
+  box-shadow: 0 0 12px 0 #3cbf7f55;
+  background: linear-gradient(135deg, #233323 80%, #2c3c2c 100%);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.inventory-grid {
+  grid-template-columns: repeat(8, 1fr);
+}
+
+.create-dropdown-content a:hover,
+button,
+header,
+strong {
+  background-color: var(--background-dark);
+}
+
+.creategame-file-label,
+.createitem-file-label,
+.delete,
+.endpoint-link,
+.get,
+.library-play-btn.can-delete,
+.library-search-input,
+.links-group,
+.links-group a,
+.post,
+.put,
+.search-title,
+.shop-loading,
+.shop-section-title,
+.shop-title,
+.sidebar-game.selected,
+.steam-library-layout,
+.titlebar,
+body,
+button,
+strong {
+  color: var(--text-color-primary);
+}
 
 :root {
+  --background-dark: #222222ee;
+  --background-medium: #232323ee;
+  --background-light: #2c2c2cee;
+  --text-color-primary: #fff;
+  --text-color-secondary: #bcbcbc;
+  --border-color: #444;
+  --accent-color: #1e90ff;
+  --gold-color: gold;
+  --success-color: #3cbf7f;
+  --error-color: red;
   --app-height: 100vh;
   --dark-primary: #0a0a0f;
   --dark-secondary: #1a1a23;
@@ -18,12 +416,2081 @@
   --glass-text-muted: rgba(255, 255, 255, 0.5);
 }
 
+.links-group,
+nav {
+  gap: 20px;
+  display: flex;
+}
+
+.endpoint-link,
+.links-group a {
+  text-decoration: none;
+}
+
+.form-group,
+.links-group,
+.titlebar,
+form,
+nav {
+  display: flex;
+}
+
+.api-doc,
+h1 {
+  margin-bottom: 20px;
+}
+
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: linear-gradient(135deg, #0a0a0f 0%, #1a1a23 50%, #2a2a35 100%);
+  background-color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.api-doc,
+footer,
+header,
+main {
+  padding: 22px 20px;
+}
+
+header {
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav {
+  justify-content: center;
+  align-items: center;
+}
+
+.links-group {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.links-group a:hover {
+  color: #ccc;
+}
+
+.indent {
+  margin-left: 20px;
+}
+
+footer {
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+form {
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+input[type='email'],
+input[type='text'],
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.api-doc {
+  background: var(--background-light);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.endpoint-details,
+.method,
+code,
+pre,
+strong {
+  border-radius: 4px;
+}
+
+.shop-game-link,
+a {
+  text-decoration: underline;
+}
+
+.endpoint-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.description,
+.params-info,
+.response-info {
+  margin-bottom: 15px;
+}
+
+.method {
+  text-transform: uppercase;
+  padding: 4px 8px;
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.get {
+  background: #3a8fdc;
+}
+
+.mygames-btn-save,
+.myitems-btn-save,
+.post {
+  background: var(--success-color);
+}
+
+.put {
+  background: #fca130;
+}
+
+.delete {
+  background: #f93e3e;
+}
+
+.description {
+  color: #aaa;
+}
+
+.endpoint-details {
+  background: #3a3a3a;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.params-info h4,
+.response-info h4 {
+  margin-bottom: 8px;
+  color: var(--text-color-primary);
+}
+
+code {
+  background: #444;
+  padding: 2px 6px;
+}
+
+a {
+  color: var(--accent-color);
+}
+
+img {
+  height: auto;
+}
+
+strong {
+  padding: 2px 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.titlebar {
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  app-region: drag;
+}
+
+.container,
+.creategame-container,
+.createitem-container,
+.credits-container,
+.devzone-container,
+.inventory-details-container,
+.main-details-steam,
+.mygames-container,
+.myitems-container,
+.profile-details-container,
+.shop-games-section,
+.shop-items-section {
+  background-color: var(--background-medium);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 40px auto;
+}
+
+.shop-games-section {
+  margin: 0;
+  height: 100;
+}
+
+.creategame-container,
+.createitem-container {
+  padding: 32px;
+}
+
+.inventory-details-container,
+.profile-details-container,
+.shop-games-section,
+.shop-items-section {
+  border: 2px solid var(--text-color-secondary);
+}
+
+.mygames-card,
+.myitems-card,
+.search-user-card,
+.shop-item-card {
+  background: var(--background-medium);
+  border: 2px solid var(--border-color);
+}
+
+.creategame-title,
+.createitem-title,
+.mygames-title,
+.myitems-title {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.creategame-title span,
+.createitem-title span,
+.mygames-title-span,
+.myitems-title-span {
+  color: var(--text-color-primary);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.creategame-file-label,
+.createitem-file-label {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--background-dark);
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.creategame-ready,
+.createitem-ready {
+  color: var(--success-color);
+  margin-left: 8px;
+}
+
+.creategame-checkbox-label,
+.createitem-checkbox-label,
+.links-group,
+.navbar-user-group {
+  display: flex;
+  align-items: center;
+}
+
+.creategame-checkbox,
+.createitem-checkbox {
+  margin-right: 8px;
+}
+
+.creategame-success,
+.createitem-success {
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.creategame-submit-btn,
+.createitem-submit-btn {
+  margin-top: 10px;
+}
+
+.credits-container,
+.devzone-container {
+  margin: 0;
+  padding: 36px;
+  width: calc(100% - 36px - 36px);
+  background: linear-gradient(135deg, #23232a 0, #18181c 100%);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.22);
+}
+
+.credits-title,
+.devzone-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: 800;
+  font-size: 38px;
+  color: var(--text-color-primary);
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.credits-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.credit-tier {
+  background: rgba(35, 35, 42, 0.98);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.16);
+  transition: transform 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+  border: 2px solid #282834;
+  margin-bottom: 12px;
+}
+
+.credit-tier:focus,
+.credit-tier:hover {
+  transform: scale(1.04);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+  outline: 0;
+}
+
+.credit-tier-img {
+  height: 64px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 2px 8px #0006);
+}
+
+.credit-tier-credits {
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 6px;
+  color: var(--text-color-primary);
+  letter-spacing: 0.5px;
+}
+
+.credit-tier-price {
+  color: var(--gold-color);
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.container {
+  align-items: center;
+  margin: 20px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+form.game-form {
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.form-row {
+  margin-bottom: 10px;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 700;
+  color: var(--text-color-primary);
+}
+
+.dark-input,
+input[type='file'],
+input[type='number'],
+input[type='text'],
+input[type='url'],
+textarea {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--background-medium);
+  color: var(--text-color-primary);
+  font-size: 1rem;
+}
+
+.error,
+.inventory-error,
+.lobby-error,
+.navbar-logout-btn,
+.required,
+.shop-error {
+  color: var(--error-color);
+}
+
+input[type='file'].dark-input {
+  padding: 6px 0;
+  color-scheme: dark;
+}
+
+input[type='file'].required:focus,
+input[type='text'].required:focus {
+  border-color: var(--error-color);
+}
+
+.error {
+  margin-top: 2px;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+.gamepage-root {
+  margin-top: 30px;
+  position: relative;
+}
+
+.gamepage-back-btn {
+  margin: 24px 0 0 24px;
+  padding: 8px 20px;
+  background: var(--background-medium);
+  color: var(--text-color-primary);
+  border: 1px solid var(--text-color-secondary);
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  position: absolute;
+  z-index: 2;
+}
+
+.game-properties,
+.gamepage-desc,
+.inventory-prompt-amount-max,
+.inventory-tooltip-desc,
+.main-empty,
+.mygames-tooltip-desc,
+.myitems-tooltip-desc,
+.profile-tooltip-desc,
+.shop-games-empty,
+.shop-prompt-amount-max,
+.shop-tooltip-desc,
+.sidebar-empty {
+  color: var(--text-color-secondary);
+}
+
+.gamepage-credit-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.inventory-root {
+  margin: 0;
+  position: relative;
+}
+
+.inventory-grid {
+  height: 47.73vh;
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  background: var(--background-dark);
+  border: 4px solid var(--text-color-secondary);
+  border-radius: 8px;
+  overflow-y: scroll;
+}
+
+.inventory-item,
+.inventory-item-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #1a1a1a;
+  border-radius: 4px;
+  padding: 8px;
+  height: 48px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.inventory-item-img,
+.profile-inventory-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-bottom: 4px;
+  image-rendering: pixelated;
+  pointer-events: none;
+  user-select: none;
+}
+
+.inventory-item-qty,
+.profile-inventory-qty {
+  position: absolute;
+  bottom: 6px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-color-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  user-select: none;
+}
+
+.inventory-item-empty,
+.profile-inventory-empty-cell {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+.inventory-details-container,
+.profile-details-container {
+  margin: 40px auto;
+  padding: 32px;
+  background: var(--background-medium);
+  border-radius: 12px;
+  color: var(--text-color-primary);
+  border: 2px solid var(--text-color-secondary);
+}
+
+.inventory-back-btn,
+.profile-back-btn {
+  margin-bottom: 24px;
+  padding: 8px 20px;
+  background: var(--text-color-secondary);
+  color: var(--background-medium);
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.inventory-details-main,
+.profile-details-main,
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.inventory-details-img,
+.profile-details-img {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 2px solid #888;
+}
+
+.inventory-details-name,
+.profile-details-name {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.inventory-details-desc,
+.profile-details-desc {
+  color: var(--text-color-secondary);
+  margin-bottom: 16px;
+}
+
+.inventory-details-qty,
+.profile-details-qty {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.inventory-details-creator,
+.inventory-details-deleted,
+.inventory-details-price,
+.inventory-details-store,
+.profile-details-creator,
+.profile-details-deleted,
+.profile-details-price,
+.profile-details-store,
+.shop-prompt-item-owner {
+  color: var(--text-color-secondary);
+  margin-top: 8px;
+}
+
+.inventory-credit-icon {
+  width: 18px;
+  position: relative;
+  top: 4px;
+  margin-left: 4px;
+}
+
+.inventory-details-creator-link,
+.profile-details-creator-link,
+.shop-prompt-owner-link {
+  color: var(--text-color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.inventory-details-creator-avatar,
+.profile-details-creator-avatar,
+.shop-prompt-owner-avatar {
+  width: 24px;
+  position: relative;
+  border-radius: 50%;
+  margin-right: 8px;
+  top: 6px;
+}
+
+.inventory-tooltip,
+.mygames-tooltip,
+.myitems-tooltip,
+.profile-tooltip,
+.shop-tooltip {
+  position: fixed;
+  background: var(--background-dark);
+  color: var(--text-color-primary);
+  border: 1px solid #888;
+  border-radius: 6px;
+  padding: 10px 16px;
+  z-index: 1000;
+  pointer-events: none;
+  min-width: 200px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  font-size: 15px;
+  white-space: pre-line;
+}
+
+.inventory-tooltip-name,
+.mygames-tooltip-title,
+.myitems-tooltip-title,
+.profile-tooltip-name,
+.shop-tooltip-name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.inventory-prompt-amount,
+.library-title,
+.lobby-profile-wrapper,
+.shop-prompt-amount {
+  margin-bottom: 24px;
+}
+
+.inventory-context-menu {
+  position: fixed;
+  background: var(--background-medium);
+  border: 1px solid #888;
+  border-radius: 6px;
+  z-index: 2000;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  min-width: 120px;
+  padding: 4px 0;
+}
+
+.inventory-context-auction,
+.inventory-context-drop,
+.inventory-context-sell {
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.inventory-context-auction,
+.inventory-context-sell {
+  color: var(--text-color-primary);
+  font-weight: 500;
+  border-bottom: 1px solid #444;
+}
+
+.inventory-context-drop {
+  color: var(--error-color);
+  font-weight: 700;
+}
+
+.inventory-prompt-overlay,
+.mygames-modal-overlay,
+.myitems-modal-overlay,
+.shop-alert-overlay,
+.shop-prompt-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inventory-prompt,
+.shop-alert,
+.shop-prompt {
+  background: var(--background-medium);
+  border: 1px solid #888;
+  border-radius: 8px;
+  padding: 32px;
+  min-width: 300px;
+  color: var(--text-color-primary);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.inventory-prompt-message,
+.shop-prompt-message {
+  margin-bottom: 24px;
+  font-size: 18px;
+}
+
+.inventory-prompt-amount-input,
+.shop-prompt-amount-input {
+  width: 80px;
+  font-size: 16px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #888;
+  margin-right: 8px;
+  text-align: center;
+}
+
+.inventory-prompt-yes-btn,
+.shop-prompt-buy-btn {
+  margin-right: 16px;
+  padding: 8px 24px;
+  background: #4caf50;
+  color: var(--text-color-primary);
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.inventory-prompt-no-btn,
+.shop-prompt-cancel-btn {
+  padding: 8px 24px;
+  background: #f44336;
+  color: var(--text-color-primary);
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.library-steam-bg {
+  background: #181a21;
+  min-height: 100vh;
+  padding: 32px;
+  color: var(--text-color-primary);
+}
+
+.library-title {
+  font-size: 2rem;
+  color: #66c0f4;
+}
+
+.library-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.library-card {
+  background: #23262e;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 350px;
+  box-shadow: 0 2px 8px #000a;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.library-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px #000c;
+}
+
+.library-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.library-card-content {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.library-play-btn {
+  padding: 10px 32px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: #2d8cff;
+  color: var(--text-color-primary);
+  transition: background 0.15s;
+}
+
+.library-play-btn.can-install,
+.library-play-btn.can-play {
+  background: #43a047;
+}
+
+.library-play-btn.can-update,
+.sidebar-game.to-update {
+  background: #ffb300;
+  color: #23262e;
+}
+
+.library-play-btn.can-delete {
+  background: #c0392b;
+}
+
+.library-play-btn.playing,
+.sidebar-game.playing {
+  background: #43a047;
+  color: var(--text-color-primary);
+}
+
+.library-play-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.steam-library-layout {
+  display: flex;
+  height: calc(100vh - 5rem);
+  background: #181a20;
+}
+
+.steam-library-sidebar {
+  width: 260px;
+  background: #23262e;
+  padding: 24px 0 0;
+  border-right: 2px solid var(--text-color-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.library-search-input {
+  width: 70%;
+  margin: 8px auto 16px;
+  display: block;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--text-color-secondary);
+  background: #23262e;
+  font-size: 15px;
+}
+
+.sidebar-empty {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sidebar-game {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  transition: background 0.15s, color 0.15s;
+  font-size: 16px;
+}
+
+.sidebar-game.selected {
+  background: #2d8cff;
+}
+
+.app-card-meta span,
+.sidebar-game.not-installed {
+  opacity: 0.7;
+}
+
+.sidebar-game.installed {
+  font-weight: 700;
+}
+
+.sidebar-thumb {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #181a20;
+  border: 1px solid #444;
+}
+
+.steam-library-main {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.main-empty {
+  text-align: center;
+  margin-top: 80px;
+  font-size: 20px;
+}
+
+.main-details-steam {
+  background: var(--background-medium);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  padding-bottom: 15px;
+  min-height: 100vh;
+}
+
+.main-banner-steam,
+.main-icon-steam {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.banner-container {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  margin-bottom: 27px;
+}
+
+.main-banner-steam {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.main-icon-steam {
+  position: absolute;
+  left: 32px;
+  bottom: -32px;
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #181a20;
+  border: 2px solid var(--text-color-secondary);
+}
+
+.lobby-expand-btn,
+.lobby-tooltip {
+  background: var(--background-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position: fixed;
+}
+
+.main-details-content {
+  margin-top: 48px;
+  margin-left: 48px;
+}
+
+.library-btn-col {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+}
+
+.game-properties {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 15px;
+  min-width: 200px;
+  margin-bottom: 24px;
+}
+
+.lobby-tooltip {
+  top: 24px;
+  right: 24px;
+  color: var(--text-color-primary);
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 8px;
+  z-index: 2000;
+  font-weight: 700;
+  font-size: 16px;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+}
+
+.lobby-tooltip-icon {
+  color: #0f0;
+  margin-right: 8px;
+}
+
+.lobby-expand-btn {
+  right: 15px;
+  bottom: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: var(--text-color-primary);
+  border: 2px solid #ccc;
+  cursor: pointer;
+  z-index: 1000;
+  font-size: 24px;
+}
+
+.lobby-container {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 350px;
+  position: fixed;
+  right: 15px;
+  bottom: 0;
+  background-color: #111;
+  z-index: 999;
+}
+
+.lobby-actions,
+.lobby-back-btn {
+  margin-bottom: 8px;
+}
+
+.lobby-collapse-btn,
+.lobby-user-btn {
+  background: 0 0;
+  border: none;
+  cursor: pointer;
+}
+
+.lobby-collapse-btn {
+  position: absolute;
+  top: 34px;
+  right: 12px;
+  color: var(--text-color-primary);
+  font-size: 18px;
+}
+
+.lobby-users-list {
+  list-style-type: none;
+  padding: 0;
+  gap: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.lobby-user-btn {
+  padding: 0;
+  font: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.lobby-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.lobby-user-name {
+  position: relative;
+}
+
+.lobby-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.mygames-container,
+.myitems-container {
+  padding: 32px;
+  background-color: var(--background-medium);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 40px auto;
+}
+
+.mygames-empty,
+.mygames-loading,
+.myitems-empty,
+.myitems-loading {
+  color: var(--text-color-primary);
+  text-align: center;
+}
+
+.mygames-grid,
+.myitems-grid {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 120px);
+  gap: 18px;
+  justify-content: center;
+  background: 0 0;
+  border: none;
+  padding: 0;
+}
+
+.mygames-card,
+.myitems-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background-medium);
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  border: 2px solid var(--border-color);
+  transition: transform 0.1s;
+  min-height: 170px;
+}
+
+.mygames-card-icon,
+.myitems-card-icon {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 8px;
+  image-rendering: pixelated;
+  pointer-events: none;
+  user-select: none;
+  background: #111;
+  border-radius: 8px;
+}
+
+.mygames-card-name,
+.myitems-card-name,
+.shop-item-name {
+  font-weight: 700;
+  color: var(--text-color-primary);
+  font-size: 15px;
+  margin-bottom: 2px;
+  text-align: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mygames-card-price,
+.myitems-card-price,
+.shop-item-price {
+  color: var(--gold-color);
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 2px;
+  text-align: center;
+}
+
+.mygames-card-credit,
+.myitems-card-credit,
+.shop-credit-icon {
+  width: 18px;
+  height: 18px;
+  position: relative;
+  margin-left: 4px;
+  top: 4px;
+}
+
+.shop-credit-icon {
+  top: 0;
+}
+
+.glass-button,
+.myitems-card-editbtn {
+  margin-top: 8px;
+  padding: 6px 12px;
+  background: var(--success-color);
+  color: var(--background-dark);
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mygames-modal-form,
+.myitems-modal-form {
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.mygames-card-empty,
+.myitems-card-empty {
+  min-height: 170px;
+}
+
+.mygames-tooltip-price,
+.myitems-tooltip-price,
+.shop-tooltip-price {
+  margin-top: 8px;
+  color: var(--gold-color);
+}
+
+.mygames-tooltip-store,
+.myitems-tooltip-store,
+.shop-prompt-item-stock,
+.shop-tooltip-stock {
+  color: var(--text-color-secondary);
+  margin-left: 8px;
+}
+
+.mygames-modal-form {
+  background: var(--background-medium);
+  border: 1px solid #888;
+  border-radius: 8px;
+  min-width: 900px;
+  color: var(--text-color-primary);
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  position: relative;
+  top: 50px;
+}
+
+.mygames-modal-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mygames-modal-title {
+  margin-bottom: 12px;
+  grid-column: span 3;
+}
+
+.mygames-label,
+.shop-prompt-item-info {
+  text-align: left;
+}
+
+.myitems-modal-form,
+.profile-inventory-empty,
+.search-no-users,
+.shop-error,
+.shop-item-stock,
+.shop-loading,
+.shop-title {
+  text-align: center;
+}
+
+.mygames-input,
+.myitems-input {
+  margin-bottom: 6px;
+  width: 100%;
+}
+
+.mygames-checkbox,
+.myitems-checkbox {
+  margin-right: 6px;
+}
+
+.mygames-modal-actions {
+  grid-column: span 3;
+  margin-top: 8px;
+}
+
+.mygames-error,
+.myitems-error {
+  color: var(--error-color);
+  margin-bottom: 6px;
+}
+
+.mygames-modal-btns,
+.myitems-modal-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.myitems-modal-form {
+  background: var(--background-medium);
+  border: 1px solid #888;
+  border-radius: 8px;
+  color: var(--text-color-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.myitems-modal-title,
+.profile-inventory-title,
+.profile-shop-title {
+  margin-bottom: 12px;
+}
+
+.myitems-label {
+  color: var(--text-color-primary);
+  margin-bottom: 6px;
+}
+
+.navbar-fixed {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  background-color: var(--text-color-primary);
+  top: 2rem;
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-credits {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  gap: 4px;
+}
+
+.navbar-credit-img {
+  width: 24px;
+  height: 24px;
+  margin-left: 4px;
+}
+
+.navbar-balance {
+  display: flex;
+  flex-direction: row;
+}
+
+.navbar-avatar {
+  width: 32px;
+  height: 32px;
+  margin-right: 16px;
+  border-radius: 50%;
+}
+
+.profile-root {
+  margin: 32px;
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid var(--text-color-secondary);
+  background: var(--background-medium);
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.profile-inventory-grid {
+  width: 100%;
+  min-height: 120px;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  padding: 16px;
+  background: var(--background-dark);
+  border: 4px solid var(--text-color-secondary);
+  border-radius: 8px;
+}
+
+.profile-inventory-empty {
+  grid-column: span 8;
+  color: var(--text-color-secondary);
+}
+
+.profile-inventory-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #1a1a1a;
+  border-radius: 4px;
+  padding: 8px;
+  position: relative;
+  min-height: 64px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.search-header {
+  margin-bottom: 24px;
+  color: var(--text-color-primary);
+}
+
+.search-users-grid {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 18px;
+  justify-content: center;
+  background: 0 0;
+  border: none;
+  padding: 0;
+}
+
+.search-user-card,
+.shop-item-card {
+  border-radius: 8px;
+  user-select: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.search-no-users {
+  color: #ccc;
+  margin-top: 16px;
+  grid-column: 1/-1;
+}
+
+.search-user-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background-medium);
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  border: 2px solid var(--border-color);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.search-user-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-bottom: 12px;
+  border: 2px solid #888;
+  background: #1a1a1a;
+  object-fit: cover;
+}
+
+.search-user-name,
+.search-user-username {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.search-user-name {
+  font-weight: 700;
+  color: var(--text-color-primary);
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.search-user-username {
+  color: #aaa;
+  font-size: 14px;
+}
+
+.shop-title {
+  margin-bottom: 32px;
+}
+
+.shop-sections {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 auto;
+  min-width: 600px;
+}
+
+.shop-games-section,
+.shop-items-section {
+  flex: 1;
+  min-width: 320px;
+  background: var(--background-medium);
+  border-radius: 12px;
+  padding: 24px;
+  color: var(--text-color-primary);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  border: 2px solid var(--text-color-secondary);
+  height: fit-content;
+}
+
+.shop-game-card,
+.steam-library-layout,
+.steam-library-main {
+  overflow: hidden;
+}
+
+.shop-section-title {
+  margin-bottom: 16px;
+}
+
+.shop-items-grid {
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+  justify-content: center;
+}
+
+.shop-item-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--background-medium);
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  border: 2px solid var(--border-color);
+  transition: transform 0.1s;
+}
+
+.shop-item-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-bottom: 8px;
+  image-rendering: pixelated;
+  pointer-events: none;
+  user-select: none;
+}
+
+.shop-item-stock {
+  color: var(--text-color-secondary);
+  font-size: 13px;
+}
+
+.shop-item-empty {
+  background: 0 0;
+  border-radius: 8px;
+  min-height: 100px;
+}
+
+.shop-games-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.shop-game-card {
+  margin-bottom: 18px;
+  padding: 0;
+  background: #181818;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  position: relative;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.shop-game-banner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.18;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.shop-game-icon,
+.shop-prompt-item-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.shop-game-icon {
+  border-radius: 8px;
+  margin: 0 20px;
+  background: var(--background-dark);
+  z-index: 1;
+}
+
+.shop-game-info {
+  z-index: 1;
+  flex: 1;
+}
+
+.shop-game-name {
+  font-weight: 700;
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.shop-game-link {
+  color: #61dafb;
+  cursor: pointer;
+}
+
+.shop-game-desc {
+  color: var(--text-color-secondary);
+  margin-bottom: 6px;
+}
+
+.shop-game-price,
+.shop-prompt-item-price {
+  color: var(--gold-color);
+  font-weight: 700;
+}
+
+.shop-game-rating {
+  color: var(--text-color-secondary);
+  margin-top: 4px;
+}
+
+.shop-game-buy-btn,
+.shop-game-view-btn {
+  padding: 8px 20px;
+  color: var(--text-color-primary);
+  font-size: 15px;
+  z-index: 2;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.shop-game-buy-btn {
+  margin-right: 24px;
+  background: #4caf50;
+  border: none;
+  border-radius: 4px;
+}
+
+.shop-game-view-btn {
+  margin-right: 12px;
+  background: #1976d2;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.shop-prompt-item-details {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.shop-prompt-item-img {
+  image-rendering: pixelated;
+  background: #1a1a1a;
+  border-radius: 8px;
+  border: 2px solid #888;
+}
+
+.shop-prompt-item-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.shop-prompt-item-desc {
+  color: var(--text-color-secondary);
+  margin-bottom: 8px;
+}
+
+.shop-prompt-amount-total {
+  color: var(--gold-color);
+  margin-left: 8px;
+}
+
+.shop-alert-overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 4000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shop-alert-message {
+  font-size: 18px;
+  margin-bottom: 24px;
+}
+
+.shop-alert-ok-btn {
+  padding: 8px 24px;
+  background: #4caf50;
+  color: var(--text-color-primary);
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+main {
+  padding: 0;
+}
+
+.inventory-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.inventory-loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: 1s linear infinite spin;
+}
+
+.create-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.create-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--background-medium);
+  min-width: 160px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  padding: 8px 0;
+  z-index: 1;
+  left: 0;
+  top: 100%;
+  margin-top: -2px;
+  border-radius: 8px;
+  border: 2px solid var(--border-color);
+}
+
+.create-dropdown-content:hover,
+.create-dropdown:hover .create-dropdown-content {
+  display: block;
+}
+
+.create-dropdown-content a {
+  color: #fff;
+  padding: 6px 8px;
+  text-decoration: none;
+  display: block;
+}
+
+.create-dropdown-content hr {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+  margin: 5px 0;
+}
+
+.gamepage-blur {
+  filter: blur(4px) grayscale(0.2) brightness(0.8);
+  pointer-events: none;
+  user-select: none;
+}
+
+.gamepage-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  background: rgba(30, 30, 30, 0.18);
+  pointer-events: none;
+}
+
+.skeleton-banner {
+  width: 100%;
+  height: 220px;
+  background: #444;
+  border-radius: 8px;
+  opacity: 0.4;
+}
+
+.skeleton-icon {
+  position: absolute;
+  left: 32px;
+  bottom: -32px;
+  width: 96px;
+  height: 96px;
+  background: #555;
+  border-radius: 16px;
+  opacity: 0.5;
+}
+
+.skeleton-title {
+  width: 40%;
+  height: 32px;
+  background: #555;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.add-app-btn:hover,
+.skeleton-desc {
+  background: #444;
+}
+
+.skeleton-desc {
+  width: 80%;
+  height: 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  opacity: 0.4;
+}
+
+.skeleton-properties {
+  width: 60%;
+  height: 80px;
+  background: #444;
+  border-radius: 8px;
+  opacity: 0.3;
+}
+
+.mygames-grid,
+.myitems-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+}
+
+.container-oauth2 {
+  margin: 40px auto;
+  padding: 32px 24px;
+  color: #fff;
+}
+
+.apps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.add-app-btn,
+button.oauth2-button {
+  cursor: pointer;
+  margin-top: 8px;
+  color: #fff;
+}
+
+.app-card {
+  background: #292929;
+  border-radius: 10px;
+  padding: 18px 16px 14px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.13);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.app-card-main {
+  flex: 1;
+}
+
+.app-card-actions,
+.oauth2-form {
+  flex-direction: column;
+  display: flex;
+}
+
+.app-card-title {
+  font-weight: 700;
+  font-size: 1.18rem;
+  margin-bottom: 2px;
+}
+
+.app-card-meta {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.app-card-redirects {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.app-card-actions {
+  gap: 8px;
+  margin-left: 0;
+}
+
+.app-card-actions button {
+  min-width: 120px;
+  padding: 8px 0;
+}
+
+.add-app-btn {
+  background: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 18px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #23242a;
+  border-radius: 14px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  padding: 32px 24px;
+  color: #fff;
+  min-width: 340px;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  background: 0 0;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.oauth2-form {
+  gap: 18px;
+}
+
+.form-group {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+label.oauth2-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+input.oauth2-input[type='email'],
+input.oauth2-input[type='text'],
+textarea.oauth2-textarea {
+  width: 95%;
+  padding: 10px 12px;
+  border: 1.5px solid #444;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #333;
+  color: #fff;
+  transition: border 0.2s, background 0.2s;
+  margin-bottom: 4px;
+}
+
+input.oauth2-input[type='email']:focus,
+input.oauth2-input[type='text']:focus,
+textarea.oauth2-textarea:focus {
+  border-color: #fff;
+  outline: 0;
+  background: #2c2c2c;
+}
+
+button.oauth2-button {
+  background: #333;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+
+button.oauth2-button:hover {
+  background: #444;
+  color: #fff;
+}
+
+pre.oauth2-pre {
+  background: #181818;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 0.95rem;
+  overflow-x: auto;
+  color: #fff;
+}
+
+code.oauth2-code {
+  background: #333;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: Inter, system-ui, sans-serif;
+  background: linear-gradient(135deg, #0a0a0f 0, #1a1a23 50%, #2a2a35 100%);
   color: var(--glass-text);
   min-height: 100vh;
-  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -38,28 +2505,27 @@ body {
 }
 
 .markdown-body {
-  background: none !important;
+  background: 0 0 !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, rgba(74, 158, 255, 0.4) 0%, rgba(139, 92, 246, 0.4) 100%);
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.4) 0, rgba(139, 92, 246, 0.4) 100%);
   border-radius: 4px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, rgba(74, 158, 255, 0.6) 0%, rgba(139, 92, 246, 0.6) 100%);
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.6) 0, rgba(139, 92, 246, 0.6) 100%);
   box-shadow: 0 0 10px rgba(74, 158, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(135deg, rgba(74, 158, 255, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(74, 158, 255, 0.8) 0, rgba(139, 92, 246, 0.8) 100%);
 }
 
 * {
-  scrollbar-width: thin;
   scrollbar-color: rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3);
 }
 
@@ -84,13 +2550,41 @@ body {
 }
 
 @layer components {
+  .glass-button,
+  .glass-card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-button,
+  .glass-input[type='file'] {
+    backdrop-filter: blur(20px);
+    color: var(--glass-text);
+  }
+
+  .glass-details-summary,
+  .glass-title {
+    -webkit-text-fill-color: transparent;
+  }
+
+  .glass-card,
+  .glass-checkbox,
+  .glass-details,
+  .glass-glow {
+    position: relative;
+  }
+
+  .trade-item-name,
+  .trade-tooltip .trade-tooltip-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .glass-card {
     @apply rounded-2xl p-6 transition-all duration-300;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.02) 100%);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    position: relative;
     overflow: hidden;
   }
 
@@ -109,68 +2603,55 @@ body {
     left: 100%;
   }
 
-  .glass-card:hover {
+  .glass-card:hover,
+  .glass-content-card:hover {
     transform: translateY(-2px);
     border-color: rgba(255, 255, 255, 0.2);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   }
 
   .glass-button {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--glass-text);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.05) 100%);
+  }
+
+  .glass-checkbox,
+  .glass-input[type='file'] {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0, rgba(255, 255, 255, 0.03) 100%);
+    border: 1px solid rgba(74, 158, 255, 0.2);
   }
 
   .glass-input[type='file'] {
     @apply w-full px-4 py-3 rounded-xl border transition-all duration-300;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(74, 158, 255, 0.2);
-    color: var(--glass-text);
     cursor: pointer;
-
-    &::-webkit-file-upload-button {
-      @apply px-4 py-2 rounded-lg font-semibold transition-all duration-300;
-      background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-      color: var(--glass-text);
-      border: 1px solid rgba(74, 158, 255, 0.3);
-      cursor: pointer;
-    }
-    &::-ms-browse {
-      background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-      color: var(--glass-text);
-      border: 1px solid rgba(74, 158, 255, 0.3);
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-weight: 600;
-      cursor: pointer;
-    }
   }
 
   .glass-checkbox {
     @apply w-5 h-5 rounded-md border transition-all duration-300 align-middle cursor-pointer;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(74, 158, 255, 0.2);
     appearance: none;
-    position: relative;
+  }
+
+  .glass-button-green,
+  .glass-button-neon,
+  .glass-button-red,
+  .glass-button-yellow {
+    backdrop-filter: blur(20px);
   }
 
   .glass-checkbox:checked {
-    background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0, rgba(139, 92, 246, 0.3) 100%);
     border-color: rgba(74, 158, 255, 0.778);
   }
 
   .glass-checkbox:focus {
-    outline: none;
+    outline: 0;
     box-shadow: 0 0 10px rgba(74, 158, 255, 0.3);
     border-color: rgba(74, 158, 255, 0.5);
   }
 
+  .glass-input:focus,
   .glass-input[type='file']:focus {
-    outline: none;
+    outline: 0;
     border-color: rgba(74, 158, 255, 0.5);
     box-shadow: 0 0 20px rgba(74, 158, 255, 0.2);
   }
@@ -182,38 +2663,35 @@ body {
   }
 
   .glass-button-neon {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
-    background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-    backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.2) 0, rgba(139, 92, 246, 0.2) 100%);
     border: 1px solid rgba(74, 158, 255, 0.3);
     box-shadow: 0 4px 12px rgba(74, 158, 255, 0.2);
   }
 
   .glass-button-yellow {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
-    background: linear-gradient(135deg, rgba(253, 224, 71, 0.2) 0%, rgba(251, 191, 36, 0.2) 100%);
-    backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, rgba(253, 224, 71, 0.2) 0, rgba(251, 191, 36, 0.2) 100%);
     border: 1px solid rgba(253, 224, 71, 0.3);
     box-shadow: 0 4px 12px rgba(253, 224, 71, 0.2);
     color: #fff;
   }
 
   .glass-button-green {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
-    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
-    backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0, rgba(16, 185, 129, 0.2) 100%);
     border: 1px solid rgba(34, 197, 94, 0.3);
     box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
     color: #fff;
   }
 
   .glass-button-red {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105;
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0%, rgba(197, 34, 34, 0.2) 100%);
-    backdrop-filter: blur(20px);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.2) 0, rgba(197, 34, 34, 0.2) 100%);
     border: 1px solid rgba(197, 34, 34, 0.3);
     box-shadow: 0 4px 12px rgba(197, 34, 34, 0.2);
     color: #fff;
+  }
+
+  .glass-content-card,
+  .glass-dropdown {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   .glass-button-neon:hover {
@@ -225,13 +2703,24 @@ body {
   .glass-nav {
     @apply text-[15px] px-4 py-2 rounded-xl transition-all duration-300 block relative overflow-hidden;
     color: var(--glass-text-secondary);
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.01) 100%);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
+  .glass-dropdown,
   .glass-nav:hover {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0, rgba(255, 255, 255, 0.03) 100%);
+  }
+
+  .glass-content-card,
+  .glass-dropdown,
+  .glass-input {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+  }
+
+  .glass-nav:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transform: translateY(-1px);
     border-color: rgba(255, 255, 255, 0.1);
@@ -239,24 +2728,12 @@ body {
 
   .glass-dropdown {
     @apply absolute top-full left-0 rounded-xl min-w-[160px] z-50 mt-2;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   .glass-input {
     @apply w-full px-4 py-3 rounded-xl border transition-all duration-300;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.02) 100%);
     color: var(--glass-text);
-  }
-
-  .glass-input:focus {
-    outline: none;
-    border-color: rgba(74, 158, 255, 0.5);
-    box-shadow: 0 0 20px rgba(74, 158, 255, 0.2);
   }
 
   .glass-input::placeholder {
@@ -265,18 +2742,14 @@ body {
 
   .glass-title {
     @apply text-2xl mb-4 font-bold;
-    background: linear-gradient(135deg, rgba(74, 158, 255, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%);
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.8) 0, rgba(139, 92, 246, 0.8) 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .glass-content-card {
     @apply rounded-2xl p-8 transition-all duration-300;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0, rgba(255, 255, 255, 0.02) 100%);
     position: relative;
     overflow: hidden;
   }
@@ -288,21 +2761,14 @@ body {
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, rgba(74, 158, 255, 0.5) 0%, rgba(139, 92, 246, 0.5) 50%, rgba(236, 72, 153, 0.5) 100%);
-  }
-
-  .glass-content-card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(90deg, rgba(74, 158, 255, 0.5) 0, rgba(139, 92, 246, 0.5) 50%, rgba(236, 72, 153, 0.5) 100%);
   }
 
   .glass-details {
     @apply rounded-xl mb-6 p-4 transition-all duration-300;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0, rgba(255, 255, 255, 0.01) 100%);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    position: relative;
     overflow: hidden;
   }
 
@@ -313,7 +2779,7 @@ body {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(74, 158, 255, 0.3) 50%, transparent 100%);
+    background: linear-gradient(90deg, transparent 0, rgba(74, 158, 255, 0.3) 50%, transparent 100%);
   }
 
   .glass-details:hover {
@@ -324,20 +2790,15 @@ body {
   .glass-details-summary {
     @apply font-semibold text-lg cursor-pointer outline-none py-3;
     color: var(--glass-text);
-    background: linear-gradient(135deg, rgba(74, 158, 255, 0.8) 0%, rgba(139, 92, 246, 0.8) 100%);
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.8) 0, rgba(139, 92, 246, 0.8) 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .glass-shimmer {
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
     background-size: 200% 100%;
-    animation: shimmer 4s linear infinite;
-  }
-
-  .glass-glow {
-    position: relative;
+    animation: 4s linear infinite shimmer;
   }
 
   .glass-glow::after {
@@ -361,43 +2822,47 @@ body {
 
   .glass-method {
     @apply text-white font-bold text-sm uppercase px-3 py-2 rounded-lg;
-    background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0, rgba(139, 92, 246, 0.3) 100%);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
+  .shooting-star,
+  .twinkling-star {
+    position: absolute;
+    border-radius: 50%;
+  }
+
   .glass-method.post {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(5, 150, 105, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0, rgba(5, 150, 105, 0.3) 100%);
   }
 
   .glass-method.put {
-    background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0, rgba(217, 119, 6, 0.3) 100%);
   }
 
   .glass-method.get {
-    background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0%, rgba(59, 130, 246, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.3) 0, rgba(59, 130, 246, 0.3) 100%);
   }
 
   .glass-method.patch {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(124, 58, 237, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0, rgba(124, 58, 237, 0.3) 100%);
   }
 
   .glass-method.delete {
-    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3) 0%, rgba(219, 39, 119, 0.3) 100%);
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.3) 0, rgba(219, 39, 119, 0.3) 100%);
   }
 
   .glass-bg-gradient {
-    background: linear-gradient(135deg, rgba(10, 10, 15, 0.9) 0%, rgba(26, 26, 35, 0.8) 50%, rgba(42, 42, 53, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(10, 10, 15, 0.9) 0, rgba(26, 26, 35, 0.8) 50%, rgba(42, 42, 53, 0.9) 100%);
   }
 
   .shooting-star {
-    position: absolute;
     width: 2px;
     height: 2px;
-    background: linear-gradient(45deg, #ffffff, #87ceeb);
-    border-radius: 50%;
+    background: linear-gradient(45deg, #fff, #87ceeb);
     box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-    animation: shooting 3s linear infinite;
+    animation: 3s linear infinite shooting;
   }
 
   .shooting-star::before {
@@ -412,21 +2877,26 @@ body {
   }
 
   .twinkling-star {
-    position: absolute;
     width: 1px;
     height: 1px;
-    background: #ffffff;
-    border-radius: 50%;
+    background: #fff;
     box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
-    animation: star-twinkle 2s ease-in-out infinite alternate;
+    animation: 2s ease-in-out infinite alternate star-twinkle;
   }
 
   .nav-link {
-    @apply no-underline px-4 py-2 rounded-xl transition-all duration-300 hover:scale-105;
     color: var(--glass-text-secondary);
-    background: transparent;
+    background: 0 0;
   }
 
+  .trade-item-name,
+  .trade-panel,
+  .trade-panel h2,
+  .trade-tooltip {
+    color: var(--glass-text);
+  }
+
+  .nav-dropdown .nav-link:hover,
   .nav-link:hover {
     color: var(--neon-blue);
     background: var(--glass-accent);
@@ -444,16 +2914,9 @@ body {
   }
 
   .nav-dropdown .nav-link {
-    @apply block w-full text-left px-4 py-3 rounded-lg transition-all duration-300 hover:scale-105;
     color: var(--glass-text-secondary);
-    background: transparent;
+    background: 0 0;
     margin-bottom: 4px;
-  }
-
-  .nav-dropdown .nav-link:hover {
-    color: var(--neon-blue);
-    background: var(--glass-accent);
-    box-shadow: 0 0 20px rgba(74, 158, 255, 0.3);
   }
 
   .nav-dropdown .nav-link:last-child {
@@ -464,10 +2927,7 @@ body {
     .glass-page-container {
       margin-left: 0 !important;
       margin-right: 0 !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
+      padding: 0 !important;
     }
 
     .container {
@@ -478,7 +2938,7 @@ body {
   .trade-panel {
     border-radius: 1rem;
     padding: 1.5rem;
-    transition: all 300ms;
+    transition: 0.3s;
     max-width: 980px;
     width: 100%;
     margin: 12px auto;
@@ -486,7 +2946,6 @@ body {
     backdrop-filter: blur(18px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-    color: var(--glass-text);
     position: relative;
   }
 
@@ -494,7 +2953,6 @@ body {
     margin-top: 0;
     margin-bottom: 12px;
     font-size: 1.25rem;
-    color: var(--glass-text);
   }
 
   .trade-main-columns {
@@ -505,7 +2963,7 @@ body {
   }
 
   .trade-column h3 {
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
     font-size: 0.95rem;
     color: var(--glass-text-secondary);
   }
@@ -519,7 +2977,7 @@ body {
 
   .trade-inventory-item {
     border-radius: 0.5rem;
-    transition: all 200ms;
+    transition: 0.2s;
     width: 72px;
     min-width: 72px;
     display: flex;
@@ -527,7 +2985,7 @@ body {
     align-items: center;
     gap: 6px;
     padding: 8px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0, rgba(255, 255, 255, 0.01) 100%);
     border: 1px solid rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(8px);
     cursor: pointer;
@@ -550,19 +3008,14 @@ body {
   .trade-item-name {
     max-width: 72px;
     font-size: 0.78rem;
-    color: var(--glass-text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     text-align: center;
   }
 
   .trade-tooltip {
     border-radius: 0.375rem;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0, rgba(255, 255, 255, 0.02) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
-    color: var(--glass-text);
     padding: 10px 12px;
     font-size: 0.85rem;
     box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
@@ -573,9 +3026,6 @@ body {
   .trade-tooltip .trade-tooltip-name {
     font-weight: 700;
     margin-bottom: 6px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .trade-tooltip .trade-tooltip-desc {
@@ -597,10 +3047,12 @@ body {
     .trade-main-columns {
       flex-direction: column;
     }
+
     .trade-inventory-item {
       width: 64px;
       min-width: 64px;
     }
+
     .trade-item-name {
       max-width: 64px;
     }
@@ -616,6 +3068,9 @@ body {
   animation: none !important;
   -webkit-animation: none !important;
   backface-visibility: visible !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 .trade-panel-centered {
@@ -637,38 +3092,31 @@ body {
 }
 
 .trade-panel .trade-inventory-item,
-.trade-panel .trade-inventory-item:hover,
 .trade-panel .trade-inventory-item:active,
-.trade-panel .trade-inventory-item:focus {
+.trade-panel .trade-inventory-item:focus,
+.trade-panel .trade-inventory-item:hover {
   box-shadow: none !important;
   border-color: rgba(255, 255, 255, 0.04) !important;
   transform: none !important;
 }
 
-.trade-panel ::before,
-.trade-panel ::after {
+.trade-panel ::after,
+.trade-panel ::before {
   animation: none !important;
   -webkit-animation: none !important;
   transition: none !important;
 }
 
-.trade-panel button,
 .trade-panel a,
+.trade-panel button,
 .trade-panel input,
 .trade-panel label {
   transition: none !important;
 }
 
-.trade-panel,
-.trade-panel * {
-  filter: none !important;
-  -webkit-filter: none !important;
-  backdrop-filter: none !important;
-}
-
-.trade-panel .glass-glow::after,
 .trade-panel .glass-button-neon,
-.trade-panel .glass-button-neon:hover {
+.trade-panel .glass-button-neon:hover,
+.trade-panel .glass-glow::after {
   box-shadow: none !important;
 }
 
@@ -680,7 +3128,7 @@ body {
   top: 0;
   left: 0;
   z-index: 50;
-  background: transparent;
+  background: 0 0;
 }
 
 .markdown-body p:has(img:only-child) img {
@@ -690,7 +3138,6 @@ body {
 
 .markdown-body p img {
   display: inline-block;
-  vertical-align: middle;
   margin: 8px 4px;
   width: attr(width);
   height: attr(height);
@@ -705,8 +3152,8 @@ body {
 
 .markdown-body li img {
   display: inline-block;
-  vertical-align: middle;
-  margin: 4px 4px;
+  margin: 4px;
   max-width: 100%;
   height: auto;
 }
+
