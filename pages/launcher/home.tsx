@@ -587,9 +587,13 @@ const Library: React.FC = () => {
                     </div>
                   )}
                   {selected.state === 'to_update' && (
-                    <button className='glass-button-neon' onClick={handleUpdate}>
-                      {t('launcher.update')}
-                    </button>
+                    <>
+                      <button className='glass-button-neon' onClick={handleUpdate}>
+                        {t('launcher.update')}
+                      </button>
+                      <button className='glass-button' onClick={handleDelete} disabled={isPlaying}>
+                        {t('launcher.delete')}
+                      </button></>
                   )}
                   {selected.state === 'installed' && (
                     <>
