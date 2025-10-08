@@ -47,7 +47,7 @@ const GameForm = () => {
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setIconFile(e.target.files[0]);
-      setFormData(f => ({ ...f, iconHash: '' })); 
+      setFormData(f => ({ ...f, iconHash: '' }));
     }
   };
 
@@ -64,8 +64,7 @@ const GameForm = () => {
     if (!formData.description) newErrors.description = t('createGame.error.description');
     if (!formData.price) newErrors.price = t('createGame.error.price');
     if (!formData.downloadLink) newErrors.downloadLink = t('createGame.error.downloadLink');
-    
-    
+
     return newErrors;
   };
 
@@ -83,7 +82,6 @@ const GameForm = () => {
     let iconHash = formData.iconHash;
     let bannerHash = formData.bannerHash;
 
-    
     if (iconFile) {
       const iconData = new FormData();
       iconData.append('icon', iconFile);
@@ -113,7 +111,6 @@ const GameForm = () => {
       }
     }
 
-    
     if (bannerFile) {
       const bannerData = new FormData();
       bannerData.append('banner', bannerFile);
@@ -192,7 +189,7 @@ const GameForm = () => {
         });
         setIconFile(null);
         setBannerFile(null);
-        
+
         router.push('/dev-zone/my-games');
         return;
       } else {
@@ -281,7 +278,7 @@ const GameForm = () => {
               {t('createGame.showInStore')}
             </label>
           </div>
-          
+
           {errors.submit && <span className='error'>{errors.submit}</span>}
           {success && <span className='creategame-success'>{success}</span>}
           <button type='submit' className='creategame-submit-btn' disabled={loading}>
@@ -302,4 +299,3 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-

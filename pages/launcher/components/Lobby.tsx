@@ -17,13 +17,11 @@ export default function LobbyPage() {
   const router = useRouter();
   const { user } = useAuth();
 
-  
   const showTooltip = useCallback((msg: string) => {
     setTooltip(msg);
     setTimeout(() => setTooltip(null), 2000);
   }, []);
 
-  
   const isUserInLobby = !!lobby;
   const isUserSelected = !!selectedUser;
 
@@ -70,8 +68,7 @@ export default function LobbyPage() {
                             <button className='lobby-user-btn' onClick={() => router.push(`/profile?user=${lobbyUser.user_id}`)}>
                               <CachedImage className='lobby-user-avatar' src={`/avatar/${lobbyUser.user_id}`} style={{ objectFit: 'cover' }} />
                               <span className='lobby-user-name'>
-                                {lobbyUser?.username}{' '}
-                                {}
+                                {lobbyUser?.username} {}
                                 {lobbyUser.user_id === user.id ? '(You)' : ''}
                               </span>
                             </button>
@@ -83,7 +80,6 @@ export default function LobbyPage() {
                         <button
                           onClick={async () => {
                             try {
-                              
                               showTooltip('Lobby link copied!');
                             } catch {
                               showTooltip('Failed to copy link.');
@@ -114,4 +110,3 @@ export default function LobbyPage() {
     </>
   );
 }
-

@@ -19,7 +19,7 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
 
   return (
     <div className='bg-[#1c1c24] rounded-xl overflow-hidden flex flex-col border border-[#333] shadow-lg transform transition-transform hover:scale-[1.02] hover:shadow-xl'>
-      {/* En-tête du studio */}
+      {}
       <div className='relative h-32 bg-[#18181c]'>
         <div className='absolute inset-0 bg-gradient-to-t from-[#1c1c24] to-transparent opacity-60' />
         <div className='absolute -bottom-8 left-8 flex items-center gap-3'>
@@ -33,9 +33,9 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
         </div>
       </div>
 
-      {/* Contenu */}
+      {}
       <div className='pt-16 px-8 pb-6 flex flex-col gap-6'>
-        {/* API Key Section */}
+        {}
         <div className='bg-[#2a2a32] rounded-lg p-4'>
           <div className='flex items-center justify-between mb-2'>
             <span className='text-sm text-gray-400'>{t('studios.apiKey')}:</span>
@@ -53,7 +53,7 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
           </code>
         </div>
 
-        {/* Users List */}
+        {}
         <div className='space-y-3'>
           <div className='flex items-center justify-between'>
             <span className='text-sm font-medium text-gray-400'>{t('studios.users')}</span>
@@ -96,7 +96,7 @@ export default function StudiosPage() {
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // Add user modal state
+
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [addUserStudioId, setAddUserStudioId] = useState<string | null>(null);
   const [addUserId, setAddUserId] = useState('');
@@ -174,8 +174,6 @@ export default function StudiosPage() {
         const data = await res.json();
         alert(data.message || t('studios.errorRemoveUser'));
       } else {
-        // Refresh page or update user context
-        // window.location.reload();
         refreshStudiosList();
       }
     } catch (err) {
@@ -185,7 +183,6 @@ export default function StudiosPage() {
     }
   };
 
-  // Search users by username (not studio)
   const handleUserSearch = async (q: string) => {
     if (!q || q.length < 2) {
       setAddUserResults([]);
@@ -229,14 +226,13 @@ export default function StudiosPage() {
     }
   };
 
-  // Helper to toggle API key spoiler
   function toggleApiKeySpoiler(studioId: string) {
     setApiKeySpoilers(s => ({ ...s, [studioId]: !s[studioId] }));
   }
 
   return (
     <div className='glass-page-container'>
-      {/* Header */}
+      {}
       <div className='glass-content-card mb-8 flex justify-between items-center'>
         <h1 className='text-3xl font-bold' style={{ color: 'var(--glass-text)' }}>
           {t('studios.title')}
@@ -246,7 +242,7 @@ export default function StudiosPage() {
         </button>
       </div>
 
-      {/* Studios Grid */}
+      {}
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
         {user?.studios && user.studios.length > 0 ? (
           user.studios.map(
@@ -272,7 +268,7 @@ export default function StudiosPage() {
         )}
       </div>
 
-      {/* Create Studio Form */}
+      {}
       {showForm && (
         <div
           className='modal-overlay'
@@ -377,7 +373,7 @@ export default function StudiosPage() {
         </div>
       )}
 
-      {/* Add User Modal */}
+      {}
       {showAddUserModal && (
         <div
           className='modal-overlay'

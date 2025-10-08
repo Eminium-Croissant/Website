@@ -11,10 +11,7 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-/**
- * Terms of Service page for Croissant.
- * Displays the rules and guidelines for using the platform.
- */
+
 const TermsOfService: React.FC = () => {
   const [openFr, setOpenFr] = useState(false);
   const [openEn, setOpenEn] = useState(false);
@@ -35,7 +32,7 @@ const TermsOfService: React.FC = () => {
             {t('tos.intro')}
           </p>
 
-          {/* Section 1 */}
+          {}
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-blue)' }}>
               <FontAwesomeIcon icon={faGavel} className='mr-2' />
@@ -47,7 +44,7 @@ const TermsOfService: React.FC = () => {
             <p style={{ color: 'var(--glass-text-secondary)' }}>{t('tos.1.2')}</p>
           </div>
 
-          {/* Section 2 */}
+          {}
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-purple)' }}>
               <FontAwesomeIcon icon={faGavel} className='mr-2' />
@@ -62,7 +59,7 @@ const TermsOfService: React.FC = () => {
             <p style={{ color: 'var(--glass-text-secondary)' }}>{t('tos.2.3')}</p>
           </div>
 
-          {/* Section 3 */}
+          {}
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-pink)' }}>
               <FontAwesomeIcon icon={faGavel} className='mr-2' />
@@ -77,7 +74,7 @@ const TermsOfService: React.FC = () => {
             <p style={{ color: 'var(--glass-text-secondary)' }}>{t('tos.3.3')}</p>
           </div>
 
-          {/* Section 4 */}
+          {}
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-green)' }}>
               <FontAwesomeIcon icon={faGavel} className='mr-2' />
@@ -92,7 +89,7 @@ const TermsOfService: React.FC = () => {
             <p style={{ color: 'var(--glass-text-secondary)' }}>{t('tos.4.3')}</p>
           </div>
 
-          {/* Section 5 */}
+          {}
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-orange)' }}>
               <FontAwesomeIcon icon={faGavel} className='mr-2' />
@@ -107,7 +104,7 @@ const TermsOfService: React.FC = () => {
             <p style={{ color: 'var(--glass-text-secondary)' }}>{t('tos.5.3')}</p>
           </div>
 
-          {/* Section 6 */}
+          {}
           <div className='glass-card p-6 mb-8'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-cyan)' }}>
               <FontAwesomeIcon icon={faGavel} className='mr-2' />
@@ -126,7 +123,7 @@ const TermsOfService: React.FC = () => {
             </span>
           </h2>
 
-          {/* Dropdown Français */}
+          {}
           <div className='glass-card mb-6'>
             <button onClick={() => setOpenFr(v => !v)} className='glass-button-neon w-full flex items-center justify-between p-4 text-left'>
               <span className='flex items-center'>
@@ -135,10 +132,10 @@ const TermsOfService: React.FC = () => {
               </span>
               <FontAwesomeIcon icon={openFr ? faChevronUp : faChevronDown} className='text-neon-blue transition-transform duration-300' />
             </button>
-            {openFr && <div className='glass-card mt-4 p-6'>{/* ...existing code... */}</div>}
+            {openFr && <div className='glass-card mt-4 p-6'>{}</div>}
           </div>
 
-          {/* Dropdown English */}
+          {}
           <div className='glass-card'>
             <button onClick={() => setOpenEn(v => !v)} className='glass-button-neon w-full flex items-center justify-between p-4 text-left'>
               <span className='flex items-center'>
@@ -147,7 +144,7 @@ const TermsOfService: React.FC = () => {
               </span>
               <FontAwesomeIcon icon={openEn ? faChevronUp : faChevronDown} className='text-neon-purple transition-transform duration-300' />
             </button>
-            {openEn && <div className='glass-card mt-4 p-6'>{/* ...existing code... */}</div>}
+            {openEn && <div className='glass-card mt-4 p-6'>{}</div>}
           </div>
         </div>
       </div>
