@@ -463,7 +463,7 @@ const Library: React.FC = () => {
     <div className='glass-page-container'>
       <LobbyManager></LobbyManager>
       <div className='flex gap-6 h-screen'>
-        <aside className='glass-content-card w-80 flex-shrink-0 p-6 flex flex-col'>
+        <aside className='glass-content-card w-100 flex-shrink-0 p-6 flex flex-col'>
           <input type='text' placeholder={t('launcher.searchPlaceholder')} value={search} onChange={e => setSearch(e.target.value)} className='glass-input w-full mb-6' />
           {filteredGames.length === 0 ? (
             <div className='text-center py-8' style={{ color: 'var(--glass-text-secondary)' }}>
