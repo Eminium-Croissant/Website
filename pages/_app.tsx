@@ -112,10 +112,4 @@ export function App(props: AppProps) {
 
 export default appWithTranslation(App);
 
-module.exports = {
-  experimental: {
-    optimizeCss: false, 
-  },
-};
-
 
