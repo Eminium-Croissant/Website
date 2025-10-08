@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { useTranslation } from "next-i18next";
+import React, { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { ShopItem } from "../pages/profile";
 import CachedImage from "./utils/CachedImage";
-import { useTranslation } from "next-i18next";
 
 const endpoint = "/api";
 

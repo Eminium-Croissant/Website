@@ -1,8 +1,5 @@
 const croissantBaseUrl = 'https://croissant-api.fr/api';
 
-/**
- * Game object as returned by the API.
- */
 export interface Game {
     gameId: string;
     name: string;
@@ -25,9 +22,6 @@ export interface Game {
     download_link?: string;
 }
 
-/**
- * User object as returned by the API.
- */
 export interface User {
     userId: string;
     username: string;
@@ -51,9 +45,6 @@ export interface User {
     haveAuthenticator?: boolean;
 }
 
-/**
- * Item object as returned by the API.
- */
 export interface Item {
     itemId: string;
     name: string;
@@ -65,9 +56,6 @@ export interface Item {
     deleted?: boolean;
 }
 
-/**
- * Inventory item instance, including item details.
- */
 export interface InventoryItem {
     user_id?: string;
     item_id?: string;
@@ -82,9 +70,6 @@ export interface InventoryItem {
     showInStore: boolean;
 }
 
-/**
- * Studio object as returned by the API.
- */
 export interface Studio {
     user_id: string;
     username: string;
@@ -100,9 +85,6 @@ export interface Studio {
     }>;
 }
 
-/**
- * Lobby object as returned by the API.
- */
 export interface Lobby {
     lobbyId: string;
     users: Array<{
@@ -115,18 +97,12 @@ export interface Lobby {
     }>;
 }
 
-/**
- * Trade item structure for trade operations.
- */
 export interface TradeItem {
     itemId: string;
     amount: number;
     metadata?: Record<string, any>;
 }
 
-/**
- * Trade object as returned by the API.
- */
 export interface Trade {
     id: string;
     fromUserId: string;
@@ -152,9 +128,6 @@ export interface Trade {
     updatedAt: string;
 }
 
-/**
- * OAuth2 application object as returned by the API.
- */
 export interface OAuth2App {
     client_id: string;
     client_secret: string;
@@ -162,29 +135,17 @@ export interface OAuth2App {
     redirect_urls: string[];
 }
 
-/**
- * Main CroissantAPI client. All methods are typed and documented for VS Code autocompletion.
- */
 export class CroissantAPI {
     private token?: string;
 
-    /**
-     * Create a new CroissantAPI client.
-     * @param params Optional object with a token for authentication.
-     */
+    
     constructor(params: { token?: string } = {}) {
         this.token = params.token;
     }
 
-    // --- USERS ---
+    
     users = {
-        /**
-         * Get the authenticated user's profile.
-         * @returns The current user object.
-         * @throws If no token is set or the request fails.
-         * @example
-         *   const me = await api.users.getMe();
-         */
+        
         getMe: async (): Promise<User> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/users/@me`, {
@@ -194,38 +155,21 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Search users by username or other criteria.
-         * @param query The search string.
-         * @returns Array of matching users.
-         * @example
-         *   const users = await api.users.search('John');
-         */
+        
         search: async (query: string): Promise<User[]> => {
             const res = await fetch(`${croissantBaseUrl}/users/search?q=${encodeURIComponent(query)}`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        /**
-         * Get a user by their userId.
-         * @param userId The user's ID.
-         * @returns The user object.
-         * @throws If the user is not found.
-         */
+        
         getUser: async (userId: string): Promise<User> => {
             const res = await fetch(`${croissantBaseUrl}/users/${userId}`);
             if (!res.ok) throw new Error('User not found');
             return await res.json();
         },
 
-        /**
-         * Transfer credits to another user.
-         * @param targetUserId The recipient's user ID.
-         * @param amount The amount to transfer.
-         * @returns A message about the transfer.
-         * @throws If not authenticated or the request fails.
-         */
+        
         transferCredits: async (targetUserId: string, amount: number): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/users/transfer-credits`, {
@@ -240,12 +184,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Verify a user with a verification key.
-         * @param userId The user ID to verify.
-         * @param verificationKey The verification key.
-         * @returns Success status.
-         */
+        
         verify: async (userId: string, verificationKey: string): Promise<{ success: boolean }> => {
             const res = await fetch(`${croissantBaseUrl}/users/auth-verification`, {
                 method: 'POST',
@@ -257,34 +196,23 @@ export class CroissantAPI {
         }
     };
 
-    // --- GAMES ---
+    
     games = {
-        /**
-         * List all games visible in the store.
-         * @returns Array of games.
-         */
+        
         list: async (): Promise<Game[]> => {
             const res = await fetch(`${croissantBaseUrl}/games`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        /**
-         * Search for games by name, genre, or description.
-         * @param query The search string.
-         * @returns Array of matching games.
-         */
+        
         search: async (query: string): Promise<Game[]> => {
             const res = await fetch(`${croissantBaseUrl}/games/search?q=${encodeURIComponent(query)}`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        /**
-         * Get all games created by the authenticated user.
-         * @returns Array of games created by the user.
-         * @throws If not authenticated.
-         */
+        
         getMyCreatedGames: async (): Promise<Game[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/games/@mine`, {
@@ -294,11 +222,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get all games owned by the authenticated user.
-         * @returns Array of games owned by the user.
-         * @throws If not authenticated.
-         */
+        
         getMyOwnedGames: async (): Promise<Game[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/games/list/@me`, {
@@ -308,12 +232,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get a game by its ID.
-         * @param gameId The game ID.
-         * @returns The game object.
-         * @throws If the game is not found.
-         */
+        
         get: async (gameId: string): Promise<Game> => {
             const res = await fetch(`${croissantBaseUrl}/games/${gameId}`);
             if (!res.ok) throw new Error('Game not found');
@@ -321,13 +240,9 @@ export class CroissantAPI {
         }
     };
 
-    // --- INVENTORY ---
+    
     inventory = {
-        /**
-         * Get the inventory of the authenticated user.
-         * @returns The user's inventory.
-         * @throws If not authenticated.
-         */
+        
         getMyInventory: async (): Promise<{ user_id: string; inventory: InventoryItem[] }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/inventory/@me`, {
@@ -337,11 +252,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get the inventory of a user by userId.
-         * @param userId The user ID.
-         * @returns The user's inventory.
-         */
+        
         get: async (userId: string): Promise<{ user_id: string; inventory: InventoryItem[] }> => {
             const res = await fetch(`${croissantBaseUrl}/inventory/${userId}`);
             if (!res.ok) throw new Error('Failed to fetch inventory');
@@ -349,23 +260,16 @@ export class CroissantAPI {
         }
     };
 
-    // --- ITEMS ---
+    
     items = {
-        /**
-         * List all non-deleted items visible in the store.
-         * @returns Array of items.
-         */
+        
         list: async (): Promise<Item[]> => {
             const res = await fetch(`${croissantBaseUrl}/items`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        /**
-         * Get all items owned by the authenticated user.
-         * @returns Array of items owned by the user.
-         * @throws If not authenticated.
-         */
+        
         getMyItems: async (): Promise<Item[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/@mine`, {
@@ -375,35 +279,21 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Search for items by name (only those visible in store).
-         * @param query The search string.
-         * @returns Array of matching items.
-         */
+        
         search: async (query: string): Promise<Item[]> => {
             const res = await fetch(`${croissantBaseUrl}/items/search?q=${encodeURIComponent(query)}`);
             if (!res.ok) return [];
             return await res.json();
         },
 
-        /**
-         * Get a single item by itemId.
-         * @param itemId The item ID.
-         * @returns The item object.
-         * @throws If the item is not found.
-         */
+        
         get: async (itemId: string): Promise<Item> => {
             const res = await fetch(`${croissantBaseUrl}/items/${itemId}`);
             if (!res.ok) throw new Error('Item not found');
             return await res.json();
         },
 
-        /**
-         * Create a new item.
-         * @param itemData The item data to create.
-         * @returns A message about the creation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         create: async (itemData: { name: string; description: string; price: number; iconHash?: string; showInStore?: boolean }): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/create`, {
@@ -418,13 +308,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Update an existing item.
-         * @param itemId The item ID.
-         * @param itemData The fields to update.
-         * @returns A message about the update.
-         * @throws If not authenticated or the request fails.
-         */
+        
         update: async (itemId: string, itemData: Partial<Item>): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/update/${itemId}`, {
@@ -439,12 +323,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Delete an item by its ID.
-         * @param itemId The item ID.
-         * @returns A message about the deletion.
-         * @throws If not authenticated or the request fails.
-         */
+        
         delete: async (itemId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/delete/${itemId}`, {
@@ -455,13 +334,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Buy an item by its ID.
-         * @param itemId The item ID.
-         * @param amount The amount to buy.
-         * @returns A message about the purchase.
-         * @throws If not authenticated or the request fails.
-         */
+        
         buy: async (itemId: string, amount: number): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/buy/${itemId}`, {
@@ -476,13 +349,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Sell an item by its ID.
-         * @param itemId The item ID.
-         * @param amount The amount to sell.
-         * @returns A message about the sale.
-         * @throws If not authenticated or the request fails.
-         */
+        
         sell: async (itemId: string, amount: number): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/sell/${itemId}`, {
@@ -497,15 +364,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Give an item to a user.
-         * @param itemId The item ID.
-         * @param amount The amount to give.
-         * @param userId The recipient's user ID.
-         * @param metadata Optional metadata for the item instance.
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         give: async (itemId: string, amount: number, userId: string, metadata?: Record<string, any>): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const body: any = { amount, userId };
@@ -522,13 +381,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Consume an item instance.
-         * @param itemId The item ID.
-         * @param params Consumption parameters (amount, uniqueId, userId).
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         consume: async (itemId: string, params: { amount?: number; uniqueId?: string; userId: string }): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/consume/${itemId}`, {
@@ -543,14 +396,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Update metadata for an item instance.
-         * @param itemId The item ID.
-         * @param uniqueId The unique instance ID.
-         * @param metadata The new metadata.
-         * @returns A message about the update.
-         * @throws If not authenticated or the request fails.
-         */
+        
         updateMetadata: async (itemId: string, uniqueId: string, metadata: Record<string, any>): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/update-metadata/${itemId}`, {
@@ -565,13 +411,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Drop an item instance from the user's inventory.
-         * @param itemId The item ID.
-         * @param params Drop parameters (amount, uniqueId).
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         drop: async (itemId: string, params: { amount?: number; uniqueId?: string }): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/items/drop/${itemId}`, {
@@ -587,13 +427,9 @@ export class CroissantAPI {
         }
     };
 
-    // --- LOBBIES ---
+    
     lobbies = {
-        /**
-         * Create a new lobby for the authenticated user.
-         * @returns A message about the creation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         create: async (): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies`, {
@@ -604,23 +440,14 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get a lobby by its ID.
-         * @param lobbyId The lobby ID.
-         * @returns The lobby object.
-         * @throws If the lobby is not found.
-         */
+        
         get: async (lobbyId: string): Promise<Lobby> => {
             const res = await fetch(`${croissantBaseUrl}/lobbies/${lobbyId}`);
             if (!res.ok) throw new Error('Lobby not found');
             return await res.json();
         },
 
-        /**
-         * Get the lobby the authenticated user is in.
-         * @returns The lobby object.
-         * @throws If not authenticated or not in a lobby.
-         */
+        
         getMyLobby: async (): Promise<Lobby> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies/user/@me`, {
@@ -630,24 +457,14 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get the lobby a user is in by userId.
-         * @param userId The user ID.
-         * @returns The lobby object.
-         * @throws If the user is not in a lobby.
-         */
+        
         getUserLobby: async (userId: string): Promise<Lobby> => {
             const res = await fetch(`${croissantBaseUrl}/lobbies/user/${userId}`);
             if (!res.ok) throw new Error('User not in any lobby');
             return await res.json();
         },
 
-        /**
-         * Join a lobby by its ID.
-         * @param lobbyId The lobby ID.
-         * @returns A message about the join operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         join: async (lobbyId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies/${lobbyId}/join`, {
@@ -658,12 +475,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Leave a lobby by its ID.
-         * @param lobbyId The lobby ID.
-         * @returns A message about the leave operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         leave: async (lobbyId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/lobbies/${lobbyId}/leave`, {
@@ -675,14 +487,9 @@ export class CroissantAPI {
         }
     };
 
-    // --- STUDIOS ---
+    
     studios = {
-        /**
-         * Create a new studio.
-         * @param studioName The name of the studio.
-         * @returns A message about the creation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         create: async (studioName: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios`, {
@@ -697,23 +504,14 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get a studio by its ID.
-         * @param studioId The studio ID.
-         * @returns The studio object.
-         * @throws If the studio is not found.
-         */
+        
         get: async (studioId: string): Promise<Studio> => {
             const res = await fetch(`${croissantBaseUrl}/studios/${studioId}`);
             if (!res.ok) throw new Error('Studio not found');
             return await res.json();
         },
 
-        /**
-         * Get all studios the authenticated user is a member of.
-         * @returns Array of studios.
-         * @throws If not authenticated or the request fails.
-         */
+        
         getMyStudios: async (): Promise<Studio[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios/user/@me`, {
@@ -723,13 +521,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Add a user to a studio.
-         * @param studioId The studio ID.
-         * @param userId The user ID to add.
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         addUser: async (studioId: string, userId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios/${studioId}/add-user`, {
@@ -744,13 +536,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Remove a user from a studio.
-         * @param studioId The studio ID.
-         * @param userId The user ID to remove.
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         removeUser: async (studioId: string, userId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/studios/${studioId}/remove-user`, {
@@ -766,14 +552,9 @@ export class CroissantAPI {
         }
     };
 
-    // --- TRADES ---
+    
     trades = {
-        /**
-         * Start a new trade or get the latest pending trade with a user.
-         * @param userId The user ID to trade with.
-         * @returns The trade object.
-         * @throws If not authenticated or the request fails.
-         */
+        
         startOrGetPending: async (userId: string): Promise<Trade> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/start-or-latest/${userId}`, {
@@ -784,12 +565,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get a trade by its ID.
-         * @param tradeId The trade ID.
-         * @returns The trade object.
-         * @throws If not authenticated or the trade is not found.
-         */
+        
         get: async (tradeId: string): Promise<Trade> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}`, {
@@ -799,12 +575,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get all trades for a user.
-         * @param userId The user ID.
-         * @returns Array of trades.
-         * @throws If not authenticated or the request fails.
-         */
+        
         getUserTrades: async (userId: string): Promise<Trade[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/user/${userId}`, {
@@ -814,13 +585,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Add an item to a trade.
-         * @param tradeId The trade ID.
-         * @param tradeItem The item to add.
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         addItem: async (tradeId: string, tradeItem: TradeItem): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/add-item`, {
@@ -835,13 +600,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Remove an item from a trade.
-         * @param tradeId The trade ID.
-         * @param tradeItem The item to remove.
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         removeItem: async (tradeId: string, tradeItem: TradeItem): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/remove-item`, {
@@ -856,12 +615,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Approve a trade.
-         * @param tradeId The trade ID.
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         approve: async (tradeId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/approve`, {
@@ -872,12 +626,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Cancel a trade.
-         * @param tradeId The trade ID.
-         * @returns A message about the operation.
-         * @throws If not authenticated or the request fails.
-         */
+        
         cancel: async (tradeId: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/trades/${tradeId}/cancel`, {
@@ -889,27 +638,16 @@ export class CroissantAPI {
         }
     };
 
-    // --- OAUTH2 ---
+    
     oauth2 = {
-        /**
-         * Get an OAuth2 app by its client ID.
-         * @param client_id The client ID.
-         * @returns The OAuth2 app object.
-         * @throws If the app is not found.
-         */
+        
         getApp: async (client_id: string): Promise<OAuth2App> => {
             const res = await fetch(`${croissantBaseUrl}/oauth2/app/${client_id}`);
             if (!res.ok) throw new Error('OAuth2 app not found');
             return await res.json();
         },
 
-        /**
-         * Create a new OAuth2 app.
-         * @param name The app name.
-         * @param redirect_urls The allowed redirect URLs.
-         * @returns The new app's client ID and secret.
-         * @throws If not authenticated or the request fails.
-         */
+        
         createApp: async (name: string, redirect_urls: string[]): Promise<{ client_id: string; client_secret: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/app`, {
@@ -924,11 +662,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get all OAuth2 apps owned by the authenticated user.
-         * @returns Array of OAuth2 apps.
-         * @throws If not authenticated or the request fails.
-         */
+        
         getMyApps: async (): Promise<OAuth2App[]> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/apps`, {
@@ -938,13 +672,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Update an OAuth2 app.
-         * @param client_id The client ID.
-         * @param data The fields to update (name, redirect_urls).
-         * @returns Success status.
-         * @throws If not authenticated or the request fails.
-         */
+        
         updateApp: async (client_id: string, data: { name?: string; redirect_urls?: string[] }): Promise<{ success: boolean }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/app/${client_id}`, {
@@ -959,12 +687,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Delete an OAuth2 app by its client ID.
-         * @param client_id The client ID.
-         * @returns A message about the deletion.
-         * @throws If not authenticated or the request fails.
-         */
+        
         deleteApp: async (client_id: string): Promise<{ message: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/app/${client_id}`, {
@@ -975,13 +698,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Authorize a user for an OAuth2 app.
-         * @param client_id The client ID.
-         * @param redirect_uri The redirect URI.
-         * @returns The authorization code.
-         * @throws If not authenticated or the request fails.
-         */
+        
         authorize: async (client_id: string, redirect_uri: string): Promise<{ code: string }> => {
             if (!this.token) throw new Error('Token is required');
             const res = await fetch(`${croissantBaseUrl}/oauth2/authorize?client_id=${encodeURIComponent(client_id)}&redirect_uri=${encodeURIComponent(redirect_uri)}`, {
@@ -991,13 +708,7 @@ export class CroissantAPI {
             return await res.json();
         },
 
-        /**
-         * Get a user by OAuth2 code and client ID.
-         * @param code The authorization code.
-         * @param client_id The client ID.
-         * @returns The user object.
-         * @throws If the request fails.
-         */
+        
         getUserByCode: async (code: string, client_id: string): Promise<User> => {
             const res = await fetch(`${croissantBaseUrl}/oauth2/user?code=${encodeURIComponent(code)}&client_id=${encodeURIComponent(client_id)}`);
             if (!res.ok) throw new Error('Failed to fetch user by code');

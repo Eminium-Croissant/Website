@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
-import { useTranslation } from 'react-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import useAuth from '../hooks/useAuth';
 
 export async function getStaticProps({ locale }) {
   return {

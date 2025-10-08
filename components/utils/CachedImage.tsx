@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useImageCache } from '../../hooks/ImageCacheContext';
 
 interface CachedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {

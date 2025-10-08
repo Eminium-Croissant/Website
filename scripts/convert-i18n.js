@@ -37,7 +37,7 @@ function convert(flat) {
       const parts = key.split('.');
       setNested(nested, parts.slice(), value);
     } else {
-      // if simple key and value is object, merge
+      
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         nested[key] = nested[key] || {};
         Object.assign(nested[key], value);
@@ -59,3 +59,4 @@ try {
   console.error(err);
   process.exit(1);
 }
+

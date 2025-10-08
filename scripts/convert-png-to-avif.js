@@ -2,7 +2,6 @@ const sharp = require("sharp");
 const path = require("path");
 const fs = require("fs");
 
-// A function to walk through all directories and files
 const walkDir = (dir, callback) => {
   fs.readdirSync(dir).forEach((f) => {
     let dirPath = path.join(dir, f);
@@ -11,7 +10,6 @@ const walkDir = (dir, callback) => {
   });
 };
 
-// Start the conversion process
 const convertPngToAvif = async (directory) => {
   console.log(`Starting conversion in: ${directory}`);
 
@@ -20,12 +18,12 @@ const convertPngToAvif = async (directory) => {
       const avifPath = path.join(path.dirname(filePath), `${path.parse(filePath).name}.avif`);
 
       try {
-        // Convert the PNG to AVIF and save the new file
+        
         await sharp(filePath)
-          .avif({ quality: 80 }) // Set the quality (0-100)
+          .avif({ quality: 80 }) 
           .toFile(avifPath);
 
-        // Delete the original PNG file
+        
         fs.unlinkSync(filePath);
         console.log(`Converted and replaced: ${filePath} -> ${avifPath}`);
       } catch (err) {
@@ -35,6 +33,6 @@ const convertPngToAvif = async (directory) => {
   });
 };
 
-// Specify the directory to start from
 const startingDirectory = "./uploads";
 convertPngToAvif(startingDirectory);
+

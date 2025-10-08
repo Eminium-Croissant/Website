@@ -1,10 +1,10 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import useAuth from '../../hooks/useAuth';
-import Link from 'next/link';
-import useIsMobile from '../../hooks/useIsMobile';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import useAuth from '../../hooks/useAuth';
+import useIsMobile from '../../hooks/useIsMobile';
 const endpoint = '/api';
 
 const GameForm = () => {
@@ -47,7 +47,7 @@ const GameForm = () => {
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setIconFile(e.target.files[0]);
-      setFormData(f => ({ ...f, iconHash: '' })); // reset hash if changing file
+      setFormData(f => ({ ...f, iconHash: '' })); 
     }
   };
 
@@ -64,8 +64,8 @@ const GameForm = () => {
     if (!formData.description) newErrors.description = t('createGame.error.description');
     if (!formData.price) newErrors.price = t('createGame.error.price');
     if (!formData.downloadLink) newErrors.downloadLink = t('createGame.error.downloadLink');
-    // iconFile is now optional
-    // Banner is now optional
+    
+    
     return newErrors;
   };
 
@@ -83,7 +83,7 @@ const GameForm = () => {
     let iconHash = formData.iconHash;
     let bannerHash = formData.bannerHash;
 
-    // Upload icon if file selected
+    
     if (iconFile) {
       const iconData = new FormData();
       iconData.append('icon', iconFile);
@@ -113,7 +113,7 @@ const GameForm = () => {
       }
     }
 
-    // Upload banner if file selected
+    
     if (bannerFile) {
       const bannerData = new FormData();
       bannerData.append('banner', bannerFile);
@@ -192,7 +192,7 @@ const GameForm = () => {
         });
         setIconFile(null);
         setBannerFile(null);
-        // Redirection après succès
+        
         router.push('/dev-zone/my-games');
         return;
       } else {
@@ -281,40 +281,7 @@ const GameForm = () => {
               {t('createGame.showInStore')}
             </label>
           </div>
-          {/* <div className="form-row">
-            <label htmlFor="genre">{t("createGame.genre")}</label>
-            <input id="genre" type="text" name="genre" value={formData.genre} onChange={handleChange} className="dark-input" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="release_date">{t("createGame.releaseDate")}</label>
-            <input id="release_date" type="date" name="release_date" value={formData.release_date} onChange={handleChange} className="dark-input" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="developer">{t("createGame.developer")}</label>
-            <input id="developer" type="text" name="developer" value={formData.developer} onChange={handleChange} className="dark-input" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="publisher">{t("createGame.publisher")}</label>
-            <input id="publisher" type="text" name="publisher" value={formData.publisher} onChange={handleChange} className="dark-input" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="platforms">{t("createGame.platforms")}</label>
-            <input id="platforms" type="text" name="platforms" value={formData.platforms} onChange={handleChange} className="dark-input" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="website">{t("createGame.website")}</label>
-            <input id="website" type="url" name="website" value={formData.website} onChange={handleChange} className="dark-input" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="trailer_link">{t("createGame.trailerLink")}</label>
-            <input id="trailer_link" type="url" name="trailer_link" value={formData.trailer_link} onChange={handleChange} className="dark-input" />
-          </div>
-          <div className="form-row">
-            <label htmlFor="multiplayer" className="creategame-checkbox-label">
-              <input id="multiplayer" type="checkbox" name="multiplayer" checked={formData.multiplayer} onChange={handleChange} className="creategame-checkbox" />
-              {t("createGame.multiplayer")}
-            </label>
-          </div> */}
+          
           {errors.submit && <span className='error'>{errors.submit}</span>}
           {success && <span className='creategame-success'>{success}</span>}
           <button type='submit' className='creategame-submit-btn' disabled={loading}>
@@ -335,3 +302,4 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
+

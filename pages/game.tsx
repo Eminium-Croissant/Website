@@ -1,15 +1,15 @@
-import React, { JSX } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
-import useAuth from '../hooks/useAuth';
-import useUserCache from '../hooks/useUserCache';
-import CachedImage from '../components/utils/CachedImage';
-import useIsMobile from '../hooks/useIsMobile';
-import Certification from '../components/common/Certification';
+import React, { JSX } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+import Certification from '../components/common/Certification';
+import CachedImage from '../components/utils/CachedImage';
+import useAuth from '../hooks/useAuth';
+import useIsMobile from '../hooks/useIsMobile';
+import useUserCache from '../hooks/useUserCache';
 
 export async function getServerSideProps({ locale, query }) {
   const translations = await import('next-i18next/serverSideTranslations').then(mod => mod.serverSideTranslations(locale, ['common']));

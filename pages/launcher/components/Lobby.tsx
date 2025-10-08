@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import Profile from '../../profile';
-import useAuth from '../../../hooks/useAuth';
+import { useCallback, useState } from 'react';
 import CachedImage from '../../../components/utils/CachedImage';
 import { useLobby } from '../../../hooks/LobbyContext';
+import useAuth from '../../../hooks/useAuth';
+import Profile from '../../profile';
 
 const ENDPOINT = '/api';
 
@@ -17,19 +17,19 @@ export default function LobbyPage() {
   const router = useRouter();
   const { user } = useAuth();
 
-  // Tooltip
+  
   const showTooltip = useCallback((msg: string) => {
     setTooltip(msg);
     setTimeout(() => setTooltip(null), 2000);
   }, []);
 
-  // UI helpers
+  
   const isUserInLobby = !!lobby;
   const isUserSelected = !!selectedUser;
 
   return (
     <>
-      {/* Tooltip notification */}
+      {}
       {tooltip && (
         <div className='lobby-tooltip'>
           <i className='fa fa-check-circle lobby-tooltip-icon' aria-hidden='true'></i>
@@ -71,29 +71,19 @@ export default function LobbyPage() {
                               <CachedImage className='lobby-user-avatar' src={`/avatar/${lobbyUser.user_id}`} style={{ objectFit: 'cover' }} />
                               <span className='lobby-user-name'>
                                 {lobbyUser?.username}{' '}
-                                {/* <Certification
-                                  user={lobbyUser}
-                                  style={{
-                                    marginRight: 4,
-                                    width: 16,
-                                    height: 16,
-                                    position: "relative",
-                                    top: -2,
-                                    verticalAlign: "middle",
-                                  }}
-                                /> */}
+                                {}
                                 {lobbyUser.user_id === user.id ? '(You)' : ''}
                               </span>
                             </button>
                           </li>
                         ))}
                       </ul>
-                      {/* Copy Lobby Link and Leave Lobby Buttons in a flex row */}
+                      {}
                       <div className='lobby-actions'>
                         <button
                           onClick={async () => {
                             try {
-                              // await navigator.clipboard.writeText(lobbyLink);
+                              
                               showTooltip('Lobby link copied!');
                             } catch {
                               showTooltip('Failed to copy link.');
@@ -124,3 +114,4 @@ export default function LobbyPage() {
     </>
   );
 }
+

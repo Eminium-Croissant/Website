@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import CachedImage from "../utils/CachedImage";
 import Searchbar from "../Searchbar";
-import Certification from "./Certification";
+import CachedImage from "../utils/CachedImage";
 
 export default function NavBarDesktop() {
   const { user, loading, setUser } = useAuth();

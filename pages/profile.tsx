@@ -1,15 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import useAuth from '../hooks/useAuth';
-import useUserCache from '../hooks/useUserCache';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import CachedImage from '../components/utils/CachedImage';
-import TradePanel from '../components/TradePanel';
-import useIsMobile from '../hooks/useIsMobile';
-import Inventory from '../components/Inventory';
-import Certification from '../components/common/Certification';
-import { useTranslation, Trans } from 'next-i18next';
+import { Trans, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useCallback, useEffect, useState } from 'react';
+import Inventory from '../components/Inventory';
+import TradePanel from '../components/TradePanel';
+import Certification from '../components/common/Certification';
+import CachedImage from '../components/utils/CachedImage';
+import useAuth from '../hooks/useAuth';
+import useIsMobile from '../hooks/useIsMobile';
+import useUserCache from '../hooks/useUserCache';
 
 export async function getServerSideProps({ locale, query }) {
   const translations = await serverSideTranslations(locale, ['common']);
@@ -1351,8 +1351,8 @@ const BADGE_INFO: Record<string, { label: string; icon: string; color: string }>
   support: { label: 'Support', icon: 'fa-headset', color: '#e51ed8ff' },
 };
 
+import { faBolt, faBug, faCodeBranch, faHandshake, faHeadset, faScrewdriverWrench, faShieldHalved, faUsers, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserShield, faShieldHalved, faUsers, faBolt, faBug, faCodeBranch, faHandshake, faHeadset, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 
 const BADGE_ICONS = {
   'fa-user-shield': faUserShield,

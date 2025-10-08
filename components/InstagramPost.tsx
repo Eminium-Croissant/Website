@@ -1,6 +1,5 @@
-import React from "react";
+import { faCode, faGamepad, faStar, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGamepad, faStar, faUsers, faCode } from "@fortawesome/free-solid-svg-icons";
 
 interface InstagramPostProps {
   title?: string;

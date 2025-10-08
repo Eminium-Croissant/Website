@@ -7,9 +7,8 @@ export async function getStaticProps({ locale }) {
   };
 }
 
-import React from 'react';
-import Link from 'next/link';
 import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 export default function Success() {
   const { t } = useTranslation('common');

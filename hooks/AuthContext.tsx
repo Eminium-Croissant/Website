@@ -1,6 +1,6 @@
+import jwt from "jsonwebtoken";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import useUserCache from "./useUserCache";
-import jwt from "jsonwebtoken";
 
 export function getToken() {
   if (typeof document === "undefined") return null;

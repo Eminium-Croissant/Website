@@ -1,15 +1,15 @@
-import Section from '../components/common/Section/Section';
-import ListSection from '../components/common/Section/ListSection';
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import useIsMobile from '../hooks/useIsMobile';
-import { useRouter } from 'next/router';
+import { faChevronLeft, faChevronRight, faCode, faFileText, faFlask, faHandshake, faPalette, faRocket, faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faHandshake, faCode, faPalette, faFileText, faFlask, faRocket, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { useGamesCache } from '../hooks/useApiCache';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import ListSection from '../components/common/Section/ListSection';
+import Section from '../components/common/Section/Section';
 import ImageCache from '../components/utils/ImageCache';
+import { useGamesCache } from '../hooks/useApiCache';
+import useIsMobile from '../hooks/useIsMobile';
 
 // Types pour les jeux du shop
 interface Game {

@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+
 const nextConfig = {
     reactStrictMode: true,
 
@@ -46,7 +46,7 @@ const nextConfig = {
             },
             {
                 source: '/join-lobby',
-                destination: '/join-lobby.html', // this one is a public page
+                destination: '/join-lobby.html', 
             },
             {
                 source: '/api-key',
@@ -124,7 +124,7 @@ const nextConfig = {
         unoptimized: true,
     },
     typescript: { ignoreBuildErrors: true },
-    i18n: require('./next-i18next.config').i18n, // Ajoute cette ligne pour activer i18n dans Next.js
+    i18n: require('./next-i18next.config').i18n, 
 };
 
 module.exports = nextConfig;

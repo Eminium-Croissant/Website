@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
-import { useRouter } from 'next/router';
-import CachedImage from '../components/utils/CachedImage';
-import Certification from '../components/common/Certification';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
+import Certification from '../components/common/Certification';
+import CachedImage from '../components/utils/CachedImage';
+import useAuth from '../hooks/useAuth';
 
 export async function getStaticProps({ locale }) {
   return {

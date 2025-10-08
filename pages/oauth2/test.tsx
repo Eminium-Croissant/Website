@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useEffect, useState } from 'react';
 import useIsMobile from '../../hooks/useIsMobile';
 
 const OAUTH2_SERVER_URL = '/downloadables/oauth2-test-server.js';

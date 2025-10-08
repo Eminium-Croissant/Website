@@ -2,28 +2,28 @@ import 'github-markdown-css/github-markdown.css';
 import '../styles/main.css';
 // import "../styles/phone.css";
 import '../styles/atom-one-dark.min.css';
-import '../styles/rarity.css';
 import '../styles/globals.css';
+import '../styles/rarity.css';
 
 import type { AppProps } from 'next/app';
-import MetaLinks from '../components/common/MetaLinks';
 import Footer from '../components/common/Footer';
+import MetaLinks from '../components/common/MetaLinks';
 import ImagePreloader from '../components/utils/ImagePreloader';
 
-import { useEffect, useState } from 'react';
-import LauncherNavbar from './launcher/components/Navbar';
-import LauncherLobby from './launcher/components/Lobby';
-import { AuthProvider } from '../hooks/AuthContext';
-import { UserCacheProvider } from '../hooks/UserCacheContext';
-import { ImageCacheProvider } from '../hooks/ImageCacheContext';
-import useIsMobile from '../hooks/useIsMobile';
-import NavBarDesktop from '../components/common/NavBarDesktop';
-import NavBarMobile from '../components/common/NavBarMobile';
-import { LobbyProvider } from '../hooks/LobbyContext';
 import { appWithTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useEffect, useState } from 'react';
 import { getMetaLinksProps } from '../components/common/metaLinks.server';
+import NavBarDesktop from '../components/common/NavBarDesktop';
+import NavBarMobile from '../components/common/NavBarMobile';
 import OgGameMetaLinks from '../components/common/OgGameMetaLinks';
+import { AuthProvider } from '../hooks/AuthContext';
+import { ImageCacheProvider } from '../hooks/ImageCacheContext';
+import { LobbyProvider } from '../hooks/LobbyContext';
+import useIsMobile from '../hooks/useIsMobile';
+import { UserCacheProvider } from '../hooks/UserCacheContext';
+import LauncherLobby from './launcher/components/Lobby';
+import LauncherNavbar from './launcher/components/Navbar';
 
 // Small presentational helpers extracted to shorten AppContent
 function BackgroundImage() {

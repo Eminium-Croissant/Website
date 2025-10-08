@@ -4,7 +4,7 @@ import { useImageCache } from '../../hooks/ImageCacheContext';
 interface ImagePreloaderProps {
   images: string[];
   priority?: boolean;
-  fallbackImages?: string[]; // Précharger aussi les images de fallback
+  fallbackImages?: string[]; 
 }
 
 const ImagePreloader: React.FC<ImagePreloaderProps> = ({ 
@@ -32,7 +32,7 @@ const ImagePreloader: React.FC<ImagePreloaderProps> = ({
     }
   }, [images, fallbackImages, priority, preloadImages]);
 
-  return null; // Ce composant ne rend rien
+  return null; 
 };
 
 export default ImagePreloader;

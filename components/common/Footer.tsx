@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
 export default function Footer() {
   const { t } = useTranslation("common");

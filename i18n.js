@@ -1,17 +1,17 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import translationEN from './public/locales/en/common.json';
-import translationFR from './public/locales/fr/common.json';
-import translationES from './public/locales/es/common.json';
+import translationAR from './public/locales/ar/common.json';
 import translationDE from './public/locales/de/common.json';
+import translationEN from './public/locales/en/common.json';
+import translationES from './public/locales/es/common.json';
+import translationFR from './public/locales/fr/common.json';
 import translationIT from './public/locales/it/common.json';
 import translationJA from './public/locales/ja/common.json';
 import translationKO from './public/locales/ko/common.json';
+import translationRU from './public/locales/ru/common.json'; 
 import translationTR from './public/locales/tr/common.json';
 import translationZH from './public/locales/zh/common.json';
-import translationAR from './public/locales/ar/common.json';
-import translationRU from './public/locales/ru/common.json'; // Ajout russe
 
 i18n
   .use(initReactI18next)
@@ -27,7 +27,7 @@ i18n
       tr: { common: translationTR },
       zh: { common: translationZH },
       ar: { common: translationAR },
-      ru: { common: translationRU }, // Ajout russe
+      ru: { common: translationRU }, 
     },
     lng: 'en',
     fallbackLng: 'en',

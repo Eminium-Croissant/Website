@@ -1,5 +1,5 @@
 import { useRouter } from 'next/dist/client/components/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 const endpoint = '/api';
 

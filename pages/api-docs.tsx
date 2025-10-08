@@ -1,10 +1,9 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
+import { faBook, faCode, faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'; // Ajout FA OpenInNew
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode, faBook, faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'; // Ajout FA OpenInNew
-import useIsMobile from '../hooks/useIsMobile';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import dynamic from 'next/dynamic';
+import useIsMobile from '../hooks/useIsMobile';
 const Swagger = dynamic(() => import('../components/swagger'), { ssr: false });
 
 export async function getStaticProps({ locale }) {

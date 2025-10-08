@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import useAuth from '../../hooks/useAuth';
-import Link from 'next/link';
-import useIsMobile from '../../hooks/useIsMobile';
-import Certification from '../../components/common/Certification';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
+import Certification from '../../components/common/Certification';
+import useAuth from '../../hooks/useAuth';
+import useIsMobile from '../../hooks/useIsMobile';
 
 const endpoint = '/api'; // Replace with your actual API endpoint
 

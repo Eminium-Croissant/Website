@@ -1,6 +1,5 @@
 const { data } = require("react-router-dom");
 
-// Global callback registery for OAuth2 (eval() is my phobia).
 window.croissantOAuthCallbacks = window.croissantOAuthCallbacks || {};
 
 let popup = null;
@@ -16,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (location.origin !== croissantWebsiteOrigin) {
-    // Enable and style the button if it's not running on the croissant API domain
+    
     oauthBtn.style.display = "inline-flex";
     oauthBtn.style.alignItems = "center";
     oauthBtn.style.gap = "8px";
@@ -42,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       popup = window.open(authUrl, "_oauth2", "width=600,height=600");
 
-      // Start polling the popup now
+      
       startPollingForCode(clientId, callbackName);
     });
   } else {
@@ -50,9 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-/**
- *  Polls the popup window every 500ms to check if OAuth2 cide is present. 
-*/
 function startPollingForCode(clientId, callbackName) {
   const interval = setInterval(() => {
     if (!popup || popup.closed) {
@@ -68,7 +64,7 @@ function startPollingForCode(clientId, callbackName) {
         popup.close();
         clearInterval(interval);
 
-        // Exchange the code for user info
+        
         fetch(`${croissantWebsiteOrigin}/api/oauth2/user?code=${encodeURI(code)}&client_id=${encodeURIComponent(clientId)}`)
           .then((response) => response.json())
           .then((data) => {
@@ -79,7 +75,7 @@ function startPollingForCode(clientId, callbackName) {
 
             const user = { ...data, code };
 
-            // Call the registered callback function
+            
             if (window.croissantOAuthCallbacks[callbackName]) {
               window.croissantOAuthCallbacks[callbackName](user);
             } else {
@@ -91,7 +87,7 @@ function startPollingForCode(clientId, callbackName) {
           });
       }
     } catch (e) {
-      // Ignore cross-origin errors until redirect happens
+      
       if (e instanceof DOMException) return;
       console.error("Error checking popup URL:", e);
     }

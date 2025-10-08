@@ -6,7 +6,6 @@
 
 using namespace CroissantAPI;
 
-// Utility function for URL encoding
 std::string Client::urlEncode(const std::string& str) const {
     std::ostringstream encoded;
     for (char c : str) {
@@ -19,7 +18,6 @@ std::string Client::urlEncode(const std::string& str) const {
     return encoded.str();
 }
 
-// Helper method to make HTTP requests
 APIResponse Client::makeRequest(const std::string& method, const std::string& endpoint, 
                                const json& body, bool requireAuth) const {
     if (requireAuth && token.empty()) {
@@ -67,9 +65,6 @@ APIResponse Client::makeRequest(const std::string& method, const std::string& en
     return APIResponse(success, message, responseData);
 }
 
-// Struct constructors and converters
-
-// LobbyUser
 LobbyUser::LobbyUser(const json& j) {
     username = j.value("username", "");
     user_id = j.value("user_id", "");
@@ -95,7 +90,6 @@ json LobbyUser::to_json() const {
     return j;
 }
 
-// StudioUser
 StudioUser::StudioUser(const json& j) {
     user_id = j.value("user_id", "");
     username = j.value("username", "");
@@ -112,7 +106,6 @@ json StudioUser::to_json() const {
     };
 }
 
-// TradeItemDetail
 TradeItemDetail::TradeItemDetail(const json& j) {
     itemId = j.value("itemId", "");
     name = j.value("name", "");
@@ -131,7 +124,6 @@ json TradeItemDetail::to_json() const {
     };
 }
 
-// TradeItem
 TradeItem::TradeItem(const json& j) {
     itemId = j.value("itemId", "");
     amount = j.value("amount", 0);
@@ -160,7 +152,6 @@ json TradeItem::to_json() const {
     return j;
 }
 
-// Game
 Game::Game(const json& j) {
     gameId = j.value("gameId", "");
     name = j.value("name", "");
@@ -228,7 +219,6 @@ json Game::to_json() const {
     return j;
 }
 
-// User
 User::User(const json& j) {
     userId = j.value("userId", "");
     username = j.value("username", "");
@@ -255,8 +245,8 @@ User::User(const json& j) {
     haveAuthenticator = j.contains("haveAuthenticator") ? std::optional<bool>(j["haveAuthenticator"]) : std::nullopt;
     balance = j.contains("balance") ? std::optional<double>(j["balance"]) : std::nullopt;
     
-    // Note: Complex nested objects like studios, roles, inventory etc. would need 
-    // additional parsing logic here if needed
+    
+    
 }
 
 json User::to_json() const {
@@ -282,7 +272,6 @@ json User::to_json() const {
     return j;
 }
 
-// Item
 Item::Item(const json& j) {
     itemId = j.value("itemId", "");
     name = j.value("name", "");
@@ -311,7 +300,6 @@ json Item::to_json() const {
     return j;
 }
 
-// InventoryItem
 InventoryItem::InventoryItem(const json& j) {
     amount = j.value("amount", 0);
     itemId = j.value("itemId", "");
@@ -361,7 +349,6 @@ json InventoryItem::to_json() const {
     return j;
 }
 
-// Lobby
 Lobby::Lobby(const json& j) {
     lobbyId = j.value("lobbyId", "");
     users.clear();
@@ -387,7 +374,6 @@ json Lobby::to_json() const {
     return j;
 }
 
-// Studio
 Studio::Studio(const json& j) {
     user_id = j.value("user_id", "");
     username = j.value("username", "");
@@ -428,7 +414,6 @@ json Studio::to_json() const {
     return j;
 }
 
-// Trade
 Trade::Trade(const json& j) {
     id = j.value("id", "");
     fromUserId = j.value("fromUserId", "");
@@ -481,7 +466,6 @@ json Trade::to_json() const {
     return j;
 }
 
-// OAuth2App
 OAuth2App::OAuth2App(const json& j) {
     client_id = j.value("client_id", "");
     client_secret = j.value("client_secret", "");
@@ -504,9 +488,6 @@ json OAuth2App::to_json() const {
     };
 }
 
-// API Methods Implementation
-
-// USERS namespace methods
 std::optional<User> Client::Users::getMe() const {
     if (client.token.empty()) {
         throw std::runtime_error("Token is required");
@@ -587,7 +568,6 @@ APIResponse Client::Users::changePassword(const std::string& oldPassword,
     return client.makeRequest("POST", "/users/change-password", body, true);
 }
 
-// GAMES namespace methods
 std::vector<Game> Client::Games::list() const {
     auto response = client.makeRequest("GET", "/games");
     
@@ -685,7 +665,6 @@ APIResponse Client::Games::buy(const std::string& gameId) const {
     return client.makeRequest("POST", "/games/" + gameId + "/buy", json::object(), true);
 }
 
-// INVENTORY namespace methods
 std::pair<std::string, std::vector<InventoryItem>> Client::Inventory::getMyInventory() const {
     if (client.token.empty()) {
         throw std::runtime_error("Token is required");
@@ -726,7 +705,6 @@ std::pair<std::string, std::vector<InventoryItem>> Client::Inventory::get(const 
     return std::make_pair(returnedUserId, inventory);
 }
 
-// ITEMS namespace methods
 std::vector<Item> Client::Items::list() const {
     auto response = client.makeRequest("GET", "/items");
     
@@ -909,7 +887,6 @@ APIResponse Client::Items::drop(const std::string& itemId,
     return client.makeRequest("POST", "/items/drop/" + itemId, body, true);
 }
 
-// LOBBIES namespace methods
 APIResponse Client::Lobbies::create() const {
     if (client.token.empty()) {
         throw std::runtime_error("Token is required");
@@ -962,7 +939,6 @@ APIResponse Client::Lobbies::leave(const std::string& lobbyId) const {
     return client.makeRequest("POST", "/lobbies/" + lobbyId + "/leave", json::object(), true);
 }
 
-// STUDIOS namespace methods
 APIResponse Client::Studios::create(const std::string& studioName) const {
     if (client.token.empty()) {
         throw std::runtime_error("Token is required");
@@ -1014,7 +990,6 @@ APIResponse Client::Studios::removeUser(const std::string& studioId, const std::
     return client.makeRequest("POST", "/studios/" + studioId + "/remove-user", body, true);
 }
 
-// TRADES namespace methods
 std::optional<Trade> Client::Trades::startOrGetPending(const std::string& userId) const {
     if (client.token.empty()) {
         throw std::runtime_error("Token is required");
@@ -1089,7 +1064,6 @@ APIResponse Client::Trades::cancel(const std::string& tradeId) const {
     return client.makeRequest("PUT", "/trades/" + tradeId + "/cancel", json::object(), true);
 }
 
-// OAUTH2 namespace methods
 std::optional<OAuth2App> Client::OAuth2::getApp(const std::string& client_id) const {
     auto response = client.makeRequest("GET", "/oauth2/app/" + client_id);
     if (response.success) {
@@ -1186,7 +1160,6 @@ std::optional<User> Client::OAuth2::getUserByCode(const std::string& code, const
     return std::nullopt;
 }
 
-// Global search method
 json Client::globalSearch(const std::string& query) const {
     std::string endpoint = "/search?q=" + urlEncode(query);
     auto response = makeRequest("GET", endpoint);
@@ -1196,3 +1169,4 @@ json Client::globalSearch(const std::string& query) const {
     }
     return json::object();
 }
+

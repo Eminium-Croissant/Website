@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import useAuth from '../hooks/useAuth';
-import useUserCache from '../hooks/useUserCache';
-import CachedImage from '../components/utils/CachedImage';
-import Certification from '../components/common/Certification';
 import { Trans, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import remarkGfm from 'remark-gfm';
+import Certification from '../components/common/Certification';
+import CachedImage from '../components/utils/CachedImage';
+import useAuth from '../hooks/useAuth';
+import useUserCache from '../hooks/useUserCache';
 
 export async function getStaticProps({ locale }) {
   return {

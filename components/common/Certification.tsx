@@ -1,5 +1,4 @@
 import React from "react";
-import CachedImage from "../utils/CachedImage";
 export interface ShopItem {
     itemId: string;
     name: string;

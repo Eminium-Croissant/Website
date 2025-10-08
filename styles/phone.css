@@ -54,8 +54,7 @@
     }
 
     .inventory-item-img {
-        /* width: 38px !important;
-        height: 38px !important */
+        
         position: relative !important;
         top: 7px !important;
     }

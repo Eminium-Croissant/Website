@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { faChevronDown, faChevronUp, faFileText, faGavel } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileText, faGavel, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
 
 export async function getStaticProps({ locale }) {
   return {

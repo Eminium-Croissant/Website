@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
-import Link from 'next/link';
-import useAuth from '../hooks/useAuth';
-import useUserCache from '../hooks/useUserCache';
-import router, { useRouter } from 'next/router';
-import CachedImage from '../components/utils/CachedImage';
-import useIsMobile from '../hooks/useIsMobile';
-import Certification from '../components/common/Certification';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import Certification from '../components/common/Certification';
+import CachedImage from '../components/utils/CachedImage';
+import useAuth from '../hooks/useAuth';
+import useIsMobile from '../hooks/useIsMobile';
+import useUserCache from '../hooks/useUserCache';
 
 export async function getStaticProps({ locale }) {
   return {

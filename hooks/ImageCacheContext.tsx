@@ -1,17 +1,16 @@
-import React, { createContext, useContext, useCallback, ReactNode } from 'react';
+import React, { createContext, ReactNode, useCallback, useContext } from 'react';
 
 interface ImageCacheContextType {
   getCachedImage: (src: string) => string | null;
   loadImage: (src: string) => Promise<string>;
-  preloadImage: (src: string) => Promise<void>; // Nouvelle fonction
-  preloadImages: (srcs: string[]) => Promise<void>; // Précharger plusieurs images
+  preloadImage: (src: string) => Promise<void>; 
+  preloadImages: (srcs: string[]) => Promise<void>; 
   clearCache: () => void;
-  getCacheStats: () => { cached: number; loading: number }; // Stats du cache
+  getCacheStats: () => { cached: number; loading: number }; 
 }
 
 const ImageCacheContext = createContext<ImageCacheContextType | undefined>(undefined);
 
-// Cache global persistant
 const imageCache = new Map<string, string>();
 const loadingPromises = new Map<string, Promise<string>>();
 
@@ -21,32 +20,32 @@ export const ImageCacheProvider: React.FC<{ children: ReactNode }> = ({ children
   }, []);
 
   const loadImage = useCallback(async (src: string): Promise<string> => {
-    // Si l'image est déjà en cache, la retourner immédiatement
+    
     if (imageCache.has(src)) {
       return imageCache.get(src)!;
     }
 
-    // Si l'image est déjà en cours de chargement, attendre la promise existante
+    
     if (loadingPromises.has(src)) {
       return loadingPromises.get(src)!;
     }
 
-    // Créer une nouvelle promise de chargement
+    
     const loadingPromise = new Promise<string>(async (resolve, reject) => {
       try {
-        // Fetch l'image
+        
         const response = await fetch(src);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Convertir en blob
+        
         const blob = await response.blob();
         
-        // Convertir le blob en URL d'objet
+        
         const blobUrl = URL.createObjectURL(blob);
         
-        // Stocker dans le cache PERSISTANT
+        
         imageCache.set(src, blobUrl);
         loadingPromises.delete(src);
         
@@ -61,7 +60,7 @@ export const ImageCacheProvider: React.FC<{ children: ReactNode }> = ({ children
     return loadingPromise;
   }, []);
 
-  // Précharger une image sans l'afficher
+  
   const preloadImage = useCallback(async (src: string): Promise<void> => {
     try {
       await loadImage(src);
@@ -71,10 +70,10 @@ export const ImageCacheProvider: React.FC<{ children: ReactNode }> = ({ children
     }
   }, [loadImage]);
 
-  // Précharger plusieurs images en parallèle
+  
   const preloadImages = useCallback(async (srcs: string[]): Promise<void> => {
     const promises = srcs.map(src => preloadImage(src));
-    await Promise.allSettled(promises); // Utilise allSettled pour ne pas échouer si une image échoue
+    await Promise.allSettled(promises); 
     console.log(`📦 Préchargement terminé pour ${srcs.length} images`);
   }, [preloadImage]);
 
@@ -86,7 +85,7 @@ export const ImageCacheProvider: React.FC<{ children: ReactNode }> = ({ children
   }, []);
 
   const clearCache = useCallback(() => {
-    // Nettoyer les blob URLs avant de vider le cache
+    
     imageCache.forEach((blobUrl) => {
       if (blobUrl.startsWith('blob:')) {
         URL.revokeObjectURL(blobUrl);

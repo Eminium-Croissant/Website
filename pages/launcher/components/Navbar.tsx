@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
 import Link from 'next/link';
-import SearchBar from '../../../components/Searchbar';
-import useAuth from '../../../hooks/useAuth';
-import CachedImage from '../../../components/utils/CachedImage';
+import React, { useState } from 'react';
 import Certification from '../../../components/common/Certification';
+import SearchBar from '../../../components/Searchbar';
+import CachedImage from '../../../components/utils/CachedImage';
+import useAuth from '../../../hooks/useAuth';
 
 const Navbar: React.FC = () => {
   const { user, token, setUser, loading } = useAuth();

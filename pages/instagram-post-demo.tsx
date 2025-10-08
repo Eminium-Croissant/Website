@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { useTranslation } from 'next-i18next';
-import InstagramPost from '../components/InstagramPost';
-import Link from 'next/link';
+import { faArrowLeft, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faDownload, faCopy } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import { useState } from 'react';
+import InstagramPost from '../components/InstagramPost';
 
 type DemoConfig = {
   name: string;

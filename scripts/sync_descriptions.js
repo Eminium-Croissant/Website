@@ -3,7 +3,7 @@ const path = require('path');
 const fetch = require('node-fetch');
 
 const SWAGGER_PATH = path.join(__dirname, '..', 'public', 'croissant_swagger.json');
-// URL de l'API locale (ajuster si nécessaire)
+
 const DESCRIBE_URL = 'https://croissant-api.fr/api/describe';
 
 function ensureObject(obj, key) {
@@ -64,7 +64,7 @@ function defaultResponsesForMethod(method) {
     };
   }
 
-  // GET and others
+  
   return {
     "200": {
       description: "Success",
@@ -84,7 +84,7 @@ function defaultResponsesForMethod(method) {
     const swagger = JSON.parse(swaggerRaw);
 
     for (const desc of descriptions) {
-      // Ne garder que les endpoints publiques (requiresAuth !== true)
+      
       if (desc.requiresAuth === true) continue;
 
       const endpoint = desc.endpoint.startsWith('/') ? desc.endpoint : `/${desc.endpoint}`;
@@ -95,9 +95,9 @@ function defaultResponsesForMethod(method) {
       const methods = methodsFromDesc(desc);
 
       for (const method of methods) {
-        if (swagger.paths[endpoint][method]) continue; // déjà présent
+        if (swagger.paths[endpoint][method]) continue; 
 
-        // Construire une entrée minimale à partir de la description
+        
         const pathItem = {
           tags: [desc.category || 'Public'],
           summary: desc.description ? String(desc.description).split('\n')[0] : desc.endpoint,
@@ -105,7 +105,7 @@ function defaultResponsesForMethod(method) {
           responses: defaultResponsesForMethod(method)
         };
 
-        // params -> OpenAPI parameters
+        
         if (desc.params) {
           pathItem.parameters = [];
           for (const [name, text] of Object.entries(desc.params)) {
@@ -119,7 +119,7 @@ function defaultResponsesForMethod(method) {
           }
         }
 
-        // body -> requestBody (for non-GET methods typically)
+        
         const methodHasBody = ['post', 'put', 'patch'].includes(method);
         if (desc.body || methodHasBody) {
           pathItem.requestBody = {
@@ -132,7 +132,7 @@ function defaultResponsesForMethod(method) {
           };
         }
 
-        // add security if descriptor explicitly indicates it (kept for completeness; public endpoints are filtered above)
+        
         if (desc.requiresAuth) {
           pathItem.security = [{ "BearerAuth": [] }];
         }
@@ -142,7 +142,7 @@ function defaultResponsesForMethod(method) {
       }
     }
 
-    // sauvegarde
+    
     fs.writeFileSync(SWAGGER_PATH, JSON.stringify(swagger, null, 2), 'utf8');
     console.log('Swagger file updated:', SWAGGER_PATH);
   } catch (err) {

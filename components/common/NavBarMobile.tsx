@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import useAuth from "../../hooks/useAuth";
-import CachedImage from "../utils/CachedImage";
-import Searchbar from "../Searchbar";
-import Certification from "./Certification";
 import { useTranslation } from "next-i18next";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import Searchbar from "../Searchbar";
+import CachedImage from "../utils/CachedImage";
+import Certification from "./Certification";
 
 export default function NavBarMobile() {
   const { user, loading, setUser } = useAuth();

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { faBolt, faBug, faCodeBranch, faHandshake, faScrewdriverWrench, faShieldHalved, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faScrewdriverWrench, faShieldHalved, faUsers, faBolt, faBug, faCodeBranch, faHandshake } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import React, { useEffect, useState } from 'react';
 
 export async function getStaticProps({ locale }) {
   return {

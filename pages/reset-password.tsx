@@ -1,8 +1,8 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import useIsMobile from '../hooks/useIsMobile';
 import { Trans, useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
+import React from 'react';
+import useIsMobile from '../hooks/useIsMobile';
 
 export async function getStaticProps({ locale }) {
   return {

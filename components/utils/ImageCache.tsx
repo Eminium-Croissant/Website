@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useClientCache } from '../../hooks/useClientCache';
 
 interface ImageCacheProps {
@@ -24,7 +24,7 @@ export default function ImageCache({
   const key = cacheKey || `image_${src}`;
 
   useEffect(() => {
-    // Vérifier si l'image est en cache
+    
     const cachedImage = cache.getCacheData(key);
     if (cachedImage) {
       setImageSrc(cachedImage);
@@ -32,11 +32,11 @@ export default function ImageCache({
       return;
     }
 
-    // Charger l'image
+    
     const img = new Image();
     
     img.onload = () => {
-      // Convertir l'image en base64 pour le cache
+      
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       
@@ -47,7 +47,7 @@ export default function ImageCache({
         
         try {
           const base64 = canvas.toDataURL('image/webp', 0.8);
-          // Mettre en cache l'image base64 (TTL: 24 heures)
+          
           cache.setCacheData(key, base64, 86400000);
           setImageSrc(base64);
         } catch (error) {
@@ -94,3 +94,4 @@ export default function ImageCache({
     />
   );
 }
+

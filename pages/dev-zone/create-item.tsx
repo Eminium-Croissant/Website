@@ -1,12 +1,11 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import useAuth from '../../hooks/useAuth';
-import Link from 'next/link';
-import useIsMobile from '../../hooks/useIsMobile';
-import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import useIsMobile from '../../hooks/useIsMobile';
 
-const endpoint = '/api'; // Replace with your actual API endpoint
+const endpoint = '/api'; 
 
 const CreateItem = () => {
   const isMobile = useIsMobile();
@@ -23,7 +22,7 @@ const CreateItem = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter(); // Ajouté
+  const router = useRouter(); 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type, checked } = e.target as any;
@@ -44,7 +43,7 @@ const CreateItem = () => {
     if (!formData.name) newErrors.name = t('createItem.error.name');
     if (!formData.description) newErrors.description = t('createItem.error.description');
     if (!formData.price) newErrors.price = t('createItem.error.price');
-    // iconFile is now optional
+    
     return newErrors;
   };
 
@@ -111,7 +110,7 @@ const CreateItem = () => {
           showInStore: false,
         });
         setIconFile(null);
-        // Redirection après succès
+        
         router.push('/dev-zone/my-items');
         return;
       } else {
@@ -207,3 +206,5 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
+
+

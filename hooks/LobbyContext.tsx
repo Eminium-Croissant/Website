@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 type Lobby = {
     lobbyId: string;

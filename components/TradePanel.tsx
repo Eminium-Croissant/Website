@@ -1,5 +1,5 @@
 // TradePanel.tsx
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Item } from "./Inventory";
 import CachedImage from "./utils/CachedImage";
 

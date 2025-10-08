@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import useAuth from '../hooks/useAuth';
-import CachedImage from '../components/utils/CachedImage';
-import Link from 'next/link';
-import useIsMobile from '../hooks/useIsMobile';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import CachedImage from '../components/utils/CachedImage';
+import useAuth from '../hooks/useAuth';
+import useIsMobile from '../hooks/useIsMobile';
 
 export async function getStaticProps({ locale }) {
   return {

@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, KeyboardEvent, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 export default function Searchbar() {
   const [value, setValue] = useState("");

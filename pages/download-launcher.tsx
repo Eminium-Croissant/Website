@@ -1,10 +1,9 @@
-import React from 'react';
+import { faDesktop, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Trans, useTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CachedImage from '../components/utils/CachedImage';
 import useIsMobile from '../hooks/useIsMobile';
-import { useTranslation, Trans } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faDesktop, faLaptop, faServer } from '@fortawesome/free-solid-svg-icons';
 
 export async function getStaticProps({ locale }) {
   return {
