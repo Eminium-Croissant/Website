@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Searchbar from "../Searchbar";
 import CachedImage from "../utils/CachedImage";
-import Certification from "./Certification";
 
 export default function NavBarMobile() {
   const { user, loading, setUser } = useAuth();
@@ -27,7 +26,7 @@ export default function NavBarMobile() {
     setUser(null);
   };
 
-  // Bloc crédits + avatar + sélecteur de rôle (pour drawer)
+  
   const UserBlock = ({ loading, user }: any) => (
     <div className="flex items-center gap-3 mb-4">
       <Link href="/buy-credits">
@@ -65,7 +64,7 @@ export default function NavBarMobile() {
     </div>
   );
 
-  // Menu déroulant des rôles (pour drawer)
+  
   const RolesDropdown = ({ user }: any) => (
     <div className="bg-secondary border border-[#35363b] rounded-md min-w-[140px] shadow-lg z-50 mb-2.5 mt-0.5 p-1">
       {user?.roles.map((role: any) => {
@@ -105,10 +104,6 @@ export default function NavBarMobile() {
             />
             <span className="whitespace-nowrap">
               {studio?.me.username || "Me"}
-              <Certification
-                user={studio ? { ...studio, isStudio: true } : studio}
-                className="w-4 h-4 ml-1 relative -top-0.5 align-middle"
-              />
             </span>
           </button>
         );
@@ -116,7 +111,7 @@ export default function NavBarMobile() {
     </div>
   );
 
-  // Groupe de liens mobile
+  
   function MobileLinks() {
     return (
       <div className="flex flex-col space-y-1 w-full">
@@ -189,10 +184,10 @@ export default function NavBarMobile() {
   }
 
   return (
-    <header className="w-full bg-[#23242a] text-[#e2e8f0] border-b border-secondary py-0.5 shadow-sm relative z-10"> {/* bg-[#23242a] = fond uni */}
+    <header className="w-full bg-[#23242a] text-[#e2e8f0] border-b border-secondary py-0.5 shadow-sm relative z-10"> {}
       <div className="flex flex-col w-full">
         <div className="flex items-center justify-between w-full px-4 h-14 relative">
-          {/* Hamburger menu */}
+          {}
           <button
             className="bg-transparent border-none text-[#e2e8f0] text-3xl cursor-pointer flex-none z-20"
             aria-label="Open menu"
@@ -201,7 +196,7 @@ export default function NavBarMobile() {
             &#9776;
           </button>
 
-          {/* Logo centré */}
+          {}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <Link
               href="/"
@@ -220,16 +215,16 @@ export default function NavBarMobile() {
             </Link>
           </div>
 
-          {/* Zone utilisateur vide à droite pour équilibrer */}
+          {}
           <div className="w-8 flex-none" />
         </div>
       </div>
 
-      {/* Drawer */}
+      {}
       <nav>
         {drawerOpen && (
           <>
-            {/* Drawer content */}
+            {}
             <div
               className={`fixed top-0 left-0 w-[85vw] max-w-[380px] h-screen bg-[#23242a] z-[9999] shadow-lg flex flex-col transition-transform duration-250 ease-[cubic-bezier(.4,0,.2,1)] ${
                 drawerVisible
@@ -237,7 +232,7 @@ export default function NavBarMobile() {
                   : "-translate-x-full opacity-0"
               }`}
             >
-              {/* Header du drawer avec searchbar et croix */}
+              {}
               <div className="flex items-center gap-3 p-5 border-b border-[#35363b]">
                 <div className="flex-1 min-w-0">
                   <Searchbar />
@@ -251,9 +246,9 @@ export default function NavBarMobile() {
                 </button>
               </div>
 
-              {/* Contenu scrollable */}
+              {}
               <div className="flex-1 overflow-y-auto p-5">
-                {/* Zone utilisateur and changement de rôle */}
+                {}
                 {!user && !loading && (
                   <Link href="/login" legacyBehavior>
                     <span className="text-[#8fa1c7] font-semibold bg-[#23242a] rounded px-3 py-1 text-sm block">
@@ -271,7 +266,7 @@ export default function NavBarMobile() {
               </div>
             </div>
 
-            {/* Overlay */}
+            {}
             <div
               onClick={() => setDrawerOpen(false)}
               className="fixed inset-0 bg-black/25 z-[9998]"
@@ -282,3 +277,4 @@ export default function NavBarMobile() {
     </header>
   );
 }
+
