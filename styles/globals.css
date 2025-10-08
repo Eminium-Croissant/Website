@@ -738,6 +738,14 @@ body {
   height: attr(height);
 }
 
+.markdown-body {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 24px;
+  width: attr(width);
+  height: attr(height);
+}
+
 .markdown-body p:has(img) {
   display: flex;
   align-items: center;
