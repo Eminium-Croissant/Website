@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import Certification from '../../components/common/Certification';
 import useAuth from '../../hooks/useAuth';
 
-const endpoint = '/api'; 
+const endpoint = '/api';
 
 type Item = {
   itemId: string;
@@ -51,8 +51,8 @@ const MyItems = () => {
   const [ownershipLoading, setOwnershipLoading] = useState(false);
   const ownershipUserInputRef = React.useRef<HTMLInputElement>(null);
 
-  const { user } = useAuth(); 
-  
+  const { user } = useAuth();
+
   useEffect(() => {
     let abortController = new AbortController();
     let debounceTimer: NodeJS.Timeout;
@@ -69,7 +69,6 @@ const MyItems = () => {
         }
       } catch (err) {
         if (err.name !== 'AbortError') {
-          
         }
       } finally {
         setLoading(false);
@@ -84,14 +83,13 @@ const MyItems = () => {
     };
   }, []);
 
-  
   const handleEdit = (item: Item) => {
     setEditingId(item.itemId);
     setFormData({
       name: item.name,
       description: item.description,
       price: item.price.toString(),
-      showInStore: !!item.showInStore, 
+      showInStore: !!item.showInStore,
       iconHash: item.iconHash || item.itemId,
     });
     setIconFile(null);
@@ -99,7 +97,6 @@ const MyItems = () => {
     setSuccess(null);
   };
 
-  
   const handleCancel = () => {
     setEditingId(null);
     setFormData(null);
@@ -108,7 +105,6 @@ const MyItems = () => {
     setSuccess(null);
   };
 
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type, checked } = e.target as any;
     setFormData({
@@ -117,14 +113,12 @@ const MyItems = () => {
     });
   };
 
-  
   const handleIconChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setIconFile(e.target.files[0]);
     }
   };
 
-  
   const validate = () => {
     const newErrors: any = {};
     if (!formData.name) newErrors.name = 'Name is required';
@@ -133,7 +127,6 @@ const MyItems = () => {
     return newErrors;
   };
 
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccess(null);
@@ -174,7 +167,7 @@ const MyItems = () => {
       name: formData.name,
       description: formData.description,
       price: Number(formData.price),
-      showInStore: !!formData.showInStore, 
+      showInStore: !!formData.showInStore,
       ...(iconHash && { iconHash }),
     };
 
@@ -190,7 +183,7 @@ const MyItems = () => {
 
       if (res.ok) {
         setSuccess('Item updated successfully!');
-        
+
         setItems(items => items.map(item => (item.itemId === editingId ? { ...item, ...data } : item)));
         setEditingId(null);
         setFormData(null);
@@ -206,7 +199,6 @@ const MyItems = () => {
     }
   };
 
-  
   const handleTransferUserSearch = async (q: string) => {
     if (!q || q.length < 2) {
       setTransferUserResults([]);
@@ -222,7 +214,6 @@ const MyItems = () => {
     }
   };
 
-  
   const handleTransfer = (item: Item) => {
     setTransferItem(item);
     setShowTransferModal(true);
@@ -233,7 +224,6 @@ const MyItems = () => {
     setTransferError(null);
   };
 
-  
   const handleConfirmTransfer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!transferItem || !transferUserId || !transferAmount || transferAmount <= 0) {
@@ -264,7 +254,7 @@ const MyItems = () => {
         setTransferUserResults([]);
         setTransferAmount(1);
         setTransferError(null);
-        
+
         setItems(prev => prev);
       }
     } catch (err) {
@@ -274,7 +264,6 @@ const MyItems = () => {
     }
   };
 
-  
   const handleOwnershipUserSearch = async (q: string) => {
     if (!q || q.length < 2) {
       setOwnershipUserResults([]);
@@ -290,7 +279,6 @@ const MyItems = () => {
     }
   };
 
-  
   const handleOwnershipTransfer = (item: Item) => {
     setOwnershipItem(item);
     setShowOwnershipModal(true);
@@ -300,7 +288,6 @@ const MyItems = () => {
     setOwnershipError(null);
   };
 
-  
   const handleConfirmOwnershipTransfer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ownershipItem || !ownershipUserId) {
@@ -327,7 +314,7 @@ const MyItems = () => {
         setOwnershipUserSearch('');
         setOwnershipUserResults([]);
         setOwnershipError(null);
-        
+
         setItems(prev => prev);
       }
     } catch (err) {
@@ -810,7 +797,7 @@ const MyItems = () => {
           </>
         )}
       </div>
-      
+
       {editingId && (
         <div className='myitems-modal-overlay'>
           <form
@@ -853,4 +840,3 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-

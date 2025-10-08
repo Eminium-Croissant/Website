@@ -498,7 +498,6 @@ const Library: React.FC = () => {
     <div className='glass-page-container'>
       <LobbyManager></LobbyManager>
       <div className='flex gap-6 h-screen'>
-        
         <aside className='glass-content-card w-80 flex-shrink-0 p-6 flex flex-col'>
           <input type='text' placeholder={t('launcher.searchPlaceholder')} value={search} onChange={e => setSearch(e.target.value)} className='glass-input w-full mb-6' />
           {filteredGames.length === 0 ? (
@@ -545,7 +544,6 @@ const Library: React.FC = () => {
           )}
         </aside>
 
-        
         <main
           className='flex-1 overflow-y-auto'
           style={{
@@ -565,7 +563,6 @@ const Library: React.FC = () => {
             </div>
           ) : (
             <div className='glass-content-card h-full' style={{ overflowY: 'scroll' }}>
-              
               <div className='relative h-64 mb-6 rounded-xl overflow-hidden'>
                 <img src={`/banners-icons/${selected.bannerHash ? selected.bannerHash : 'default'}`} alt={selected.name} className='w-full h-full object-cover' loading='lazy' />
                 <div className='absolute inset-0 bg-gradient-to-t from-dark-primary via-transparent to-transparent'></div>
@@ -596,7 +593,6 @@ const Library: React.FC = () => {
                 </div>
               </div>
 
-              
               <div className='glass-card p-6'>
                 <div className='flex gap-4 flex-wrap'>
                   {selected.state === 'not_installed' && (
@@ -640,7 +636,6 @@ const Library: React.FC = () => {
                 </div>
               </div>
 
-              
               {selected.description && (
                 <div className='mt-6'>
                   <MarkdownDescription>{selected.description}</MarkdownDescription>
@@ -651,7 +646,6 @@ const Library: React.FC = () => {
         </main>
       </div>
 
-      
       {showTransferModal && (
         <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50' onClick={handleCloseTransferModal}>
           <div className='glass-card p-6 max-w-md w-full mx-4' onClick={e => e.stopPropagation()}>
