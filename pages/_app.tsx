@@ -2,8 +2,8 @@ import "github-markdown-css/github-markdown.css";
 
 import "../styles/atom-one-dark.min.css";
 import "../styles/rarity.css";
-import "../styles/globals.css";
 import "../styles/main.css";
+import "../styles/globals.css";
 
 import type { AppProps } from "next/app";
 import MetaLinks from "../components/common/MetaLinks";

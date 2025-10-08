@@ -1,3 +1,99 @@
+.links-group,
+.trade-actions {
+  justify-content: center;
+  display: flex;
+}
+
+.delete,
+.endpoint-link,
+.get,
+.links-group a,
+.params-info h4,
+.post,
+.put,
+.response-info h4,
+.trade-close-x:hover,
+body,
+button,
+strong {
+  color: #fff;
+}
+
+button,
+footer,
+header,
+strong {
+  background-color: #222;
+}
+
+body,
+main {
+  scrollbar-width: thin;
+  scrollbar-color: #555 #333;
+}
+
+header {
+  border-bottom: 1px solid #444;
+}
+
+.links-group {
+  color: #fff;
+}
+
+main:not(.launcher) {
+  /* padding: 20px */
+}
+
+footer {
+  border-top: 1px solid #444;
+}
+
+.container,
+.form-group,
+.form-row,
+.library-details-row,
+form,
+form.game-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.api-doc {
+  background: #2c2c2c;
+}
+
+.post {
+  background: #3cbf7f;
+}
+
+.patch {
+  background: #bf3cab;
+}
+
+pre {
+  font-size: 1.1rem;
+  overflow-x: auto;
+}
+
+a {
+  color: #1e90ff;
+}
+
+.api-docs-container,
+.form-group {
+  flex-direction: column;
+}
+
+.api-docs-sidebar {
+  min-width: auto !important;
+  width: 100%;
+}
+
+.api-docs-main {
+  overflow-y: scroll;
+  max-height: 246vh;
+}
+
 .trade-panel {
   position: fixed;
   top: 50%;
@@ -8,7 +104,7 @@
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85), 0 0 0 2px #222 inset;
   width: 90vw;
-
+  /* max-height: 80vh; */
   overflow-y: auto;
   overflow-x: hidden;
   color: #fff;
@@ -123,7 +219,7 @@ button:hover {
   margin-top: 10px;
   margin-bottom: 10px;
   justify-content: flex-start;
-
+  /* max-height: 65vh; */
   overflow-y: auto;
   width: 100%;
 }
@@ -185,7 +281,7 @@ button:hover {
 .trade-panel {
   flex-direction: column;
   min-width: 700px;
-
+  /* max-width: 98vw; */
   gap: 0;
   padding: 32px 24px 18px;
 }
@@ -208,6 +304,7 @@ button:hover {
 }
 
 .trade-column {
+  /* width: 42vw; */
   flex: 1 1 0;
   min-width: 220px;
   background: #232323;
@@ -251,7 +348,10 @@ button:hover {
   grid-template-columns: repeat(8, 1fr);
 }
 
-.create-dropdown-content a:hover {
+.create-dropdown-content a:hover,
+button,
+header,
+strong {
   background-color: var(--background-dark);
 }
 
@@ -272,7 +372,10 @@ button:hover {
 .shop-title,
 .sidebar-game.selected,
 .steam-library-layout,
-.titlebar {
+.titlebar,
+body,
+button,
+strong {
   color: var(--text-color-primary);
 }
 
@@ -318,6 +421,74 @@ h1 {
   margin-bottom: 20px;
 }
 
+body {
+  background-color: #333;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.api-doc,
+footer,
+header,
+main {
+  padding: 22px 20px;
+}
+
+header {
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav {
+  justify-content: center;
+  align-items: center;
+}
+
+.links-group {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.links-group a:hover {
+  color: #ccc;
+}
+
+.indent {
+  margin-left: 20px;
+}
+
+footer {
+  text-align: center;
+  border-top: 1px solid var(--border-color);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+form {
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+input[type="email"],
+input[type="text"],
+textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
 .api-doc {
   background: var(--background-light);
   border-radius: 8px;
@@ -325,11 +496,15 @@ h1 {
 }
 
 .endpoint-details,
-.method {
+.method,
+code,
+pre,
+strong {
   border-radius: 4px;
 }
 
-.shop-game-link {
+.shop-game-link,
+a {
   text-decoration: underline;
 }
 
@@ -388,6 +563,40 @@ h1 {
   color: var(--text-color-primary);
 }
 
+code {
+  background: #444;
+  padding: 2px 6px;
+}
+
+a {
+  color: var(--accent-color);
+}
+
+img {
+  height: auto;
+}
+
+strong {
+  padding: 2px 4px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #444;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
 .titlebar {
   height: 30px;
   justify-content: center;
@@ -411,17 +620,19 @@ h1 {
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
   margin: 40px auto;
+  /* max-width: 1600px */
 }
 
 .shop-games-section {
   margin: 0;
-
+  /* width: 100vw; */
   height: 100;
 }
 
 .creategame-container,
 .createitem-container {
   padding: 32px;
+  /* max-width: 500px */
 }
 
 .inventory-details-container,
@@ -571,6 +782,9 @@ h1 {
   margin: 20px;
 }
 
+h1 {
+  font-size: 24px;
+}
 
 form.game-form {
   width: 100%;
@@ -581,6 +795,26 @@ form.game-form {
   margin-bottom: 10px;
 }
 
+label {
+  margin-bottom: 5px;
+  font-weight: 700;
+  color: var(--text-color-primary);
+}
+
+.dark-input,
+input[type="file"],
+input[type="number"],
+input[type="text"],
+input[type="url"],
+textarea {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--background-medium);
+  color: var(--text-color-primary);
+  font-size: 1rem;
+}
+
 .error,
 .inventory-error,
 .lobby-error,
@@ -588,6 +822,16 @@ form.game-form {
 .required,
 .shop-error {
   color: var(--error-color);
+}
+
+input[type="file"].dark-input {
+  padding: 6px 0;
+  color-scheme: dark;
+}
+
+input[type="file"].required:focus,
+input[type="text"].required:focus {
+  border-color: var(--error-color);
 }
 
 .error {
@@ -617,14 +861,14 @@ form.game-form {
 
 .game-properties,
 .gamepage-desc,
-.inventory-prompt-amount,
+.inventory-prompt-amount-max,
 .inventory-tooltip-desc,
 .main-empty,
 .mygames-tooltip-desc,
 .myitems-tooltip-desc,
 .profile-tooltip-desc,
 .shop-games-empty,
-.shop-prompt-amount,
+.shop-prompt-amount-max,
 .shop-tooltip-desc,
 .sidebar-empty {
   color: var(--text-color-secondary);
@@ -636,11 +880,13 @@ form.game-form {
 }
 
 .inventory-root {
+  /* max-width: 900px; */
   margin: 0;
   position: relative;
 }
 
 .inventory-grid {
+  /* max-width: 900px; */
   height: 47.73vh;
   display: grid;
   gap: 8px;
@@ -696,10 +942,12 @@ form.game-form {
 .profile-inventory-empty-cell {
   background: #1a1a1a;
   border-radius: 4px;
+  /* min-height: 64px */
 }
 
 .inventory-details-container,
 .profile-details-container {
+  /* max-width: 500px; */
   margin: 40px auto;
   padding: 32px;
   background: var(--background-medium);
@@ -812,7 +1060,7 @@ form.game-form {
   z-index: 1000;
   pointer-events: none;
   min-width: 200px;
-
+  /* max-width: 320px; */
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
   font-size: 15px;
   white-space: pre-line;
@@ -1487,7 +1735,7 @@ form.game-form {
   background: var(--background-medium);
   border: 1px solid #888;
   border-radius: 8px;
-
+  /* min-width: 340px; */
   color: var(--text-color-primary);
   display: flex;
   flex-direction: column;
@@ -1564,9 +1812,9 @@ form.game-form {
 
 .profile-inventory-grid {
   width: 100%;
-
+  /* max-width: 900px; */
   min-height: 120px;
-
+  /* max-height: 390px; */
   overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -1676,7 +1924,7 @@ form.game-form {
   gap: 32px;
   align-items: flex-start;
   justify-content: center;
-
+  /* max-width: 1600px; */
   margin: 0 auto;
   min-width: 600px;
 }
@@ -1685,7 +1933,7 @@ form.game-form {
 .shop-items-section {
   flex: 1;
   min-width: 320px;
-
+  /* max-height: calc(100vh - 7rem); */
   background: var(--background-medium);
   border-radius: 12px;
   padding: 24px;
@@ -1905,6 +2153,10 @@ form.game-form {
   font-size: 16px;
 }
 
+main {
+  padding: 0;
+}
+
 .inventory-loading {
   position: absolute;
   top: 0;
@@ -2051,6 +2303,7 @@ form.game-form {
 }
 
 .container-oauth2 {
+  /* max-width: 900px; */
   margin: 40px auto;
   padding: 32px 24px;
   color: #fff;
@@ -2181,8 +2434,8 @@ label.oauth2-label {
   color: #fff;
 }
 
-input.oauth2-input[type='email'],
-input.oauth2-input[type='text'],
+input.oauth2-input[type="email"],
+input.oauth2-input[type="text"],
 textarea.oauth2-textarea {
   width: 95%;
   padding: 10px 12px;
@@ -2195,8 +2448,8 @@ textarea.oauth2-textarea {
   margin-bottom: 4px;
 }
 
-input.oauth2-input[type='email']:focus,
-input.oauth2-input[type='text']:focus,
+input.oauth2-input[type="email"]:focus,
+input.oauth2-input[type="text"]:focus,
 textarea.oauth2-textarea:focus {
   border-color: #fff;
   outline: 0;
@@ -2232,4 +2485,8 @@ code.oauth2-code {
   color: #fff;
   padding: 2px 6px;
   border-radius: 4px;
+}
+
+p, span, li, ul, h1, h2, h3, h4, h5, h6 {
+    color: #fff
 }
