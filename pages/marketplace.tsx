@@ -69,7 +69,6 @@ function useMarketplaceLogic() {
       });
       setSellerNames(prev => ({ ...prev, ...newNames }));
     });
-    
   }, [listings]);
 
   const handleBuy = async (listing: EnrichedMarketListing) => {
@@ -89,7 +88,6 @@ function useMarketplaceLogic() {
     }
   };
 
-  
   const [buyOrderItemId, setBuyOrderItemId] = useState('');
   const [buyOrderPrice, setBuyOrderPrice] = useState(1);
   const [placingOrder, setPlacingOrder] = useState(false);
@@ -502,5 +500,3 @@ export default function MarketplacePage() {
   const logic = useMarketplaceLogic();
   return isMobile ? <MarketplaceMobile {...logic} /> : <MarketplaceDesktop {...logic} />;
 }
-
-

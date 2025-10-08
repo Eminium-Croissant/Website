@@ -91,7 +91,7 @@ function LoginDesktop(props: any) {
             </div>
           )}
         </form>
-        
+
         <div className='flex justify-between mt-6'>
           <Link href='/forgot-password' className='text-neon-blue hover:text-neon-purple transition-colors text-sm'>
             {t('login.forgotPassword')}
@@ -101,7 +101,6 @@ function LoginDesktop(props: any) {
           </Link>
         </div>
 
-        
         <div className='flex items-center my-8'>
           <div className='flex-1 h-px bg-glass-border'></div>
           <span className='px-4 text-sm' style={{ color: 'var(--glass-text-secondary)' }}>
@@ -110,7 +109,6 @@ function LoginDesktop(props: any) {
           <div className='flex-1 h-px bg-glass-border'></div>
         </div>
 
-        
         <div className='space-y-4'>
           <button className='glass-button-neon w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white' onClick={handleDiscord}>
             <DiscordIcon />
@@ -142,7 +140,7 @@ function LoginDesktop(props: any) {
             </div>
           )}
         </div>
-        
+
         {showAuthenticatorModal && (
           <div className='fixed inset-0 bg-black/60 flex items-center justify-center z-50'>
             <div className='glass-card p-8 rounded-xl max-w-md w-full mx-4'>
@@ -248,7 +246,7 @@ function LoginMobile(props: any) {
             </div>
           )}
         </form>
-        
+
         <div className='flex justify-between mt-4'>
           <Link href='/forgot-password' className='text-neon-blue hover:text-neon-purple transition-colors text-sm'>
             {t('login.forgotPassword')}
@@ -258,7 +256,6 @@ function LoginMobile(props: any) {
           </Link>
         </div>
 
-        
         <div className='flex items-center my-6'>
           <div className='flex-1 h-px bg-glass-border'></div>
           <span className='px-4 text-sm' style={{ color: 'var(--glass-text-secondary)' }}>
@@ -267,7 +264,6 @@ function LoginMobile(props: any) {
           <div className='flex-1 h-px bg-glass-border'></div>
         </div>
 
-        
         <div className='space-y-3'>
           <button className='glass-button-neon w-full p-3 rounded-xl flex items-center justify-center gap-3 text-white' onClick={handleDiscord}>
             <DiscordIcon />
@@ -299,7 +295,7 @@ function LoginMobile(props: any) {
             </div>
           )}
         </div>
-        
+
         {showAuthenticatorModal && (
           <div className='fixed inset-0 bg-black/60 flex items-center justify-center z-50'>
             <div className='glass-card p-6 rounded-xl max-w-sm w-full mx-4'>
@@ -356,7 +352,6 @@ export default function Login() {
   const [loginLoading, setLoginLoading] = React.useState(false);
   const [loginError, setLoginError] = React.useState<string | null>(null);
 
-  
   const [passkeyLoading, setPasskeyLoading] = React.useState(false);
   const [passkeyError, setPasskeyError] = React.useState<string | null>(null);
   const [showAuthenticatorModal, setShowAuthenticatorModal] = React.useState(false);
@@ -390,12 +385,11 @@ export default function Login() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Login failed');
-      
+
       if (data.token) {
         document.cookie = `token=${data.token}; path=/; max-age=31536000`;
         location.href = '/';
       } else if (data.user) {
-        
         setPendingUserId(data.user.userId || data.user.user_id);
         setShowAuthenticatorModal(true);
       }
@@ -410,7 +404,6 @@ export default function Login() {
     setPasskeyLoading(true);
     setPasskeyError(null);
     try {
-      
       const res = await fetch('/api/webauthn/authenticate/options', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -419,11 +412,9 @@ export default function Login() {
       if (!res.ok) throw new Error('Failed to get authentication options');
       const options = await res.json();
 
-      
       const challengeBuffer = Uint8Array.from(atob(options.challenge), c => c.charCodeAt(0));
       options.challenge = challengeBuffer;
 
-      
       if (options.allowCredentials) {
         options.allowCredentials = options.allowCredentials.map((cred: any) => ({
           ...cred,
@@ -431,7 +422,6 @@ export default function Login() {
         }));
       }
 
-      
       const assertion = await navigator.credentials.get({ publicKey: options });
       if (!assertion) throw new Error('Passkey authentication failed');
 
@@ -440,7 +430,6 @@ export default function Login() {
       };
       console.log('Parsed credential:', assertion);
 
-      
       const verifyRes = await fetch('/api/webauthn/authenticate/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -509,5 +498,3 @@ export default function Login() {
 
   return isMobile ? <LoginMobile {...props} /> : <LoginDesktop {...props} />;
 }
-
-

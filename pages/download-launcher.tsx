@@ -23,18 +23,6 @@ function DownloadLauncherDesktop() {
       url: 'https://github.com/Croissant-API/Launcher/releases/download/v1.2.8/croissant-launcher-win32-x64.zip',
       color: 'text-neon-blue',
     },
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
   ];
 
   return (
@@ -114,18 +102,6 @@ function DownloadLauncherMobile() {
       url: 'https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher-Setup.exe',
       color: 'text-neon-blue',
     },
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
   ];
 
   return (
@@ -198,4 +174,3 @@ export default function DownloadLauncher() {
   const isMobile = useIsMobile();
   return isMobile ? <DownloadLauncherMobile /> : <DownloadLauncherDesktop />;
 }
-

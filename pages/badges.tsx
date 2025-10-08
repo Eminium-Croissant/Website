@@ -129,4 +129,3 @@ const BadgesPage: React.FC = () => {
 };
 
 export default BadgesPage;
-

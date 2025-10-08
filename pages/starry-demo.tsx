@@ -11,7 +11,6 @@ export default function StarryDemo() {
           </p>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Boutons Glassmorphism Sombre</h2>
           <div className='flex flex-wrap gap-6'>
@@ -22,7 +21,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Cartes Glassmorphism Sombre</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
@@ -47,7 +45,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Éléments d'Interface Sombre</h2>
           <div className='space-y-8'>
@@ -78,7 +75,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Palette de Couleurs Neon Subtiles</h2>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6'>
@@ -121,7 +117,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Navigation Glassmorphism Sombre</h2>
           <div className='flex flex-wrap gap-4'>
@@ -143,7 +138,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Méthodes API Glassmorphism Sombre</h2>
           <div className='flex flex-wrap gap-4'>
@@ -155,7 +149,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Effets d'Animation Étoilés</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
@@ -190,7 +183,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Étoiles Filantes</h2>
           <div className='relative h-32 overflow-hidden rounded-xl bg-dark-primary'>
@@ -204,7 +196,6 @@ export default function StarryDemo() {
           </div>
         </div>
 
-        
         <div className='text-center'>
           <Link href='/' className='glass-button-neon glass-glow'>
             <span className='flex items-center gap-2'>🌟 Retour à l'accueil</span>
@@ -214,5 +205,3 @@ export default function StarryDemo() {
     </div>
   );
 }
-
-

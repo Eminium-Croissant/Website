@@ -60,7 +60,6 @@ const SearchPage: React.FC = () => {
   const { cacheUser } = useUserCache();
   const { t } = useTranslation('common');
 
-  
   useEffect(() => {
     if (!query) {
       setUsers([]);
@@ -80,10 +79,9 @@ const SearchPage: React.FC = () => {
       })
         .then(res => res.json())
         .then(async data => {
-          
           if (Array.isArray(data.users)) {
             for (const u of data.users) {
-              await cacheUser(u); 
+              await cacheUser(u);
             }
           }
           setUsers(Array.isArray(data.users) ? data.users : []);
@@ -95,7 +93,7 @@ const SearchPage: React.FC = () => {
           setGames([]);
           setItems([]);
         });
-    }, 400); 
+    }, 400);
 
     return () => {
       clearTimeout(debounceTimeout);
@@ -109,7 +107,6 @@ const SearchPage: React.FC = () => {
   const [buyError, setBuyError] = useState<string | null>(null);
   const [buySuccess, setBuySuccess] = useState<string | null>(null);
 
-  
   const handleBuy = (item: Item) => {
     setSelectedItem(item);
     setBuyModalOpen(true);
@@ -152,7 +149,6 @@ const SearchPage: React.FC = () => {
     );
   }
 
-  
   function ItemBuyModal({ open, onClose, onBuy, item }: { open: boolean; onClose: () => void; onBuy: (amount: number) => void; item: Item | null }) {
     const [amount, setAmount] = useState(1);
     useEffect(() => {
@@ -211,7 +207,7 @@ const SearchPage: React.FC = () => {
           <Trans i18nKey='search.resultsFor' values={{ query }} components={{ strong: <strong /> }} />
         </h1>
       </div>
-      
+
       {users.length > 0 && (
         <div className='glass-content-card mb-8'>
           <h2 className='text-2xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
@@ -239,7 +235,7 @@ const SearchPage: React.FC = () => {
           </div>
         </div>
       )}
-      
+
       {games.length > 0 && (
         <div className='glass-content-card mb-8'>
           <h2 className='text-2xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
@@ -294,7 +290,7 @@ const SearchPage: React.FC = () => {
           </div>
         </div>
       )}
-      
+
       {items.length > 0 && (
         <div className='glass-content-card mb-8'>
           <h2 className='text-2xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
@@ -353,9 +349,9 @@ const SearchPage: React.FC = () => {
           </div>
         </div>
       )}
-      
+
       <ItemBuyModal open={buyModalOpen} onClose={() => setBuyModalOpen(false)} onBuy={handleBuySubmit} item={selectedItem} />
-      
+
       {buyLoading && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50'>
           <div className='glass-card rounded-xl p-6 max-w-md w-full text-center'>
@@ -390,5 +386,3 @@ const SearchPage: React.FC = () => {
 };
 
 export default SearchPage;
-
-

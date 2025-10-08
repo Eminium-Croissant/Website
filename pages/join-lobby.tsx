@@ -45,4 +45,3 @@ const JoinLobbyPage = () => {
 };
 
 export default JoinLobbyPage;
-

@@ -238,5 +238,3 @@ export default function ForgotPassword() {
 
   return isMobile ? <ForgotPasswordMobile {...props} /> : <ForgotPasswordDesktop {...props} />;
 }
-
-

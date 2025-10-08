@@ -55,7 +55,6 @@ function useMyBuyOrdersLogic() {
       });
   }, [user, userLoading]);
 
-  
   useEffect(() => {
     const uniqueItemIds = Array.from(new Set(orders.map(o => o.item_id)));
     const missing = uniqueItemIds.filter(id => !(id in itemDetails));
@@ -79,7 +78,6 @@ function useMyBuyOrdersLogic() {
       });
       setItemDetails(prev => ({ ...prev, ...newDetails }));
     });
-    
   }, [orders]);
 
   const handleCancel = async (order: BuyOrder) => {
@@ -390,4 +388,3 @@ export default function MyBuyOrdersPage() {
   const logic = useMyBuyOrdersLogic();
   return isMobile ? <MyBuyOrdersMobile {...logic} /> : <MyBuyOrdersDesktop {...logic} />;
 }
-

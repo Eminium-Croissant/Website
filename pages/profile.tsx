@@ -25,13 +25,13 @@ export async function getServerSideProps({ locale, query }) {
           title: user.username,
           description: `Check out ${user.username}'s profile on Croissant!`,
           bannerUrl: `https://croissant-api.fr/avatar/${user.id}`,
-          
+
           query: { user: user.id },
           card: false,
         };
         profileFromQuery = user;
       }
-    } catch { }
+    } catch {}
   }
 
   return {
@@ -93,7 +93,7 @@ export interface ShopItem {
   name: string;
   description: string;
   price: number;
-  stock?: number; 
+  stock?: number;
   iconHash: string;
 }
 
@@ -146,7 +146,7 @@ interface User {
 }
 
 type ProfileProps = {
-  userId: string; 
+  userId: string;
 };
 
 const inventoryGridStyle = (columns: number): React.CSSProperties => ({
@@ -187,23 +187,23 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     setItems(user.ownedItems || []);
     setLoading(false);
   }, [user.ownedItems]);
-  
+
   const handleMouseEnter = (e: React.MouseEvent, item: ShopItem) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
-    
-    const tooltipWidth = 320; 
-    const tooltipHeight = 120; 
+
+    const tooltipWidth = 320;
+    const tooltipHeight = 120;
     const padding = 8;
     const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
     let x = rect.right + padding;
     let y = rect.top;
-    
+
     if (x + tooltipWidth > windowWidth) {
       x = rect.left - tooltipWidth - padding;
       if (x < 0) x = windowWidth - tooltipWidth - padding;
     }
-    
+
     if (y + tooltipHeight > windowHeight) {
       y = windowHeight - tooltipHeight - padding;
       if (y < 0) y = padding;
@@ -212,16 +212,15 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
   };
   const handleMouseLeave = () => setTooltip(null);
 
-  
   const { getUser: getUserFromCache } = useUserCache();
   const customPrompt = async (message: string, maxAmount?: number, item?: ShopItem) => {
     let ownerUser: any = null;
     if (item && (item as any).owner) {
       try {
         ownerUser = await getUserFromCache((item as any).owner);
-      } catch { }
+      } catch {}
     }
-    setPrompt({ message, resolve: () => { }, maxAmount, amount: 1, item });
+    setPrompt({ message, resolve: () => {}, maxAmount, amount: 1, item });
     setPromptOwnerUser(ownerUser);
     return new Promise<{ confirmed: boolean; amount?: number }>(resolve => {
       setPrompt({ message, resolve, maxAmount, amount: 1, item });
@@ -229,7 +228,6 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     });
   };
 
-  
   const handlePromptResult = (confirmed: boolean) => {
     if (prompt) {
       const { amount } = prompt;
@@ -239,13 +237,11 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     }
   };
 
-  
   const handlePromptAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Math.max(1, Math.min(Number(e.target.value), prompt?.maxAmount || Number.MAX_SAFE_INTEGER));
     setPrompt(prev => (prev ? { ...prev, amount: value } : null));
   };
 
-  
   const handleBuy = async (item: ShopItem) => {
     const maxAmount = item.stock ?? undefined;
     const result = await customPrompt(`Buy how many "${item.name}"?\nPrice: ${item.price} each${maxAmount ? `\nStock: ${maxAmount}` : ''}`, maxAmount, item);
@@ -263,7 +259,6 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
           return data;
         })
         .then(() => {
-          
           fetch(endpoint + '/items', {
             headers: {
               'Content-Type': 'application/json',
@@ -280,7 +275,6 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
     }
   };
 
-  
   const columns = 4;
   const minRows = 8;
   const totalItems = items.length;
@@ -461,7 +455,6 @@ function useProfileLogic(userId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  
   const [giveCreditsOpen, setGiveCreditsOpen] = useState(false);
   const [giveCreditsLoading, setGiveCreditsLoading] = useState(false);
   const [giveCreditsError, setGiveCreditsError] = useState<string | null>(null);
@@ -478,13 +471,12 @@ function useProfileLogic(userId: string) {
   const reloadInventory = () => setInventoryReloadFlag(f => f + 1);
 
   const searchParams = useSearchParams();
-  const search = searchParams.get('user'); 
+  const search = searchParams.get('user');
 
   const { user, token } = useAuth();
   const router = useRouter();
   const { getUser: getUserFromCache } = useUserCache();
 
-  
   const reloadProfile = useCallback(
     (reloadCache: boolean = false) => {
       setLoading(true);
@@ -511,17 +503,15 @@ function useProfileLogic(userId: string) {
     [token, user?.admin, search, router]
   );
 
-  
   useEffect(() => {
     if (isProfileReloading) return;
     const handler = setTimeout(() => {
       reloadProfile();
       setIsProfileReloading(false);
-    }, 250); 
+    }, 250);
     return () => clearTimeout(handler);
   }, [search, isProfileReloading, reloadProfile]);
 
-  
   const handleDisableAccount = async () => {
     if (!user?.admin || !token || !profile) return;
     try {
@@ -536,7 +526,6 @@ function useProfileLogic(userId: string) {
     }
   };
 
-  
   const handleReenableAccount = async () => {
     if (!user?.admin || !token || !profile) return;
     try {
@@ -567,17 +556,11 @@ function useProfileLogic(userId: string) {
       if (!response.ok) {
         throw new Error('Failed to upload avatar');
       }
-
-      
-      
-      
-      
     } catch (error) {
       console.error('Error uploading avatar:', error);
     }
   };
 
-  
   const handleStartTrade = async () => {
     const res = await fetch(`/api/trades/start-or-latest/${profile.id}`, {
       method: 'POST',
@@ -586,7 +569,6 @@ function useProfileLogic(userId: string) {
     setCurrentTradeId(data.id);
   };
 
-  
   const handleGiveCredits = async (amount: number) => {
     setGiveCreditsLoading(true);
     setGiveCreditsError(null);
@@ -602,7 +584,7 @@ function useProfileLogic(userId: string) {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to transfer credits');
       setGiveCreditsSuccess('Credits sent!');
-      setInventoryReloadFlag(f => f + 1); 
+      setInventoryReloadFlag(f => f + 1);
     } catch (e) {
       setGiveCreditsError(e.message);
     } finally {
@@ -656,13 +638,12 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
   const { user, token } = useAuth();
   const { t } = useTranslation('common');
 
-  
   useEffect(() => {
     if (isProfileReloading) return;
     const handler = setTimeout(() => {
       reloadProfile();
       setIsProfileReloading(false);
-    }, 250); 
+    }, 250);
     return () => clearTimeout(handler);
   }, [search, isProfileReloading, reloadProfile]);
 
@@ -685,7 +666,6 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
       </div>
     );
 
-  
   const isMe = !search || search === user?.id;
   const hasShopItems = profile.ownedItems && profile.ownedItems.length > 0;
 
@@ -818,10 +798,10 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                 ...profile,
                 inventory: profile.inventory
                   ? profile.inventory.map(item => ({
-                    ...item,
-                    item_id: item.itemId,
-                    icon_hash: item.iconHash,
-                  }))
+                      ...item,
+                      item_id: item.itemId,
+                      icon_hash: item.iconHash,
+                    }))
                   : [],
               }}
               isMe={isMe}
@@ -1068,10 +1048,10 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                 ...profile,
                 inventory: profile.inventory
                   ? profile.inventory.map(item => ({
-                    ...item,
-                    item_id: item.itemId,
-                    icon_hash: item.iconHash,
-                  }))
+                      ...item,
+                      item_id: item.itemId,
+                      icon_hash: item.iconHash,
+                    }))
                   : [],
               }}
               isMe={isMe}
@@ -1151,7 +1131,6 @@ function CreatedGamesModal({ open, onClose, games }) {
     <div
       className='shop-prompt-overlay'
       onClick={e => {
-        
         if (e.target === e.currentTarget) onClose();
       }}>
       <div className='shop-prompt glass-container trade-panel trade-panel-centered' style={{ minWidth: 400, maxWidth: 600 }}>
@@ -1197,7 +1176,6 @@ function UserStudiosModal({ open, onClose, studios }) {
     <div
       className='shop-prompt-overlay'
       onClick={e => {
-        
         if (e.target !== e.currentTarget) return;
         onClose();
       }}>
@@ -1370,5 +1348,3 @@ export default function Profile({ userId }: ProfileProps) {
   const logic = useProfileLogic(userId);
   return isMobile ? <ProfileMobile {...logic} /> : <ProfileDesktop {...logic} />;
 }
-
-

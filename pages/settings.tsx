@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CachedImage from '../components/utils/CachedImage';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
-import i18n from '../i18n'; 
+import i18n from '../i18n';
 
 export async function getStaticProps({ locale }) {
   return {
@@ -164,7 +164,7 @@ function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean;
       if (!res.ok) throw new Error(data.message || 'Failed to validate key');
       setSuccess('Google Authenticator setup complete!');
       setStep('generate');
-      user.haveAuthenticator = true; 
+      user.haveAuthenticator = true;
       onClose(true);
     } catch (e: any) {
       setError(e.message);
@@ -232,7 +232,6 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
       <div className='shop-prompt'>
         <div className='shop-prompt-message'>{t('title')}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {}
           {!user?.steam_id ? (
             <button style={steamBtnStyleDef} onClick={() => router.push('/api/auth/steam')} disabled={user?.isStudio}>
               <span className='fab fa-steam' style={{ fontSize: '22px' }} />
@@ -269,7 +268,6 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
             </button>
           )}
 
-          {}
           {!user?.discord_id ? (
             <button
               onClick={() => router.push('/auth/discord')}
@@ -292,7 +290,6 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
             </button>
           )}
 
-          {}
           {!user?.google_id ? (
             <button
               onClick={() => router.push('/auth/google')}
@@ -361,7 +358,6 @@ function useSettingsLogic() {
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-  
   const [passkeyLoading, setPasskeyLoading] = useState(false);
   const [passkeySuccess, setPasskeySuccess] = useState<string | null>(null);
   const [passkeyError, setPasskeyError] = useState<string | null>(null);
@@ -474,7 +470,6 @@ function useSettingsLogic() {
     setPasskeyError(null);
     setPasskeySuccess(null);
     try {
-      
       const res = await fetch('/api/webauthn/register/options', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -487,14 +482,13 @@ function useSettingsLogic() {
       if (!res.ok) throw new Error('Failed to get registration options');
       const options = await res.json();
 
-      
       if (!options.authenticatorSelection) {
         options.authenticatorSelection = {
           residentKey: 'required',
           userVerification: 'required',
         };
       }
-      
+
       options.requireResidentKey = true;
 
       if (typeof options.challenge === 'string') {
@@ -513,19 +507,16 @@ function useSettingsLogic() {
         const cred = await navigator.credentials.create({ publicKey: options });
         if (!cred) throw new Error('Passkey creation failed');
 
-        
-
         function bufferToBase64url(buf: ArrayBuffer): string {
-          
           let str = btoa(String.fromCharCode(...new Uint8Array(buf)));
-          
+
           return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
         }
 
         const publicKeyCred = cred as PublicKeyCredential;
         const credential = {
-          id: publicKeyCred.id, 
-          rawId: bufferToBase64url(publicKeyCred.rawId), 
+          id: publicKeyCred.id,
+          rawId: bufferToBase64url(publicKeyCred.rawId),
           type: publicKeyCred.type,
           response: {
             attestationObject: bufferToBase64url((publicKeyCred.response as AuthenticatorAttestationResponse).attestationObject),
@@ -534,7 +525,6 @@ function useSettingsLogic() {
           clientExtensionResults: publicKeyCred.getClientExtensionResults(),
         };
 
-        
         const verifyRes = await fetch('/api/webauthn/register/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -604,7 +594,7 @@ function useSettingsLogic() {
 function LanguageSelector() {
   const { t } = useTranslation('common');
   const router = useRouter();
-  
+
   const currentLang = router.locale || i18n.language;
   const [lang, setLang] = useState(currentLang);
 
@@ -712,7 +702,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
   const [passwordSuccess, setPasswordSuccess] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-  
   const [passkeyLoading, setPasskeyLoading] = useState(false);
   const [passkeySuccess, setPasskeySuccess] = useState<string | null>(null);
   const [passkeyError, setPasskeyError] = useState<string | null>(null);
@@ -723,7 +712,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
     if (typeof document == 'undefined') return;
     setTimeout(() => {
       if (document.querySelector("img[alt='Profile']")?.getAttribute('src')?.includes('default.avif')) {
-        
         console.log('Default avatar detected, setting to user avatar');
         router.push('/login');
       }
@@ -792,7 +780,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
     setPasskeyError(null);
     setPasskeySuccess(null);
     try {
-      
       const res = await fetch('/api/webauthn/register/options', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -805,14 +792,13 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
       if (!res.ok) throw new Error('Failed to get registration options');
       const options = await res.json();
 
-      
       if (!options.authenticatorSelection) {
         options.authenticatorSelection = {
           residentKey: 'required',
           userVerification: 'required',
         };
       }
-      
+
       options.requireResidentKey = true;
 
       if (typeof options.challenge === 'string') {
@@ -831,19 +817,16 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         const cred = await navigator.credentials.create({ publicKey: options });
         if (!cred) throw new Error('Passkey creation failed');
 
-        
-
         function bufferToBase64url(buf: ArrayBuffer): string {
-          
           let str = btoa(String.fromCharCode(...new Uint8Array(buf)));
-          
+
           return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
         }
 
         const publicKeyCred = cred as PublicKeyCredential;
         const credential = {
-          id: publicKeyCred.id, 
-          rawId: bufferToBase64url(publicKeyCred.rawId), 
+          id: publicKeyCred.id,
+          rawId: bufferToBase64url(publicKeyCred.rawId),
           type: publicKeyCred.type,
           response: {
             attestationObject: bufferToBase64url((publicKeyCred.response as AuthenticatorAttestationResponse).attestationObject),
@@ -852,7 +835,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
           clientExtensionResults: publicKeyCred.getClientExtensionResults(),
         };
 
-        
         const verifyRes = await fetch('/api/webauthn/register/verify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -894,7 +876,49 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                 }}
                 onClick={() => fileInputRef.current?.click()}
               />
-              <input type='file' ref={fileInputRef} onChange={handleAvatarChange} accept='image}
+              <input type='file' ref={fileInputRef} onChange={handleAvatarChange} accept='image/*' style={{ display: 'none' }} />
+              <button onClick={() => fileInputRef.current?.click()} className='glass-button-neon w-full mb-3'>
+                {t('settings.choosePicture')}
+              </button>
+              {avatarFile && (
+                <button onClick={handleAvatarUpload} disabled={loading} className='glass-button-green w-full'>
+                  {loading ? t('settings.uploading') : t('settings.uploadNewPicture')}
+                </button>
+              )}
+              {success && <p className='text-green-400 text-sm mt-3 text-center'>{success}</p>}
+              {error && <p className='text-red-400 text-sm mt-3 text-center'>{error}</p>}
+            </div>
+
+            {!user?.isStudio && (
+              <form onSubmit={handleUsernameSave} className='space-y-4'>
+                <div>
+                  <label className='block text-sm font-medium text-glass-text-secondary mb-2'>{t('settings.username')}</label>
+                  <input type='text' value={username} onChange={handleUsernameChange} className='glass-input' disabled={usernameLoading} minLength={3} maxLength={32} required />
+                </div>
+                <button type='submit' disabled={usernameLoading} className='glass-button-neon w-full'>
+                  {usernameLoading ? t('settings.saving') : t('settings.save')}
+                </button>
+                {usernameSuccess && <p className='text-green-400 text-sm text-center'>{usernameSuccess}</p>}
+                {usernameError && <p className='text-red-400 text-sm text-center'>{usernameError}</p>}
+              </form>
+            )}
+          </div>
+
+          <div className='glass-content-card'>
+            <h2 className='glass-title text-2xl mb-6'>{t('settings.security')}</h2>
+            <div className='space-y-4'>
+              {!user?.isStudio && (
+                <button onClick={() => setShowPasswordModal(true)} className='glass-button-neon w-full'>
+                  <i className='fas fa-key mr-2' />
+                  {t('settings.changePassword')}
+                </button>
+              )}
+            </div>
+
+            {user && !user?.isStudio && (
+              <div className='mt-8'>
+                <h3 className='text-lg font-semibold mb-4 text-glass-text'>{t('settings.integrations')}</h3>
+                <div className='space-y-3'>
                   {!user?.steam_id ? (
                     <button
                       onClick={() => {
@@ -945,7 +969,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                     </div>
                   )}
 
-                  {}
                   {!user?.discord_id ? (
                     <button
                       onClick={() => router.push('/auth/discord')}
@@ -968,7 +991,6 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
                     </button>
                   )}
 
-                  {}
                   {!user?.google_id ? (
                     <button
                       onClick={() => router.push('/auth/google')}
@@ -1078,8 +1100,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
 
 function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
   const { apiKey } = useAuth();
-  
-  
+
   const {
     user,
     setUser,
@@ -1141,7 +1162,91 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                 }}
                 onClick={() => fileInputRef.current?.click()}
               />
-              <input type='file' ref={fileInputRef} onChange={handleAvatarChange} accept='image}
+              <input type='file' ref={fileInputRef} onChange={handleAvatarChange} accept='image/*' style={{ display: 'none' }} />
+              <button onClick={() => fileInputRef.current?.click()} className='glass-button-neon w-full mb-2 text-sm'>
+                {t('settings.choosePicture')}
+              </button>
+              {avatarFile && (
+                <button onClick={handleAvatarUpload} disabled={loading} className='glass-button-green w-full text-sm'>
+                  {loading ? t('settings.uploading') : t('settings.uploadNewPicture')}
+                </button>
+              )}
+              {success && <p className='text-green-400 text-xs mt-2 text-center'>{success}</p>}
+              {error && <p className='text-red-400 text-xs mt-2 text-center'>{error}</p>}
+            </div>
+
+            {!user?.isStudio && (
+              <form onSubmit={handleUsernameSave} className='space-y-3'>
+                <div>
+                  <label className='block text-xs font-medium text-glass-text-secondary mb-2'>{t('settings.username')}</label>
+                  <input type='text' value={username} onChange={handleUsernameChange} className='glass-input text-sm' disabled={usernameLoading} minLength={3} maxLength={32} required />
+                </div>
+                <button type='submit' disabled={usernameLoading} className='glass-button-neon w-full text-sm'>
+                  {usernameLoading ? t('settings.saving') : t('settings.save')}
+                </button>
+                {usernameSuccess && <p className='text-green-400 text-xs text-center'>{usernameSuccess}</p>}
+                {usernameError && <p className='text-red-400 text-xs text-center'>{usernameError}</p>}
+              </form>
+            )}
+          </div>
+
+          <div className='glass-content-card'>
+            <h2 className='glass-title text-xl mb-4'>{t('settings.security')}</h2>
+            <div className='space-y-3'>
+              {!user?.isStudio && (
+                <button onClick={() => setShowPasswordModal(true)} className='glass-button-neon w-full text-sm'>
+                  <i className='fas fa-key mr-2' />
+                  {t('settings.changePassword')}
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className='glass-content-card'>
+            <h2 className='glass-title text-xl mb-4'>{t('settings.apiKey')}</h2>
+            <div className='space-y-3'>
+              <div>
+                <label className='block text-xs font-medium text-glass-text-secondary mb-2'>{t('settings.yourApiKey')}</label>
+                <input
+                  type={showApiKey ? 'text' : 'password'}
+                  value={apiKey || ''}
+                  readOnly
+                  className='glass-input text-sm cursor-pointer'
+                  onClick={() => {
+                    if (showApiKey) navigator.clipboard.writeText(apiKey || '');
+                  }}
+                  title={showApiKey ? 'Click to copy' : ''}
+                />
+              </div>
+              <div className='flex gap-2'>
+                <button onClick={() => setShowApiKey(!showApiKey)} className='glass-button flex-1 text-xs'>
+                  {showApiKey ? t('settings.hide') : t('settings.show')}
+                </button>
+                <button onClick={() => navigator.clipboard.writeText(apiKey || '')} disabled={!showApiKey} className='glass-button flex-1 text-xs' style={{ opacity: !showApiKey ? 0.5 : 1 }}>
+                  {t('settings.copy')}
+                </button>
+              </div>
+              <p className='text-[10px] text-glass-text-muted text-center'>{t('settings.thisKeyAllows')}</p>
+            </div>
+
+            {user && (
+              <div className='mt-8'>
+                <h3 className='text-lg font-semibold mb-4 text-glass-text'>{t('settings.userId')}</h3>
+                <div className='flex items-center gap-2'>
+                  <code className='glass-input flex-1 cursor-pointer text-xs' onClick={() => navigator.clipboard.writeText(user.id || '')} title='Click to copy'>
+                    {user.id}
+                  </code>
+                  <button onClick={() => navigator.clipboard.writeText(user.id || '')} className='glass-button text-xs'>
+                    {t('settings.copy')}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {user && !user?.isStudio && (
+              <div className='mt-8'>
+                <h3 className='text-lg font-semibold mb-4 text-glass-text'>{t('settings.integrations')}</h3>
+                <div className='space-y-3'>
                   {!user?.steam_id ? (
                     <button
                       onClick={() => {
@@ -1192,7 +1297,6 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                     </div>
                   )}
 
-                  {}
                   {!user?.discord_id ? (
                     <button
                       onClick={() => router.push('/auth/discord')}
@@ -1215,7 +1319,6 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
                     </button>
                   )}
 
-                  {}
                   {!user?.google_id ? (
                     <button
                       onClick={() => router.push('/auth/google')}
@@ -1281,4 +1384,3 @@ export default function Settings() {
   const logic = useSettingsLogic();
   return isMobile ? <SettingsMobile {...logic} /> : <SettingsDesktop {...logic} />;
 }
-

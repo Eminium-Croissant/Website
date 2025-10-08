@@ -274,9 +274,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
             scrollbarColor: 'rgba(74, 158, 255, 0.4) rgba(26, 26, 35, 0.3)',
           }}>
           <div className='glass-content-card h-full' style={{ overflowY: 'scroll' }}>
-            
             <div className='relative h-64 mb-6 rounded-xl overflow-hidden'>
-              
               <button className='glass-button-neon absolute top-4 left-4 z-10' onClick={() => router.back()} style={{ minWidth: 80 }}>
                 {t('shop.back')}
               </button>
@@ -307,7 +305,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
                   )}
                 </div>
               </div>
-              
+
               <div className='absolute bottom-4 right-4 flex gap-4'>
                 {!userOwnsGame && (
                   <button className='glass-button-neon' onClick={handleBuyGame} disabled={buying}>
@@ -321,13 +319,13 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
                 )}
               </div>
             </div>
-            
+
             {game.description && (
               <div className='mt-6'>
                 <MarkdownDescription>{game.description}</MarkdownDescription>
               </div>
             )}
-            
+
             <div className='game-properties mt-6'>
               {game.genre && (
                 <div>
@@ -358,7 +356,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
           </div>
         </main>
       </div>
-      
+
       {showGiftModal && (
         <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50' onClick={() => setShowGiftModal(false)}>
           <div className='glass-card p-6 max-w-md w-full mx-4' onClick={e => e.stopPropagation()}>
@@ -390,7 +388,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
           </div>
         </div>
       )}
-      
+
       {prompt && (
         <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50'>
           <div className='glass-card p-6 max-w-md w-full mx-4'>
@@ -406,7 +404,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
           </div>
         </div>
       )}
-      
+
       {alert && (
         <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50'>
           <div className='glass-card p-6 max-w-md w-full mx-4'>
@@ -424,8 +422,6 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
 export default function GamePage(props) {
   const isMobile = useIsMobile();
   const logic = useGamePageLogic();
-  
+
   return <GameInterface {...logic} />;
 }
-
-

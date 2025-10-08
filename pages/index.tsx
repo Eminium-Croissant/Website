@@ -34,7 +34,6 @@ export default function Home() {
   const router = useRouter();
   const { t } = useTranslation('common');
 
-  
   const overviewDetails = [
     {
       summary: t('index.overview.players.title'),
@@ -168,7 +167,6 @@ export default function Home() {
     },
   ];
 
-  
   const aboutDetails = [
     {
       summary: t('index.about.whoami.title'),
@@ -235,12 +233,10 @@ export default function Home() {
     },
   ];
 
-  
   function GameCarousel() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const { data: apiGames, loading, error, fromCache } = useGamesCache();
 
-    
     const demoGames: Game[] = [
       {
         gameId: 'demo-1',
@@ -289,7 +285,6 @@ export default function Home() {
       },
     ];
 
-    
     const games = apiGames && Array.isArray(apiGames) ? apiGames.slice(0, 6) : demoGames;
 
     const nextSlide = () => {
@@ -300,7 +295,6 @@ export default function Home() {
       setCurrentIndex(prev => (prev - 1 + games.length) % games.length);
     };
 
-    
     useEffect(() => {
       if (games.length <= 1) return;
 
@@ -375,18 +369,15 @@ export default function Home() {
         </h2>
 
         <div className='flex items-center gap-4'>
-          
           <button onClick={prevSlide} className='glass-button-neon w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0'>
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
 
-          
           <div className='flex-1 overflow-hidden'>
             <div className='flex transition-transform duration-500 ease-in-out' style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
               {games.map((game, index) => (
                 <div key={game.gameId} className='w-full flex-shrink-0 px-4'>
                   <div className='glass-card relative overflow-hidden group'>
-                    
                     {game.bannerHash && (
                       <div className='absolute inset-0'>
                         <ImageCache src={`/banners-icons/${game.bannerHash}`} alt={game.name} className='w-full h-full object-cover opacity-20' cacheKey={`banner_${game.gameId}`} />
@@ -397,7 +388,6 @@ export default function Home() {
                     <div className='relative z-10 p-6'>
                       <div className='flex items-center justify-between mb-4'>
                         <div className='flex items-center gap-4'>
-                          
                           <ImageCache src={game.iconHash ? `/games-icons/${game.iconHash}` : '/games-icons/default.avif'} alt={game.name} className='w-24 h-24 object-contain rounded-xl glass-card border-2 border-glass-border' cacheKey={`icon_${game.gameId}`} />
                           <div>
                             <h3 className='text-2xl font-bold' style={{ color: 'var(--glass-text)' }}>
@@ -441,13 +431,11 @@ export default function Home() {
             </div>
           </div>
 
-          
           <button onClick={nextSlide} className='glass-button-neon w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0'>
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
         </div>
 
-        
         <div className='flex justify-center mt-6 gap-2'>
           {games.map((_, index) => (
             <button key={index} onClick={() => setCurrentIndex(index)} className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-neon-blue' : 'bg-glass-border hover:bg-glass-accent'}`} />
@@ -468,14 +456,11 @@ export default function Home() {
     );
   }
 
-  
   function HomeDesktop() {
     return (
       <>
         <div className='glass-page-container'>
-          
           <div className='glass-card mb-12 text-center relative overflow-hidden'>
-            
             <div className='mb-8 relative z-10'>
               <h1 className='text-5xl font-bold mb-6 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent'>{t('index.hero.title')}</h1>
               <p className='text-xl mb-8' style={{ color: 'var(--glass-text-secondary)' }}>
@@ -498,7 +483,6 @@ export default function Home() {
             </div>
           </div>
 
-          
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12'>
             <div className='glass-content-card'>
               <h2
@@ -512,7 +496,6 @@ export default function Home() {
               </h2>
               {overviewDetails.map(({ summary, content }) => (
                 <div className='glass-details mb-4' key={summary}>
-                  
                   <summary className='glass-details-summary list-none pl-0'>{summary}</summary>
                   <div className='mt-4'>{content}</div>
                 </div>
@@ -539,7 +522,6 @@ export default function Home() {
             </div>
           </div>
 
-          
           <div className='glass-content-card mb-12'>
             <h2
               className='text-center mb-8'
@@ -620,22 +602,16 @@ export default function Home() {
               </button>
             </div>
           </div>
-
-          
-          
         </div>
       </>
     );
   }
 
-  
   function HomeMobile() {
     return (
       <>
         <div className='glass-page-container !max-w-[1000px]'>
-          
           <div className='glass-card !mt-0 !mx-0 mb-8 text-center relative overflow-hidden'>
-            
             <div className='mb-6 relative z-10'>
               <h1 className='text-3xl font-bold mb-4 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent'>Bienvenue dans l'univers Croissant</h1>
               <p className='text-base mb-6' style={{ color: 'var(--glass-text-secondary)' }}>
@@ -682,7 +658,6 @@ export default function Home() {
             ))}
           </div>
 
-          
           <div className='glass-content-card !mt-4 !mx-0 mb-6'>
             <h2 className='!text-[1.1rem] mb-4' style={{ color: 'var(--glass-text)', fontWeight: 'bold' }}>
               <span className='glass-method get'>{t('index.openSource.title')}</span>
@@ -758,7 +733,6 @@ export default function Home() {
             </div>
           </div>
 
-          
           <div className='!mt-4 !mx-0 mb-6'></div>
         </div>
       </>
@@ -766,7 +740,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    
     if (typeof document !== 'undefined' && document.cookie.includes('from=app')) {
       router.push('/launcher/home');
     }
@@ -774,5 +747,3 @@ export default function Home() {
 
   return isMobile ? <HomeMobile /> : <HomeDesktop />;
 }
-
-

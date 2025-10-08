@@ -84,7 +84,6 @@ const GiftPage: React.FC = () => {
     }
   };
 
-  
   if (loading) {
     return (
       <div className='glass-page-container'>
@@ -228,4 +227,3 @@ const GiftPage: React.FC = () => {
 };
 
 export default GiftPage;
-

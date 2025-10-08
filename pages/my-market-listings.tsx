@@ -11,27 +11,25 @@ export async function getStaticProps({ locale }) {
   };
 }
 export interface MarketListing {
-  id: string; 
-  seller_id: string; 
-  item_id: string; 
-  price: number; 
+  id: string;
+  seller_id: string;
+  item_id: string;
+  price: number;
   status: MarketListingStatus;
-  metadata?: { [key: string]: unknown; _unique_id?: string }; 
-  created_at: string; 
-  updated_at: string; 
-  sold_at?: string; 
-  buyer_id?: string; 
+  metadata?: { [key: string]: unknown; _unique_id?: string };
+  created_at: string;
+  updated_at: string;
+  sold_at?: string;
+  buyer_id?: string;
 }
 
 export type MarketListingStatus = 'active' | 'sold' | 'cancelled';
 
 export interface EnrichedMarketListing extends MarketListing {
-  
   item_name: string;
   item_description: string;
   item_icon_hash: string;
 
-  
   sellerName?: string;
 }
 
@@ -279,7 +277,7 @@ export default function MyMarketListingsPage() {
                   padding: 4px 8px;
                   font-size: 12px;
                 }
-                
+
                 .market-table-wrapper {
                   overflow-x: auto;
                   -webkit-overflow-scrolling: touch;
@@ -292,5 +290,3 @@ export default function MyMarketListingsPage() {
     </div>
   );
 }
-
-

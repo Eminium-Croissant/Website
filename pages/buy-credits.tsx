@@ -104,4 +104,3 @@ const BuyCredits: React.FC = () => {
 };
 
 export default BuyCredits;
-

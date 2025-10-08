@@ -9,7 +9,6 @@ export default function GlassDemo() {
           <p className='text-glass-text-secondary text-xl'>Découvrez tous les composants glassmorphism avec des effets de verre et transparence</p>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Boutons Glassmorphism</h2>
           <div className='flex flex-wrap gap-6'>
@@ -20,7 +19,6 @@ export default function GlassDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Cartes Glassmorphism</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
@@ -39,7 +37,6 @@ export default function GlassDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Éléments d'Interface</h2>
           <div className='space-y-8'>
@@ -64,7 +61,6 @@ export default function GlassDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Palette de Couleurs Neon</h2>
           <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6'>
@@ -95,7 +91,6 @@ export default function GlassDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Navigation Glassmorphism</h2>
           <div className='flex flex-wrap gap-4'>
@@ -117,7 +112,6 @@ export default function GlassDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Méthodes API Glassmorphism</h2>
           <div className='flex flex-wrap gap-4'>
@@ -129,7 +123,6 @@ export default function GlassDemo() {
           </div>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-8'>Effets d'Animation</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
@@ -156,7 +149,6 @@ export default function GlassDemo() {
           </div>
         </div>
 
-        
         <div className='text-center'>
           <Link href='/' className='glass-button-neon glass-glow'>
             <span className='flex items-center gap-2'>🏠 Retour à l'accueil</span>
@@ -166,5 +158,3 @@ export default function GlassDemo() {
     </div>
   );
 }
-
-

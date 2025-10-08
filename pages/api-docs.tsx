@@ -24,7 +24,6 @@ export default function ApiDocs() {
 
   return (
     <div className='glass-page-container'>
-      
       <div className='flex-1 min-w-0'>
         <div className='glass-card rounded-lg shadow-glass overflow-hidden max-w-full'>
           <h2 className='text-3xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
@@ -32,7 +31,6 @@ export default function ApiDocs() {
             {t('apiDocs.title') || 'API Documentation'}
           </h2>{' '}
           <div className={`flex gap-6 p-5 ${isMobile ? 'flex-col' : ''}`}>
-            
             <aside
               style={{
                 height: swaggerHeight,
@@ -52,7 +50,7 @@ export default function ApiDocs() {
                     <li key={id}>
                       <a href={`https://github.com/Croissant-API/Website/tree/main/public/downloadables/sdk-${id}/README.md`} target='_blank' rel='noreferrer' className='text-neon-blue no-underline hover:text-neon-purple transition-colors flex items-center gap-2'>
                         <FontAwesomeIcon icon={faCode} className='text-sm' />[{name} Library]
-                        <FontAwesomeIcon icon={faUpRightFromSquare} className='ml-1 text-xs' /> 
+                        <FontAwesomeIcon icon={faUpRightFromSquare} className='ml-1 text-xs' />
                       </a>
                     </li>
                   );
@@ -66,7 +64,6 @@ export default function ApiDocs() {
                 overflow: 'auto',
                 width: isMobile ? '100%' : 'auto',
               }}>
-              
               <Swagger />
             </div>
           </div>
@@ -75,5 +72,3 @@ export default function ApiDocs() {
     </div>
   );
 }
-
-

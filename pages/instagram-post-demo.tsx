@@ -31,7 +31,6 @@ export default function InstagramPostDemo() {
   const [selectedConfig, setSelectedConfig] = useState<DemoConfig | null>(null);
   const [copiedConfig, setCopiedConfig] = useState<string | false>(false);
 
-  
   const demoConfigs: DemoConfig[] = [
     {
       name: 'Default',
@@ -117,7 +116,6 @@ export default function InstagramPostDemo() {
   return (
     <div className='min-h-screen bg-gradient-to-br from-[#0A0A0F] via-[#1A1A23] to-[#2A2A35]'>
       <div className='glass-page-container'>
-        
         <div className='flex items-center justify-between mb-12'>
           <div>
             <h1 className='text-6xl font-bold mb-6 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink bg-clip-text text-transparent'>Instagram Post Template</h1>
@@ -129,7 +127,6 @@ export default function InstagramPostDemo() {
           </Link>
         </div>
 
-        
         <div className='glass-content-card mb-12'>
           <h2 className='glass-title mb-6'>Comment utiliser</h2>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
@@ -151,18 +148,15 @@ export default function InstagramPostDemo() {
           </div>
         </div>
 
-        
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12'>
           {demoConfigs.map((config, index) => (
             <div key={index} className='glass-content-card text-center'>
               <h3 className='text-xl font-semibold mb-4 text-glass-text'>{config.name}</h3>
 
-              
               <div className='flex justify-center mb-6'>
                 <InstagramPost {...config.props} />
               </div>
 
-              
               <div className='flex gap-3 justify-center'>
                 <button onClick={() => copyToClipboard(config)} className='glass-button-neon flex items-center gap-2'>
                   <FontAwesomeIcon icon={faCopy} />
@@ -176,7 +170,6 @@ export default function InstagramPostDemo() {
           ))}
         </div>
 
-        
         {selectedConfig && (
           <div className='fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4'>
             <div className='glass-card  w-full max-h-[90vh] overflow-y-auto'>
@@ -188,12 +181,10 @@ export default function InstagramPostDemo() {
               </div>
 
               <div className='grid grid-cols-1 lg:grid-cols-2 gap-8'>
-                
                 <div className='flex justify-center'>
                   <InstagramPost {...selectedConfig.props} />
                 </div>
 
-                
                 <div>
                   <h4 className='text-lg font-semibold mb-4 text-glass-text'>Code React</h4>
                   <pre className='glass-card bg-black/20 p-4 rounded-lg overflow-x-auto text-sm text-glass-text-secondary'>
@@ -232,7 +223,6 @@ export default function InstagramPostDemo() {
           </div>
         )}
 
-        
         <div className='glass-content-card'>
           <h2 className='glass-title mb-6'>Conseils d'utilisation</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
@@ -260,5 +250,3 @@ export default function InstagramPostDemo() {
     </div>
   );
 }
-
-

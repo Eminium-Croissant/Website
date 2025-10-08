@@ -56,17 +56,15 @@ export default function ResetPassword() {
   const [user, setUser] = React.useState<{ username: string } | null>(null);
   const [tokenChecked, setTokenChecked] = React.useState(false);
 
-  
   const resetToken = typeof router.query.token === 'string' ? router.query.token : '';
 
-  
   React.useEffect(() => {
     if (!resetToken) {
       setError('Invalid reset token, please try again.');
       setTokenChecked(true);
       return;
     }
-    
+
     fetch(`/api/users/validate-reset-token?reset_token=${encodeURIComponent(resetToken)}`)
       .then(async res => {
         const data = await res.json();
@@ -112,7 +110,7 @@ export default function ResetPassword() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to reset password');
-      
+
       const token = data.token;
       document.cookie = `token=${token}; path=/; max-age=31536000`;
       location.href = '/';
@@ -269,4 +267,3 @@ export default function ResetPassword() {
     </div>
   );
 }
-
