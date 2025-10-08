@@ -1,8 +1,7 @@
 import 'github-markdown-css/github-markdown.css';
 import '../styles/atom-one-dark.min.css';
-import '../styles/main.css';
-import '../styles/globals.css';
 import '../styles/rarity.css';
+import '../styles/styles.css';
 
 import { appWithTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -112,5 +111,11 @@ export function App(props: AppProps) {
 }
 
 export default appWithTranslation(App);
+
+module.exports = {
+  experimental: {
+    optimizeCss: false, 
+  },
+};
 
 
