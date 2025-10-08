@@ -9,7 +9,7 @@ export default function GenshinDemo() {
           <p className='text-dark-textSecondary text-xl'>Découvrez tous les nouveaux composants et styles harmonieux inspirés de Genshin Impact</p>
         </div>
 
-        {/* Boutons */}
+        
         <div className='genshin-card mb-8'>
           <h2 className='section-title mb-6'>Boutons</h2>
           <div className='flex flex-wrap gap-4'>
@@ -20,7 +20,7 @@ export default function GenshinDemo() {
           </div>
         </div>
 
-        {/* Cartes */}
+        
         <div className='genshin-card mb-8'>
           <h2 className='section-title mb-6'>Cartes</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -39,7 +39,7 @@ export default function GenshinDemo() {
           </div>
         </div>
 
-        {/* Éléments d'interface */}
+        
         <div className='genshin-card mb-8'>
           <h2 className='section-title mb-6'>Éléments d'Interface</h2>
           <div className='space-y-6'>
@@ -59,7 +59,7 @@ export default function GenshinDemo() {
           </div>
         </div>
 
-        {/* Couleurs des éléments */}
+        
         <div className='genshin-card mb-8'>
           <h2 className='section-title mb-6'>Couleurs des Éléments</h2>
           <div className='grid grid-cols-2 md:grid-cols-4 gap-4'>
@@ -98,7 +98,7 @@ export default function GenshinDemo() {
           </div>
         </div>
 
-        {/* Navigation */}
+        
         <div className='genshin-card mb-8'>
           <h2 className='section-title mb-6'>Navigation</h2>
           <div className='flex flex-wrap gap-4'>
@@ -117,7 +117,7 @@ export default function GenshinDemo() {
           </div>
         </div>
 
-        {/* Retour à l'accueil */}
+        
         <div className='text-center'>
           <Link href='/' className='genshin-button-gold'>
             Retour à l'accueil
@@ -127,3 +127,5 @@ export default function GenshinDemo() {
     </div>
   );
 }
+
+

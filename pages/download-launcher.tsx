@@ -23,18 +23,18 @@ function DownloadLauncherDesktop() {
       url: 'https://github.com/Croissant-API/Launcher/releases/download/v1.2.8/croissant-launcher-win32-x64.zip',
       color: 'text-neon-blue',
     },
-    // {
-    //   platform: "macOS",
-    //   icon: faLaptop,
-    //   url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.dmg",
-    //   color: "text-neon-purple"
-    // },
-    // {
-    //   platform: "Linux",
-    //   icon: faServer,
-    //   url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.AppImage",
-    //   color: "text-neon-green"
-    // }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   ];
 
   return (
@@ -55,7 +55,7 @@ function DownloadLauncherDesktop() {
             </a>
           </div>
 
-          {/* Boutons de téléchargement */}
+          {}
           <div className='grid grid-cols-1 md:grid-cols-1 gap-6 mb-8'>
             {downloadLinks.map(link => (
               <a key={link.platform} href={link.url} target='_blank' rel='noopener noreferrer' className='glass-card p-6 text-center hover:scale-105 transition-transform duration-300 hover:shadow-glass-glow'>
@@ -75,7 +75,7 @@ function DownloadLauncherDesktop() {
           </div>
         </div>
 
-        {/* Instructions */}
+        {}
         <div className='glass-card p-6 mb-8'>
           <h2 className='text-2xl font-bold mb-4' style={{ color: 'var(--glass-text)' }}>
             {t('downloadLauncher.instructions')}
@@ -92,7 +92,7 @@ function DownloadLauncherDesktop() {
           </ol>
         </div>
 
-        {/* Capture d'écran */}
+        {}
         <div className='glass-card p-6'>
           <h2 className='text-2xl font-bold mb-4' style={{ color: 'var(--glass-text)' }}>
             {t('downloadLauncher.previewTitleDesktop')}
@@ -114,18 +114,18 @@ function DownloadLauncherMobile() {
       url: 'https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher-Setup.exe',
       color: 'text-neon-blue',
     },
-    // {
-    //   platform: "macOS",
-    //   icon: faLaptop,
-    //   url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.dmg",
-    //   color: "text-neon-purple"
-    // },
-    // {
-    //   platform: "Linux",
-    //   icon: faServer,
-    //   url: "https://github.com/croissant-API/croissant-Launcher/releases/latest/download/CroissantLauncher.AppImage",
-    //   color: "text-neon-green"
-    // }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   ];
 
   return (
@@ -146,7 +146,7 @@ function DownloadLauncherMobile() {
             </a>
           </div>
 
-          {/* Boutons de téléchargement mobile */}
+          {}
           <div className='space-y-4 mb-6'>
             {downloadLinks.map(link => (
               <a key={link.platform} href={link.url} target='_blank' rel='noopener noreferrer' className='glass-card p-4 flex items-center gap-4 hover:scale-105 transition-transform duration-300'>
@@ -165,7 +165,7 @@ function DownloadLauncherMobile() {
           </div>
         </div>
 
-        {/* Instructions mobile */}
+        {}
         <div className='glass-card !p-4 mb-6'>
           <h2 className='text-lg font-bold mb-3' style={{ color: 'var(--glass-text)' }}>
             {t('downloadLauncher.instructions')}
@@ -182,7 +182,7 @@ function DownloadLauncherMobile() {
           </ol>
         </div>
 
-        {/* Capture d'écran mobile */}
+        {}
         <div className='glass-card !p-4'>
           <h2 className='text-lg font-bold mb-3' style={{ color: 'var(--glass-text)' }}>
             {t('downloadLauncher.previewTitleMobile')}
@@ -198,3 +198,4 @@ export default function DownloadLauncher() {
   const isMobile = useIsMobile();
   return isMobile ? <DownloadLauncherMobile /> : <DownloadLauncherDesktop />;
 }
+

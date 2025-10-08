@@ -84,7 +84,7 @@ const GiftPage: React.FC = () => {
     }
   };
 
-  // Use glass container similar to pages/game.tsx
+  
   if (loading) {
     return (
       <div className='glass-page-container'>
@@ -228,3 +228,4 @@ const GiftPage: React.FC = () => {
 };
 
 export default GiftPage;
+

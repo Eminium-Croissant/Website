@@ -18,7 +18,6 @@ export async function getStaticProps({ locale }) {
 }
 const ENDPOINT = '/api';
 
-// Types et interfaces
 interface User {
   id: string;
   username: string;
@@ -73,7 +72,7 @@ function useShopLogic() {
   const { getUser: getUserFromCache } = useUserCache();
   const router = useRouter();
 
-  // Constantes réutilisées
+  
   const AUTH_HEADER = useMemo(
     () => ({
       'Content-Type': 'application/json',
@@ -81,7 +80,7 @@ function useShopLogic() {
     [token]
   );
 
-  // Récupération des jeux
+  
   const fetchGames = useCallback(() => {
     setLoading(true);
     fetch(`${ENDPOINT}/games`, {
@@ -105,14 +104,14 @@ function useShopLogic() {
     fetchGames();
   }, [fetchGames]);
 
-  // Prompt personnalisé
+  
   const customPrompt = useCallback((message: string, item?: Game) => {
     return new Promise<{ confirmed: boolean }>(resolve => {
       setPrompt({ message, resolve, item });
     });
   }, []);
 
-  // Résultat du prompt
+  
   const handlePromptResult = useCallback(
     (confirmed: boolean) => {
       if (prompt) {
@@ -123,7 +122,7 @@ function useShopLogic() {
     [prompt]
   );
 
-  // Achat d'un jeu
+  
   const handleBuyGame = useCallback(
     async (game: Game) => {
       const result = await customPrompt(`Buy "${game.name}"?\nPrice: ${game.price}`, game);
@@ -148,7 +147,7 @@ function useShopLogic() {
     [AUTH_HEADER, customPrompt, fetchGames]
   );
 
-  // Shop skeleton cards for loading
+  
   const skeletons = useMemo(
     () =>
       Array.from({ length: 3 }).map((_, i) => (
@@ -197,11 +196,11 @@ function useShopLogic() {
     []
   );
 
-  // Map pour stocker les infos propriétaires par id
-  const [ownerInfoMap, setOwnerInfoMap] = useState<Record<string, OwnerInfo>>({});
+  
+  const [ownerInfoMap, setOwnerInfoMap] = useState<Record<string, OwnerInfo>>();
   const [invalidOwnerIds, setInvalidOwnerIds] = useState<Set<string>>(new Set());
 
-  // Charger les infos propriétaires pour chaque jeu
+  
   useEffect(() => {
     const fetchOwners = async () => {
       const ownersToFetch = games
@@ -241,7 +240,7 @@ function useShopLogic() {
     if (games.length > 0) fetchOwners();
   }, [games, getUserFromCache, ownerInfoMap, invalidOwnerIds]);
 
-  // Filtrer les jeux pour exclure ceux dont le propriétaire n'existe plus
+  
   const validGames = useMemo(() => {
     return games.filter(game => {
       if (!game.owner_id) return true;
@@ -250,7 +249,7 @@ function useShopLogic() {
   }, [games, ownerInfoMap, invalidOwnerIds]);
 
   return {
-    games: validGames, // On renvoie uniquement les jeux valides
+    games: validGames, 
     loading,
     error,
     prompt,
@@ -264,19 +263,18 @@ function useShopLogic() {
   };
 }
 
-// Version Desktop
 const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, handleBuyGame, setAlert, ownerInfoMap, handlePromptResult }) => {
   const { t } = useTranslation('common');
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Get unique genres
+  
   const genres = useMemo(() => {
     const uniqueGenres = new Set(games.map(game => game.genre).filter(Boolean));
     return Array.from(uniqueGenres);
   }, [games]);
 
-  // Filter games based on search and genre
+  
   const filteredGames = useMemo(() => {
     return games.filter(game => {
       const matchesSearch = searchTerm === '' || game.name.toLowerCase().includes(searchTerm.toLowerCase()) || game.description?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -287,39 +285,22 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
 
   return (
     <div className='glass-page-container'>
-      {/* Header Section */}
+      
       <div className='glass-content-card mb-8'>
         <h1 className='text-3xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
           {t('shop.title')}
         </h1>
         <div className='flex gap-6 items-center'>
-          {/* Search Bar */}
+          
           <div className='flex-1'>
             <input type='text' placeholder={t('shop.searchPlaceholder')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className='glass-input w-full py-3 px-4' style={{ minWidth: 0 }} />
           </div>
 
-          {/* Genre Filter
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            <button 
-              onClick={() => setSelectedGenre(null)} 
-              className={`px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${selectedGenre === null ? "glass-button-neon" : "glass-button"}`}
-            >
-              {t("shop.allGames")}
-            </button>
-            {genres.map((genre) => (
-              <button 
-                key={genre} 
-                onClick={() => setSelectedGenre(genre)} 
-                className={`px-4 py-2 rounded-lg transition-colors whitespace-nowrap ${selectedGenre === genre ? "glass-button-neon" : "glass-button"}`}
-              >
-                {genre}
-              </button>
-            ))}
-          </div> */}
+          
         </div>
       </div>
 
-      {/* Games Grid */}
+      
       <div className='min-h-[calc(100vh-16rem)]  w-full justify-content'>
         {loading ? (
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -387,7 +368,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
         )}
       </div>
 
-      {/* Prompt Modal */}
+      
       {prompt && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50'>
           <div className='glass-card rounded-xl p-6 max-w-md w-full'>
@@ -409,7 +390,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
         </div>
       )}
 
-      {/* Alert Modal */}
+      
       {alert && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50'>
           <div className='glass-card rounded-xl p-6 max-w-md w-full'>
@@ -426,19 +407,18 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
   );
 };
 
-// Version Mobile
 const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, handleBuyGame, setAlert, ownerInfoMap, handlePromptResult }) => {
   const { t } = useTranslation('common');
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Get unique genres
+  
   const genres = useMemo(() => {
     const uniqueGenres = new Set(games.map(game => game.genre).filter(Boolean));
     return Array.from(uniqueGenres);
   }, [games]);
 
-  // Filter games based on search and genre
+  
   const filteredGames = useMemo(() => {
     return games.filter(game => {
       const matchesSearch = searchTerm === '' || game.name.toLowerCase().includes(searchTerm.toLowerCase()) || game.description?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -449,18 +429,18 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
 
   return (
     <div className='glass-page-container'>
-      {/* Header Section */}
+      
       <div className='glass-content-card mb-6'>
         <h1 className='text-2xl font-bold mb-4' style={{ color: 'var(--glass-text)' }}>
           {t('shop.title')}
         </h1>
 
-        {/* Search Bar */}
+        
         <div className='mb-4'>
           <input type='text' placeholder={t('shop.searchPlaceholder')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className='glass-input w-full py-2.5 px-4' />
         </div>
 
-        {/* Genre Filter */}
+        
         <div className='flex gap-2 overflow-x-auto pb-2 -mx-4 px-4'>
           <button onClick={() => setSelectedGenre(null)} className={`px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap text-sm ${selectedGenre === null ? 'glass-button-neon' : 'glass-button'}`}>
             {t('shop.allGames')}
@@ -473,7 +453,7 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
         </div>
       </div>
 
-      {/* Games List */}
+      
       <div className='min-h-[calc(100vh-16rem)]'>
         {loading ? (
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
@@ -507,7 +487,7 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
         )}
       </div>
 
-      {/* Prompt Modal */}
+      
       {prompt && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50'>
           <div className='glass-card rounded-xl p-5 w-full  mx-4'>
@@ -529,7 +509,7 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
         </div>
       )}
 
-      {/* Alert Modal */}
+      
       {alert && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50'>
           <div className='glass-card rounded-xl p-5 w-full  mx-4'>
@@ -549,16 +529,16 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
 function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null }) {
   return (
     <Link href={`/game?gameId=${game.gameId}`} className='glass-card rounded-xl overflow-hidden flex flex-col shadow-glass transform transition-transform hover:scale-[1.02] hover:shadow-glass-glow cursor-pointer'>
-      {/* Banner et Icon avec effet de verre */}
+      
       <div className='relative h-40' style={{ backgroundColor: 'var(--dark-secondary)' }}>
         {game?.bannerHash && <img src={'/banners-icons/' + (game.bannerHash ? game.bannerHash : 'default')} alt='banner' className='absolute inset-0 w-full h-full object-cover opacity-50' />}
         <div className='absolute inset-0 bg-gradient-to-t from-dark-primary to-transparent opacity-60' />
         <img src={'/games-icons/' + (game.iconHash ? game.iconHash : 'default')} alt={game.name} className='absolute -bottom-8 left-8 w-24 h-24 rounded-xl object-contain glass-card border-2 border-glass-border shadow-glass' />
       </div>
 
-      {/* Contenu avec effet de verre */}
+      
       <div className='pt-12 px-8 pb-6 flex flex-col gap-4'>
-        {/* En-tête avec titre et prix */}
+        
         <div className='flex items-center justify-between'>
           <div className='flex flex-col'>
             <h3 className='text-xl font-bold hover:text-neon-blue transition-colors' style={{ color: 'var(--glass-text)' }}>
@@ -576,7 +556,7 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
           </div>
         </div>
 
-        {/* Information du créateur avec effet de verre */}
+        
         {ownerInfo && (
           <Link href={`/profile?user=${ownerInfo.id}`} className='flex items-center gap-3 glass-card rounded-lg p-2 hover:bg-glass-accent transition-colors w-fit relative z-10' onClick={e => e.stopPropagation()}>
             <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} className='w-8 h-8 rounded-full object-cover border-2 border-glass-border' />
@@ -589,7 +569,7 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
           </Link>
         )}
 
-        {/* Description avec effet de verre */}
+        
         <p className='text-sm line-clamp-3 glass-card p-3 rounded-lg' style={{ color: 'var(--glass-text-secondary)' }}>
           {game.description}
         </p>
@@ -606,3 +586,5 @@ const GameShop: React.FC = () => {
 };
 
 export default GameShop;
+
+

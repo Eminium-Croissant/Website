@@ -12,7 +12,7 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-// Style constants (reuse from your register page for consistency)
+
 const containerStyle: React.CSSProperties = {
   maxWidth: 400,
   margin: '60px auto',
@@ -238,3 +238,5 @@ export default function ForgotPassword() {
 
   return isMobile ? <ForgotPasswordMobile {...props} /> : <ForgotPasswordDesktop {...props} />;
 }
+
+

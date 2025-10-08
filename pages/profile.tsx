@@ -1371,3 +1371,4 @@ export default function Profile({ userId }: ProfileProps) {
   return isMobile ? <ProfileMobile {...logic} /> : <ProfileDesktop {...logic} />;
 }
 
+

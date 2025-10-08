@@ -9,10 +9,7 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-/**
- * Privacy Policy page for Croissant.
- * Explains how user data is handled and protected.
- */
+
 const PrivacyPolicy: React.FC = () => {
   const { t } = useTranslation('common');
   return (
@@ -25,7 +22,7 @@ const PrivacyPolicy: React.FC = () => {
           <p className='text-lg mb-6' style={{ color: 'var(--glass-text-secondary)' }}>
             {t('privacy.intro')}
           </p>
-          {/* Section 1 */}
+          
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-blue)' }}>
               {t('privacy.1.title')}
@@ -40,7 +37,7 @@ const PrivacyPolicy: React.FC = () => {
               {t('privacy.1.3')}
             </p>
           </div>
-          {/* Section 2 */}
+          
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-purple)' }}>
               {t('privacy.2.title')}
@@ -55,7 +52,7 @@ const PrivacyPolicy: React.FC = () => {
               {t('privacy.2.3')}
             </p>
           </div>
-          {/* Section 3 */}
+          
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-pink)' }}>
               {t('privacy.3.title')}
@@ -70,7 +67,7 @@ const PrivacyPolicy: React.FC = () => {
               {t('privacy.3.3')}
             </p>
           </div>
-          {/* Section 4 */}
+          
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-green)' }}>
               {t('privacy.4.title')}
@@ -82,7 +79,7 @@ const PrivacyPolicy: React.FC = () => {
               {t('privacy.4.2')}
             </p>
           </div>
-          {/* Section 5 */}
+          
           <div className='glass-card p-6 mb-6'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-orange)' }}>
               {t('privacy.5.title')}
@@ -97,7 +94,7 @@ const PrivacyPolicy: React.FC = () => {
               {t('privacy.5.3')}
             </p>
           </div>
-          {/* Section 6 */}
+          
           <div className='glass-card p-6 mb-8'>
             <h3 className='text-xl font-bold mb-2' style={{ color: 'var(--neon-cyan)' }}>
               {t('privacy.6.title')}
@@ -113,3 +110,4 @@ const PrivacyPolicy: React.FC = () => {
 };
 
 export default PrivacyPolicy;
+

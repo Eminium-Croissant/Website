@@ -18,10 +18,9 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-// API endpoint for user search
+
 const API_ENDPOINT = '/api';
 
-// User type for better type safety
 interface User {
   id: string;
   username: string;
@@ -30,7 +29,6 @@ interface User {
   admin?: boolean;
 }
 
-// Game type (from Shop.tsx)
 interface Game {
   gameId: string;
   name: string;
@@ -42,7 +40,6 @@ interface Game {
   iconHash?: string;
 }
 
-// Item type for search results
 interface Item {
   itemId: string;
   name: string;
@@ -53,10 +50,6 @@ interface Item {
   showInStore?: boolean;
 }
 
-/**
- * Search page for users.
- * Fetches and displays users matching the search query.
- */
 const SearchPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [games, setGames] = useState<Game[]>([]);
@@ -67,7 +60,7 @@ const SearchPage: React.FC = () => {
   const { cacheUser } = useUserCache();
   const { t } = useTranslation('common');
 
-  // Fetch users/games/items with debounce when query or token changes
+  
   useEffect(() => {
     if (!query) {
       setUsers([]);
@@ -87,10 +80,10 @@ const SearchPage: React.FC = () => {
       })
         .then(res => res.json())
         .then(async data => {
-          // On met en cache les users reçus
+          
           if (Array.isArray(data.users)) {
             for (const u of data.users) {
-              await cacheUser(u); // met en cache si pas déjà
+              await cacheUser(u); 
             }
           }
           setUsers(Array.isArray(data.users) ? data.users : []);
@@ -102,7 +95,7 @@ const SearchPage: React.FC = () => {
           setGames([]);
           setItems([]);
         });
-    }, 400); // 400ms debounce
+    }, 400); 
 
     return () => {
       clearTimeout(debounceTimeout);
@@ -116,7 +109,7 @@ const SearchPage: React.FC = () => {
   const [buyError, setBuyError] = useState<string | null>(null);
   const [buySuccess, setBuySuccess] = useState<string | null>(null);
 
-  // Buy handler
+  
   const handleBuy = (item: Item) => {
     setSelectedItem(item);
     setBuyModalOpen(true);
@@ -159,7 +152,7 @@ const SearchPage: React.FC = () => {
     );
   }
 
-  // ItemBuyModal: Modal for buying an item from search
+  
   function ItemBuyModal({ open, onClose, onBuy, item }: { open: boolean; onClose: () => void; onBuy: (amount: number) => void; item: Item | null }) {
     const [amount, setAmount] = useState(1);
     useEffect(() => {
@@ -218,7 +211,7 @@ const SearchPage: React.FC = () => {
           <Trans i18nKey='search.resultsFor' values={{ query }} components={{ strong: <strong /> }} />
         </h1>
       </div>
-      {/* Section Users */}
+      
       {users.length > 0 && (
         <div className='glass-content-card mb-8'>
           <h2 className='text-2xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
@@ -246,7 +239,7 @@ const SearchPage: React.FC = () => {
           </div>
         </div>
       )}
-      {/* Section Games */}
+      
       {games.length > 0 && (
         <div className='glass-content-card mb-8'>
           <h2 className='text-2xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
@@ -301,7 +294,7 @@ const SearchPage: React.FC = () => {
           </div>
         </div>
       )}
-      {/* Section Items */}
+      
       {items.length > 0 && (
         <div className='glass-content-card mb-8'>
           <h2 className='text-2xl font-bold mb-6' style={{ color: 'var(--glass-text)' }}>
@@ -360,9 +353,9 @@ const SearchPage: React.FC = () => {
           </div>
         </div>
       )}
-      {/* Item Buy Modal */}
+      
       <ItemBuyModal open={buyModalOpen} onClose={() => setBuyModalOpen(false)} onBuy={handleBuySubmit} item={selectedItem} />
-      {/* Buy feedback overlays */}
+      
       {buyLoading && (
         <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50'>
           <div className='glass-card rounded-xl p-6 max-w-md w-full text-center'>
@@ -397,3 +390,5 @@ const SearchPage: React.FC = () => {
 };
 
 export default SearchPage;
+
+

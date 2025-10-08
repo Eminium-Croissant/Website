@@ -5,18 +5,17 @@ import '../styles/atom-one-dark.min.css';
 import '../styles/globals.css';
 import '../styles/rarity.css';
 
-import type { AppProps } from 'next/app';
-import Footer from '../components/common/Footer';
-import MetaLinks from '../components/common/MetaLinks';
-import ImagePreloader from '../components/utils/ImagePreloader';
-
 import { appWithTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import type { AppProps } from 'next/app';
 import { useEffect, useState } from 'react';
+import Footer from '../components/common/Footer';
+import MetaLinks from '../components/common/MetaLinks';
 import { getMetaLinksProps } from '../components/common/metaLinks.server';
 import NavBarDesktop from '../components/common/NavBarDesktop';
 import NavBarMobile from '../components/common/NavBarMobile';
 import OgGameMetaLinks from '../components/common/OgGameMetaLinks';
+import ImagePreloader from '../components/utils/ImagePreloader';
 import { AuthProvider } from '../hooks/AuthContext';
 import { ImageCacheProvider } from '../hooks/ImageCacheContext';
 import { LobbyProvider } from '../hooks/LobbyContext';
@@ -84,7 +83,6 @@ function AppContent({ Component, pageProps }: AppProps) {
   const [isLauncher, setIsLauncher] = useState(false);
   const [mainStyle, setMainStyle] = useState('');
 
-  
   useEffect(() => {
     setMainStyle(window.location.href.includes('/oauth2/auth') ? 'flex justify-center items-center p-0 m-auto h-[calc(100vh-30px)] top-0 left-0 right-0 bottom-0 fixed' : '');
     const setAppHeight = () => document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);

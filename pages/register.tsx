@@ -12,7 +12,7 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-// Style constants
+
 const containerStyle: React.CSSProperties = {
   maxWidth: 400,
   margin: '60px auto',
@@ -134,8 +134,8 @@ export default function Register() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Registration failed');
 
-      // Option: set token in context or reload page to trigger useAuth
-      document.cookie = `token=${data.token}; path=/; max-age=31536000`; // 1 year
+      
+      document.cookie = `token=${data.token}; path=/; max-age=31536000`; 
       location.href = '/';
     } catch (e: any) {
       setRegisterError(e.message);
@@ -244,7 +244,7 @@ export default function Register() {
         {registerError && <div style={{ color: '#ff5252', marginTop: 12 }}>{registerError === 'All fields are required.' ? t('register.error.allFields') : registerError === 'Passwords do not match.' ? t('register.error.passwords') : registerError === 'Registration failed' ? t('register.error.failed') : registerError}</div>}
         {registerSuccess && <div style={{ color: '#4caf50', marginTop: 12 }}>{t('register.success')}</div>}
       </form>
-      {/* Link below form */}
+      
       <div
         style={{
           width: '260px',
@@ -260,7 +260,7 @@ export default function Register() {
           </Link>
         </span>
       </div>
-      {/* Separator */}
+      
       <div
         style={{
           width: '260px',
@@ -274,7 +274,7 @@ export default function Register() {
         <span style={{ color: '#888', fontSize: 14 }}>{t('register.or')}</span>
         <div style={{ flex: 1, height: 1, background: '#444' }} />
       </div>
-      {/* OAuth buttons */}
+      
       <button style={discordBtnStyle} onClick={handleDiscord}>
         <span className='fab fa-discord' style={discordIconStyle} aria-hidden='true' />
         {t('register.signUpWithDiscord')}
@@ -296,3 +296,5 @@ export default function Register() {
     </div>
   );
 }
+
+

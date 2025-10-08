@@ -69,7 +69,7 @@ function useMarketplaceLogic() {
       });
       setSellerNames(prev => ({ ...prev, ...newNames }));
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [listings]);
 
   const handleBuy = async (listing: EnrichedMarketListing) => {
@@ -89,7 +89,7 @@ function useMarketplaceLogic() {
     }
   };
 
-  // Buy order modal logic
+  
   const [buyOrderItemId, setBuyOrderItemId] = useState('');
   const [buyOrderPrice, setBuyOrderPrice] = useState(1);
   const [placingOrder, setPlacingOrder] = useState(false);
@@ -502,3 +502,5 @@ export default function MarketplacePage() {
   const logic = useMarketplaceLogic();
   return isMobile ? <MarketplaceMobile {...logic} /> : <MarketplaceDesktop {...logic} />;
 }
+
+
