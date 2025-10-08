@@ -5,6 +5,7 @@ export class DiscordRpcManager {
   activity: any;
   lobby: any;
   isReady: boolean;
+  previousActivity: any;
   constructor(ws: WebSocket) {
     this.activity = {
       details: 'Ready to play',
@@ -15,12 +16,14 @@ export class DiscordRpcManager {
       smallImageText: 'Ready to play',
       instance: true,
     };
+    this.previousActivity = null;
     this.lobby = null;
     this.isReady = false;
     this.ws = ws;
 
     setInterval(() => {
-      if (ws.readyState === WebSocket.OPEN) {
+      if (ws.readyState === WebSocket.OPEN && JSON.stringify(this.activity) !== JSON.stringify(this.previousActivity)) {
+        this.previousActivity = { ...this.activity };
         ws.send(JSON.stringify({ action: 'setActivity', activity: this.activity }));
       }
     }, 3000);
@@ -65,3 +68,5 @@ export class DiscordRpcManager {
     }
   }
 }
+
+

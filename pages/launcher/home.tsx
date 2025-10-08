@@ -10,10 +10,12 @@ import { DiscordRpcManager } from '../../components/discordRpcManager';
 import CachedImage from '../../components/utils/CachedImage';
 import { useLobby } from '../../hooks/LobbyContext';
 import useAuth from '../../hooks/useAuth';
+import { useDiscordActivity } from '../../hooks/useDiscordActivity';
+import { useGames } from '../../hooks/useGames';
 import useUserCache from '../../hooks/useUserCache';
 import Login from '../../pages/login';
 
-const myUrl = 'http://localhost:3333'; // Replace with your actual URL
+const myUrl = 'http://localhost:3333';
 let discordRpcManager: DiscordRpcManager;
 
 type Game = {
@@ -26,7 +28,7 @@ type Game = {
   owner_id?: string;
   showInStore?: boolean | number;
   image?: string;
-  state?: 'installed' | 'not_installed' | 'playing' | 'to_update' | 'installing';
+  state?: 'installed' | 'not_installed' | 'playing' | 'to_update' | 'installing' | 'updating';
   download_link?: string;
   bannerHash?: string;
   iconHash?: string;
@@ -44,11 +46,11 @@ type Game = {
 
 let ws: WebSocket;
 try {
-  ws = new WebSocket('ws://localhost:8081'); // Adjust if needed
-  ws.onerror = () => {};
+  ws = new WebSocket('ws://localhost:8081');
+  ws.onerror = () => { };
   discordRpcManager = new DiscordRpcManager(ws);
 } catch {
-  // Do nothing if connection fails
+
 }
 
 const ENDPOINT = '/api';
@@ -57,12 +59,11 @@ export function LobbyManager() {
   const [loading, setLoading] = useState(true);
   const { setLobby } = useLobby();
 
-  const pollingInterval = useRef<number>(2000); // ms
+  const pollingInterval = useRef<number>(2000);
   const pollingTimer = useRef<NodeJS.Timeout | null>(null);
   const lastLobbyUsers = useRef<string>('');
   const pageVisible = useRef<boolean>(true);
 
-  // Polling adaptatif : si la liste des users change, on réduit l'intervalle, sinon on l'augmente
   const fetchLobby = useCallback(async (showLoading = true) => {
     if (showLoading) setLoading(true);
     try {
@@ -75,9 +76,9 @@ export function LobbyManager() {
           .sort()
           .join(',');
         if (lastLobbyUsers.current !== usersString) {
-          pollingInterval.current = 2000; // 2s si changement
+          pollingInterval.current = 2000;
         } else {
-          pollingInterval.current = Math.min(pollingInterval.current + 1000, 10000); // max 10s
+          pollingInterval.current = Math.min(pollingInterval.current + 1000, 10000);
         }
         lastLobbyUsers.current = usersString;
         setLobby({ lobbyId: data.lobbyId, users });
@@ -96,7 +97,6 @@ export function LobbyManager() {
     }
   }, []);
 
-  // Gestion de la visibilité de l'onglet
   useEffect(() => {
     const handleVisibility = () => {
       pageVisible.current = true;
@@ -110,13 +110,12 @@ export function LobbyManager() {
     return () => document.removeEventListener('visibilitychange', handleVisibility);
   }, []);
 
-  // Fonction pour démarrer le polling
   const startPolling = useCallback(() => {
     if (pollingTimer.current) return;
     const poll = async () => {
-      // if (!pageVisible.current) return;
+
       try {
-        // On ne montre pas le loading spinner à chaque tick
+
         await fetchLobby(false);
       } finally {
         pollingTimer.current = setTimeout(poll, pollingInterval.current);
@@ -125,7 +124,6 @@ export function LobbyManager() {
     pollingTimer.current = setTimeout(poll, pollingInterval.current);
   }, [fetchLobby]);
 
-  // Fonction pour arrêter le polling
   const stopPolling = useCallback(() => {
     if (pollingTimer.current) {
       clearTimeout(pollingTimer.current);
@@ -133,12 +131,11 @@ export function LobbyManager() {
     }
   }, []);
 
-  // Démarre le polling au montage
   useEffect(() => {
-    fetchLobby(); // premier chargement
+    fetchLobby();
     startPolling();
     return () => stopPolling();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   return <></>;
@@ -149,8 +146,8 @@ const Library: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation('common');
 
-  const [games, setGames] = useState<Game[]>([]);
-  const [selected, setSelected] = useState<Game | null>(null);
+  const { games, setGames, selected, setSelected, updateGameState, getGame, selectGame } = useGames();
+  const { setActivity, createLobby, clearLobby, updateState } = useDiscordActivity(ws);
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -177,12 +174,7 @@ const Library: React.FC = () => {
 
   useEffect(() => {
     if (user && user.id) {
-      ws.send(
-        JSON.stringify({
-          action: 'updateState',
-          state: user.username,
-        })
-      );
+      updateState(user.username);
     }
   }, [user]);
 
@@ -234,6 +226,7 @@ const Library: React.FC = () => {
     ws.onmessage = event => {
       try {
         const message = JSON.parse(event.data);
+        console.log('Received message:', message);
         if (message.action === 'joinLobby') {
           const xhr = new XMLHttpRequest();
           xhr.open('POST', `/api/lobbies/${message.lobbyId}/join`, true);
@@ -248,66 +241,40 @@ const Library: React.FC = () => {
         if (message.action === 'downloadProgress' && message.gameId === selected?.gameId) {
           setDownloadPercent(message.percent);
         }
-        if (message.action === 'downloadComplete' || message.action === 'alreadyInstalled') {
-          setDownloadPercent(0); // Reset progress
-          setGames(prevGames => {
-            const updatedGames = prevGames.map(game => (game.gameId === message.gameId ? { ...game, state: 'installed' as Game['state'] } : game));
-            if (selected && selected.gameId === message.gameId) {
-              const updatedSelected = updatedGames.find(g => g.gameId === selected.gameId);
-              if (updatedSelected) setSelected(updatedSelected);
-            }
-            return updatedGames;
-          });
+        if (message.action === 'updateProgress' && message.gameId === selected?.gameId) {
+          setDownloadPercent(message.percent);
+        }
+        if (message.action === 'downloadComplete' || message.action === 'alreadyInstalled' || message.action === 'downloadedGame') {
+          setDownloadPercent(0);
+          updateGameState(message.gameId, 'installed');
         }
         if (message.action === 'status') {
-          setGames(prevGames =>
-            prevGames.map(game =>
-              game.gameId === message.gameId
-                ? {
-                    ...game,
-                    state: message.status === 'installed' || message.status === 'not_installed' || message.status === 'playing' || message.status === 'to_update' ? (message.status as Game['state']) : game.state,
-                  }
-                : game
-            )
-          );
-          if (selected && selected.gameId === message.gameId) {
-            setSelected({
-              ...selected,
-              state: message.status === 'installed' || message.status === 'not_installed' || message.status === 'playing' || message.status === 'to_update' ? (message.status as Game['state']) : selected.state,
-            });
-          }
+          updateGameState(message.gameId, message.status === 'installed' || message.status === 'not_installed' || message.status === 'playing' || message.status === 'to_update' ? (message.status as Game['state']) : undefined);
         }
         if (message.action === 'updateComplete') {
-          setGames(prevGames => prevGames.map(game => (game.gameId === message.gameId ? { ...game, state: 'installed' } : game)));
-          if (selected && selected.gameId === message.gameId) {
-            setSelected({ ...selected, state: 'installed' });
-          }
+          setDownloadPercent(0);
+          updateGameState(message.gameId, 'installed');
+        }
+        if (message.action === 'alreadyUpToDate') {
+          setDownloadPercent(0);
+          updateGameState(message.gameId, 'installed');
         }
         if (message.action === 'closeGame' || message.action === 'closed') {
-          setGames(prevGames => prevGames.map(game => (game.gameId === message.gameId ? { ...game, state: 'installed' } : game)));
-          if (selected && selected.gameId === message.gameId) {
-            setSelected({ ...selected, state: 'installed' });
-          }
+          updateGameState(message.gameId, 'installed');
           clearGameActivity();
           setIsPlaying(false);
         }
         if (message.action === 'playing') {
-          setGames(prevGames => prevGames.map(game => (game.gameId === message.gameId ? { ...game, state: 'playing' } : game)));
-          if (selected && selected.gameId === message.gameId) {
-            setSelected({ ...selected, state: 'playing' });
-          }
+          updateGameState(message.gameId, 'playing');
           setIsPlaying(true);
         }
         if (message.action === 'deleteComplete') {
-          setGames(prevGames => prevGames.map(game => (game.gameId === message.gameId ? { ...game, state: 'not_installed' } : game)));
-          if (selected && selected.gameId === message.gameId) {
-            setSelected({ ...selected, state: 'not_installed' });
-          }
+          updateGameState(message.gameId, 'not_installed');
         }
         if (message.action === 'notFound' && message.gameId) {
           setError(`Game ${message.gameId} not found for deletion.`);
         }
-      } catch (e) {}
+      } catch (e) { }
     };
     return () => {
       ws.onmessage = null;
@@ -326,7 +293,7 @@ const Library: React.FC = () => {
   }, [selected, getUserFromCache]);
 
   function setPlayingGame(game) {
-    discordRpcManager.setActivity({
+    setActivity({
       details: `Playing ${game.name}`,
       largeImageKey: 'game_icon',
       largeImageText: `Playing ${game.name}`,
@@ -336,7 +303,7 @@ const Library: React.FC = () => {
   }
 
   function clearGameActivity() {
-    discordRpcManager.setActivity({
+    setActivity({
       details: 'Ready to play',
       state: 'In launcher',
       largeImageKey: 'launcher_icon',
@@ -348,10 +315,8 @@ const Library: React.FC = () => {
 
   const handleInstall = () => {
     if (selected && selected.state === 'not_installed') {
-      setDownloadPercent(0); // Reset progress
-      // Met à jour l'état local en "installing"
-      setGames(prevGames => prevGames.map(game => (game.gameId === selected.gameId ? { ...game, state: 'installing' } : game)));
-      setSelected({ ...selected, state: 'installing' });
+      setDownloadPercent(0);
+      updateGameState(selected.gameId, 'installing');
       ws.send(
         JSON.stringify({
           action: 'downloadGame',
@@ -380,7 +345,12 @@ const Library: React.FC = () => {
 
   const handleUpdate = () => {
     if (selected && selected.state === 'to_update') {
-      ws.send(JSON.stringify({ action: 'updateGame', gameId: selected.gameId }));
+      setDownloadPercent(0);
+      updateGameState(selected.gameId, 'updating');
+      ws.send(JSON.stringify({
+        action: 'updateGame', gameId: selected.gameId,
+        token,
+      }));
     }
   };
 
@@ -391,14 +361,13 @@ const Library: React.FC = () => {
   };
 
   const handleSelect = (game: Game) => {
-    setSelected(game);
+    selectGame(game);
     setIsPlaying(game.state === 'playing');
     localStorage.setItem('lastSelectedGameId', game.gameId);
   };
 
   const filteredGames = games.filter(game => game.name.toLowerCase().includes(search.toLowerCase()));
 
-  // User search for transfer
   const handleTransferUserSearch = async (query: string) => {
     if (!query || query.length < 2) {
       setTransferUserResults([]);
@@ -441,7 +410,6 @@ const Library: React.FC = () => {
         throw new Error(errorData.message || 'Transfer failed');
       }
 
-      // Supprimer le jeu de la liste locale
       setGames(prevGames => prevGames.filter(g => g.gameId !== selected.gameId));
       setSelected(null);
       setShowTransferModal(false);
@@ -450,7 +418,6 @@ const Library: React.FC = () => {
       setTransferUserResults([]);
       setTransferUserDropdownOpen(false);
 
-      // Optionnel: afficher un message de succès
       alert('Game transferred successfully!');
     } catch (error) {
       setTransferError(error instanceof Error ? error.message : 'Transfer failed');
@@ -467,8 +434,6 @@ const Library: React.FC = () => {
     setTransferUserDropdownOpen(false);
     setTransferError(null);
   };
-
-  // Determines if the transfer option should be shown for the selected game
 
   if (loading || error) {
     return (
@@ -535,6 +500,7 @@ const Library: React.FC = () => {
                         {game.state === 'to_update' && t('launcher.update')}
                         {game.state === 'playing' && t('launcher.play')}
                         {game.state === 'installing' && t('launcher.install')}
+                        {game.state === 'updating' && t('launcher.update')}
                       </div>
                     </div>
                   </div>
@@ -610,6 +576,16 @@ const Library: React.FC = () => {
                       </div>
                     </div>
                   )}
+                  {selected.state === 'updating' && (
+                    <div className='w-full'>
+                      <button className='glass-button w-full' disabled>
+                        Mise à jour... {downloadPercent > 0 ? `${downloadPercent}%` : ''}
+                      </button>
+                      <div className='w-full h-2 bg-glass-border rounded-full mt-2 overflow-hidden'>
+                        <div className='h-full bg-neon-green transition-all duration-300' style={{ width: `${downloadPercent}%` }} />
+                      </div>
+                    </div>
+                  )}
                   {selected.state === 'to_update' && (
                     <button className='glass-button-neon' onClick={handleUpdate}>
                       {t('launcher.update')}
@@ -630,9 +606,11 @@ const Library: React.FC = () => {
                       {t('launcher.play')}
                     </button>
                   )}
-                  <button className='glass-button' onClick={() => setShowTransferModal(true)} disabled={isPlaying}>
-                    {t('launcher.transfer')}
-                  </button>
+                  {selected.state !== 'installing' && selected.state !== 'updating' && (
+                    <button className='glass-button' onClick={() => setShowTransferModal(true)} disabled={isPlaying}>
+                      {t('launcher.transfer')}
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -754,7 +732,7 @@ const ExportedComponent = props => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    // Définit le cookie au montage et aussi lorsque l'utilisateur se connecte (user devient truthy)
+
     if (user || !document.cookie.includes('from=app')) {
       document.cookie = 'from=app; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT';
     }
@@ -798,3 +776,5 @@ function MarkdownDescription({ children }: { children: string }) {
     </div>
   );
 }
+
+

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import Certification from '../../../components/common/Certification';
 import SearchBar from '../../../components/Searchbar';
 import CachedImage from '../../../components/utils/CachedImage';
 import useAuth from '../../../hooks/useAuth';
@@ -11,7 +10,6 @@ const Navbar: React.FC = () => {
 
   if (!token) return null;
 
-  // Bloc crédits + avatar + sélecteur de rôle
   const UserBlock = ({ user }: any) => (
     <div className='inline-flex items-center gap-2 ml-2'>
       <Link href='/buy-credits' className='no-underline'>
@@ -41,7 +39,6 @@ const Navbar: React.FC = () => {
     </div>
   );
 
-  // Menu déroulant des rôles
   const RolesDropdown = ({ user }: any) => (
     <div className='glass-dropdown min-w-[140px] w-[220px] absolute top-full right-0 z-50' onMouseLeave={() => setShow('')}>
       {user?.roles.map((role: any) => {
@@ -69,7 +66,6 @@ const Navbar: React.FC = () => {
             </div>
             <span className='whitespace-nowrap font-medium text-glass-text text-xs'>
               {studio?.me?.username || 'Me'}
-              <Certification user={studio ? { ...studio, isStudio: true } : studio} className='w-3 h-3 ml-1 relative -top-0.5 align-middle' />
             </span>
           </button>
         );
@@ -88,7 +84,7 @@ const Navbar: React.FC = () => {
           top: 0,
           left: 0,
           zIndex: 100,
-          background: '#333', // fond uni gris
+          background: '#333',
         }}>
         <img src='/assets/icons/favicon-32x32.avif' alt='Croissant Icon' className='w-6 h-6 mr-3' />
         <span className='text-white font-bold text-base'>Croissant Launcher</span>
@@ -129,7 +125,7 @@ const Navbar: React.FC = () => {
                 {show === 'manage' && (
                   <div
                     className='absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1'
-                    onMouseLeave={() => setShow('')} // Ajout ici
+                    onMouseLeave={() => setShow('')}
                   >
                     <Link href='/studios' className='block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1'>
                       Studios
@@ -166,3 +162,5 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
+
