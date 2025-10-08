@@ -139,6 +139,9 @@ const Navbar: React.FC = () => {
                     <Link href='/dev-zone/my-games' className='block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1'>
                       My Games
                     </Link>
+                    <Link href='/settings' className='block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1'>
+                      Settings
+                    </Link>
                   </div>
                 )}
               </div>
