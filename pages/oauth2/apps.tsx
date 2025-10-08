@@ -18,7 +18,7 @@ function AppCard({ app, onIframe, onEdit, onDelete, spoilers, toggleSpoiler }) {
   const { t } = useTranslation('common');
   return (
     <div className='bg-[#1c1c24] rounded-xl overflow-hidden flex flex-col border border-[#333] shadow-lg transform transition-transform hover:scale-[1.02] hover:shadow-xl'>
-      {/* En-tête de l'app */}
+      
       <div className='relative h-8 bg-[#18181c]'>
         <div className='absolute inset-0 bg-gradient-to-t from-[#1c1c24] to-transparent opacity-60' />
         <div className='absolute -bottom-8 left-8'>
@@ -28,9 +28,9 @@ function AppCard({ app, onIframe, onEdit, onDelete, spoilers, toggleSpoiler }) {
         </div>
       </div>
 
-      {/* Contenu */}
+      
       <div className='pt-16 px-8 pb-6 flex flex-col gap-6'>
-        {/* Client ID Section */}
+        
         <div className='bg-[#2a2a32] rounded-lg p-4'>
           <div className='flex items-center justify-between mb-2'>
             <span className='text-sm text-gray-400'>{t('oauth2.apps.clientId')}</span>
@@ -41,7 +41,7 @@ function AppCard({ app, onIframe, onEdit, onDelete, spoilers, toggleSpoiler }) {
           <code className='block w-full bg-[#1c1c24] rounded p-2 text-sm font-mono cursor-pointer select-all truncate'>{app.client_id}</code>
         </div>
 
-        {/* Client Secret Section */}
+        
         {app.client_secret && (
           <div className='bg-[#2a2a32] rounded-lg p-4'>
             <div className='flex items-center justify-between mb-2'>
@@ -59,13 +59,13 @@ function AppCard({ app, onIframe, onEdit, onDelete, spoilers, toggleSpoiler }) {
           </div>
         )}
 
-        {/* Redirects Section */}
+        
         <div className='bg-[#2a2a32] rounded-lg p-4'>
           <span className='text-sm text-gray-400 block mb-2'>{t('oauth2.apps.redirectUrls')}</span>
           <div className='text-sm text-white'>{Array.isArray(app.redirect_urls) ? app.redirect_urls.join(', ') : app.redirect_urls}</div>
         </div>
 
-        {/* Actions */}
+        
         <div className='flex flex-col gap-2'>
           <button onClick={() => onIframe(app.client_id)} className='w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors'>
             {t('oauth2.apps.integrationCode')}
@@ -111,7 +111,7 @@ function useOAuth2AppsLogic() {
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editing) {
-      // PATCH
+      
       const res = await fetch(`/api/oauth2/app/${editing}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -129,7 +129,7 @@ function useOAuth2AppsLogic() {
         setShowEditForm(false);
       }
     } else {
-      // POST
+      
       const res = await fetch('/api/oauth2/app', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -227,7 +227,6 @@ function useOAuth2AppsLogic() {
   };
 }
 
-// --- Desktop version ---
 function OAuth2AppsDesktop(props: ReturnType<typeof useOAuth2AppsLogic>) {
   const { t } = useTranslation('common');
   const { apps, name, setName, redirectUrls, setRedirectUrls, iframeCode, setIframeCode, editing, showForm, setShowForm, showEditForm, handleCreate, handleIframe, handleEdit, handleCancelEdit, handleDelete, spoilers, toggleSpoiler, setEditing } = props;
@@ -263,7 +262,6 @@ function OAuth2AppsDesktop(props: ReturnType<typeof useOAuth2AppsLogic>) {
   );
 }
 
-// --- Mobile version ---
 function OAuth2AppsMobile(props: ReturnType<typeof useOAuth2AppsLogic>) {
   const { t } = useTranslation('common');
   const { apps, name, setName, redirectUrls, setRedirectUrls, iframeCode, setIframeCode, editing, showForm, setShowForm, showEditForm, handleCreate, handleIframe, handleEdit, handleCancelEdit, handleDelete, spoilers, toggleSpoiler, setEditing } = props;
@@ -358,9 +356,9 @@ function OAuth2CodeModal({ code, onClose }) {
   );
 }
 
-// --- Main export ---
 export default function OAuth2Apps() {
   const isMobile = useIsMobile();
   const logic = useOAuth2AppsLogic();
   return isMobile ? <OAuth2AppsMobile {...logic} /> : <OAuth2AppsDesktop {...logic} />;
 }
+

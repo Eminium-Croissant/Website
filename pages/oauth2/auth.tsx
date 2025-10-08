@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 
 export async function getServerSideProps({ locale }) {
@@ -73,13 +73,13 @@ export default function OAuth2Auth() {
     }
   };
 
-  // Toujours afficher le squelette, même si params manquants
+  
   const missingParams = !params.client_id || !params.redirect_uri;
 
   return (
     <div className='glass-page-container flex justify-center items-center min-h-screen'>
       <div className="glass-content-card w-full mx-auto mt-0 rounded-[18px] shadow-xl p-7 text-white font-['Segoe_UI',Arial,sans-serif] flex flex-col items-center justify-start relative">
-        {/* App Info Section */}
+        
         <div className='flex items-center gap-[18px] mb-4 w-full justify-center'>
           <img src='/assets/icons/favicon-96x96.avif' alt='App avatar' className='w-14 h-14 rounded-2xl bg-[#333] object-cover shadow-md' />
           <div>
@@ -89,13 +89,13 @@ export default function OAuth2Auth() {
           </div>
         </div>
 
-        {/* Contenu Principal avec espace réservé pour les boutons */}
+        
         <div className='w-full flex-1 flex flex-col min-h-[80px] mb-8'>
-          {/* Error Message */}
+          
           {(error || missingParams) && <div className='text-white bg-red-700 rounded-lg px-[14px] py-[10px] text-[1.01rem] text-center w-full'>{missingParams ? t('oauth2.auth.missingParams') : error}</div>}
         </div>
 
-        {/* Bottom Buttons Section */}
+        
         <div className='w-full flex flex-col items-center gap-3 mb-6'>
           {!authLoading && !user && !missingParams && (
             <button onClick={handleLogin} className='w-full glass-button'>
@@ -109,7 +109,7 @@ export default function OAuth2Auth() {
           )}
         </div>
 
-        {/* Redirect Info */}
+        
         <div className='w-full text-center text-[0.82rem] text-[#888] opacity-85 px-6 break-all select-text'>
           {t('oauth2.auth.redirectUri')} {params.redirect_uri || <span className='text-red-700'>N/A</span>}
         </div>
@@ -117,3 +117,4 @@ export default function OAuth2Auth() {
     </div>
   );
 }
+

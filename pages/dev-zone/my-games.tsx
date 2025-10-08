@@ -6,7 +6,7 @@ import Certification from '../../components/common/Certification';
 import useAuth from '../../hooks/useAuth';
 import useIsMobile from '../../hooks/useIsMobile';
 
-const endpoint = '/api'; // Replace with your actual API endpoint
+const endpoint = '/api'; 
 
 type Game = {
   gameId: string;
@@ -24,7 +24,7 @@ type Game = {
   website?: string;
   trailer_link?: string;
   multiplayer?: boolean;
-  download_link?: string; // <-- Ajouté ici
+  download_link?: string; 
 };
 
 const MyGames = () => {
@@ -45,7 +45,7 @@ const MyGames = () => {
     game: Game;
   } | null>(null);
 
-  const { token } = useAuth(); // Assuming useAuth is imported from your hooks
+  const { token } = useAuth(); 
   useEffect(() => {
     const fetchGames = async () => {
       setLoading(true);
@@ -79,7 +79,7 @@ const MyGames = () => {
       website: game.website || '',
       trailer_link: game.trailer_link || '',
       multiplayer: !!game.multiplayer,
-      download_link: game.download_link || '', // <-- Ajouté ici
+      download_link: game.download_link || '', 
     });
     setIconFile(null);
     setBannerFile(null);
@@ -201,7 +201,7 @@ const MyGames = () => {
       website: formData.website,
       trailer_link: formData.trailer_link,
       multiplayer: formData.multiplayer,
-      download_link: formData.download_link, // <-- Ajouté ici
+      download_link: formData.download_link, 
     };
 
     try {
@@ -242,7 +242,7 @@ const MyGames = () => {
   const [ownershipLoading, setOwnershipLoading] = useState(false);
   const ownershipUserInputRef = React.useRef<HTMLInputElement>(null);
 
-  // User search for ownership transfer
+  
   const handleOwnershipUserSearch = async (q: string) => {
     if (!q || q.length < 2) {
       setOwnershipUserResults([]);
@@ -258,7 +258,7 @@ const MyGames = () => {
     }
   };
 
-  // Handle ownership transfer button click
+  
   const handleOwnershipTransfer = (game: Game) => {
     setOwnershipGame(game);
     setShowOwnershipModal(true);
@@ -268,7 +268,7 @@ const MyGames = () => {
     setOwnershipError(null);
   };
 
-  // Confirm ownership transfer
+  
   const handleConfirmOwnershipTransfer = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!ownershipGame || !ownershipUserId) {
@@ -295,7 +295,7 @@ const MyGames = () => {
         setOwnershipUserSearch('');
         setOwnershipUserResults([]);
         setOwnershipError(null);
-        // Optionally refresh games
+        
         setGames(prev => prev);
       }
     } catch (err) {
@@ -341,11 +341,11 @@ const MyGames = () => {
                   draggable={false}
                   onMouseEnter={e => {
                     const rect = (e.target as HTMLElement).getBoundingClientRect();
-                    // setTooltip({
-                    //   x: rect.right + 8,
-                    //   y: rect.top,
-                    //   game,
-                    // });
+                    
+                    
+                    
+                    
+                    
                   }}
                   onMouseLeave={() => setTooltip(null)}
                   onClick={() => handleEdit(game)}>
@@ -440,7 +440,7 @@ const MyGames = () => {
           </>
         )}
       </div>
-      {/* Place le modal ici, en dehors du container */}
+      
       {editingId && (
         <div className='mygames-modal-overlay'>
           <form
@@ -694,3 +694,4 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
+
