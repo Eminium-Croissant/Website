@@ -1,5 +1,5 @@
-import SwaggerUI from "swagger-ui-react";
-import "swagger-ui-react/swagger-ui.css";
+import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
 
 export default function SwaggerPage() {
   return (
@@ -27,10 +27,9 @@ export default function SwaggerPage() {
         }
       `}
       </style>
-      <div style={{ height: "100vh", background: "none", color: "#fff", marginBottom: "50px" }}>
-        <SwaggerUI url="/croissant_swagger.json" deepLinking={true} style={{ marginBottom: "50px" }} />
+      <div style={{ height: '100vh', background: 'none', color: '#fff', marginBottom: '50px' }}>
+        <SwaggerUI url='/croissant_swagger.json' deepLinking={true} style={{ marginBottom: '50px' }} />
       </div>
     </>
   );
 }
-

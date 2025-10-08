@@ -749,4 +749,3 @@ export default function Home() {
 
   return isMobile ? <HomeMobile /> : <HomeDesktop />;
 }
-

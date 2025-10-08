@@ -9,13 +9,7 @@ interface ImageCacheProps {
   cacheKey?: string;
 }
 
-export default function ImageCache({ 
-  src, 
-  alt, 
-  className = '', 
-  fallback = '/assets/default-avatar.avif',
-  cacheKey 
-}: ImageCacheProps) {
+export default function ImageCache({ src, alt, className = '', fallback = '/assets/default-avatar.avif', cacheKey }: ImageCacheProps) {
   const [imageSrc, setImageSrc] = useState<string>(fallback);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -24,7 +18,6 @@ export default function ImageCache({
   const key = cacheKey || `image_${src}`;
 
   useEffect(() => {
-    
     const cachedImage = cache.getCacheData(key);
     if (cachedImage) {
       setImageSrc(cachedImage);
@@ -32,32 +25,30 @@ export default function ImageCache({
       return;
     }
 
-    
     const img = new Image();
-    
+
     img.onload = () => {
-      
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
-      
+
       if (ctx) {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
-        
+
         try {
           const base64 = canvas.toDataURL('image/webp', 0.8);
-          
+
           cache.setCacheData(key, base64, 86400000);
           setImageSrc(base64);
         } catch (error) {
-          console.error('Erreur lors de la conversion de l\'image:', error);
+          console.error("Erreur lors de la conversion de l'image:", error);
           setImageSrc(src);
         }
       } else {
         setImageSrc(src);
       }
-      
+
       setLoading(false);
     };
 
@@ -73,8 +64,8 @@ export default function ImageCache({
   if (loading) {
     return (
       <div className={`${className} bg-glass-accent animate-pulse rounded`}>
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="w-4 h-4 border-2 border-glass-border border-t-neon-blue rounded-full animate-spin"></div>
+        <div className='w-full h-full flex items-center justify-center'>
+          <div className='w-4 h-4 border-2 border-glass-border border-t-neon-blue rounded-full animate-spin'></div>
         </div>
       </div>
     );
@@ -94,5 +85,3 @@ export default function ImageCache({
     />
   );
 }
-
-

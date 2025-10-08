@@ -1,11 +1,11 @@
-import jwt from "jsonwebtoken";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import useUserCache from "./useUserCache";
+import jwt from 'jsonwebtoken';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import useUserCache from './useUserCache';
 
 export function getToken() {
-  if (typeof document === "undefined") return null;
+  if (typeof document === 'undefined') return null;
   const match = document.cookie.match(/(?:^|;\s*)token=([^;]*)/);
-  return match ? match[1] : localStorage.getItem("token") || null;
+  return match ? match[1] : localStorage.getItem('token') || null;
 }
 
 interface AuthContextType {
@@ -21,14 +21,12 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 function getBalanceFromCookie() {
-  if (typeof document === "undefined") return null;
+  if (typeof document === 'undefined') return null;
   const match = document.cookie.match(/(?:^|;\s*)balance=([^;]*)/);
   return match ? parseFloat(match[1]) : null;
 }
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [token, setTokenState] = useState<string | null>(getToken());
@@ -40,7 +38,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const token = getToken();
     try {
       const decodedToken = jwt.decode(token);
-      if (decodedToken && typeof decodedToken === "object" && decodedToken.user_id) {
+      if (decodedToken && typeof decodedToken === 'object' && decodedToken.user_id) {
         setApiKey(decodedToken.apiKey || null);
         setUser({
           id: decodedToken.user_id,
@@ -54,18 +52,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return;
       }
     } catch (error) {
-      console.error("Invalid token:", error);
+      console.error('Invalid token:', error);
       setUser(null);
       setLoading(false);
       return;
     }
-    fetch("/api/users/@me", {
+    fetch('/api/users/@me', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      credentials: "include", 
+      credentials: 'include',
     })
-      .then(async (res) => {
+      .then(async res => {
         if (res.status === 200) {
           const user = await res.json();
           setUser(user);
@@ -75,10 +73,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             document.cookie = `balance=${user.balance}; path=/;`;
           }
         } else if (res.status === 401) {
-          document.cookie =
-            "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          document.cookie =
-            "balance=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          document.cookie = 'balance=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
           setUser(null);
           setTokenState(null);
           setBalance(null);
@@ -87,26 +83,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       .finally(() => setLoading(false));
   }, []);
 
-  
   useEffect(() => {
     if (balance !== null && !isNaN(balance)) {
       document.cookie = `balance=${balance}; path=/;`;
     }
   }, [balance]);
 
-  return (
-    <AuthContext.Provider
-      value={{ user, loading, setUser, token, apiKey, balance, setBalance }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, loading, setUser, token, apiKey, balance, setBalance }}>{children}</AuthContext.Provider>;
 };
 
 export function useAuthContext() {
   const context = useContext(AuthContext);
-  if (!context)
-    throw new Error("useAuthContext must be used within an AuthProvider");
+  if (!context) throw new Error('useAuthContext must be used within an AuthProvider');
   return context;
 }
-

@@ -12,6 +12,7 @@
     "eject": "react-scripts eject",
     "serve": "nodemon .\\dist\\server\\serve.js",
     "publish": "git add . && git commit -m \"update\" && git push",
+    "pretty": "npx prettier --write --config .\\prettier.json .\\pages .\\components .\\hooks .\\styles .\\next.config.js .\\package.json .\\tsconfig.json .\\postcss.config.js .\\tailwind.config.js",
     "build-serve": "npm run build && npm run serve"
   },
   "dependencies": {

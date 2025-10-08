@@ -1,234 +1,230 @@
-@media (min-width:768px) {
-    .api-docs-container {
-        flex-direction: row
-    }
+@media (min-width: 768px) {
+  .api-docs-container {
+    flex-direction: row;
+  }
 
-    .api-docs-sidebar {
-        max-width: 300px;
-        width: 300px
-    }
+  .api-docs-sidebar {
+    max-width: 300px;
+    width: 300px;
+  }
 }
 
-@media (max-width:900px) {
-    .trade-panel {
-        min-width: 0;
-        max-width: 98vw;
-        flex-direction: column;
-        padding: 18px 2vw
-    }
+@media (max-width: 900px) {
+  .trade-panel {
+    min-width: 0;
+    max-width: 98vw;
+    flex-direction: column;
+    padding: 18px 2vw;
+  }
 
-    .trade-panel .trade-inventory-grid {
-        max-height: 40vh
-    }
+  .trade-panel .trade-inventory-grid {
+    max-height: 40vh;
+  }
 }
 
-@media (max-width:600px) {
-    .trade-panel {
-        min-width: 0;
-        padding: 14px 3vw
-    }
+@media (max-width: 600px) {
+  .trade-panel {
+    min-width: 0;
+    padding: 14px 3vw;
+  }
 
-    .trade-panel .trade-inventory-item {
-        width: 62px;
-        min-height: 72px;
-        padding: 7px 2px 6px
-    }
+  .trade-panel .trade-inventory-item {
+    width: 62px;
+    min-height: 72px;
+    padding: 7px 2px 6px;
+  }
 
-    .trade-panel .trade-inventory-item img {
-        width: 32px;
-        height: 32px
-    }
+  .trade-panel .trade-inventory-item img {
+    width: 32px;
+    height: 32px;
+  }
 
-    .inventory-grid {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 6px !important
-    }
+  .inventory-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 6px !important;
+  }
 
-    .inventory-item,
-    .inventory-item-empty {
-        min-width: 0;
-        min-height: 54px;
-        height: 54px;
-        max-width: 100%;
-        padding: 2px
-    }
+  .inventory-item,
+  .inventory-item-empty {
+    min-width: 0;
+    min-height: 54px;
+    height: 54px;
+    max-width: 100%;
+    padding: 2px;
+  }
 
-    .inventory-item-img {
-        
-        position: relative !important;
-        top: 7px !important;
-    }
+  .inventory-item-img {
+    position: relative !important;
+    top: 7px !important;
+  }
 
-    .inventory-item-qty {
-        font-size: .85em
-    }
+  .inventory-item-qty {
+    font-size: 0.85em;
+  }
 
-    .profile-shop-section .inventory-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 8px !important
-    }
+  .profile-shop-section .inventory-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
 
-    .profile-shop-section .inventory-item,
-    .profile-shop-section .inventory-item-empty {
-        min-height: 60px;
-        height: 60px
-    }
+  .profile-shop-section .inventory-item,
+  .profile-shop-section .inventory-item-empty {
+    min-height: 60px;
+    height: 60px;
+  }
 }
 
-@media (max-width:400px) {
-    .inventory-grid {
-        grid-template-columns: repeat(2, 1fr) !important
-    }
+@media (max-width: 400px) {
+  .inventory-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
 
-    .profile-shop-section .inventory-grid {
-        grid-template-columns: repeat(4, 1fr) !important
-    }
+  .profile-shop-section .inventory-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
 }
 
-@media screen and (max-width:768px) {
-    .links-group {
-        flex-direction: column;
-        gap: 10px;
-        font-size: 1rem
-    }
+@media screen and (max-width: 768px) {
+  .links-group {
+    flex-direction: column;
+    gap: 10px;
+    font-size: 1rem;
+  }
 
-    main {
-        padding: 10px 10px 80px
-    }
+  main {
+    padding: 10px 10px 80px;
+  }
 
-    .api-doc {
-        padding: 15px
-    }
+  .api-doc {
+    padding: 15px;
+  }
 
-    .endpoint-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px
-    }
+  .endpoint-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 
-    pre {
-        font-size: .9rem
-    }
+  pre {
+    font-size: 0.9rem;
+  }
 }
 
-@media screen and (max-width:480px) {
+@media screen and (max-width: 480px) {
+  footer,
+  header {
+    padding: 15px;
+  }
 
-    footer,
-    header {
-        padding: 15px
-    }
+  .description,
+  button,
+  footer,
+  input[type='email'],
+  input[type='text'],
+  textarea {
+    font-size: 0.9rem;
+  }
 
-    .description,
-    button,
-    footer,
-    input[type=email],
-    input[type=text],
-    textarea {
-        font-size: .9rem
-    }
+  .indent {
+    margin-left: 10px;
+  }
 
-    .indent {
-        margin-left: 10px
-    }
-
-    .method {
-        font-size: 12px
-    }
+  .method {
+    font-size: 12px;
+  }
 }
 
-@media screen and (min-width:1200px) {
-    .container {
-        max-width: 1140px;
-        margin: 0 auto
-    }
+@media screen and (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+    margin: 0 auto;
+  }
 
-    .api-doc {
-        padding: 30px
-    }
+  .api-doc {
+    padding: 30px;
+  }
 
-    pre {
-        font-size: 1.1rem
-    }
+  pre {
+    font-size: 1.1rem;
+  }
 }
 
-@media (max-width:700px) {
-    .main-details-steam {
-        max-width: 100vw
-    }
+@media (max-width: 700px) {
+  .main-details-steam {
+    max-width: 100vw;
+  }
 
-    .main-details-content {
-        padding: 56px 12px 24px
-    }
+  .main-details-content {
+    padding: 56px 12px 24px;
+  }
 
-    .main-icon-steam {
-        left: 12px;
-        width: 72px;
-        height: 72px
-    }
+  .main-icon-steam {
+    left: 12px;
+    width: 72px;
+    height: 72px;
+  }
 
-    .banner-container,
-    .main-banner-steam {
-        height: 120px
-    }
+  .banner-container,
+  .main-banner-steam {
+    height: 120px;
+  }
 }
 
-@media (max-width:800px) {
-    .search-users-grid {
-        grid-template-columns: repeat(1, 1fr)
-    }
+@media (max-width: 800px) {
+  .search-users-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
-@media (max-width:1200px) {
-
-    .mygames-grid,
-    .myitems-grid {
-        grid-template-columns: repeat(4, 1fr)
-    }
+@media (max-width: 1200px) {
+  .mygames-grid,
+  .myitems-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
-@media (max-width:900px) {
-    .trade-main-columns>.trade-column {
-        margin: 0
-    }
+@media (max-width: 900px) {
+  .trade-main-columns > .trade-column {
+    margin: 0;
+  }
 
-    .trade-panel {
-        min-width: 0;
-        padding: 10px 2vw
-    }
+  .trade-panel {
+    min-width: 0;
+    padding: 10px 2vw;
+  }
 
-    .trade-main-columns {
-        flex-direction: column;
-        gap: 12px
-    }
+  .trade-main-columns {
+    flex-direction: column;
+    gap: 12px;
+  }
 
-    .trade-column {
-        width: 95%;
-        min-width: 0;
-        padding: 10px 6px
-    }
+  .trade-column {
+    width: 95%;
+    min-width: 0;
+    padding: 10px 6px;
+  }
 
-    .mygames-grid,
-    .myitems-grid {
-        grid-template-columns: repeat(2, 1fr)
-    }
+  .mygames-grid,
+  .myitems-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media (max-width:600px) {
-
-    .mygames-grid,
-    .myitems-grid {
-        grid-template-columns: 1fr
-    }
+@media (max-width: 600px) {
+  .mygames-grid,
+  .myitems-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media screen and (max-width:900px) {
-    .apps-grid {
-        grid-template-columns: repeat(2, 1fr)
-    }
+@media screen and (max-width: 900px) {
+  .apps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media screen and (max-width:600px) {
-    .apps-grid {
-        grid-template-columns: 1fr
-    }
+@media screen and (max-width: 600px) {
+  .apps-grid {
+    grid-template-columns: 1fr;
+  }
 }

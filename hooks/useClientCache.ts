@@ -10,14 +10,11 @@ const ENCRYPTION_KEY = 'croissant-cache-key-2024';
 
 function encrypt(text: string, key: string): string {
   try {
-
     const base64Text = btoa(unescape(encodeURIComponent(text)));
 
     let encrypted = '';
     for (let i = 0; i < base64Text.length; i++) {
-      encrypted += String.fromCharCode(
-        base64Text.charCodeAt(i) ^ key.charCodeAt(i % key.length)
-      );
+      encrypted += String.fromCharCode(base64Text.charCodeAt(i) ^ key.charCodeAt(i % key.length));
     }
     return btoa(encrypted);
   } catch (error) {
@@ -28,14 +25,11 @@ function encrypt(text: string, key: string): string {
 
 function decrypt(encryptedText: string, key: string): string {
   try {
-
     const decrypted = atob(encryptedText);
 
     let text = '';
     for (let i = 0; i < decrypted.length; i++) {
-      text += String.fromCharCode(
-        decrypted.charCodeAt(i) ^ key.charCodeAt(i % key.length)
-      );
+      text += String.fromCharCode(decrypted.charCodeAt(i) ^ key.charCodeAt(i % key.length));
     }
 
     return decodeURIComponent(escape(atob(text)));
@@ -61,18 +55,13 @@ export function useClientCache() {
           const validCache = new Map();
 
           for (const [key, value] of Object.entries(parsedCache)) {
-            if (
-              value &&
-              typeof value === 'object' &&
-              (value as CacheData).expiresAt > now
-            ) {
+            if (value && typeof value === 'object' && (value as CacheData).expiresAt > now) {
               validCache.set(key, value as CacheData);
             }
           }
 
           setCache(validCache);
         } else {
-
           localStorage.removeItem('croissant-cache');
         }
       }
@@ -85,7 +74,6 @@ export function useClientCache() {
 
   const saveCache = useCallback((newCache: Map<string, CacheData>) => {
     try {
-
       if (newCache.size === 0) {
         localStorage.removeItem('croissant-cache');
         return;
@@ -108,59 +96,70 @@ export function useClientCache() {
     }
   }, []);
 
-  const setCacheData = useCallback((key: string, data: any, ttl: number = 3600000) => {
-    const now = Date.now();
-    const cacheData: CacheData = {
-      data,
-      timestamp: now,
-      expiresAt: now + ttl
-    };
+  const setCacheData = useCallback(
+    (key: string, data: any, ttl: number = 3600000) => {
+      const now = Date.now();
+      const cacheData: CacheData = {
+        data,
+        timestamp: now,
+        expiresAt: now + ttl,
+      };
 
-    const newCache = new Map(cache);
-    newCache.set(key, cacheData);
-    setCache(newCache);
-    saveCache(newCache);
-  }, [cache, saveCache]);
+      const newCache = new Map(cache);
+      newCache.set(key, cacheData);
+      setCache(newCache);
+      saveCache(newCache);
+    },
+    [cache, saveCache]
+  );
 
-  const getCacheData = useCallback((key: string) => {
-    const cachedItem = cache.get(key);
-    if (!cachedItem) return null;
+  const getCacheData = useCallback(
+    (key: string) => {
+      const cachedItem = cache.get(key);
+      if (!cachedItem) return null;
 
-    const now = Date.now();
-    if (cachedItem.expiresAt <= now) {
+      const now = Date.now();
+      if (cachedItem.expiresAt <= now) {
+        const newCache = new Map(cache);
+        newCache.delete(key);
+        setCache(newCache);
+        saveCache(newCache);
+        return null;
+      }
 
+      return cachedItem.data;
+    },
+    [cache, saveCache]
+  );
+
+  const hasCacheData = useCallback(
+    (key: string) => {
+      const cachedItem = cache.get(key);
+      if (!cachedItem) return false;
+
+      const now = Date.now();
+      if (cachedItem.expiresAt <= now) {
+        const newCache = new Map(cache);
+        newCache.delete(key);
+        setCache(newCache);
+        saveCache(newCache);
+        return false;
+      }
+
+      return true;
+    },
+    [cache, saveCache]
+  );
+
+  const removeCacheData = useCallback(
+    (key: string) => {
       const newCache = new Map(cache);
       newCache.delete(key);
       setCache(newCache);
       saveCache(newCache);
-      return null;
-    }
-
-    return cachedItem.data;
-  }, [cache, saveCache]);
-
-  const hasCacheData = useCallback((key: string) => {
-    const cachedItem = cache.get(key);
-    if (!cachedItem) return false;
-
-    const now = Date.now();
-    if (cachedItem.expiresAt <= now) {
-      const newCache = new Map(cache);
-      newCache.delete(key);
-      setCache(newCache);
-      saveCache(newCache);
-      return false;
-    }
-
-    return true;
-  }, [cache, saveCache]);
-
-  const removeCacheData = useCallback((key: string) => {
-    const newCache = new Map(cache);
-    newCache.delete(key);
-    setCache(newCache);
-    saveCache(newCache);
-  }, [cache, saveCache]);
+    },
+    [cache, saveCache]
+  );
 
   const clearCache = useCallback(() => {
     setCache(new Map());
@@ -201,7 +200,7 @@ export function useClientCache() {
       totalItems,
       expiredItems,
       totalSize,
-      cacheSize: cache.size
+      cacheSize: cache.size,
     };
   }, [cache]);
 
@@ -212,35 +211,42 @@ export function useClientCache() {
     removeCacheData,
     clearCache,
     cleanExpiredData,
-    getCacheStats
+    getCacheStats,
   };
 }
 
 export function useApiCache() {
   const cache = useClientCache();
 
-  const cacheApiResponse = useCallback((endpoint: string, data: any, ttl: number = 1800000) => {
-    const cacheKey = `api_${endpoint}`;
-    cache.setCacheData(cacheKey, data, ttl);
-  }, [cache]);
+  const cacheApiResponse = useCallback(
+    (endpoint: string, data: any, ttl: number = 1800000) => {
+      const cacheKey = `api_${endpoint}`;
+      cache.setCacheData(cacheKey, data, ttl);
+    },
+    [cache]
+  );
 
-  const getCachedApiResponse = useCallback((endpoint: string) => {
-    const cacheKey = `api_${endpoint}`;
-    return cache.getCacheData(cacheKey);
-  }, [cache]);
+  const getCachedApiResponse = useCallback(
+    (endpoint: string) => {
+      const cacheKey = `api_${endpoint}`;
+      return cache.getCacheData(cacheKey);
+    },
+    [cache]
+  );
 
-  const hasCachedApiResponse = useCallback((endpoint: string) => {
-    const cacheKey = `api_${endpoint}`;
-    return cache.hasCacheData(cacheKey);
-  }, [cache]);
+  const hasCachedApiResponse = useCallback(
+    (endpoint: string) => {
+      const cacheKey = `api_${endpoint}`;
+      return cache.hasCacheData(cacheKey);
+    },
+    [cache]
+  );
 
   return {
     cacheApiResponse,
     getCachedApiResponse,
     hasCachedApiResponse,
     clearCache: cache.clearCache,
-    getCacheStats: cache.getCacheStats
+    getCacheStats: cache.getCacheStats,
   };
 }
-
-

@@ -1,7 +1,5 @@
-import { useUserCacheContext } from "./UserCacheContext";
+import { useUserCacheContext } from './UserCacheContext';
 
 export default function useUserCache() {
-    return useUserCacheContext();
+  return useUserCacheContext();
 }
-
-

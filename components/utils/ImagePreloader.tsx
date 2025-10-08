@@ -4,19 +4,15 @@ import { useImageCache } from '../../hooks/ImageCacheContext';
 interface ImagePreloaderProps {
   images: string[];
   priority?: boolean;
-  fallbackImages?: string[]; 
+  fallbackImages?: string[];
 }
 
-const ImagePreloader: React.FC<ImagePreloaderProps> = ({ 
-  images, 
-  priority = false,
-  fallbackImages = ["/assets/System_Shop.webp"] 
-}) => {
+const ImagePreloader: React.FC<ImagePreloaderProps> = ({ images, priority = false, fallbackImages = ['/assets/System_Shop.webp'] }) => {
   const { preloadImages } = useImageCache();
 
   useEffect(() => {
     const allImages = [...images, ...fallbackImages];
-    
+
     if (priority) {
       preloadImages(allImages);
     } else {
@@ -32,8 +28,7 @@ const ImagePreloader: React.FC<ImagePreloaderProps> = ({
     }
   }, [images, fallbackImages, priority, preloadImages]);
 
-  return null; 
+  return null;
 };
 
 export default ImagePreloader;
-

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useApiCache as useBaseApiCache } from './useClientCache';
 
 interface ApiCacheOptions {
-  ttl?: number; 
+  ttl?: number;
   forceRefresh?: boolean;
   onError?: (error: Error) => void;
   onSuccess?: (data: any) => void;
@@ -17,41 +17,31 @@ interface ApiCacheState<T> {
 
 const globalFetchingMap: Record<string, boolean> = {};
 
-export function useApiCache<T = any>(
-  endpoint: string,
-  options: ApiCacheOptions = {}
-) {
-  const {
-    ttl = 1800000, 
-    forceRefresh = false,
-    onError,
-    onSuccess
-  } = options;
+export function useApiCache<T = any>(endpoint: string, options: ApiCacheOptions = {}) {
+  const { ttl = 1800000, forceRefresh = false, onError, onSuccess } = options;
 
   const cache = useBaseApiCache();
   const [state, setState] = useState<ApiCacheState<T>>({
     data: null,
     loading: false,
     error: null,
-    fromCache: false
+    fromCache: false,
   });
-  const [fetching, setFetching] = useState(false); 
+  const [fetching, setFetching] = useState(false);
 
   const fetchData = useCallback(async () => {
-    
     if (state.loading || fetching || globalFetchingMap[endpoint]) return;
 
     setFetching(true);
     globalFetchingMap[endpoint] = true;
 
-    
     if (!forceRefresh && cache.hasCachedApiResponse(endpoint)) {
       const cachedData = cache.getCachedApiResponse(endpoint);
       setState({
         data: cachedData,
         loading: false,
         error: null,
-        fromCache: true
+        fromCache: true,
       });
       onSuccess?.(cachedData);
       setFetching(false);
@@ -70,14 +60,13 @@ export function useApiCache<T = any>(
 
       const data = await response.json();
 
-      
       cache.cacheApiResponse(endpoint, data, ttl);
 
       setState({
         data,
         loading: false,
         error: null,
-        fromCache: false
+        fromCache: false,
       });
 
       onSuccess?.(data);
@@ -87,7 +76,7 @@ export function useApiCache<T = any>(
         ...prev,
         loading: false,
         error: errorObj,
-        fromCache: false
+        fromCache: false,
       }));
       onError?.(errorObj);
     } finally {
@@ -112,24 +101,21 @@ export function useApiCache<T = any>(
   return {
     ...state,
     refresh,
-    clearCache
+    clearCache,
   };
 }
 
 export function useGamesCache() {
-  
   const hasFetchedRef = useRef(false);
   const apiCache = useApiCache('/api/games', {
-    ttl: 300000, 
-    onError: (error) => console.error('Erreur lors du chargement des jeux:', error)
+    ttl: 300000,
+    onError: error => console.error('Erreur lors du chargement des jeux:', error),
   });
 
   useEffect(() => {
-    
     if (hasFetchedRef.current || apiCache.data || apiCache.loading) return;
     hasFetchedRef.current = true;
     apiCache.refresh();
-    
   }, []);
 
   return apiCache;
@@ -137,8 +123,8 @@ export function useGamesCache() {
 
 export function useUsersCache() {
   return useApiCache('/api/users', {
-    ttl: 600000, 
-    onError: (error) => console.error('Erreur lors du chargement des utilisateurs:', error)
+    ttl: 600000,
+    onError: error => console.error('Erreur lors du chargement des utilisateurs:', error),
   });
 }
 
@@ -147,34 +133,35 @@ export function useSearchCache(query: string) {
   const [loading, setLoading] = useState(false);
   const cache = useBaseApiCache();
 
-  const search = useCallback(async (searchQuery: string) => {
-    if (!searchQuery.trim()) {
-      setResults(null);
-      return;
-    }
+  const search = useCallback(
+    async (searchQuery: string) => {
+      if (!searchQuery.trim()) {
+        setResults(null);
+        return;
+      }
 
-    const cacheKey = `search_${searchQuery}`;
-    
-    
-    if (cache.hasCachedApiResponse(cacheKey)) {
-      setResults(cache.getCachedApiResponse(cacheKey));
-      return;
-    }
+      const cacheKey = `search_${searchQuery}`;
 
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
-      const data = await response.json();
-      
-      
-      cache.cacheApiResponse(cacheKey, data, 300000);
-      setResults(data);
-    } catch (error) {
-      console.error('Erreur lors de la recherche:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [cache]);
+      if (cache.hasCachedApiResponse(cacheKey)) {
+        setResults(cache.getCachedApiResponse(cacheKey));
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+        const data = await response.json();
+
+        cache.cacheApiResponse(cacheKey, data, 300000);
+        setResults(data);
+      } catch (error) {
+        console.error('Erreur lors de la recherche:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [cache]
+  );
 
   useEffect(() => {
     if (query) {
@@ -184,4 +171,3 @@ export function useSearchCache(query: string) {
 
   return { results, loading, search };
 }
-
