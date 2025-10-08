@@ -1,7 +1,7 @@
 import 'github-markdown-css/github-markdown.css';
 import '../styles/atom-one-dark.min.css';
-import '../styles/globals.css';
 import '../styles/main.css';
+import '../styles/globals.css';
 import '../styles/rarity.css';
 
 import { appWithTranslation } from 'next-i18next';
