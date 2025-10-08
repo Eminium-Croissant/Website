@@ -1,98 +1,3 @@
-.links-group,
-.trade-actions {
-  justify-content: center;
-  display: flex;
-}
-
-.delete,
-.endpoint-link,
-.get,
-.links-group a,
-.params-info h4,
-.post,
-.put,
-.response-info h4,
-.trade-close-x:hover,
-body,
-button,
-strong {
-  color: #fff;
-}
-
-button,
-footer,
-header,
-strong {
-  background-color: #222;
-}
-
-body,
-main {
-  scrollbar-width: thin;
-  scrollbar-color: #555 #333;
-}
-
-header {
-  border-bottom: 1px solid #444;
-}
-
-.links-group {
-  color: #fff;
-}
-
-main:not(.launcher) {
-}
-
-footer {
-  border-top: 1px solid #444;
-}
-
-.container,
-.form-group,
-.form-row,
-.library-details-row,
-form,
-form.game-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.api-doc {
-  background: #2c2c2c;
-}
-
-.post {
-  background: #3cbf7f;
-}
-
-.patch {
-  background: #bf3cab;
-}
-
-pre {
-  font-size: 1.1rem;
-  overflow-x: auto;
-}
-
-a {
-  color: #1e90ff;
-}
-
-.api-docs-container,
-.form-group {
-  flex-direction: column;
-}
-
-.api-docs-sidebar {
-  min-width: auto !important;
-  width: 100%;
-}
-
-.api-docs-main {
-  overflow-y: scroll;
-  max-height: 246vh;
-}
-
 .trade-panel {
   position: fixed;
   top: 50%;
@@ -346,10 +251,7 @@ button:hover {
   grid-template-columns: repeat(8, 1fr);
 }
 
-.create-dropdown-content a:hover,
-button,
-header,
-strong {
+.create-dropdown-content a:hover {
   background-color: var(--background-dark);
 }
 
@@ -370,10 +272,7 @@ strong {
 .shop-title,
 .sidebar-game.selected,
 .steam-library-layout,
-.titlebar,
-body,
-button,
-strong {
+.titlebar {
   color: var(--text-color-primary);
 }
 
@@ -419,74 +318,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-body {
-  background-color: #333;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.api-doc,
-footer,
-header,
-main {
-  padding: 22px 20px;
-}
-
-header {
-  text-align: center;
-  border-bottom: 1px solid var(--border-color);
-}
-
-nav {
-  justify-content: center;
-  align-items: center;
-}
-
-.links-group {
-  font-size: 1.2rem;
-  font-weight: 700;
-}
-
-.links-group a:hover {
-  color: #ccc;
-}
-
-.indent {
-  margin-left: 20px;
-}
-
-footer {
-  text-align: center;
-  border-top: 1px solid var(--border-color);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}
-
-form {
-  flex-direction: column;
-  gap: 10px;
-  margin: 20px 0;
-}
-
-input[type='email'],
-input[type='text'],
-textarea {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
 .api-doc {
   background: var(--background-light);
   border-radius: 8px;
@@ -494,15 +325,11 @@ button {
 }
 
 .endpoint-details,
-.method,
-code,
-pre,
-strong {
+.method {
   border-radius: 4px;
 }
 
-.shop-game-link,
-a {
+.shop-game-link {
   text-decoration: underline;
 }
 
@@ -559,40 +386,6 @@ a {
 .response-info h4 {
   margin-bottom: 8px;
   color: var(--text-color-primary);
-}
-
-code {
-  background: #444;
-  padding: 2px 6px;
-}
-
-a {
-  color: var(--accent-color);
-}
-
-img {
-  height: auto;
-}
-
-strong {
-  padding: 2px 4px;
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #444;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #777;
 }
 
 .titlebar {
@@ -778,9 +571,6 @@ strong {
   margin: 20px;
 }
 
-h1 {
-  font-size: 24px;
-}
 
 form.game-form {
   width: 100%;
@@ -791,26 +581,6 @@ form.game-form {
   margin-bottom: 10px;
 }
 
-label {
-  margin-bottom: 5px;
-  font-weight: 700;
-  color: var(--text-color-primary);
-}
-
-.dark-input,
-input[type='file'],
-input[type='number'],
-input[type='text'],
-input[type='url'],
-textarea {
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background: var(--background-medium);
-  color: var(--text-color-primary);
-  font-size: 1rem;
-}
-
 .error,
 .inventory-error,
 .lobby-error,
@@ -818,16 +588,6 @@ textarea {
 .required,
 .shop-error {
   color: var(--error-color);
-}
-
-input[type='file'].dark-input {
-  padding: 6px 0;
-  color-scheme: dark;
-}
-
-input[type='file'].required:focus,
-input[type='text'].required:focus {
-  border-color: var(--error-color);
 }
 
 .error {
@@ -857,14 +617,14 @@ input[type='text'].required:focus {
 
 .game-properties,
 .gamepage-desc,
-.inventory-prompt-amount-max,
+.inventory-prompt-amount,
 .inventory-tooltip-desc,
 .main-empty,
 .mygames-tooltip-desc,
 .myitems-tooltip-desc,
 .profile-tooltip-desc,
 .shop-games-empty,
-.shop-prompt-amount-max,
+.shop-prompt-amount,
 .shop-tooltip-desc,
 .sidebar-empty {
   color: var(--text-color-secondary);
@@ -2145,10 +1905,6 @@ input[type='text'].required:focus {
   font-size: 16px;
 }
 
-main {
-  padding: 0;
-}
-
 .inventory-loading {
   position: absolute;
   top: 0;
@@ -2477,18 +2233,3 @@ code.oauth2-code {
   padding: 2px 6px;
   border-radius: 4px;
 }
-
-p,
-span,
-li,
-ul,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: #fff;
-}
-
-

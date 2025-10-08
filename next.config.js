@@ -122,10 +122,9 @@ const nextConfig = {
   typescript: { ignoreBuildErrors: true },
   i18n: require('./next-i18next.config').i18n,
   experimental: {
-    optimizeCss: false, 
+    optimizeCss: false,
   },
 };
 
 module.exports = nextConfig;
-
 
