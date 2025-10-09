@@ -329,11 +329,13 @@ const MyGames = () => {
         ) : (
           <>
             {games.length === 0 && <div className='mygames-empty'>{t('myGames.empty')}</div>}
-            <div className='mygames-grid' style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: '16px',
-            }}>
+            <div
+              className='mygames-grid'
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: '16px',
+              }}>
               {games.map(game => (
                 <div
                   key={`game-${game.gameId}`}
@@ -377,16 +379,32 @@ const MyGames = () => {
                       {t('myGames.edit')}
                     </button>
                     <button
-                      className='glass-button-green'
-                      onClick={e => {
+                      style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '13px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0,
+                        transition: 'color 0.3s',
+                      }}
+                      onClick={async e => {
                         e.stopPropagation();
-                        navigator.clipboard.writeText(game.gameId);
-                        e.currentTarget.textContent = 'Copied!';
-                        setTimeout(() => {
-                          e.currentTarget.textContent = 'Id';
-                        }, 1000);
-                      }}>
-                      {t('myGames.id')}
+                        await navigator.clipboard.writeText(game.gameId);
+                        const target = e.target as HTMLElement | null;
+                        if (target) {
+                          target.style.color = '#4ade80'; // green
+                          target.style.transition = 'color 0.3s';
+                          setTimeout(() => {
+                            target.style.color = '';
+                          }, 1000);
+                        }
+                      }}
+                      title={t('myGames.id')}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        <i className='fa-regular fa-copy' style={{ fontSize: 20 }} />
+                      </span>
                     </button>
                     <button
                       className='glass-button-green'

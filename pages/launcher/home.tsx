@@ -47,11 +47,9 @@ type Game = {
 let ws: WebSocket;
 try {
   ws = new WebSocket('ws://localhost:8081');
-  ws.onerror = () => { };
+  ws.onerror = () => {};
   discordRpcManager = new DiscordRpcManager(ws);
-} catch {
-
-}
+} catch {}
 
 const ENDPOINT = '/api';
 
@@ -113,9 +111,7 @@ export function LobbyManager() {
   const startPolling = useCallback(() => {
     if (pollingTimer.current) return;
     const poll = async () => {
-
       try {
-
         await fetchLobby(false);
       } finally {
         pollingTimer.current = setTimeout(poll, pollingInterval.current);
@@ -135,7 +131,6 @@ export function LobbyManager() {
     fetchLobby();
     startPolling();
     return () => stopPolling();
-
   }, []);
 
   return <></>;
@@ -274,7 +269,7 @@ const Library: React.FC = () => {
         if (message.action === 'notFound' && message.gameId) {
           setError(`Game ${message.gameId} not found for deletion.`);
         }
-      } catch (e) { }
+      } catch (e) {}
     };
     return () => {
       ws.onmessage = null;
@@ -347,18 +342,18 @@ const Library: React.FC = () => {
     if (selected && selected.state === 'to_update') {
       setDownloadPercent(0);
       updateGameState(selected.gameId, 'updating');
-      ws.send(JSON.stringify({
-        action: 'updateGame', gameId: selected.gameId,
-        token,
-      }));
+      ws.send(
+        JSON.stringify({
+          action: 'updateGame',
+          gameId: selected.gameId,
+          token,
+        })
+      );
     }
   };
 
   const handleDelete = () => {
-    if (
-      selected &&
-      (selected.state === 'installed' || selected.state === 'to_update')
-    ) {
+    if (selected && (selected.state === 'installed' || selected.state === 'to_update')) {
       ws.send(JSON.stringify({ action: 'deleteGame', gameId: selected.gameId }));
     }
   };
@@ -610,7 +605,8 @@ const Library: React.FC = () => {
                       </button>
                       <button className='glass-button' onClick={handleDelete} disabled={isPlaying}>
                         {t('launcher.delete')}
-                      </button></>
+                      </button>
+                    </>
                   )}
                   {selected.state === 'installed' && (
                     <>
@@ -797,5 +793,3 @@ function MarkdownDescription({ children }: { children: string }) {
     </div>
   );
 }
-
-

@@ -324,16 +324,17 @@ const MyItems = () => {
     }
   };
 
+  const handleCopyId = (id: string) => {
+    navigator.clipboard.writeText(id).then(() => {
+      setSuccess(t('myItems.idCopied'));
+      setTimeout(() => setSuccess(null), 2000);
+    });
+  };
+
   return (
     <div className='glass-page-container min-h-screen py-10'>
-      <div className='glass-content-card  w-full mx-auto p-8 rounded-xl'>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: 18,
-          }}>
+      <div className='glass-content-card w-full mx-auto p-8 rounded-xl'>
+        <div className='flex items-center justify-between mb-6'>
           <h1 className='myitems-title'>
             <span className='myitems-title-span'>{t('myItems.title')}</span>
           </h1>
@@ -372,10 +373,10 @@ const MyItems = () => {
                   onClick={() => handleEdit(item)}>
                   <img src={'/items-icons/' + (item?.iconHash || item.itemId)} alt={item.name} className='myitems-card-icon' draggable={false} />
                   <div className='myitems-card-name'>{item.name}</div>
-                  <div className='myitems-card-price'>
+                  {/* <div className='myitems-card-price' style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                     {item.price}
-                    <img src='/assets/credit.avif' className='myitems-card-credit' />
-                  </div>
+                    <img src='/assets/credit.avif' className='myitems-card-credit' style={{ width: 18, height: 18, objectFit: 'contain', top: 0 }} />
+                  </div> */}
                   <div
                     style={{
                       display: 'flex',
@@ -384,7 +385,7 @@ const MyItems = () => {
                       gap: '8px',
                     }}>
                     <button
-                      className='myitems-card-editbtn'
+                      className='glass-button-green'
                       onClick={e => {
                         e.stopPropagation();
                         handleEdit(item);
@@ -392,23 +393,34 @@ const MyItems = () => {
                       {t('myItems.edit')}
                     </button>
                     <button
-                      className='myitems-card-editbtn'
-                      onClick={e => {
+                      style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '13px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        padding: 0,
+                        transition: 'color 0.3s',
+                      }}
+                      onClick={async e => {
                         e.stopPropagation();
-                        navigator.clipboard.writeText(item.itemId);
-                        e.currentTarget.textContent = 'Copied!';
-                        setTimeout(() => {
-                          e.currentTarget.textContent = 'Id';
-                        }, 1000);
-                      }}>
-                      {t('myItems.id')}
+                        await navigator.clipboard.writeText(item.itemId);
+                        const target = e.target as HTMLElement | null;
+                        if (target) {
+                          target.style.color = '#4ade80'; // green
+                          target.style.transition = 'color 0.3s';
+                          setTimeout(() => {
+                            target.style.color = '';
+                          }, 1000);
+                        }
+                      }}
+                      title={t('myGames.id')}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center' }}>
+                        <i className='fa-regular fa-copy' style={{ fontSize: 20 }} />
+                      </span>
                     </button>
-                    <button
-                      className='myitems-card-editbtn'
-                      onClick={e => {
-                        e.stopPropagation();
-                        handleOwnershipTransfer(item);
-                      }}>
+                    <button className='glass-button-green' onClick={() => handleTransfer(item)}>
                       {t('myItems.transfer')}
                     </button>
                   </div>
@@ -429,13 +441,13 @@ const MyItems = () => {
                 }}>
                 <div className='myitems-tooltip-title'>{tooltip.item.name}</div>
                 <div className='myitems-tooltip-desc'>{tooltip.item.description}</div>
-                <div className='myitems-tooltip-price'>
+                {/* <div className='myitems-tooltip-price'>
                   {t('myItems.price')}: {tooltip.item.price}
                   <img src='/assets/credit.avif' className='myitems-card-credit' />
                   <span className='myitems-tooltip-store'>
                     {t('myItems.showInStore')}: {tooltip.item.showInStore ? t('myItems.yes') : t('myItems.no')}
                   </span>
-                </div>
+                </div> */}
               </div>
             )}
             {showTransferModal && (

@@ -31,11 +31,7 @@ export const useGames = () => {
   const [selected, setSelected] = useState<Game | null>(null);
 
   const updateGameState = (gameId: string, state: Game['state']) => {
-    setGames(prevGames =>
-      prevGames.map(game =>
-        game.gameId === gameId ? { ...game, state } : game
-      )
-    );
+    setGames(prevGames => prevGames.map(game => (game.gameId === gameId ? { ...game, state } : game)));
     if (selected && selected.gameId === gameId) {
       setSelected({ ...selected, state });
     }
@@ -59,4 +55,3 @@ export const useGames = () => {
     selectGame,
   };
 };
-

@@ -36,4 +36,3 @@ export const useDiscordActivity = (ws: WebSocket) => {
     updateState,
   };
 };
-

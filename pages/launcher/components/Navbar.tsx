@@ -64,9 +64,7 @@ const Navbar: React.FC = () => {
               <CachedImage src={'/avatar/' + role} alt='avatar' className='w-8 h-8 rounded-full object-cover border-2 border-glass-border transition-all duration-300' />
               <div className='absolute inset-0 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 hover:opacity-20 transition-opacity duration-300'></div>
             </div>
-            <span className='whitespace-nowrap font-medium text-glass-text text-xs'>
-              {studio?.me?.username || 'Me'}
-            </span>
+            <span className='whitespace-nowrap font-medium text-glass-text text-xs'>{studio?.me?.username || 'Me'}</span>
           </button>
         );
       })}
@@ -123,10 +121,7 @@ const Navbar: React.FC = () => {
                   Manage <span className='text-xs'>▼</span>
                 </button>
                 {show === 'manage' && (
-                  <div
-                    className='absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1'
-                    onMouseLeave={() => setShow('')}
-                  >
+                  <div className='absolute top-full left-0 mt-2 min-w-[160px] z-50 flex flex-col bg-glass-primary border border-glass-border rounded-xl shadow-glass p-1' onMouseLeave={() => setShow('')}>
                     <Link href='/studios' className='block w-full text-left px-4 py-2 rounded-xl hover:bg-glass-accent text-xs font-medium mb-1'>
                       Studios
                     </Link>
@@ -165,5 +160,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-
-

@@ -32,4 +32,3 @@ const ImagePreloader: React.FC<ImagePreloaderProps> = ({ images, priority = fals
 };
 
 export default ImagePreloader;
-
