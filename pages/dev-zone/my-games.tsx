@@ -329,7 +329,11 @@ const MyGames = () => {
         ) : (
           <>
             {games.length === 0 && <div className='mygames-empty'>{t('myGames.empty')}</div>}
-            <div className='mygames-grid'>
+            <div className='mygames-grid' style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '16px',
+            }}>
               {games.map(game => (
                 <div
                   key={`game-${game.gameId}`}
