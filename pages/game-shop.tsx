@@ -265,7 +265,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
   }, [games]);
 
   const stripMarkdown = (text: string) => {
-    return text.replace(/\*\*|__|\*|_|`|~~|\[.*?\]\(.*?\)|<.*?>/g, '').trim();
+    return text.replace(/[#]+|\*\*|__|\*|_|`|~~|\[.*?\]\(.*?\)|<.*?>/g, '').trim();
   };
 
   const filteredGames = useMemo(() => {

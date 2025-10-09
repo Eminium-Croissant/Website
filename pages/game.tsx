@@ -198,7 +198,7 @@ function useGamePageLogic() {
 
 function MarkdownDescription({ children }: { children: string }) {
   return (
-    <div className='markdown-body glass-card'>
+    <div className='markdown-body glass-card w-full mx-auto'>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[
