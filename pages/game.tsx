@@ -322,7 +322,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
             </div>
 
             {game.description && (
-              <div className='mt-6' style={{ maxWidth: '100%', width: '95%', margin: '0 auto' }}>
+              <div className="mt-6 w-full mx-auto">
                 <MarkdownDescription>{game.description}</MarkdownDescription>
               </div>
             )}
