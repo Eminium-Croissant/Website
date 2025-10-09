@@ -264,12 +264,24 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
     return Array.from(uniqueGenres);
   }, [games]);
 
+  const stripMarkdown = (text: string) => {
+    return text.replace(/\*\*|__|\*|_|`|~~|\[.*?\]\(.*?\)|<.*?>/g, '').trim();
+  };
+
   const filteredGames = useMemo(() => {
-    return games.filter(game => {
-      const matchesSearch = searchTerm === '' || game.name.toLowerCase().includes(searchTerm.toLowerCase()) || game.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesGenre = !selectedGenre || game.genre === selectedGenre;
-      return matchesSearch && matchesGenre;
-    });
+    return games
+      .map(game => ({
+        ...game,
+        description: game.description ? stripMarkdown(game.description) : game.description,
+      }))
+      .filter(game => {
+        const matchesSearch =
+          searchTerm === '' ||
+          game.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (game.description && game.description.toLowerCase().includes(searchTerm.toLowerCase()));
+        const matchesGenre = !selectedGenre || game.genre === selectedGenre;
+        return matchesSearch && matchesGenre;
+      });
   }, [games, searchTerm, selectedGenre]);
 
   return (
@@ -401,12 +413,24 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
     return Array.from(uniqueGenres);
   }, [games]);
 
+  const stripMarkdown = (text: string) => {
+    return text.replace(/\*\*|__|\*|_|`|~~|\[.*?\]\(.*?\)|<.*?>/g, '').trim();
+  };
+
   const filteredGames = useMemo(() => {
-    return games.filter(game => {
-      const matchesSearch = searchTerm === '' || game.name.toLowerCase().includes(searchTerm.toLowerCase()) || game.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesGenre = !selectedGenre || game.genre === selectedGenre;
-      return matchesSearch && matchesGenre;
-    });
+    return games
+      .map(game => ({
+        ...game,
+        description: game.description ? stripMarkdown(game.description) : game.description,
+      }))
+      .filter(game => {
+        const matchesSearch =
+          searchTerm === '' ||
+          game.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (game.description && game.description.toLowerCase().includes(searchTerm.toLowerCase()));
+        const matchesGenre = !selectedGenre || game.genre === selectedGenre;
+        return matchesSearch && matchesGenre;
+      });
   }, [games, searchTerm, selectedGenre]);
 
   return (

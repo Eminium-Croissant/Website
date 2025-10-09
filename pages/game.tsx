@@ -30,7 +30,7 @@ export async function getServerSideProps({ locale, query }) {
         };
         gameFromQuery = game;
       }
-    } catch {}
+    } catch { }
   }
 
   return {
@@ -123,6 +123,7 @@ function useGamePageLogic() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur lors de l'achat");
       setAlert(t('shop.purchaseSuccess'));
+      setUserOwnsGame(true); // Update state to reflect ownership immediately
     } catch (err: any) {
       setAlert(err.message);
     } finally {
@@ -312,7 +313,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
                     {t('shop.buy')}
                   </button>
                 )}
-                {token && (
+                {token && game.price > 0 && (
                   <button className='glass-button-yellow' onClick={handleGiftGame} disabled={isGifting} type='button'>
                     {t('shop.giftWithPrice', { price: game.price })}
                   </button>
@@ -321,7 +322,7 @@ function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
             </div>
 
             {game.description && (
-              <div className='mt-6'>
+              <div className='mt-6' style={{ maxWidth: '100%', width: '95%', margin: '0 auto' }}>
                 <MarkdownDescription>{game.description}</MarkdownDescription>
               </div>
             )}
