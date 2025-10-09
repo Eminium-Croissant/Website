@@ -162,14 +162,7 @@ const GiftPage: React.FC = () => {
           )}
 
           {giftInfo?.gift.message && (
-            <div
-              style={{
-                background: '#f5f5f5',
-                padding: '15px',
-                borderRadius: 8,
-                margin: '20px 0',
-                color: '#333',
-              }}>
+            <div className='glass-content-card'>
               <p>
                 <em>"{giftInfo.gift.message}"</em>
               </p>
@@ -210,7 +203,7 @@ const GiftPage: React.FC = () => {
             </div>
           )}
         </div>
-      </div>
+      </div >
 
       {alert && (
         <div className='shop-alert-overlay'>
@@ -222,7 +215,7 @@ const GiftPage: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </div >
   );
 };
 
