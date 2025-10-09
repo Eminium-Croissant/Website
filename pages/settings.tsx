@@ -889,19 +889,17 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
               {error && <p className='text-red-400 text-sm mt-3 text-center'>{error}</p>}
             </div>
 
-            {!user?.isStudio && (
-              <form onSubmit={handleUsernameSave} className='space-y-4'>
-                <div>
-                  <label className='block text-sm font-medium text-glass-text-secondary mb-2'>{t('settings.username')}</label>
-                  <input type='text' value={username} onChange={handleUsernameChange} className='glass-input' disabled={usernameLoading} minLength={3} maxLength={32} required />
-                </div>
-                <button type='submit' disabled={usernameLoading} className='glass-button-neon w-full'>
-                  {usernameLoading ? t('settings.saving') : t('settings.save')}
-                </button>
-                {usernameSuccess && <p className='text-green-400 text-sm text-center'>{usernameSuccess}</p>}
-                {usernameError && <p className='text-red-400 text-sm text-center'>{usernameError}</p>}
-              </form>
-            )}
+            <form onSubmit={handleUsernameSave} className='space-y-4'>
+              <div>
+                <label className='block text-sm font-medium text-glass-text-secondary mb-2'>{t('settings.username')}</label>
+                <input type='text' value={username} onChange={handleUsernameChange} className='glass-input' disabled={usernameLoading} minLength={3} maxLength={32} required />
+              </div>
+              <button type='submit' disabled={usernameLoading} className='glass-button-neon w-full'>
+                {usernameLoading ? t('settings.saving') : t('settings.save')}
+              </button>
+              {usernameSuccess && <p className='text-green-400 text-sm text-center'>{usernameSuccess}</p>}
+              {usernameError && <p className='text-red-400 text-sm text-center'>{usernameError}</p>}
+            </form>
           </div>
 
           <div className='glass-content-card'>
