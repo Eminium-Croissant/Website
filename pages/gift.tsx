@@ -90,7 +90,6 @@ const GiftPage: React.FC = () => {
         <div className='glass-content-card h-full flex items-center justify-center'>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div className='w-8 h-8 border-4 border-glass-border border-t-neon-blue rounded-full animate-spin' />
-            {/* <span style={{ color: 'var(--glass-text)' }}></span> */}
           </div>
         </div>
       </div>
@@ -203,7 +202,7 @@ const GiftPage: React.FC = () => {
             </div>
           )}
         </div>
-      </div >
+      </div>
 
       {alert && (
         <div className='shop-alert-overlay'>
@@ -215,7 +214,7 @@ const GiftPage: React.FC = () => {
           </div>
         </div>
       )}
-    </div >
+    </div>
   );
 };
 
