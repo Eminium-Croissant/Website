@@ -117,6 +117,7 @@ const TermsOfService: React.FC = () => {
             </span>
           </h2>
 
+          {/* Dropdown Français */}
           <div className='glass-card mb-6'>
             <button onClick={() => setOpenFr(v => !v)} className='glass-button-neon w-full flex items-center justify-between p-4 text-left'>
               <span className='flex items-center'>
@@ -125,9 +126,43 @@ const TermsOfService: React.FC = () => {
               </span>
               <FontAwesomeIcon icon={openFr ? faChevronUp : faChevronDown} className='text-neon-blue transition-transform duration-300' />
             </button>
-            {openFr && <div className='glass-card mt-4 p-6'></div>}
+            {openFr && (
+              <div className='glass-card mt-4 p-6'>
+                <div className='space-y-4'>
+                  <p style={{ color: 'var(--glass-text-secondary)' }}>
+                    Croissant est édité par Fox (fox3000foxy), développeur indépendant basé en France. Pour toute question ou demande concernant le site, vous pouvez nous contacter via Discord ou par email à l'adresse indiquée sur notre serveur officiel,{' '}
+                    <a href='mailto:contact@croissant-api.fr' className='text-neon-blue hover:text-neon-purple transition-colors'>
+                      contact@croissant-api.fr
+                    </a>
+                    .
+                  </p>
+                  <p style={{ color: 'var(--glass-text-secondary)' }}>
+                    Les données personnelles collectées sont uniquement utilisées pour le bon fonctionnement du service et ne sont jamais revendues à des tiers.
+                  </p>
+                  <p style={{ color: 'var(--glass-text-secondary)' }}>
+                    Le site est hébergé par HG-Hosting.fr, une entreprise basée en France, dont le CEO est Lima M. Pour toute question relative à l'hébergement, vous pouvez contacter HG-Hosting.fr à{' '}
+                    <a href='mailto:contact@hg-hosting.fr' className='text-neon-blue hover:text-neon-purple transition-colors'>
+                      contact@hg-hosting.fr
+                    </a>
+                    .
+                  </p>
+                  <div className='glass-card p-4'>
+                    <p className='mb-2' style={{ color: 'var(--glass-text-secondary)' }}>
+                      L'hébergeur est conforme au RGPD.
+                    </p>
+                    <p className='mb-2' style={{ color: 'var(--glass-text-secondary)' }}>
+                      Aucun cookie tiers n'est utilisé sur ce site.
+                    </p>
+                    <p style={{ color: 'var(--glass-text-secondary)' }}>
+                      Toute reproduction, même partielle, du contenu du site est interdite sans autorisation préalable.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
+          {/* Dropdown English */}
           <div className='glass-card'>
             <button onClick={() => setOpenEn(v => !v)} className='glass-button-neon w-full flex items-center justify-between p-4 text-left'>
               <span className='flex items-center'>
@@ -136,7 +171,40 @@ const TermsOfService: React.FC = () => {
               </span>
               <FontAwesomeIcon icon={openEn ? faChevronUp : faChevronDown} className='text-neon-purple transition-transform duration-300' />
             </button>
-            {openEn && <div className='glass-card mt-4 p-6'></div>}
+            {openEn && (
+              <div className='glass-card mt-4 p-6'>
+                <div className='space-y-4'>
+                  <p style={{ color: 'var(--glass-text-secondary)' }}>
+                    Croissant is published by Fox (fox3000foxy), an independent developer based in France. For any questions or requests regarding the site, you can contact us via Discord or by email at the address provided on our official server,{' '}
+                    <a href='mailto:contact@croissant-api.fr' className='text-neon-purple hover:text-neon-pink transition-colors'>
+                      contact@croissant-api.fr
+                    </a>
+                    .
+                  </p>
+                  <p style={{ color: 'var(--glass-text-secondary)' }}>
+                    The personal data collected is only used for the proper functioning of the service and is never resold to third parties.
+                  </p>
+                  <p style={{ color: 'var(--glass-text-secondary)' }}>
+                    The site is hosted by HG-Hosting.fr, a company based in France, whose CEO is Lima M. For any questions relating to hosting, you can contact HG-Hosting.fr at{' '}
+                    <a href='mailto:contact@hg-hosting.fr' className='text-neon-purple hover:text-neon-pink transition-colors'>
+                      contact@hg-hosting.fr
+                    </a>
+                    .
+                  </p>
+                  <div className='glass-card p-4'>
+                    <p className='mb-2' style={{ color: 'var(--glass-text-secondary)' }}>
+                      The host complies with the GDPR.
+                    </p>
+                    <p className='mb-2' style={{ color: 'var(--glass-text-secondary)' }}>
+                      No third-party cookies are used on this site.
+                    </p>
+                    <p style={{ color: 'var(--glass-text-secondary)' }}>
+                      Any reproduction, even partial, of the content of the site is prohibited without prior authorization.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
