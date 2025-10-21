@@ -74,11 +74,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // Détection du host pour choisir l'API cible
   const host = req.headers.host || '';
   let apiBaseUrl: string;
-  if (host.includes('croissant-api.fr')) {
-    apiBaseUrl = 'http://localhost:3456';
-  } else {
-    apiBaseUrl = 'https://api.croissant-api.fr';
-  }
+  // if (host.includes('croissant-api.fr')) {
+  //   apiBaseUrl = 'http://localhost:3456';
+  // } else {
+  //   apiBaseUrl = 'https://api.croissant-api.fr';
+  // }
+  apiBaseUrl = "https://api.croissant-api.fr";
 
   let url = `${apiBaseUrl}/${Array.isArray(slug) ? slug.join('/') : slug}`;
 
