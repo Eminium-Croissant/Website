@@ -77,7 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (host.includes('croissant-api.fr')) {
     apiBaseUrl = 'http://localhost:3456';
   } else {
-    apiBaseUrl = 'https://api.croissant-api.fr/';
+    apiBaseUrl = 'https://api.croissant-api.fr';
   }
 
   let url = `${apiBaseUrl}/${Array.isArray(slug) ? slug.join('/') : slug}`;
