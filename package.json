@@ -13,7 +13,10 @@
     "serve": "nodemon .\\dist\\server\\serve.js",
     "publish": "git add . && git commit -m \"update\" && git push",
     "pretty": "npx prettier --write --config .\\prettier.json .\\pages .\\components .\\hooks .\\styles .\\next.config.js .\\package.json .\\tsconfig.json .\\postcss.config.js .\\tailwind.config.js",
-    "build-serve": "npm run build && npm run serve"
+    "build-serve": "npm run build && npm run serve",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts"
   },
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^7.0.0",
