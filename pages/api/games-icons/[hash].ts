@@ -64,8 +64,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     console.log(`[Game Icons API] Not found on CDN, trying local fallback`);
 
-    // Fallback: recherche locale
-    const gameIconsDir = path.join(process.cwd(), 'uploads/gameIcons');
+    // Fallback: recherche locale - utiliser le dossier uploads global si pas dans un environnement worker
+    const gameIconsDir = path.join(process.cwd(), 'uploads', 'gameIcons');
     
     for (const ext of extensions) {
       const localPath = path.join(gameIconsDir, `${hash}${ext}`);

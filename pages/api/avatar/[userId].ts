@@ -63,8 +63,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   console.log(`[Avatar API] Not found on CDN, trying local fallback`);
 
-  // Fallback: recherche locale
-  const avatarsDir = path.join(process.cwd(), 'uploads/avatars');
+  // Fallback: recherche locale - utiliser le dossier uploads global si pas dans un environnement worker
+  const avatarsDir = path.join(process.cwd(), 'uploads', 'avatars');
   
   for (const ext of extensions) {
     const localPath = path.join(avatarsDir, `${userId}${ext}`);

@@ -77,7 +77,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log(`Avatar uploaded to R2: ${r2Key}`);
       } else {
         // Fallback: sauvegarder localement si R2 n'est pas disponible
-        const destPath = path.join(avatarsDir, `${userId}.avif`);
+        // Utiliser le dossier uploads global si pas dans un environnement worker
+        const uploadsDir = path.join(process.cwd(), 'uploads', 'avatars');
+        if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+        
+        const destPath = path.join(uploadsDir, `${userId}.avif`);
         await fs.promises.writeFile(destPath, avifBuffer);
         console.log(`Avatar uploaded locally: ${destPath}`);
       }

@@ -64,7 +64,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log(`Item icon uploaded to R2: ${r2Key}`);
       } else {
         // Fallback: sauvegarder localement si R2 n'est pas disponible
-        const destPath = path.join(itemsIconsDir, `${hash}.avif`);
+        // Utiliser le dossier uploads global si pas dans un environnement worker
+        const uploadsDir = path.join(process.cwd(), 'uploads', 'itemsIcons');
+        if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+        
+        const destPath = path.join(uploadsDir, `${hash}.avif`);
         await fs.promises.writeFile(destPath, avifBuffer);
         console.log(`Item icon uploaded locally: ${destPath}`);
       }

@@ -63,8 +63,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   console.log(`[Banners API] Not found on CDN, trying local fallback`);
 
-  // Fallback: recherche locale
-  const bannersDir = path.join(process.cwd(), 'uploads/bannersIcons');
+  // Fallback: recherche locale - utiliser le dossier uploads global si pas dans un environnement worker
+  const bannersDir = path.join(process.cwd(), 'uploads', 'bannersIcons');
   
   for (const ext of extensions) {
     const localPath = path.join(bannersDir, `${hash}${ext}`);
