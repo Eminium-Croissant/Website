@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://api.croissant-api.fr/",
+      "url": "https://croissant-api.fr/api",
       "description": "Production API"
     }
   ],
@@ -599,6 +599,144 @@
               "application/json": {
                 "schema": { "type": "object", "properties": { "message": { "type": "string" }, "error": { "type": "string" } } },
                 "example": { "message": "Error creating item", "error": "Internal error details" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/giveItem/{itemId}": {
+      "post": {
+        "tags": ["Items"],
+        "summary": "Give an item to another user",
+        "description": "Give an item to another user. This endpoint allows item owners to grant items to other users with optional metadata and custom amounts.",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The ID of the item to give"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["targetUserId"],
+                "properties": {
+                  "targetUserId": {
+                    "type": "string",
+                    "description": "The ID of the user to give the item to"
+                  },
+                  "amount": {
+                    "type": "number",
+                    "description": "The amount of items to give",
+                    "default": 1,
+                    "minimum": 1
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "description": "Optional metadata to attach to the item"
+                  }
+                }
+              },
+              "example": {
+                "targetUserId": "user123",
+                "amount": 5,
+                "metadata": {
+                  "customProperty": "specialValue",
+                  "level": 10
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Item successfully given to user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Item given with metadata" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Invalid input: itemId and targetUserId are required" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - authentication required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Unauthorized" }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - user is not the owner of the item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Forbidden" }
+              }
+            }
+          },
+          "404": {
+            "description": "Item not found or target user not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Item not found" }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error while giving item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" }
+                  }
+                },
+                "example": { "message": "Error giving item" }
               }
             }
           }
