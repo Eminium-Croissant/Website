@@ -18,7 +18,9 @@
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",
     "upload-to-r2": "node scripts/upload-to-r2.mjs",
-    "upload-to-r2-rest": "node scripts/upload-to-r2-rest.mjs"
+    "upload-to-r2-wrangler": "node scripts/upload-to-r2-wrangler.mjs",
+    "upload-to-r2-robust": "node scripts/upload-to-r2-robust.mjs",
+    "upload-to-r2-fast": "node scripts/upload-to-r2-fast.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.914.0",

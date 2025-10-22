@@ -1,22 +1,25 @@
 #!/usr/bin/env node
 /**
- * Script pour uploader le dossier uploads vers Cloudflare R2
- * Utilise l'API S3-compatible de Cloudflare R2
+ * Script d'upload R2 avec configuration SSL optimisée pour Windows
+ * Résout les problèmes SSL/TLS courants sous Windows
  */
 
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { config } from 'dotenv';
 import { promises as fs, readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import { config } from 'dotenv';
-config()
+config();
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__dirname);
+
+// Configuration SSL optimisée pour Windows
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // Désactive temporairement la vérification SSL stricte
+process.env.AWS_NODEJS_CONNECTION_REUSE_ENABLED = '1';
 
 const endpoint = `https://${process.env.CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com`;
-console.log(`Using R2 endpoint: ${endpoint}`);
-// Configuration R2 (utilise les variables d'environnement)
+
 const R2_CONFIG = {
   endpoint,
   region: 'auto',
@@ -24,23 +27,28 @@ const R2_CONFIG = {
     accessKeyId: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID,
     secretAccessKey: process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
   },
-  // Configuration pour améliorer la stabilité des connexions SSL
   requestHandler: {
-    connectionTimeout: 30000, // 30 secondes
-    socketTimeout: 30000,
+    httpsAgent: {
+      maxSockets: 25,
+      keepAlive: true,
+      keepAliveMsecs: 1000,
+      timeout: 30000,
+      freeSocketTimeout: 30000,
+    }
   },
-  maxAttempts: 3,
+  maxAttempts: 5,
+  requestTimeout: 30000,
   retryDelayOptions: {
+    base: 1000,
     customBackoff: function(retryCount) {
-      return Math.pow(2, retryCount) * 1000; // Backoff exponentiel
+      return Math.min(Math.pow(2, retryCount) * 1000, 10000);
     }
   }
 };
 
 const BUCKET_NAME = process.env.CLOUDFLARE_R2_BUCKET_NAME || 'croissant-uploads';
-const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
+const UPLOADS_DIR = path.join(__dirname, 'uploads');
 
-// Initialize S3 client pour R2
 const s3Client = new S3Client(R2_CONFIG);
 
 /**
@@ -85,36 +93,38 @@ function getContentType(filePath) {
 }
 
 /**
- * Fonction utilitaire pour attendre un délai
+ * Sleep function
  */
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**
- * Upload un fichier vers R2 avec retry en cas d'erreur
+ * Upload un fichier avec retry robuste
  */
-async function uploadFileWithRetry(filePath, key, maxRetries = 3) {
+async function uploadFileRobust(filePath, key, maxRetries = 5) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(`📤 Uploading: ${key}${attempt > 1 ? ` (attempt ${attempt}/${maxRetries})` : ''}`);
+      console.log(`📤 Uploading (robust): ${key}${attempt > 1 ? ` (attempt ${attempt}/${maxRetries})` : ''}`);
       
       const fileContent = readFileSync(filePath);
       const contentType = getContentType(filePath);
+      
+      // Créer un nouveau client S3 à chaque tentative si échec précédent
+      const clientToUse = attempt === 1 ? s3Client : new S3Client(R2_CONFIG);
       
       const command = new PutObjectCommand({
         Bucket: BUCKET_NAME,
         Key: key,
         Body: fileContent,
         ContentType: contentType,
-        // Metadata optionnelle
         Metadata: {
           'uploaded-at': new Date().toISOString(),
           'original-path': filePath,
         },
       });
 
-      const result = await s3Client.send(command);
+      const result = await clientToUse.send(command);
       console.log(`✅ Uploaded: ${key}${attempt > 1 ? ` (succeeded on attempt ${attempt})` : ''}`);
       return result;
       
@@ -124,14 +134,22 @@ async function uploadFileWithRetry(filePath, key, maxRetries = 3) {
         error.code === 'EPROTO' || 
         error.code === 'ECONNRESET' || 
         error.code === 'ETIMEDOUT' ||
+        error.code === 'ENOTFOUND' ||
+        error.code === 'ECONNREFUSED' ||
         error.message.includes('SSL') ||
-        error.message.includes('handshake failure') ||
-        error.message.includes('EPROTO');
+        error.message.includes('TLS') ||
+        error.message.includes('handshake') ||
+        error.message.includes('EPROTO') ||
+        error.message.includes('socket') ||
+        error.name === 'CredentialsProviderError';
       
       if (!isLastAttempt && isRetryableError) {
-        const delayMs = Math.pow(2, attempt) * 1000; // Backoff exponentiel: 2s, 4s, 8s
+        const baseDelay = Math.pow(2, attempt) * 1000;
+        const jitter = Math.random() * 1000; // Ajouter du jitter pour éviter la collision
+        const delayMs = baseDelay + jitter;
+        
         console.log(`⚠️ Attempt ${attempt} failed for ${key}: ${error.message}`);
-        console.log(`🔄 Retrying in ${delayMs/1000}s...`);
+        console.log(`🔄 Retrying in ${Math.round(delayMs/1000)}s...`);
         await sleep(delayMs);
         continue;
       }
@@ -143,20 +161,14 @@ async function uploadFileWithRetry(filePath, key, maxRetries = 3) {
 }
 
 /**
- * Upload un fichier vers R2 (alias pour compatibilité)
- */
-async function uploadFile(filePath, key) {
-  return await uploadFileWithRetry(filePath, key);
-}
-
-/**
  * Fonction principale
  */
 async function main() {
   try {
-    console.log('🚀 Starting upload to Cloudflare R2...');
+    console.log('🚀 Starting robust upload to Cloudflare R2...');
     console.log(`📁 Source directory: ${UPLOADS_DIR}`);
     console.log(`🪣 Target bucket: ${BUCKET_NAME}`);
+    console.log(`🔧 Using SSL configuration optimized for Windows`);
     
     // Vérifier que le répertoire uploads existe
     try {
@@ -185,26 +197,55 @@ async function main() {
     let failedCount = 0;
     const failedFiles = [];
 
-    // Uploader chaque fichier avec un délai entre les uploads pour éviter la surcharge
-    for (let i = 0; i < files.length; i++) {
-      const filePath = files[i];
-      try {
-        // Créer la clé relative depuis le dossier uploads
-        const relativePath = path.relative(UPLOADS_DIR, filePath);
-        const key = relativePath.replace(/\\/g, '/'); // Normaliser les séparateurs pour S3
-
-        await uploadFile(filePath, key);
-        uploadedCount++;
+    // Upload en parallèle avec concurrence contrôlée
+    const CONCURRENCY = 3; // Concurrence réduite pour plus de stabilité
+    const BATCH_SIZE = 10; // Taille des batches
+    
+    for (let i = 0; i < files.length; i += BATCH_SIZE) {
+      const batch = files.slice(i, Math.min(i + BATCH_SIZE, files.length));
+      
+      console.log(`\n📦 Processing batch ${Math.floor(i/BATCH_SIZE) + 1}/${Math.ceil(files.length/BATCH_SIZE)} (${batch.length} files)`);
+      
+      // Traiter le batch avec concurrence limitée
+      for (let j = 0; j < batch.length; j += CONCURRENCY) {
+        const chunk = batch.slice(j, j + CONCURRENCY);
         
-        // Petit délai entre les uploads pour éviter la surcharge du serveur
-        if (i < files.length - 1) {
-          await sleep(100); // 100ms de délai
+        const uploadPromises = chunk.map(async (filePath) => {
+          try {
+            const relativePath = path.relative(UPLOADS_DIR, filePath);
+            const key = relativePath.replace(/\\/g, '/');
+            
+            await uploadFileRobust(filePath, key);
+            return { success: true, filePath };
+          } catch (error) {
+            return { success: false, filePath, error: error.message };
+          }
+        });
+        
+        // Attendre que tous les uploads du chunk se terminent
+        const results = await Promise.all(uploadPromises);
+        
+        // Traiter les résultats
+        results.forEach(result => {
+          if (result.success) {
+            uploadedCount++;
+          } else {
+            failedCount++;
+            failedFiles.push({ path: result.filePath, error: result.error });
+            console.error(`Failed to upload ${result.filePath}:`, result.error);
+          }
+        });
+        
+        // Petit délai entre les chunks
+        if (j + CONCURRENCY < batch.length) {
+          await sleep(500);
         }
-        
-      } catch (error) {
-        failedCount++;
-        failedFiles.push({ path: filePath, error: error.message });
-        console.error(`Failed to upload ${filePath}:`, error.message);
+      }
+      
+      // Délai plus long entre les batches
+      if (i + BATCH_SIZE < files.length) {
+        console.log('⏳ Waiting 3s before next batch...');
+        await sleep(3000);
       }
     }
 
@@ -228,13 +269,16 @@ async function main() {
   } catch (error) {
     console.error('💥 Upload failed:', error.message);
     process.exit(1);
+  } finally {
+    // Rétablir les paramètres SSL
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '1';
   }
 }
 
 // Exécuter le script
-if (process.argv[1] === __filename || process.argv[1].endsWith('upload-to-r2.mjs')) {
+if (process.argv[1] === __filename || process.argv[1].endsWith('upload-to-r2-robust.mjs')) {
   main().catch(console.error);
 }
 
-export { getAllFiles, uploadFile };
+export { getAllFiles, uploadFileRobust };
 

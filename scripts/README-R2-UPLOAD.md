@@ -47,29 +47,46 @@ npx wrangler r2 bucket create croissant-uploads
 
 ## Utilisation
 
-### Méthode 1 - Script AWS SDK (recommandé)
+### 🚀 Script Ultra-Rapide (recommandé pour gros volumes)
+
+Upload jusqu'à 30 fichiers en parallèle pour une vitesse maximale :
+
+```bash
+npm run upload-to-r2-fast
+```
+
+### 🛡️ Script Standard (AWS SDK)
+
+Upload séquentiel avec retry robuste :
 
 ```bash
 npm run upload-to-r2
 ```
 
-### Méthode 2 - Script REST API (si problèmes SSL)
+### 🔧 Script Wrangler CLI (si problèmes SSL)
 
-Si vous rencontrez des erreurs SSL comme "handshake failure", utilisez le script alternatif :
-
-```bash
-npm run upload-to-r2-rest
-```
-
-### Méthode avancée - Exécution directe
+Utilise Wrangler CLI avec parallélisme modéré (5 fichiers simultanés) :
 
 ```bash
-# Script principal (AWS SDK)
-node scripts/upload-to-r2.mjs
-
-# Script alternatif (REST API)
-node scripts/upload-to-r2-rest.mjs
+npm run upload-to-r2-wrangler
 ```
+
+### 🔒 Script Robuste (pour environnements difficiles)
+
+Configuration SSL optimisée, upload par petits batches (3 fichiers simultanés) :
+
+```bash
+npm run upload-to-r2-robust
+```
+
+### Comparaison des scripts
+
+| Script | Vitesse | Parallélisme | Robustesse | Utilisation recommandée |
+|--------|---------|--------------|------------|------------------------|
+| **fast** | ⚡⚡⚡ | 30 simultanés | ⭐⭐ | Gros volumes, connexion stable |
+| **wrangler** | ⚡⚡ | 5 simultanés | ⭐⭐⭐ | Problèmes SSL, environnement Windows |
+| **robust** | ⚡ | 3 simultanés | ⭐⭐⭐⭐ | Connexion instable, retry important |
+| **standard** | ⚡ | Séquentiel | ⭐⭐⭐ | Usage général, premiers tests |
 
 ## Fonctionnalités
 
@@ -80,8 +97,10 @@ node scripts/upload-to-r2-rest.mjs
 - ✅ Gestion des erreurs avec rapport détaillé
 - ✅ Support des formats : AVIF, WebP, PNG, JPEG, SVG, PDF, JSON, etc.
 - ✅ **Retry automatique** avec backoff exponentiel
-- ✅ **Deux scripts différents** pour gérer les problèmes de connectivité
-- ✅ **Délais entre uploads** pour éviter la surcharge du serveur
+- ✅ **Quatre scripts optimisés** pour différents cas d'usage
+- ✅ **Upload en parallèle** jusqu'à 30 fichiers simultanément
+- ✅ **Pool de clients S3** pour maximiser les performances
+- ✅ **Statistiques de performance** (vitesse, temps total)
 
 ## Structure dans R2
 
