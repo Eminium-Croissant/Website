@@ -16,7 +16,17 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	/**
+	 * R2 Object Storage Bindings
+	 * https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
+	 */
+	"r2_buckets": [
+		{
+			"binding": "UPLOADS_BUCKET",
+			"bucket_name": "croissant-uploads"
+		}
+	]
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

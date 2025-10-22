@@ -4,16 +4,26 @@ import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 import sharp from 'sharp';
+import { uploadToR2 } from '../../../utils/r2-utils';
 
 export const config = {
   api: { bodyParser: false },
 };
+
+// Fonction pour récupérer l'environnement Cloudflare
+function getCloudflareEnv(req: NextApiRequest): CloudflareEnv | undefined {
+  // @ts-ignore - L'environnement Cloudflare est injecté automatiquement
+  return (req as any).env;
+}
 
 const bannersDir = path.join(process.cwd(), 'uploads/bannersIcons');
 if (!fs.existsSync(bannersDir)) fs.mkdirSync(bannersDir, { recursive: true });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).end('Method Not Allowed');
+
+  // Récupérer l'environnement Cloudflare
+  const env = getCloudflareEnv(req);
 
   const form = formidable({ uploadDir: bannersDir, keepExtensions: true });
   form.parse(req, async (err, fields, files) => {
@@ -29,13 +39,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       .createHash('sha256')
       .update(Date.now() + (file.originalFilename || ''))
       .digest('hex');
-    const destPath = path.join(bannersDir, `${hash}.avif`);
+
     try {
-      await sharp(tempPath).avif({ quality: 80 }).toFile(destPath);
+      // Convertir l'image en AVIF
+      const avifBuffer = await sharp(tempPath).avif({ quality: 80 }).toBuffer();
+      
+      // Nettoyer le fichier temporaire
       fs.unlinkSync(tempPath);
-    } catch (err) {
-      return res.status(500).json({ error: 'AVIF conversion failed' });
+
+      // Si R2 est disponible, uploader vers R2
+      if (env?.UPLOADS_BUCKET) {
+        const r2Key = `bannersIcons/${hash}.avif`;
+        await uploadToR2(
+          env.UPLOADS_BUCKET,
+          r2Key,
+          avifBuffer,
+          'image/avif',
+          {
+            'uploaded-at': new Date().toISOString(),
+            'original-filename': file.originalFilename || 'unknown',
+            'type': 'banner',
+          }
+        );
+        console.log(`Banner uploaded to R2: ${r2Key}`);
+      } else {
+        // Fallback: sauvegarder localement si R2 n'est pas disponible
+        const destPath = path.join(bannersDir, `${hash}.avif`);
+        await fs.promises.writeFile(destPath, avifBuffer);
+        console.log(`Banner uploaded locally: ${destPath}`);
+      }
+
+      res.json({ hash });
+    } catch (error) {
+      console.error('Banner upload error:', error);
+      return res.status(500).json({ error: 'AVIF conversion or upload failed' });
     }
-    res.json({ hash });
   });
 }

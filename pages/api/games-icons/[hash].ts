@@ -1,5 +1,13 @@
+import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { handleCloudflareError } from '../../../components/utils/CloudflareUtils';
+import path from 'path';
+import { createImageResponse, findFileWithExtensions } from '../../../utils/r2-utils';
+
+// Fonction pour récupérer l'environnement Cloudflare
+function getCloudflareEnv(req: NextApiRequest): CloudflareEnv | undefined {
+  // @ts-ignore - L'environnement Cloudflare est injecté automatiquement
+  return (req as any).env;
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -9,25 +17,79 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return;
     }
 
-    // In Cloudflare Workers, we can't access local filesystem
-    // Icons should be served from R2 storage or static assets
+    // Récupérer l'environnement Cloudflare
+    const env = getCloudflareEnv(req);
     
-    // For now, return a 404 or redirect to a default icon
-    // In a real implementation, you would:
-    // 1. Check R2 storage for the icon
-    // 2. Return the icon from Cloudflare R2
-    // 3. Set appropriate cache headers
+    // Essayer de récupérer depuis R2 d'abord
+    if (env?.UPLOADS_BUCKET) {
+      try {
+        const result = await findFileWithExtensions(env.UPLOADS_BUCKET, `gameIcons/${hash}`);
+        if (result) {
+          // Convertir la réponse R2 en Response Next.js
+          const response = createImageResponse(result.object);
+          
+          // Copier les headers vers la réponse Next.js
+          response.headers.forEach((value, key) => {
+            res.setHeader(key, value);
+          });
+          
+          // Stream le contenu
+          if (result.object.body) {
+            const reader = result.object.body.getReader();
+            
+            try {
+              while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                res.write(Buffer.from(value));
+              }
+              res.end();
+              return;
+            } finally {
+              reader.releaseLock();
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching game icon from R2:', error);
+        // Continue vers le fallback local
+      }
+    }
+
+    // Fallback: recherche locale si R2 n'est pas disponible ou échec
+    const gameIconsDir = path.join(process.cwd(), 'uploads/gameIcons');
+    const exts = ['.avif', '.png', '.jpg', '.jpeg', '.webp'];
+    let iconPath: string | undefined;
     
-    console.warn(`[Game Icons] Icon ${hash} not available in Cloudflare Workers environment`);
-    
-    // Return a placeholder or redirect to default icon
-    res.status(404).json({ 
-      error: 'Icon not found',
-      message: 'Icons not available in Cloudflare Workers without R2 storage'
-    });
+    for (const ext of exts) {
+      const candidate = path.join(gameIconsDir, `${hash}${ext}`);
+      if (fs.existsSync(candidate)) {
+        iconPath = candidate;
+        break;
+      }
+    }
+
+    if (iconPath && fs.existsSync(iconPath)) {
+      res.setHeader('Content-Type', 'image/avif');
+      res.setHeader('Cache-Control', 'public, max-age=300');
+      fs.createReadStream(iconPath).pipe(res);
+    } else {
+      // Fallback final: icône par défaut
+      const fallbackPath = path.join(process.cwd(), 'public/assets/default-game-icon.avif');
+      if (fs.existsSync(fallbackPath)) {
+        res.setHeader('Content-Type', 'image/avif');
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        fs.createReadStream(fallbackPath).pipe(res);
+      } else {
+        res.status(404).json({ 
+          error: 'Game icon not found',
+          hash 
+        });
+      }
+    }
     
   } catch (error) {
-    handleCloudflareError(error, 'game icons handler');
+    console.error('Game icons handler error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 }
