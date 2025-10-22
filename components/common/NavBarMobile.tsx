@@ -1,13 +1,13 @@
-import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import Searchbar from '../Searchbar';
 import CachedImage from '../utils/CachedImage';
+import { useTranslation } from '../utils/CloudflareI18n';
 
 export default function NavBarMobile() {
   const { user, loading, setUser } = useAuth();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [showRoles, setShowRoles] = useState(false);

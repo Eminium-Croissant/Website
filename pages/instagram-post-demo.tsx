@@ -1,10 +1,9 @@
 import { faArrowLeft, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useState } from 'react';
 import InstagramPost from '../components/InstagramPost';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 
 type DemoConfig = {
   name: string;
@@ -21,13 +20,13 @@ type DemoConfig = {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
 export default function InstagramPostDemo() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [selectedConfig, setSelectedConfig] = useState<DemoConfig | null>(null);
   const [copiedConfig, setCopiedConfig] = useState<string | false>(false);
 
@@ -205,15 +204,15 @@ export default function InstagramPostDemo() {
                   <h4 className='text-lg font-semibold mb-4 mt-6 text-glass-text'>Props disponibles</h4>
                   <div className='space-y-3'>
                     <div className='glass-card p-3'>
-                      <strong className='text-glass-text'>theme:</strong>
+                      <strong className='text-glass-text'>theme:
                       <span className='text-glass-text-secondary ml-2'>"default" | "gaming" | "community" | "developer"</span>
                     </div>
                     <div className='glass-card p-3'>
-                      <strong className='text-glass-text'>size:</strong>
+                      <strong className='text-glass-text'>size:
                       <span className='text-glass-text-secondary ml-2'>"small" | "medium" | "large"</span>
                     </div>
                     <div className='glass-card p-3'>
-                      <strong className='text-glass-text'>features:</strong>
+                      <strong className='text-glass-text'>features:
                       <span className='text-glass-text-secondary ml-2'>string[] - Badges à afficher</span>
                     </div>
                   </div>

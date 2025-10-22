@@ -1,12 +1,12 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getServerSideTranslations as serverSideTranslations } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -37,6 +37,11 @@ export interface CreateMarketListingRequest {
   item_id: string;
   price: number;
   metadata?: { [key: string]: unknown; _unique_id?: string };
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
 }
 
 function ItemTooltip({ listing }: { listing: EnrichedMarketListing }) {
@@ -96,9 +101,9 @@ export default function MyMarketListingsPage() {
     setLoading(true);
     fetch(`/api/market-listings/user/${user.id}`)
       .then(async res => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Failed to fetch listings');
-        setListings(data);
+        const data = await res.json() as EnrichedMarketListing[] | ApiErrorResponse;
+        if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to fetch listings');
+        setListings(data as EnrichedMarketListing[]);
         setLoading(false);
       })
       .catch(err => {
@@ -177,7 +182,10 @@ export default function MyMarketListingsPage() {
                                   const res = await fetch(`/api/market-listings/${listing.id}/cancel`, {
                                     method: 'PUT',
                                   });
-                                  if (!res.ok) throw new Error((await res.json()).message);
+                                  if (!res.ok) {
+                                    const errorData = await res.json() as ApiErrorResponse;
+                                    throw new Error(errorData.message);
+                                  }
                                   setListings(listings => listings.filter(l => l.id !== listing.id));
                                 } catch (e: any) {
                                   alert(e.message);

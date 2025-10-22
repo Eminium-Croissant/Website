@@ -1,21 +1,51 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../../components/utils/CloudflareI18n';
 import useAuth from '../../hooks/useAuth';
 import useIsMobile from '../../hooks/useIsMobile';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
-function AppCard({ app, onIframe, onEdit, onDelete, spoilers, toggleSpoiler }) {
-  const { t } = useTranslation('common');
+interface OAuth2App {
+  client_id: string;
+  client_secret?: string;
+  name: string;
+  redirect_urls: string[];
+}
+
+interface CreateAppRequest {
+  name: string;
+  redirect_urls: string[];
+}
+
+interface CreateAppResponse {
+  client_id: string;
+  client_secret: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
+interface AppCardProps {
+  app: OAuth2App;
+  onIframe: (client_id: string) => void;
+  onEdit: (app: OAuth2App) => void;
+  onDelete: (client_id: string) => void;
+  spoilers: { [k: string]: boolean };
+  toggleSpoiler: (client_id: string) => void;
+}
+
+function AppCard({ app, onIframe, onEdit, onDelete, spoilers, toggleSpoiler }: AppCardProps) {
+  const { t } = useTranslation();
   return (
     <div className='bg-[#1c1c24] rounded-xl overflow-hidden flex flex-col border border-[#333] shadow-lg transform transition-transform hover:scale-[1.02] hover:shadow-xl'>
       <div className='relative h-8 bg-[#18181c]'>
@@ -77,7 +107,7 @@ function AppCard({ app, onIframe, onEdit, onDelete, spoilers, toggleSpoiler }) {
 }
 
 function useOAuth2AppsLogic() {
-  const [apps, setApps] = useState<any[]>([]);
+  const [apps, setApps] = useState<OAuth2App[]>([]);
   const [name, setName] = useState('');
   const [redirectUrls, setRedirectUrls] = useState('');
   const [iframeCode, setIframeCode] = useState<string | null>(null);
@@ -97,7 +127,7 @@ function useOAuth2AppsLogic() {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     })
-      .then(res => res.json())
+      .then(res => res.json() as Promise<OAuth2App[]>)
       .then(setApps)
       .catch(() => setApps([]));
   }, [token]);
@@ -132,7 +162,7 @@ function useOAuth2AppsLogic() {
         }),
       });
       if (res.ok) {
-        const data = await res.json();
+        const data = await res.json() as CreateAppResponse;
         setApps([
           ...apps,
           {
@@ -164,7 +194,7 @@ function useOAuth2AppsLogic() {
     );
   };
 
-  const handleEdit = (app: any) => {
+  const handleEdit = (app: OAuth2App) => {
     setName(app.name);
     setRedirectUrls(Array.isArray(app.redirect_urls) ? app.redirect_urls.join(',') : app.redirect_urls);
     setEditing(app.client_id);
@@ -220,7 +250,7 @@ function useOAuth2AppsLogic() {
 }
 
 function OAuth2AppsDesktop(props: ReturnType<typeof useOAuth2AppsLogic>) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { apps, name, setName, redirectUrls, setRedirectUrls, iframeCode, setIframeCode, editing, showForm, setShowForm, showEditForm, handleCreate, handleIframe, handleEdit, handleCancelEdit, handleDelete, spoilers, toggleSpoiler, setEditing } = props;
 
   return (
@@ -255,7 +285,7 @@ function OAuth2AppsDesktop(props: ReturnType<typeof useOAuth2AppsLogic>) {
 }
 
 function OAuth2AppsMobile(props: ReturnType<typeof useOAuth2AppsLogic>) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { apps, name, setName, redirectUrls, setRedirectUrls, iframeCode, setIframeCode, editing, showForm, setShowForm, showEditForm, handleCreate, handleIframe, handleEdit, handleCancelEdit, handleDelete, spoilers, toggleSpoiler, setEditing } = props;
 
   return (
@@ -293,8 +323,19 @@ function OAuth2AppsMobile(props: ReturnType<typeof useOAuth2AppsLogic>) {
   );
 }
 
-function OAuth2AppModal({ title, name, setName, redirectUrls, setRedirectUrls, onSubmit, onCancel, submitLabel }) {
-  const { t } = useTranslation('common');
+interface OAuth2AppModalProps {
+  title: string;
+  name: string;
+  setName: (name: string) => void;
+  redirectUrls: string;
+  setRedirectUrls: (urls: string) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  onCancel: () => void;
+  submitLabel: string;
+}
+
+function OAuth2AppModal({ title, name, setName, redirectUrls, setRedirectUrls, onSubmit, onCancel, submitLabel }: OAuth2AppModalProps) {
+  const { t } = useTranslation();
   return (
     <div className='fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50' onClick={onCancel}>
       <div onClick={e => e.stopPropagation()} className='bg-[#1c1c24] rounded-xl p-6 w-full  relative'>
@@ -331,8 +372,13 @@ function OAuth2AppModal({ title, name, setName, redirectUrls, setRedirectUrls, o
   );
 }
 
-function OAuth2CodeModal({ code, onClose }) {
-  const { t } = useTranslation('common');
+interface OAuth2CodeModalProps {
+  code: string;
+  onClose: () => void;
+}
+
+function OAuth2CodeModal({ code, onClose }: OAuth2CodeModalProps) {
+  const { t } = useTranslation();
   return (
     <div className='fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50' onClick={onClose}>
       <div onClick={e => e.stopPropagation()} className='bg-[#1c1c24] rounded-xl p-6 w-full  relative'>

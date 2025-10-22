@@ -1,12 +1,11 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -19,8 +18,18 @@ interface Tier {
   id: string;
 }
 
+interface CheckoutResponse {
+  url: string;
+  session_id?: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
 const BuyCredits: React.FC = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const tiers: Tier[] = [
     {
@@ -56,8 +65,8 @@ const BuyCredits: React.FC = () => {
   const handlePurchase = async (tier: Tier) => {
     try {
       const response = await fetch(`/api/stripe/checkout?tier=${tier.id}`);
-      const data = await response.json();
-      if (data.url) {
+      const data = await response.json() as CheckoutResponse | ApiErrorResponse;
+      if ('url' in data && data.url) {
         window.location.href = data.url;
       } else {
         console.error('Failed to create checkout session');

@@ -139,8 +139,8 @@
       "title": "Açık Kaynak Proje",
       "subtitle": "Gelişime Katkıda Bulunun",
       "description": {
-        "desktop": "Croissant, her katkının önemli olduğu <strong>açık kaynaklı</strong> bir projedir. Tutkulu geliştiricilerden oluşan topluluğumuza katılın ve oyunun geleceğini şekillendirmemize yardımcı olun.",
-        "mobile": "Croissant, her katkının önemli olduğu <strong>açık kaynaklı</strong> bir projedir. Tutkulu geliştiricilerden oluşan topluluğumuza katılın."
+        "desktop": "Croissant, her katkının önemli olduğu açık kaynaklı bir projedir. Tutkulu geliştiricilerden oluşan topluluğumuza katılın ve oyunun geleceğini şekillendirmemize yardımcı olun.",
+        "mobile": "Croissant, her katkının önemli olduğu açık kaynaklı bir projedir. Tutkulu geliştiricilerden oluşan topluluğumuza katılın."
       },
       "development": {
         "title": "Geliştirme",
@@ -316,7 +316,7 @@
     "goHome": "Ana sayfaya dön",
     "giftNotFound": "Hediye bulunamadı",
     "giftNotFoundDesc": "Bu hediye kodu geçersiz veya süresi dolmuş.",
-    "from": "Gönderen: <strong>{{username}}</strong>",
+    "from": "Gönderen: {{username}}",
     "youReceivedGift": "🎁 Bir hediye aldınız!",
     "back": "← Geri",
     "purchaseSuccess": "Satın alma başarılı!",
@@ -557,7 +557,7 @@
   },
   "search": {
     "enterQuery": "Arama girin.",
-    "resultsFor": "<strong>{{query}}</strong> için sonuçlar",
+    "resultsFor": "{{query}} için sonuçlar",
     "users": "Kullanıcılar",
     "games": "Oyunlar",
     "items": "Eşyalar",

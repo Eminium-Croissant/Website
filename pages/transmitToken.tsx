@@ -1,12 +1,12 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

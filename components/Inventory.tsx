@@ -1,8 +1,8 @@
-import { useTranslation } from 'next-i18next';
 import React, { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { ShopItem } from '../pages/profile';
 import CachedImage from './utils/CachedImage';
+import { useTranslation } from './utils/CloudflareI18n';
 
 const endpoint = '/api';
 
@@ -20,8 +20,50 @@ export interface Item {
   sellable?: boolean;
   rarity: 'very-common' | 'common' | 'uncommon' | 'rare' | 'very-rare' | 'epic' | 'ultra-epic' | 'legendary' | 'ancient' | 'mythic' | 'godlike' | 'radiant';
   custom_url_link?: string;
-  metadata?: { [key: string]: unknown; _unique_id?: string };
+  metadata?: Record<string, any>;
+  metadataString: string;
 }
+
+interface InventoryResponse {
+  items: Item[];
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
+interface ItemDetailsResponse {
+  id: string;
+  name: string;
+  description?: string;
+  rarity: string;
+  game: string;
+  gameItemId?: string;
+  creator?: {
+    id: string;
+    username: string;
+    discordId?: string;
+  };
+  thumbnailUrl?: string;
+  iconUrl?: string;
+  animatedIconUrl?: string;
+  metadataUrl?: string;
+  stackable?: boolean;
+  tradeable?: boolean;
+  sellable?: boolean;
+  metadata: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface UserDetailsResponse {
+  id: string;
+  username: string;
+  discordId?: string;
+  isOnline?: boolean;
+}
+
 
 interface User {
   verified: boolean;
@@ -57,14 +99,14 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
 
   const { user } = useAuth();
   const selectedUser = profile.id === 'me' ? user?.id || 'me' : profile.id;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   useEffect(() => {
-    const processedItems = (profile.inventory || []).map(item => ({
+    const processedItems = (profile.inventory || []).map((item: any) => ({
       ...item,
       uniqueId: item.metadata?._unique_id as string | undefined,
       sellable: item.sellable ?? false,
-    }));
+    } as Item));
     setItems(processedItems);
     setLoading(false);
   }, [profile.inventory]);
@@ -78,13 +120,13 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
       headers: { 'Content-Type': 'application/json' },
     })
       .then(res => (res.ok ? res.json() : Promise.reject(new Error('Failed to fetch inventory'))))
-      .then(data => {
-        const processedItems = (data.inventory || []).map((item: any) => ({
+      .then((data: InventoryResponse) => {
+        const processedItems = (data.items || []).map((item: any) => ({
           ...item,
           uniqueId: item.metadata?._unique_id as string | undefined,
           sellable: item.sellable ?? false,
           iconHash: item.iconHash || item.item_id,
-        }));
+        } as Item));
         setItems(processedItems);
         setLoading(false);
       })
@@ -152,7 +194,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
       body: JSON.stringify(requestBody),
     })
       .then(async res => {
-        const data = await res.json();
+        const data: ApiErrorResponse = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to sell item');
         return data;
       })
@@ -190,7 +232,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
       }),
     })
       .then(async res => {
-        const data = await res.json();
+        const data: ApiErrorResponse = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to auction item');
         return data;
       })
@@ -213,7 +255,7 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
       body: JSON.stringify(requestBody),
     })
       .then(async res => {
-        const data = await res.json();
+        const data: ApiErrorResponse = await res.json();
         if (!res.ok) throw new Error(data.message || 'Failed to drop item');
         return data;
       })
@@ -229,17 +271,17 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
         headers: { 'Content-Type': 'application/json' },
       });
       if (!res.ok) throw new Error('Failed to fetch item details');
-      const details = await res.json();
-      let ownerUser = null;
-      if (details.owner) {
-        const userRes = await fetch(`${endpoint}/users/${details.owner}`);
+      const details: ItemDetailsResponse = await res.json();
+      let ownerUser: UserDetailsResponse | null = null;
+      if (details.creator?.id) {
+        const userRes = await fetch(`${endpoint}/users/${details.creator.id}`);
         if (userRes.ok) ownerUser = await userRes.json();
       }
       setSelectedItem({
         ...item,
         ...details,
         amount: item.amount,
-        uniqueId: item.metadata._unique_id,
+        rarity: item.rarity, // Keep the original item's rarity which has the correct type
       });
       setOwnerUser(ownerUser);
     } catch {

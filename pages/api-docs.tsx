@@ -1,22 +1,21 @@
 import { faBook, faCode, faUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useIsMobile from '../hooks/useIsMobile';
 const Swagger = dynamic(() => import('../components/swagger'), { ssr: false });
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
 export default function ApiDocs() {
   const isMobile = useIsMobile();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const sdkLanguages = ['ts-and-js:TypeScript/JavaScript', 'python:Python', 'java:Java', 'cs:C#', 'php:PHP', 'ruby:Ruby', 'rust:Rust', 'go:Go', 'cpp:C++'];
 

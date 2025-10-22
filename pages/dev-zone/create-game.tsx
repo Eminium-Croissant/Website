@@ -1,18 +1,67 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../../components/utils/CloudflareI18n';
 import useAuth from '../../hooks/useAuth';
 import useIsMobile from '../../hooks/useIsMobile';
 const endpoint = '/api';
+
+interface GameFormData {
+  name: string;
+  description: string;
+  price: string;
+  downloadLink: string;
+  iconHash: string;
+  bannerHash: string;
+  showInStore: boolean;
+  genre: string;
+  release_date: string;
+  developer: string;
+  publisher: string;
+  platforms: string;
+  website: string;
+  trailer_link: string;
+  multiplayer: boolean;
+}
+
+interface ValidationErrors {
+  [key: string]: string;
+}
+
+interface UploadResponse {
+  hash: string;
+  url?: string;
+}
+
+interface CreateGameRequest {
+  name: string;
+  description: string;
+  price: number;
+  download_link: string;
+  showInStore: boolean;
+  genre?: string | null;
+  release_date?: string | null;
+  developer?: string | null;
+  publisher?: string | null;
+  platforms?: string | null;
+  website?: string | null;
+  trailer_link?: string | null;
+  multiplayer: boolean;
+  iconHash: string;
+  bannerHash: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
 
 const GameForm = () => {
   const isMobile = useIsMobile();
   const { token } = useAuth();
   const router = useRouter();
-  const { t } = useTranslation('common');
-  const [formData, setFormData] = useState({
+  const { t } = useTranslation();
+  const [formData, setFormData] = useState<GameFormData>({
     name: '',
     description: '',
     price: '',
@@ -32,7 +81,7 @@ const GameForm = () => {
 
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
-  const [errors, setErrors]: [any, Dispatch<SetStateAction<any>>] = useState({});
+  const [errors, setErrors]: [ValidationErrors, Dispatch<SetStateAction<ValidationErrors>>] = useState({});
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -58,8 +107,8 @@ const GameForm = () => {
     }
   };
 
-  const validate = () => {
-    const newErrors: any = {};
+  const validate = (): ValidationErrors => {
+    const newErrors: ValidationErrors = {};
     if (!formData.name) newErrors.name = t('createGame.error.name');
     if (!formData.description) newErrors.description = t('createGame.error.description');
     if (!formData.price) newErrors.price = t('createGame.error.price');
@@ -90,7 +139,7 @@ const GameForm = () => {
           method: 'POST',
           body: iconData,
         });
-        const data = await res.json();
+        const data = await res.json() as UploadResponse;
         if (data.hash) {
           iconHash = data.hash;
         } else {
@@ -119,7 +168,7 @@ const GameForm = () => {
           method: 'POST',
           body: bannerData,
         });
-        const data = await res.json();
+        const data = await res.json() as UploadResponse;
         if (data.hash) {
           bannerHash = data.hash;
         } else {
@@ -193,7 +242,7 @@ const GameForm = () => {
         router.push('/dev-zone/my-games');
         return;
       } else {
-        const err = await res.json();
+        const err = await res.json() as ApiErrorResponse;
         setErrors({ submit: err.message || t('createGame.error.submit') });
       }
     } catch (err: any) {
@@ -295,7 +344,7 @@ export default GameForm;
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

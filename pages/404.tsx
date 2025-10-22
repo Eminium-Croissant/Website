@@ -1,7 +1,6 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import React from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useIsMobile from '../hooks/useIsMobile';
 
 interface NotFoundProps {
@@ -98,7 +97,7 @@ const NotFoundMobile: React.FC<NotFoundProps> = ({ t }) => {
 };
 
 export default function NotFoundPage() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   return isMobile ? <NotFoundMobile t={t} /> : <NotFoundDesktop t={t} />;
 }
@@ -106,7 +105,7 @@ export default function NotFoundPage() {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

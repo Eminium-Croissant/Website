@@ -1,13 +1,12 @@
 import { faChevronDown, faChevronUp, faFileText, faGavel } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -15,7 +14,7 @@ export async function getStaticProps({ locale }) {
 const TermsOfService: React.FC = () => {
   const [openFr, setOpenFr] = useState(false);
   const [openEn, setOpenEn] = useState(false);
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   return (
     <div className='glass-page-container'>

@@ -1,16 +1,73 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
-import i18n from '../i18n';
+
+interface User {
+  id: string;
+  username: string;
+  email?: string;
+  verified: boolean;
+  steam_id?: string;
+  discord_id?: string;
+  google_id?: string;
+  isStudio?: boolean;
+  haveAuthenticator?: boolean;
+}
+
+interface AuthenticatorKeyResponse {
+  key: string;
+  qrCode: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+}
+
+interface ApiSuccessResponse {
+  message: string;
+}
+
+interface ChangePasswordData {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+interface WebAuthnCredential {
+  id: string;
+  rawId: string;
+  type: string;
+  response: {
+    attestationObject: string;
+    clientDataJSON: string;
+  };
+  clientExtensionResults: any;
+}
+
+interface WebAuthnOptions {
+  challenge: Uint8Array | string;
+  rp: { name: string; id?: string };
+  user: {
+    id: Uint8Array | string;
+    name: string;
+    displayName: string;
+  };
+  pubKeyCredParams: Array<{ type: string; alg: number }>;
+  authenticatorSelection?: {
+    residentKey?: string;
+    userVerification?: string;
+  };
+  requireResidentKey?: boolean;
+}
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -62,7 +119,21 @@ const steamBtnStyleDef: React.CSSProperties = {
   padding: '0 24px',
 };
 
-function ChangePasswordModal({ open, onClose, onSubmit, loading, error, success }: { open: boolean; onClose: () => void; onSubmit: (data: { oldPassword: string; newPassword: string; confirmPassword: string }) => void; loading: boolean; error: string | null; success: string | null }) {
+function ChangePasswordModal({ 
+  open, 
+  onClose, 
+  onSubmit, 
+  loading, 
+  error, 
+  success 
+}: { 
+  open: boolean; 
+  onClose: () => void; 
+  onSubmit: (data: ChangePasswordData) => void; 
+  loading: boolean; 
+  error: string | null; 
+  success: string | null 
+}) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -110,7 +181,15 @@ function ChangePasswordModal({ open, onClose, onSubmit, loading, error, success 
   );
 }
 
-function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean; onClose: (success: boolean) => void; user: any }) {
+function GoogleAuthenticatorSetupModal({ 
+  open, 
+  onClose, 
+  user 
+}: { 
+  open: boolean; 
+  onClose: (success: boolean) => void; 
+  user: User | null 
+}) {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<'generate' | 'validate'>('generate');
   const [key, setKey] = useState<any>(null);
@@ -138,9 +217,10 @@ function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean;
         method: 'POST',
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to generate key');
-      setKey(data.key);
-      setQrCode(data.qrCode);
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to generate key');
+      const keyResponse = data as AuthenticatorKeyResponse;
+      setKey(keyResponse.key);
+      setQrCode(keyResponse.qrCode);
       setStep('validate');
     } catch (e: any) {
       setError(e.message);
@@ -161,7 +241,7 @@ function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean;
         body: JSON.stringify({ key, passcode }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to validate key');
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to validate key');
       setSuccess('Google Authenticator setup complete!');
       setStep('generate');
       user.haveAuthenticator = true;
@@ -225,7 +305,7 @@ function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean;
 }
 
 function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySuccess, passkeyError, handleRegisterPasskey, setShowGoogleAuthModal, success, error, setError, router, linkText }: any) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   if (!open) return null;
   return (
     <div className='shop-prompt-overlay'>
@@ -338,7 +418,7 @@ function SecurityModal({ open, onClose, user, setUser, passkeyLoading, passkeySu
 function useSettingsLogic() {
   const { user, token, setUser } = useAuth();
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [email, setEmail] = useState(user?.email || '');
   const [username, setUsername] = useState(user?.username || '');
   const [usernameLoading, setUsernameLoading] = useState(false);
@@ -426,7 +506,7 @@ function useSettingsLogic() {
         body: JSON.stringify({ username }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to update username');
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to update username');
       setUsernameSuccess('Username updated!');
       setUser && setUser({ ...user, username });
     } catch (e: any) {
@@ -436,7 +516,7 @@ function useSettingsLogic() {
     }
   };
 
-  const handlePasswordChange = async ({ oldPassword, newPassword, confirmPassword }: { oldPassword: string; newPassword: string; confirmPassword: string }) => {
+  const handlePasswordChange = async ({ oldPassword, newPassword, confirmPassword }: ChangePasswordData) => {
     setPasswordLoading(true);
     setPasswordError(null);
     setPasswordSuccess(null);
@@ -455,7 +535,7 @@ function useSettingsLogic() {
         body: JSON.stringify({ oldPassword, newPassword, confirmPassword }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Error changing password');
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Error changing password');
       setPasswordSuccess('Password updated!');
       setShowPasswordModal(false);
     } catch (e: any) {
@@ -480,7 +560,7 @@ function useSettingsLogic() {
         }),
       });
       if (!res.ok) throw new Error('Failed to get registration options');
-      const options = await res.json();
+      const options: any = await res.json();
 
       if (!options.authenticatorSelection) {
         options.authenticatorSelection = {
@@ -592,62 +672,108 @@ function useSettingsLogic() {
 }
 
 function LanguageSelector() {
-  const { t } = useTranslation('common');
-  const router = useRouter();
-
-  const currentLang = router.locale || i18n.language;
-  const [lang, setLang] = useState(currentLang);
+  const { t, locale, changeLocale } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const availableLanguages = [
-    { code: 'en', label: 'English' },
-    { code: 'fr', label: 'Français' },
-    { code: 'es', label: 'Español' },
-    { code: 'de', label: 'Deutsch' },
-    { code: 'it', label: 'Italiano' },
-    { code: 'ja', label: '日本語' },
-    { code: 'ko', label: '한국어' },
-    { code: 'tr', label: 'Türkçe' },
-    { code: 'zh', label: '中文' },
-    { code: 'ar', label: 'العربية' },
-    { code: 'ru', label: 'Русский' },
+    { code: 'en', label: 'English', flag: '🇺🇸' },
+    { code: 'fr', label: 'Français', flag: '🇫🇷' },
+    { code: 'es', label: 'Español', flag: '🇪🇸' },
+    { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+    { code: 'it', label: 'Italiano', flag: '🇮🇹' },
+    { code: 'ja', label: '日本語', flag: '🇯🇵' },
+    { code: 'ko', label: '한국어', flag: '🇰🇷' },
+    { code: 'tr', label: 'Türkçe', flag: '🇹🇷' },
+    { code: 'zh', label: '中文', flag: '🇨🇳' },
+    { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+    { code: 'ru', label: 'Русский', flag: '🇷🇺' },
   ];
 
-  useEffect(() => {
-    setLang(currentLang);
-  }, [currentLang]);
+  const currentLanguage = availableLanguages.find(lang => lang.code === locale) || availableLanguages[0];
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const newLang = e.target.value;
-    setLang(newLang);
-    i18n.changeLanguage(newLang);
-    router.push(router.pathname, router.asPath, { locale: newLang });
+  const handleToggleOpen = () => {
+    if (!isOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + window.scrollY + 4,
+        left: rect.left + window.scrollX,
+        width: rect.width
+      });
+    }
+    setIsOpen(!isOpen);
+  };
+
+  const handleLanguageChange = (langCode: string) => {
+    changeLocale(langCode);
+    setIsOpen(false);
   };
 
   return (
-    <div className='mb-6'>
-      <select
-        value={lang}
-        onChange={handleChange}
-        className='glass-input'
-        style={{
-          minWidth: 120,
-          background: '#222',
-          color: '#fff',
-          border: '1px solid #444',
-        }}>
-        {availableLanguages.map(l => (
-          <option
-            key={l.code}
-            value={l.code}
+    <>
+      <div className='mb-6'>
+        <button 
+          ref={buttonRef}
+          onClick={handleToggleOpen}
+          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-glass-accent border border-glass-border text-glass-text hover:bg-glass-secondary transition-all duration-200 w-full justify-between"
+          style={{
+            minWidth: 120,
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: '#fff',
+          }}
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium">{currentLanguage.label}</span>
+          </div>
+          <span className="text-xs text-gray-400">{isOpen ? '▲' : '▼'}</span>
+        </button>
+      </div>
+
+      {isOpen && typeof document !== 'undefined' && createPortal(
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 z-40" 
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Dropdown */}
+          <div 
+            className="fixed rounded-lg shadow-lg max-h-64 overflow-y-auto"
             style={{
+              top: dropdownPosition.top,
+              left: dropdownPosition.left,
+              width: dropdownPosition.width,
               background: '#222',
-              color: '#fff',
-            }}>
-            {l.label}
-          </option>
-        ))}
-      </select>
-    </div>
+              border: '1px solid rgba(255,255,255,0.1)',
+              zIndex: 9999,
+              boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+            }}
+          >
+            {availableLanguages.map((language) => (
+              <button
+                key={language.code}
+                onClick={() => handleLanguageChange(language.code)}
+                className={`w-full flex items-center gap-3 px-4 py-2 text-left hover:bg-opacity-10 hover:bg-white transition-colors duration-200 ${
+                  language.code === locale ? 'bg-opacity-10 bg-white border-l-2 border-l-blue-400' : ''
+                }`}
+                style={{
+                  color: '#fff',
+                }}
+              >
+                <div>
+                  <div className="text-sm font-medium">{language.label}</div>
+                  <div className="text-xs text-gray-400">{language.code.toUpperCase()}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </>,
+        document.body
+      )}
+    </>
   );
 }
 
@@ -679,7 +805,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         },
         body: JSON.stringify({ username }),
       });
-      const data = await res.json();
+      const data = await res.json() as ApiErrorResponse;
       if (!res.ok) throw new Error(data.message || 'Failed to update username');
       setUsernameSuccess('Username updated!');
       setUser && setUser({ ...user, username });
@@ -690,7 +816,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
     }
   };
   const [avatar, setAvatar] = useState(user?.id ? `/avatar/${user.id}` : '/avatar/default.avif');
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
@@ -764,7 +890,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         },
         body: JSON.stringify({ oldPassword, newPassword, confirmPassword }),
       });
-      const data = await res.json();
+      const data = await res.json() as ApiErrorResponse;
       if (!res.ok) throw new Error(data.message || 'Erreur lors du changement de mot de passe');
       setPasswordSuccess('Mot de passe mis à jour !');
       setShowPasswordModal(false);
@@ -790,7 +916,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         }),
       });
       if (!res.ok) throw new Error('Failed to get registration options');
-      const options = await res.json();
+      const options: any = await res.json();
 
       if (!options.authenticatorSelection) {
         options.authenticatorSelection = {
@@ -1135,7 +1261,7 @@ function SettingsMobile(props: ReturnType<typeof useSettingsLogic>) {
     setShowSecurityModal,
     router,
   } = props;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   return (
     <div className='min-h-screen glass-bg-gradient'>

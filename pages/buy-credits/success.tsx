@@ -1,17 +1,17 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { getServerSideTranslations as serverSideTranslations } from '../../components/utils/CloudflareI18n';
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
-import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
+import { useTranslation } from '../../components/utils/CloudflareI18n';
 
 export default function Success() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   return (
     <div className='glass-page-container'>

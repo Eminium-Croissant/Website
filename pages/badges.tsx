@@ -1,13 +1,12 @@
 import { faBolt, faBug, faCodeBranch, faHandshake, faScrewdriverWrench, faShieldHalved, faUsers } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React, { useEffect, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -65,7 +64,7 @@ const BADGES: Badge[] = [
 ];
 
 const BadgesPage: React.FC = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [highlighted, setHighlighted] = useState<string | null>(null);
 
   useEffect(() => {

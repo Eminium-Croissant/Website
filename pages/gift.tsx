@@ -1,24 +1,66 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
+}
+
+interface Game {
+  gameId: string;
+  name: string;
+  description: string;
+  iconHash: string;
+  price?: number;
+}
+
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+}
+
+interface Gift {
+  id: string;
+  code: string;
+  message?: string;
+  isActive: boolean;
+  claimedAt?: string;
+  gameId: string;
+}
+
+interface GiftInfo {
+  gift: Gift;
+  game: Game;
+  fromUser: User;
+  userOwnsGame: boolean;
+  message?: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
+interface ClaimGiftResponse {
+  success: boolean;
+  message?: string;
 }
 const endpoint = '/api';
 
 const GiftPage: React.FC = () => {
   const searchParams = useSearchParams();
   const giftCode = searchParams.get('code');
-  const [giftInfo, setGiftInfo] = React.useState<any>(null);
+  const [giftInfo, setGiftInfo] = React.useState<GiftInfo | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [claiming, setClaiming] = React.useState(false);
   const [alert, setAlert] = React.useState<string | null>(null);
@@ -43,9 +85,9 @@ const GiftPage: React.FC = () => {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then(res => res.json())
+      .then(res => res.json() as Promise<GiftInfo | ApiErrorResponse>)
       .then(data => {
-        if (data.message) {
+        if ('message' in data) {
           setAlert(data.message);
         } else {
           setGiftInfo(data);
@@ -72,8 +114,8 @@ const GiftPage: React.FC = () => {
         body: JSON.stringify({ giftCode }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to claim gift');
+      const data = await res.json() as ClaimGiftResponse | ApiErrorResponse;
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to claim gift');
 
       setAlert('Gift claimed successfully! The game has been added to your library.');
       setTimeout(() => router.push('/'), 2000);

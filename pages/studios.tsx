@@ -1,21 +1,69 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 import Certification from '../components/common/Certification';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
+
+interface StudioUser {
+  user_id: string;
+  username: string;
+  verified: boolean;
+  admin: boolean;
+  id?: string; // Pour la compatibilité avec le composant Certification
+}
+
+interface Studio {
+  user_id: string;
+  username: string;
+  verified: boolean;
+  admin_id: string;
+  isAdmin?: boolean;
+  apiKey?: string;
+  name?: string;
+  studio_id?: string;
+  id?: string;
+  users?: StudioUser[];
+}
+
+interface UserSearchResult {
+  userId: string;
+  username: string;
+  verified: boolean;
+  isStudio: boolean;
+  id?: string; // Pour la compatibilité avec le composant Certification
+}
+
+interface ApiErrorResponse {
+  message: string;
+}
+
+interface UserMeResponse {
+  studios?: Studio[];
+}
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
-function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpoilers }) {
-  const { t } = useTranslation('common');
+function StudioCard({ 
+  studio, 
+  onRemoveUser, 
+  onAddUser, 
+  onToggleApiKey, 
+  apiKeySpoilers 
+}: {
+  studio: Studio;
+  onRemoveUser: (studioId: string, userId: string) => void;
+  onAddUser: (studio: Studio) => void;
+  onToggleApiKey: (studioId: string) => void;
+  apiKeySpoilers: { [key: string]: boolean };
+}) {
+  const { t } = useTranslation();
 
   return (
     <div className='bg-[#1c1c24] rounded-xl overflow-hidden flex flex-col border border-[#333] shadow-lg transform transition-transform hover:scale-[1.02] hover:shadow-xl'>
@@ -27,7 +75,7 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
           <div className='flex flex-col'>
             <div className='flex items-center gap-2'>
               <span className='text-xl font-bold text-white'>{studio.name}</span>
-              <Certification user={{ ...studio, isStudio: true }} className='w-5 h-5' />
+              <Certification user={{ ...studio, id: studio.user_id, isStudio: true }} className='w-5 h-5' />
             </div>
           </div>
         </div>
@@ -68,7 +116,7 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
                   <div className='flex items-center gap-3'>
                     <CachedImage src={'/avatar/' + user.user_id} alt={user.username} className='w-8 h-8 rounded-full object-cover border border-[#444]' />
                     <span className='text-white'>{user.username}</span>
-                    <Certification user={user} className='w-4 h-4' />
+                    <Certification user={{ ...user, id: user.user_id }} className='w-4 h-4' />
                     {studio.admin_id === user.user_id && <span className='text-xs text-green-500'>(You)</span>}
                   </div>
                   {studio.admin_id !== user.user_id && (
@@ -89,7 +137,7 @@ function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpo
 }
 
 export default function StudiosPage() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { user, token, setUser } = useAuth();
   const router = useRouter();
   const [studioName, setStudioName] = useState('');
@@ -101,7 +149,7 @@ export default function StudiosPage() {
   const [addUserStudioId, setAddUserStudioId] = useState<string | null>(null);
   const [addUserId, setAddUserId] = useState('');
   const [addUserSearch, setAddUserSearch] = useState('');
-  const [addUserResults, setAddUserResults] = useState<any[]>([]);
+  const [addUserResults, setAddUserResults] = useState<UserSearchResult[]>([]);
   const [addUserDropdownOpen, setAddUserDropdownOpen] = useState(false);
   const addUserInputRef = useRef<HTMLInputElement>(null);
   const [addUserError, setAddUserError] = useState<string | null>(null);
@@ -129,7 +177,7 @@ export default function StudiosPage() {
         body: JSON.stringify({ studioName }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json() as ApiErrorResponse;
         setError(data.message || 'Error creating studio');
       } else {
         refreshStudiosList();
@@ -149,7 +197,7 @@ export default function StudiosPage() {
       },
     })
       .then(res => res.json())
-      .then(data => {
+      .then((data: UserMeResponse) => {
         if (data.studios) {
           setUser(prevUser => ({
             ...prevUser,
@@ -171,7 +219,7 @@ export default function StudiosPage() {
         body: JSON.stringify({ userId }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json() as ApiErrorResponse;
         alert(data.message || t('studios.errorRemoveUser'));
       } else {
         refreshStudiosList();
@@ -191,8 +239,8 @@ export default function StudiosPage() {
     try {
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(q)}`);
       if (!res.ok) return;
-      const users = await res.json();
-      setAddUserResults(users.filter((u: any) => !u.isStudio));
+      const users = await res.json() as UserSearchResult[];
+      setAddUserResults(users.filter((u: UserSearchResult) => !u.isStudio));
     } catch (e) {
       setAddUserResults([]);
     }
@@ -211,7 +259,7 @@ export default function StudiosPage() {
         body: JSON.stringify({ userId }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json() as ApiErrorResponse;
         setAddUserError(data.message || 'Error adding user');
       } else {
         setShowAddUserModal(false);
@@ -483,7 +531,7 @@ export default function StudiosPage() {
                         <CachedImage src={`/avatar/${u.userId}`} alt='avatar' style={{ width: 28, height: 28, borderRadius: '50%' }} />
                         <span style={{ color: '#fff' }}>{u.username}</span>
                         <Certification
-                          user={u}
+                          user={{ ...u, id: u.userId }}
                           style={{
                             width: 16,
                             height: 16,

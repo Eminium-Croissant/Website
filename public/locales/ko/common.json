@@ -139,8 +139,8 @@
       "title": "오픈 소스 프로젝트",
       "subtitle": "진화에 기여하세요",
       "description": {
-        "desktop": "Croissant는 <strong>오픈 소스</strong> 프로젝트입니다. 기여가 중요합니다. 개발 커뮤니티에 참여하여 미래를 함께 만들어주세요.",
-        "mobile": "Croissant는 <strong>오픈 소스</strong> 프로젝트입니다。기여가 중요합니다。"
+        "desktop": "Croissant는 오픈 소스 프로젝트입니다. 기여가 중요합니다. 개발 커뮤니티에 참여하여 미래를 함께 만들어주세요.",
+        "mobile": "Croissant는 오픈 소스 프로젝트입니다。기여가 중요합니다。"
       },
       "development": {
         "title": "개발",
@@ -316,7 +316,7 @@
     "goHome": "홈으로 돌아가기",
     "giftNotFound": "선물을 찾을 수 없습니다",
     "giftNotFoundDesc": "이 선물 코드는 잘못되었거나 만료되었습니다。",
-    "from": "보낸이： <strong>{{username}}</strong>",
+    "from": "보낸이： {{username}}",
     "youReceivedGift": "🎁 선물을 받았습니다！",
     "back": "← 돌아가기",
     "purchaseSuccess": "구매 성공！",
@@ -557,7 +557,7 @@
   },
   "search": {
     "enterQuery": "검색어를 입력하세요.",
-    "resultsFor": "<strong>{{query}}</strong> 에 대한 결과",
+    "resultsFor": "{{query}} 에 대한 결과",
     "users": "사용자",
     "games": "게임",
     "items": "아이템",

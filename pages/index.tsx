@@ -1,12 +1,11 @@
 import { faChevronLeft, faChevronRight, faCode, faFileText, faFlask, faHandshake, faPalette, faRocket, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import ListSection from '../components/common/Section/ListSection';
 import Section from '../components/common/Section/Section';
+import { useTranslation } from '../components/utils/CloudflareI18n';
 import ImageCache from '../components/utils/ImageCache';
 import { useGamesCache } from '../hooks/useApiCache';
 import useIsMobile from '../hooks/useIsMobile';
@@ -21,18 +20,12 @@ interface Game {
   iconHash?: string;
 }
 
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'])),
-    },
-  };
-}
+// No need for getStaticProps anymore - translations are loaded dynamically
 
 export default function Home() {
   const isMobile = useIsMobile();
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const overviewDetails = [
     {

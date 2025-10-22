@@ -1,26 +1,49 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../../components/utils/CloudflareI18n';
 import useAuth from '../../hooks/useAuth';
+
+interface OAuth2Params {
+  client_id?: string;
+  redirect_uri?: string;
+}
+
+interface AppInfo {
+  client_id: string;
+  name: string;
+  redirect_urls: string[];
+}
+
+interface AuthorizeResponse {
+  code: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+}
 
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
       isOauth2Auth: true,
     },
   };
 }
 
 export default function OAuth2Auth() {
-  const { t } = useTranslation('common');
-  const [params, setParams] = useState<{
-    client_id?: string;
-    redirect_uri?: string;
-  }>({});
+  const { t } = useTranslation();
+  const [params, setParams] = useState<OAuth2Params>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [userFromApp, setUserFromApp] = useState<any | null>(null);
+  const [userFromApp, setUserFromApp] = useState<AppInfo | null>(null);
   const { user, loading: authLoading, token } = useAuth();
 
   useEffect(() => {
@@ -32,7 +55,7 @@ export default function OAuth2Auth() {
     if (search.get('client_id')) {
       fetch('/api/oauth2/app/' + search.get('client_id'))
         .then(res => {
-          if (res.ok) return res.json();
+          if (res.ok) return res.json() as Promise<AppInfo>;
           throw new Error('Failed to fetch application info.');
         })
         .then(data => {
@@ -60,12 +83,12 @@ export default function OAuth2Auth() {
         },
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data = await res.json() as ApiErrorResponse;
         setError(data.message || 'Authorization error.');
         setLoading(false);
         return;
       }
-      const data = await res.json();
+      const data = await res.json() as AuthorizeResponse;
       window.location.href = `${params.redirect_uri}?code=${encodeURIComponent(data.code)}`;
     } catch (e) {
       setError('Network error.');

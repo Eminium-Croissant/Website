@@ -1,18 +1,59 @@
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React, { JSX } from 'react';
-import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Certification from '../components/common/Certification';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
 import useUserCache from '../hooks/useUserCache';
 
+interface Game {
+  gameId: string;
+  name: string;
+  description?: string;
+  price: number;
+  ownerId?: string;
+  owner_id?: string;
+  showInStore?: boolean;
+  iconHash?: string;
+  bannerHash?: string;
+  splashHash?: string | null;
+  developer?: string;
+  publisher?: string;
+  genre?: string;
+  multiplayer?: number | boolean;
+  platforms?: string;
+  rating?: number;
+  release_date?: string;
+  trailer_link?: string;
+  website?: string;
+  download_link?: string;
+}
+
+interface OwnerInfo {
+  id: string;
+  username: string;
+  verified?: boolean;
+  admin?: boolean;
+  isStudio?: boolean;
+}
+
+interface ApiErrorResponse {
+  message?: string;
+}
+
+interface GiftResponse {
+  gift: {
+    giftCode: string;
+  };
+}
+
 export async function getServerSideProps({ locale, query }) {
-  const translations = await import('next-i18next/serverSideTranslations').then(mod => mod.serverSideTranslations(locale, ['common']));
+  const translations = await getServerSideTranslations(locale);
   let ogMeta = null;
   let gameFromQuery = null;
 
@@ -20,7 +61,7 @@ export async function getServerSideProps({ locale, query }) {
     try {
       const res = await fetch(`https://croissant-api.fr/api/games/${query.gameId}`);
       if (res.ok) {
-        const game = await res.json();
+        const game: Game = await res.json();
         ogMeta = {
           title: game.name,
           description: game.description,
@@ -48,7 +89,7 @@ const endpoint = '/api';
 function useGamePageLogic() {
   const searchParams = useSearchParams();
   const gameId = searchParams.get('gameId');
-  const [game, setGame] = React.useState<any>(null);
+  const [game, setGame] = React.useState<Game | null>(null);
   const [loading, setLoading] = React.useState(true);
   const router = useRouter();
   const { token, user } = useAuth();
@@ -62,13 +103,7 @@ function useGamePageLogic() {
   const [userOwnsGame, setUserOwnsGame] = React.useState(false);
 
   const { getUser: getUserFromCache } = useUserCache();
-  const [ownerInfo, setOwnerInfo] = React.useState<{
-    id: string;
-    username: string;
-    verified?: boolean;
-    admin?: boolean;
-    isStudio?: boolean;
-  } | null>(null);
+  const [ownerInfo, setOwnerInfo] = React.useState<OwnerInfo | null>(null);
 
   React.useEffect(() => {
     if (!gameId) return;
@@ -97,7 +132,7 @@ function useGamePageLogic() {
         },
       })
         .then(res => res.json())
-        .then(userGames => {
+        .then((userGames: Game[]) => {
           setUserOwnsGame(userGames.some(g => g.gameId === game.gameId));
         })
         .catch(() => setUserOwnsGame(false));
@@ -109,7 +144,7 @@ function useGamePageLogic() {
     setPrompt(`Acheter "${game.name}" ?\nPrix : ${game.price}`);
   };
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const confirmBuy = async () => {
     setPrompt(null);
     setBuying(true);
@@ -120,7 +155,7 @@ function useGamePageLogic() {
           'Content-Type': 'application/json',
         },
       });
-      const data = await res.json();
+      const data: ApiErrorResponse = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur lors de l'achat");
       setAlert(t('shop.purchaseSuccess'));
       setUserOwnsGame(true); // Update state to reflect ownership immediately
@@ -151,16 +186,17 @@ function useGamePageLogic() {
           message: giftMessage.trim() || undefined,
         }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Erreur lors du gift');
+      const data: GiftResponse | ApiErrorResponse = await res.json();
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Erreur lors du gift');
 
-      setGiftCode(data.gift.giftCode);
+      const giftData = data as GiftResponse;
+      setGiftCode(giftData.gift.giftCode);
       setGiftMessage('');
       setAlert(
         <>
           Cadeau créé ! Partage ce lien :{' '}
-          <a href={`/gift?code=${data.gift.giftCode}`} target='_blank' rel='noopener noreferrer' style={{ color: '#4caf50', textDecoration: 'underline' }}>
-            {typeof window !== 'undefined' ? window.location.origin + `/gift?code=${data.gift.giftCode}` : `/gift?code=${data.gift.giftCode}`}
+          <a href={`/gift?code=${giftData.gift.giftCode}`} target='_blank' rel='noopener noreferrer' style={{ color: '#4caf50', textDecoration: 'underline' }}>
+            {typeof window !== 'undefined' ? window.location.origin + `/gift?code=${giftData.gift.giftCode}` : `/gift?code=${giftData.gift.giftCode}`}
           </a>
         </>
       );
@@ -232,7 +268,7 @@ function MarkdownDescription({ children }: { children: string }) {
 
 function GameInterface(props: ReturnType<typeof useGamePageLogic>) {
   const { game, loading, ownerInfo, userOwnsGame, prompt, setPrompt, alert, setAlert, buying, handleBuyGame, confirmBuy, isGifting, handleGiftGame, confirmGift, showGiftModal, setShowGiftModal, giftMessage, setGiftMessage, token, user, router } = props;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   if (loading) {
     return (

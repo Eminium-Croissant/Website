@@ -1,29 +1,82 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Certification from '../../components/common/Certification';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../../components/utils/CloudflareI18n';
 import useAuth from '../../hooks/useAuth';
 
-const endpoint = '/api';
-
-type Item = {
+interface Item {
   itemId: string;
   name: string;
   description: string;
   price: number;
   showInStore: boolean;
   iconHash?: string;
-};
+}
+
+interface ItemFormData {
+  name: string;
+  description: string;
+  price: string;
+  showInStore: boolean;
+  iconHash: string;
+}
+
+interface ValidationErrors {
+  name?: string;
+  description?: string;
+  price?: string;
+  submit?: string;
+}
+
+interface UploadResponse {
+  hash: string;
+}
+
+interface UpdateItemRequest {
+  name: string;
+  description: string;
+  price: number;
+  showInStore: boolean;
+  iconHash?: string;
+}
+
+interface UserSearchResult {
+  id: string;
+  userId?: string;
+  user_id?: string;
+  username: string;
+  displayName?: string;
+  verified?: boolean;
+}
+
+interface ApiErrorResponse {
+  error?: string;
+  message?: string;
+}
+
+interface ItemsResponse {
+  items?: Item[];
+}
+
+interface TransferRequest {
+  amount: number;
+  targetUserId: string;
+}
+
+interface OwnershipTransferRequest {
+  newOwnerId: string;
+}
+
+const endpoint = '/api';
 
 const MyItems = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<any>(null);
+  const [formData, setFormData] = useState<ItemFormData | null>(null);
   const [iconFile, setIconFile] = useState<File | null>(null);
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<ValidationErrors>({});
   const [success, setSuccess] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [tooltip, setTooltip] = useState<{
@@ -35,7 +88,7 @@ const MyItems = () => {
   const [transferItem, setTransferItem] = useState<Item | null>(null);
   const [transferUserId, setTransferUserId] = useState('');
   const [transferUserSearch, setTransferUserSearch] = useState('');
-  const [transferUserResults, setTransferUserResults] = useState<any[]>([]);
+  const [transferUserResults, setTransferUserResults] = useState<UserSearchResult[]>([]);
   const [transferUserDropdownOpen, setTransferUserDropdownOpen] = useState(false);
   const [transferAmount, setTransferAmount] = useState(1);
   const [transferError, setTransferError] = useState<string | null>(null);
@@ -45,7 +98,7 @@ const MyItems = () => {
   const [ownershipItem, setOwnershipItem] = useState<Item | null>(null);
   const [ownershipUserId, setOwnershipUserId] = useState('');
   const [ownershipUserSearch, setOwnershipUserSearch] = useState('');
-  const [ownershipUserResults, setOwnershipUserResults] = useState<any[]>([]);
+  const [ownershipUserResults, setOwnershipUserResults] = useState<UserSearchResult[]>([]);
   const [ownershipUserDropdownOpen, setOwnershipUserDropdownOpen] = useState(false);
   const [ownershipError, setOwnershipError] = useState<string | null>(null);
   const [ownershipLoading, setOwnershipLoading] = useState(false);
@@ -64,7 +117,7 @@ const MyItems = () => {
           signal: abortController.signal,
         });
         if (res.ok) {
-          const data = await res.json();
+          const data: Item[] | ItemsResponse = await res.json();
           setItems(Array.isArray(data) ? data : data.items || []);
         }
       } catch (err) {
@@ -119,11 +172,11 @@ const MyItems = () => {
     }
   };
 
-  const validate = () => {
-    const newErrors: any = {};
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.description) newErrors.description = 'Description is required';
-    if (!formData.price) newErrors.price = 'Price is required';
+  const validate = (): ValidationErrors => {
+    const newErrors: ValidationErrors = {};
+    if (!formData?.name) newErrors.name = 'Name is required';
+    if (!formData?.description) newErrors.description = 'Description is required';
+    if (!formData?.price) newErrors.price = 'Price is required';
     return newErrors;
   };
 
@@ -148,10 +201,10 @@ const MyItems = () => {
           body: iconData,
         });
         if (res.ok) {
-          const data = await res.json();
+          const data: UploadResponse = await res.json();
           iconHash = data.hash;
         } else {
-          const err = await res.json();
+          const err: ApiErrorResponse = await res.json();
           setErrors({ submit: err.error || 'Failed to upload icon.' });
           setSubmitting(false);
           return;
@@ -163,7 +216,7 @@ const MyItems = () => {
       }
     }
 
-    const data = {
+    const data: UpdateItemRequest = {
       name: formData.name,
       description: formData.description,
       price: Number(formData.price),
@@ -189,7 +242,7 @@ const MyItems = () => {
         setFormData(null);
         setIconFile(null);
       } else {
-        const err = await res.json();
+        const err: ApiErrorResponse = await res.json();
         setErrors({ submit: err.message || 'Failed to update item.' });
       }
     } catch (err: any) {
@@ -207,7 +260,7 @@ const MyItems = () => {
     try {
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(q)}`);
       if (!res.ok) return;
-      const users = await res.json();
+      const users: UserSearchResult[] = await res.json();
       setTransferUserResults(users);
     } catch (e) {
       setTransferUserResults([]);
@@ -244,7 +297,7 @@ const MyItems = () => {
         }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data: ApiErrorResponse = await res.json();
         setTransferError(data.message || 'Error transferring item');
       } else {
         setShowTransferModal(false);
@@ -272,7 +325,7 @@ const MyItems = () => {
     try {
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(q)}`);
       if (!res.ok) return;
-      const users = await res.json();
+      const users: UserSearchResult[] = await res.json();
       setOwnershipUserResults(users);
     } catch (e) {
       setOwnershipUserResults([]);
@@ -305,7 +358,7 @@ const MyItems = () => {
         body: JSON.stringify({ newOwnerId: ownershipUserId }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data: ApiErrorResponse = await res.json();
         setOwnershipError(data.message || "Erreur lors du transfert d'ownership");
       } else {
         setShowOwnershipModal(false);
@@ -758,7 +811,7 @@ const MyItems = () => {
                               />
                               <span style={{ color: '#fff' }}>{u.username}</span>
                               <Certification
-                                user={u}
+                                user={{ ...u, verified: u.verified || false }}
                                 style={{
                                   width: 16,
                                   height: 16,
@@ -848,7 +901,7 @@ export default MyItems;
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

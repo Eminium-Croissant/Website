@@ -1,33 +1,24 @@
-import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import path from 'path';
+import { handleCloudflareError } from '../../../components/utils/CloudflareUtils';
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { hash } = req.query;
-  if (typeof hash !== 'string') {
-    res.status(400).end('Invalid hash');
-    return;
-  }
-
-  const iconsDir = path.join(process.cwd(), 'uploads/itemsIcons');
-  const exts = ['.avif', '.png', '.jpg', '.jpeg', '.webp'];
-  let iconPath: string | undefined;
-  for (const ext of exts) {
-    const candidate = path.join(iconsDir, `${hash}${ext}`);
-    if (fs.existsSync(candidate)) {
-      iconPath = candidate;
-      break;
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const { hash } = req.query;
+    if (typeof hash !== 'string') {
+      res.status(400).end('Invalid hash');
+      return;
     }
-  }
 
-  if (iconPath && fs.existsSync(iconPath)) {
-    res.setHeader('Content-Type', 'image/png');
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    fs.createReadStream(iconPath).pipe(res);
-  } else {
-    const fallbackPath = path.join(process.cwd(), 'public', 'assets/System_Shop.webp');
-    res.setHeader('Content-Type', 'image/webp');
-    // res.setHeader("Cache-Control", "public, max-age=300");
-    fs.createReadStream(fallbackPath).pipe(res);
+    // In Cloudflare Workers, icons should be served from R2 storage or static assets
+    console.warn(`[Item Icons] Icon ${hash} not available in Cloudflare Workers environment`);
+    
+    res.status(404).json({ 
+      error: 'Icon not found',
+      message: 'Icons not available in Cloudflare Workers without R2 storage'
+    });
+    
+  } catch (error) {
+    handleCloudflareError(error, 'item icons handler');
+    res.status(500).json({ error: 'Internal server error' });
   }
 }

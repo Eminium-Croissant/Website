@@ -139,8 +139,8 @@
       "title": "オープンソースプロジェクト",
       "subtitle": "進化に参加しよう",
       "description": {
-        "desktop": "Croissantは<strong>オープンソース</strong>プロジェクトです。あなたの貢献が重要です。開発コミュニティに参加して未来を一緒に作りましょう。",
-        "mobile": "Croissantは<strong>オープンソース</strong>プロジェクトです。あなたの貢献が重要です。"
+        "desktop": "Croissantはオープンソースプロジェクトです。あなたの貢献が重要です。開発コミュニティに参加して未来を一緒に作りましょう。",
+        "mobile": "Croissantはオープンソースプロジェクトです。あなたの貢献が重要です。"
       },
       "development": {
         "title": "開発",
@@ -316,7 +316,7 @@
     "goHome": "ホームに戻る",
     "giftNotFound": "ギフトが見つかりません",
     "giftNotFoundDesc": "このギフトコードは無効か期限切れです。",
-    "from": "差出人： <strong>{{username}}</strong>",
+    "from": "差出人： {{username}}",
     "youReceivedGift": "🎁 ギフトを受け取りました！",
     "back": "← 戻る",
     "purchaseSuccess": "購入に成功しました！",
@@ -557,7 +557,7 @@
   },
   "search": {
     "enterQuery": "検索キーワードを入力してください。",
-    "resultsFor": "<strong>{{query}}</strong> の結果",
+    "resultsFor": "{{query}} の結果",
     "users": "ユーザー",
     "games": "ゲーム",
     "items": "アイテム",

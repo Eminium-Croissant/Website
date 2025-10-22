@@ -1,5 +1,5 @@
-import { useTranslation } from 'next-i18next';
 import Head from 'next/head';
+import { useTranslation } from '../utils/CloudflareI18n';
 
 type Props = {
   metaLinksTitle?: string;
@@ -8,10 +8,10 @@ type Props = {
 };
 
 export default function ({ metaLinksTitle, metaDescription, from }: Props) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
-  const titleFromKeys = t('index.hero.title', { defaultValue: '' }) || t('index.title', { defaultValue: '' }) || t('launcher.title', { defaultValue: '' }) || t('apiDocs.title', { defaultValue: '' });
-  const descFromKeys = t('index.hero.subtitle', { defaultValue: '' }) || t('index.description', { defaultValue: '' }) || t('apiDocs.intro', { defaultValue: '' }) || t('index.topspan', { defaultValue: '' });
+  const titleFromKeys = t('index.hero.title') || t('index.title') || t('launcher.title') || t('apiDocs.title');
+  const descFromKeys = t('index.hero.subtitle') || t('index.description') || t('apiDocs.intro') || t('index.topspan');
 
   const defaultTitle = metaLinksTitle || titleFromKeys || 'Croissant Inventory System';
   const defaultDescription = metaDescription || descFromKeys || `${defaultTitle} - Manage your inventory with ease.`;

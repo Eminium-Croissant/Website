@@ -1,15 +1,14 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -32,6 +31,18 @@ interface ItemDetails {
   iconHash: string;
 }
 
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
+interface ItemResponse {
+  itemId: string;
+  name: string;
+  description: string;
+  iconHash: string;
+}
+
 function useMyBuyOrdersLogic() {
   const { user, loading: userLoading } = useAuth();
   const [orders, setOrders] = useState<BuyOrder[]>([]);
@@ -44,9 +55,9 @@ function useMyBuyOrdersLogic() {
     setLoading(true);
     fetch(`/api/buy-orders/user/${user.id}`)
       .then(async res => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Failed to fetch buy orders');
-        setOrders(data);
+        const data = await res.json() as BuyOrder[] | ApiErrorResponse;
+        if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to fetch buy orders');
+        setOrders(data as BuyOrder[]);
         setLoading(false);
       })
       .catch(err => {
@@ -62,7 +73,7 @@ function useMyBuyOrdersLogic() {
     Promise.all(
       missing.map(id =>
         fetch(`/api/items/${id}`)
-          .then(res => (res.ok ? res.json() : null))
+          .then(res => (res.ok ? res.json() as Promise<ItemResponse> : null))
           .catch(() => null)
       )
     ).then(items => {
@@ -86,7 +97,10 @@ function useMyBuyOrdersLogic() {
       const res = await fetch(`/api/buy-orders/${order.id}/cancel`, {
         method: 'PUT',
       });
-      if (!res.ok) throw new Error((await res.json()).message);
+      if (!res.ok) {
+        const errorData = await res.json() as ApiErrorResponse;
+        throw new Error(errorData.message);
+      }
       setOrders(orders => orders.filter(o => o.id !== order.id));
     } catch (e: any) {
       alert(e.message);
@@ -106,7 +120,7 @@ function useMyBuyOrdersLogic() {
 
 function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
   const { user, userLoading, orders, loading, error, itemDetails, handleCancel } = props;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   if (userLoading) return <div>{t('myBuyOrders.loading')}</div>;
   if (!user) return <div>{t('myBuyOrders.mustLogin')}</div>;
@@ -281,7 +295,7 @@ function MyBuyOrdersDesktop(props: ReturnType<typeof useMyBuyOrdersLogic>) {
 
 function MyBuyOrdersMobile(props: ReturnType<typeof useMyBuyOrdersLogic>) {
   const { user, userLoading, orders, loading, error, itemDetails, handleCancel } = props;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   if (userLoading) return <div>{t('myBuyOrders.loading')}</div>;
   if (!user) return <div>{t('myBuyOrders.mustLogin')}</div>;

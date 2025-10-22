@@ -1,5 +1,6 @@
 import { useRouter } from 'next/dist/client/components/navigation';
 import React, { useEffect } from 'react';
+import { getServerSideTranslations as serverSideTranslations } from '../../components/utils/CloudflareI18n';
 
 const endpoint = '/api';
 
@@ -35,12 +36,11 @@ const LauncherPage: React.FC = () => {
   return <></>;
 };
 
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
       isLauncher: true,
     },
   };

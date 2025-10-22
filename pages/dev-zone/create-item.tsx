@@ -1,16 +1,46 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Dispatch, SetStateAction, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../../components/utils/CloudflareI18n';
 import useIsMobile from '../../hooks/useIsMobile';
+
+interface ItemFormData {
+  name: string;
+  description: string;
+  price: string;
+  showInStore: boolean;
+}
+
+interface ValidationErrors {
+  name?: string;
+  description?: string;
+  price?: string;
+  submit?: string;
+}
+
+interface UploadResponse {
+  hash: string;
+}
+
+interface CreateItemRequest {
+  name: string;
+  description: string;
+  price: number;
+  showInStore: boolean;
+  iconHash?: string;
+}
+
+interface ApiErrorResponse {
+  error?: string;
+  message?: string;
+}
 
 const endpoint = '/api';
 
 const CreateItem = () => {
   const isMobile = useIsMobile();
-  const { t } = useTranslation('common');
-  const [formData, setFormData] = useState({
+  const { t } = useTranslation();
+  const [formData, setFormData] = useState<ItemFormData>({
     name: '',
     description: '',
     price: '',
@@ -18,7 +48,7 @@ const CreateItem = () => {
   });
   const [iconFile, setIconFile] = useState<File | null>(null);
 
-  const [errors, setErrors]: [any, Dispatch<SetStateAction<any>>] = useState({});
+  const [errors, setErrors]: [ValidationErrors, Dispatch<SetStateAction<ValidationErrors>>] = useState({});
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -38,8 +68,8 @@ const CreateItem = () => {
     }
   };
 
-  const validate = () => {
-    const newErrors: any = {};
+  const validate = (): ValidationErrors => {
+    const newErrors: ValidationErrors = {};
     if (!formData.name) newErrors.name = t('createItem.error.name');
     if (!formData.description) newErrors.description = t('createItem.error.description');
     if (!formData.price) newErrors.price = t('createItem.error.price');
@@ -68,10 +98,10 @@ const CreateItem = () => {
           body: iconData,
         });
         if (res.ok) {
-          const data = await res.json();
+          const data: UploadResponse = await res.json();
           iconHash = data.hash;
         } else {
-          const err = await res.json();
+          const err: ApiErrorResponse = await res.json();
           setErrors({ submit: err.error || t('createItem.error.iconUpload') });
           setLoading(false);
           return;
@@ -83,7 +113,7 @@ const CreateItem = () => {
       }
     }
 
-    const data = {
+    const data: CreateItemRequest = {
       name: formData.name,
       description: formData.description,
       price: Number(formData.price),
@@ -114,7 +144,7 @@ const CreateItem = () => {
         router.push('/dev-zone/my-items');
         return;
       } else {
-        const err = await res.json();
+        const err: ApiErrorResponse = await res.json();
         setErrors({ submit: err.message || t('createItem.error.submit') });
       }
     } catch (err: any) {
@@ -202,7 +232,7 @@ export default CreateItem;
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

@@ -1,17 +1,16 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import React from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
 const PrivacyPolicy: React.FC = () => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   return (
     <div className='glass-page-container'>
       <div className='glass-content-card max-w-4xl mx-auto'>

@@ -381,7 +381,7 @@ interface Item {
   iconHash?: string;
   creatorId: string;
   createdAt: string;
-  rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+  rarity:  | 'uncommon' | 'rare' | 'epic' | 'legendary';
   tradeable: boolean;
 }
 ```
@@ -446,7 +446,7 @@ interface CreateItemRequest {
   description: string;
   price: number;
   iconHash?: string;
-  rarity?: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
+  rarity?:  | 'uncommon' | 'rare' | 'epic' | 'legendary';
   tradeable?: boolean;
 }
 ```

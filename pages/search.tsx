@@ -1,5 +1,3 @@
-import { Trans, useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -8,13 +6,14 @@ import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import Certification from '../components/common/Certification';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, Trans, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useUserCache from '../hooks/useUserCache';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -27,6 +26,8 @@ interface User {
   verified: boolean;
   isStudio?: boolean;
   admin?: boolean;
+  studios?: any[];
+  badges?: any[];
 }
 
 interface Game {
@@ -50,6 +51,21 @@ interface Item {
   showInStore?: boolean;
 }
 
+interface SearchResponse {
+  users: User[];
+  games: Game[];
+  items: Item[];
+}
+
+interface ApiErrorResponse {
+  message: string;
+}
+
+interface BuyItemResponse {
+  message: string;
+  success?: boolean;
+}
+
 const SearchPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [games, setGames] = useState<Game[]>([]);
@@ -58,7 +74,7 @@ const SearchPage: React.FC = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get('q') || '';
   const { cacheUser } = useUserCache();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!query) {
@@ -78,10 +94,10 @@ const SearchPage: React.FC = () => {
         signal: controller.signal,
       })
         .then(res => res.json())
-        .then(async data => {
+        .then(async (data: SearchResponse) => {
           if (Array.isArray(data.users)) {
             for (const u of data.users) {
-              await cacheUser(u);
+              await cacheUser(u as any);
             }
           }
           setUsers(Array.isArray(data.users) ? data.users : []);
@@ -127,7 +143,7 @@ const SearchPage: React.FC = () => {
         body: JSON.stringify({ amount }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to buy item');
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to buy item');
       setBuySuccess('Item purchased!');
       setBuyModalOpen(false);
     } catch (e: any) {

@@ -1,13 +1,12 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -16,7 +15,7 @@ const JoinLobbyPage = () => {
   const { lobbyId } = router.query;
   const [status, setStatus] = useState('pending');
   const { token } = useAuth();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!token) {

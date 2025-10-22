@@ -1,9 +1,9 @@
-import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import Searchbar from '../Searchbar';
 import CachedImage from '../utils/CachedImage';
+import { useTranslation } from '../utils/CloudflareI18n';
 
 export default function NavBarDesktop() {
   const { user, loading, setUser } = useAuth();
@@ -16,7 +16,7 @@ export default function NavBarDesktop() {
   };
 
   function DesktopLinks() {
-    const { t } = useTranslation('common');
+    const { t } = useTranslation();
     const rectBtn = 'px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 text-xs flex items-center';
     return (
       <>

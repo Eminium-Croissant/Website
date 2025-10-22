@@ -1,17 +1,16 @@
 import { faEnvelope, faEye, faEyeSlash, faKey, faLock, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -36,7 +35,7 @@ const DiscordIcon = () => (
 function LoginDesktop(props: any) {
   const { email, setEmail, password, setPassword, loginLoading, loginError, handleLogin, handleDiscord, handleGoogle, handlePasskeyLogin, passkeyLoading, passkeyError, showAuthenticatorModal, authenticatorCode, setAuthenticatorCode, authenticatorError, handleAuthenticatorSubmit, setShowAuthenticatorModal, setAuthenticatorError, setPendingUserId } = props;
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
@@ -191,7 +190,7 @@ function LoginDesktop(props: any) {
 function LoginMobile(props: any) {
   const { email, setEmail, password, setPassword, loginLoading, loginError, handleLogin, handleDiscord, handleGoogle, handlePasskeyLogin, passkeyLoading, passkeyError, showAuthenticatorModal, authenticatorCode, setAuthenticatorCode, authenticatorError, handleAuthenticatorSubmit, setShowAuthenticatorModal, setAuthenticatorError, setPendingUserId } = props;
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
