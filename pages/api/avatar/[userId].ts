@@ -29,6 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Copier les headers de la réponse CDN
         res.setHeader('Content-Type', response.headers.get('content-type') || getContentTypeFromExtension(ext));
         res.setHeader('Cache-Control', 'public, max-age=300');
+        res.setHeader('X-Image-Source', 'cdn-r2'); // Source de l'image
         
         if (response.headers.get('etag')) {
           res.setHeader('ETag', response.headers.get('etag')!);
@@ -71,21 +72,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(`[Avatar API] Found local file: ${localPath}`);
       res.setHeader('Content-Type', getContentTypeFromExtension(ext));
       res.setHeader('Cache-Control', 'public, max-age=300');
+      res.setHeader('X-Image-Source', 'local-file'); // Source de l'image
       fs.createReadStream(localPath).pipe(res);
       return;
     }
   }
 
-  console.log(`[Avatar API] Avatar not found anywhere, using fallback`);
+  console.log(`[Avatar API] Avatar not found anywhere, using default avatar`);
 
   // Fallback final: avatar par défaut
   const fallbackPath = path.join(process.cwd(), 'public/assets/default-avatar.avif');
   if (fs.existsSync(fallbackPath)) {
+    console.log(`[Avatar API] Serving default avatar: ${fallbackPath}`);
     res.setHeader('Content-Type', 'image/avif');
     res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('X-Image-Source', 'default-fallback'); // Source de l'image
     fs.createReadStream(fallbackPath).pipe(res);
   } else {
-    res.status(404).end('Avatar not found');
+    // Si même l'avatar par défaut n'existe pas, créer une image de base
+    console.log(`[Avatar API] Default avatar not found, creating minimal fallback`);
+    res.setHeader('Content-Type', 'text/plain');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.setHeader('X-Image-Source', 'text-fallback'); // Source de l'image
+    res.redirect("/assets/default-avatar.avif");
   }
 }
 

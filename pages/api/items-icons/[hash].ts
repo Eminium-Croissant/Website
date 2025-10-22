@@ -1,13 +1,6 @@
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
-import { createImageResponse, findFileWithExtensions } from '../../../utils/r2-utils';
-
-// Fonction pour récupérer l'environnement Cloudflare
-function getCloudflareEnv(req: NextApiRequest): CloudflareEnv | undefined {
-  // @ts-ignore - L'environnement Cloudflare est injecté automatiquement
-  return (req as any).env;
-}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -17,26 +10,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return;
     }
 
-    // Récupérer l'environnement Cloudflare
-    const env = getCloudflareEnv(req);
+    console.log(`[Item Icons API] Looking for item icon: ${hash}`);
+
+    // Extensions possibles par ordre de préférence
+    const extensions = ['.avif', '.webp', '.png', '.jpg', '.jpeg'];
     
-    // Essayer de récupérer depuis R2 d'abord
-    if (env?.UPLOADS_BUCKET) {
+    // D'abord, essayer le CDN R2 public
+    const cdnBaseUrl = process.env.R2_PUBLIC_URL || 'https://cdn.croissant-api.fr';
+    
+    for (const ext of extensions) {
+      const cdnUrl = `${cdnBaseUrl}/itemsIcons/${hash}${ext}`;
+      console.log(`[Item Icons API] Trying CDN URL: ${cdnUrl}`);
+      
       try {
-        const result = await findFileWithExtensions(env.UPLOADS_BUCKET, `itemsIcons/${hash}`);
-        if (result) {
-          // Convertir la réponse R2 en Response Next.js
-          const response = createImageResponse(result.object);
+        const response = await fetch(cdnUrl);
+        if (response.ok) {
+          console.log(`[Item Icons API] Found on CDN: ${cdnUrl}`);
           
-          // Copier les headers vers la réponse Next.js
-          response.headers.forEach((value, key) => {
-            res.setHeader(key, value);
-          });
+          // Copier les headers de la réponse CDN
+          res.setHeader('Content-Type', response.headers.get('content-type') || getContentTypeFromExtension(ext));
+          res.setHeader('Cache-Control', 'public, max-age=300');
+          res.setHeader('X-Image-Source', 'cdn-r2'); // Source de l'image
           
-          // Stream le contenu
-          if (result.object.body) {
-            const reader = result.object.body.getReader();
-            
+          if (response.headers.get('etag')) {
+            res.setHeader('ETag', response.headers.get('etag')!);
+          }
+          
+          if (response.headers.get('content-length')) {
+            res.setHeader('Content-Length', response.headers.get('content-length')!);
+          }
+          
+          // Stream la réponse
+          const reader = response.body?.getReader();
+          if (reader) {
             try {
               while (true) {
                 const { done, value } = await reader.read();
@@ -51,45 +57,58 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
         }
       } catch (error) {
-        console.error('Error fetching item icon from R2:', error);
-        // Continue vers le fallback local
+        console.log(`[Item Icons API] CDN fetch failed for ${cdnUrl}:`, error);
+        // Continue vers l'extension suivante
       }
     }
 
-    // Fallback: recherche locale si R2 n'est pas disponible ou échec
+    console.log(`[Item Icons API] Not found on CDN, trying local fallback`);
+
+    // Fallback: recherche locale
     const itemIconsDir = path.join(process.cwd(), 'uploads/itemsIcons');
-    const exts = ['.avif', '.png', '.jpg', '.jpeg', '.webp'];
-    let iconPath: string | undefined;
     
-    for (const ext of exts) {
-      const candidate = path.join(itemIconsDir, `${hash}${ext}`);
-      if (fs.existsSync(candidate)) {
-        iconPath = candidate;
-        break;
+    for (const ext of extensions) {
+      const localPath = path.join(itemIconsDir, `${hash}${ext}`);
+      if (fs.existsSync(localPath)) {
+        console.log(`[Item Icons API] Found local file: ${localPath}`);
+        res.setHeader('Content-Type', getContentTypeFromExtension(ext));
+        res.setHeader('Cache-Control', 'public, max-age=300');
+        res.setHeader('X-Image-Source', 'local-file'); // Source de l'image
+        fs.createReadStream(localPath).pipe(res);
+        return;
       }
     }
 
-    if (iconPath && fs.existsSync(iconPath)) {
+    console.log(`[Item Icons API] Item icon not found anywhere, using default icon`);
+
+    // Fallback final: icône par défaut
+    const fallbackPath = path.join(process.cwd(), 'public/assets/default-item-icon.avif');
+    if (fs.existsSync(fallbackPath)) {
+      console.log(`[Item Icons API] Serving default item icon: ${fallbackPath}`);
       res.setHeader('Content-Type', 'image/avif');
-      res.setHeader('Cache-Control', 'public, max-age=300');
-      fs.createReadStream(iconPath).pipe(res);
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      res.setHeader('X-Image-Source', 'default-fallback'); // Source de l'image
+      fs.createReadStream(fallbackPath).pipe(res);
     } else {
-      // Fallback final: icône par défaut
-      const fallbackPath = path.join(process.cwd(), 'public/assets/default-item-icon.avif');
-      if (fs.existsSync(fallbackPath)) {
-        res.setHeader('Content-Type', 'image/avif');
-        res.setHeader('Cache-Control', 'public, max-age=86400');
-        fs.createReadStream(fallbackPath).pipe(res);
-      } else {
-        res.status(404).json({ 
-          error: 'Item icon not found',
-          hash 
-        });
-      }
+      // Si même l'icône par défaut n'existe pas, rediriger vers un placeholder
+      console.log(`[Item Icons API] Default item icon not found, redirecting to placeholder`);
+      res.setHeader('X-Image-Source', 'redirect-fallback');
+      res.redirect('/assets/default-item-icon.avif');
     }
     
   } catch (error) {
-    console.error('Item icons handler error:', error);
+    console.error('[Item Icons API] Handler error:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
+}
+
+function getContentTypeFromExtension(ext: string): string {
+  const types: Record<string, string> = {
+    '.avif': 'image/avif',
+    '.webp': 'image/webp',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+  };
+  return types[ext.toLowerCase()] || 'image/avif';
 }
