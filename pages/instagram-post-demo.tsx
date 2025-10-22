@@ -204,15 +204,15 @@ export default function InstagramPostDemo() {
                   <h4 className='text-lg font-semibold mb-4 mt-6 text-glass-text'>Props disponibles</h4>
                   <div className='space-y-3'>
                     <div className='glass-card p-3'>
-                      <strong className='text-glass-text'>theme:
+                      <strong className='text-glass-text'>theme:</strong>
                       <span className='text-glass-text-secondary ml-2'>"default" | "gaming" | "community" | "developer"</span>
                     </div>
                     <div className='glass-card p-3'>
-                      <strong className='text-glass-text'>size:
+                      <strong className='text-glass-text'>size:</strong>
                       <span className='text-glass-text-secondary ml-2'>"small" | "medium" | "large"</span>
                     </div>
                     <div className='glass-card p-3'>
-                      <strong className='text-glass-text'>features:
+                      <strong className='text-glass-text'>features:</strong>
                       <span className='text-glass-text-secondary ml-2'>string[] - Badges à afficher</span>
                     </div>
                   </div>
