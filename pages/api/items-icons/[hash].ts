@@ -82,7 +82,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(`[Item Icons API] Item icon not found anywhere, using default icon`);
 
     // Fallback final: icône par défaut
-    const fallbackPath = path.join(process.cwd(), 'public/assets/default-item-icon.avif');
+    const fallbackPath = path.join(process.cwd(), 'public/assets/System_Shop.webp');
     if (fs.existsSync(fallbackPath)) {
       console.log(`[Item Icons API] Serving default item icon: ${fallbackPath}`);
       res.setHeader('Content-Type', 'image/avif');
@@ -93,7 +93,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Si même l'icône par défaut n'existe pas, rediriger vers un placeholder
       console.log(`[Item Icons API] Default item icon not found, redirecting to placeholder`);
       res.setHeader('X-Image-Source', 'redirect-fallback');
-      res.redirect('/assets/default-item-icon.avif');
+      res.redirect('/assets/System_Shop.webp');
     }
     
   } catch (error) {
