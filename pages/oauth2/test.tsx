@@ -1,7 +1,27 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useEffect, useState } from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../../components/utils/CloudflareI18n';
 import useIsMobile from '../../hooks/useIsMobile';
+
+interface UserData {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+  code?: string;
+}
+
+interface OAuth2Response {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+  error?: string;
+}
+
+interface ApiErrorResponse {
+  error: string;
+  message?: string;
+}
 
 const OAUTH2_SERVER_URL = '/downloadables/oauth2-test-server.js';
 const OAUTH2_RESULT_IMG = '/assets/oauth2_result.avif';
@@ -9,13 +29,13 @@ const OAUTH2_RESULT_IMG = '/assets/oauth2_result.avif';
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
 function OAuth2DemoDesktop() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [serverCode, setServerCode] = useState<string>('');
 
   useEffect(() => {
@@ -50,13 +70,13 @@ function OAuth2DemoDesktop() {
                   const oauthBtn = document.querySelector('.croissant-oauth2-btn');
                   const clientId = oauthBtn.getAttribute('data-client_id');
                   fetch(`/api/oauth2/user?code=${code}&client_id=${clientId}`)
-                    .then(response => response.json())
+                    .then(response => response.json() as Promise<OAuth2Response | ApiErrorResponse>)
                     .then(data => {
-                      if (data.error) {
+                      if ('error' in data) {
                         console.error('Error fetching user by code:', data.error);
                         return;
                       }
-                      const user = { ...data, code };
+                      const user: UserData = { ...data, code };
                       console.log('User data:', user);
                       const callback = oauthBtn.getAttribute('data-callback');
                       if (callback) {
@@ -90,7 +110,7 @@ function OAuth2DemoDesktop() {
 }
 
 function OAuth2DemoMobile() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [serverCode, setServerCode] = useState<string>('');
 
   useEffect(() => {
@@ -125,13 +145,13 @@ function OAuth2DemoMobile() {
                   const oauthBtn = document.querySelector('.croissant-oauth2-btn');
                   const clientId = oauthBtn.getAttribute('data-client_id');
                   fetch(`/api/oauth2/user?code=${code}&client_id=${clientId}`)
-                    .then(response => response.json())
+                    .then(response => response.json() as Promise<OAuth2Response | ApiErrorResponse>)
                     .then(data => {
-                      if (data.error) {
+                      if ('error' in data) {
                         console.error('Error fetching user by code:', data.error);
                         return;
                       }
-                      const user = { ...data, code };
+                      const user: UserData = { ...data, code };
                       alert('User data:' + JSON.stringify(user, null, 2));
                       const callback = oauthBtn.getAttribute('data-callback');
                       if (callback) {

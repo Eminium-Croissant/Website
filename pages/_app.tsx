@@ -1,29 +1,29 @@
 import 'github-markdown-css/github-markdown.css';
 
-import '../styles/atom-one-dark.min.css';
+
 import '../styles/main.css';
+
+import '../styles/atom-one-dark.min.css';
 import '../styles/globals.css';
 import '../styles/rarity.css';
 
 import type { AppProps } from 'next/app';
-import MetaLinks from '../components/common/MetaLinks';
 import Footer from '../components/common/Footer';
+import MetaLinks from '../components/common/MetaLinks';
 import ImagePreloader from '../components/utils/ImagePreloader';
 
 import { useEffect, useState } from 'react';
-import LauncherNavbar from './launcher/components/Navbar';
-import LauncherLobby from './launcher/components/Lobby';
-import { AuthProvider } from '../hooks/AuthContext';
-import { UserCacheProvider } from '../hooks/UserCacheContext';
-import { ImageCacheProvider } from '../hooks/ImageCacheContext';
-import useIsMobile from '../hooks/useIsMobile';
 import NavBarDesktop from '../components/common/NavBarDesktop';
 import NavBarMobile from '../components/common/NavBarMobile';
-import { LobbyProvider } from '../hooks/LobbyContext';
-import { appWithTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { getMetaLinksProps } from '../components/common/metaLinks.server';
 import OgGameMetaLinks from '../components/common/OgGameMetaLinks';
+import { I18nProvider } from '../components/utils/CloudflareI18n';
+import { AuthProvider } from '../hooks/AuthContext';
+import { ImageCacheProvider } from '../hooks/ImageCacheContext';
+import { LobbyProvider } from '../hooks/LobbyContext';
+import useIsMobile from '../hooks/useIsMobile';
+import { UserCacheProvider } from '../hooks/UserCacheContext';
+import LauncherLobby from './launcher/components/Lobby';
+import LauncherNavbar from './launcher/components/Navbar';
 
 function BackgroundImage() {
   const [mounted, setMounted] = useState(false);
@@ -71,15 +71,6 @@ function WebsiteLayout({ Component, pageProps, mainStyle }: { Component: any; pa
   );
 }
 
-export async function getStaticProps({ locale }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'])),
-      ...(await getMetaLinksProps(locale)),
-    },
-  };
-}
-
 function AppContent({ Component, pageProps }: AppProps) {
   const [isLauncher, setIsLauncher] = useState(false);
   const [mainStyle, setMainStyle] = useState('');
@@ -100,17 +91,85 @@ function AppContent({ Component, pageProps }: AppProps) {
 }
 
 export function App(props: AppProps) {
+  const [locale, setLocale] = useState('en');
+  const [translations, setTranslations] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const initializeI18n = async () => {
+      // Auto-detect browser language or use stored preference
+      const storedLocale = typeof window !== 'undefined' ? localStorage.getItem('locale') : null;
+      const browserLocale = typeof window !== 'undefined' ? navigator.language.split('-')[0] : 'en';
+      const supportedLocales = ['en', 'fr', 'de', 'es', 'it', 'ja', 'ko', 'tr', 'zh', 'ar', 'ru'];
+      
+      const detectedLocale = storedLocale || 
+        (supportedLocales.includes(browserLocale) ? browserLocale : 'en');
+      
+      setLocale(detectedLocale);
+
+      // Pré-charger les traductions
+      try {
+        const response = await fetch(`/locales/${detectedLocale}/common.json`);
+        if (response.ok) {
+          const data = await response.json();
+          setTranslations(data);
+        }
+      } catch (error) {
+        console.warn('Failed to preload translations:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeI18n();
+  }, []);
+
+  // Afficher un loader pendant le chargement initial pour éviter l'oscillation
+  if (isLoading) {
+    return (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'var(--dark-primary, #0a0a0a)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 9999
+      }}>
+        <div style={{
+          width: '40px',
+          height: '40px',
+          border: '4px solid rgba(255, 255, 255, 0.1)',
+          borderTop: '4px solid #00bfff',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+  
   return (
-    <ImageCacheProvider>
-      <UserCacheProvider>
-        <AuthProvider>
-          <LobbyProvider>
-            <AppContent {...props} />
-          </LobbyProvider>
-        </AuthProvider>
-      </UserCacheProvider>
-    </ImageCacheProvider>
+    <I18nProvider locale={locale} translations={translations}>
+      <ImageCacheProvider>
+        <UserCacheProvider>
+          <AuthProvider>
+            <LobbyProvider>
+              <AppContent {...props} />
+            </LobbyProvider>
+          </AuthProvider>
+        </UserCacheProvider>
+      </ImageCacheProvider>
+    </I18nProvider>
   );
 }
 
-export default appWithTranslation(App);
+export default App;

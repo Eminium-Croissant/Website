@@ -1,14 +1,23 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useIsMobile from '../hooks/useIsMobile';
+
+interface ForgotPasswordResponse {
+  message: string;
+  success: boolean;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -58,7 +67,7 @@ const infoTextMobileStyle: React.CSSProperties = {
 };
 
 function ForgotPasswordDesktop(props: any) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { email, setEmail, loading, error, success, handleSubmit } = props;
   return (
     <div className='container' style={containerStyle}>
@@ -132,7 +141,7 @@ function ForgotPasswordDesktop(props: any) {
 }
 
 function ForgotPasswordMobile(props: any) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { email, setEmail, loading, error, success, handleSubmit } = props;
   return (
     <div className='container' style={containerMobileStyle}>
@@ -224,8 +233,8 @@ export default function ForgotPassword() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to send reset email');
+      const data = await res.json() as ForgotPasswordResponse | ApiErrorResponse;
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to send reset email');
       setSuccess('Password reset email sent.');
     } catch (e: any) {
       setError(e.message);

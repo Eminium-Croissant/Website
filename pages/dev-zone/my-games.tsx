@@ -1,14 +1,11 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Certification from '../../components/common/Certification';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../../components/utils/CloudflareI18n';
 import useAuth from '../../hooks/useAuth';
 import useIsMobile from '../../hooks/useIsMobile';
 
-const endpoint = '/api';
-
-type Game = {
+interface Game {
   gameId: string;
   name: string;
   description: string;
@@ -25,18 +22,85 @@ type Game = {
   trailer_link?: string;
   multiplayer?: boolean;
   download_link?: string;
-};
+}
+
+interface GameFormData {
+  name: string;
+  description: string;
+  price: string;
+  showInStore: boolean;
+  iconHash: string | null;
+  bannerHash: string | null;
+  genre: string;
+  release_date: string;
+  developer: string;
+  publisher: string;
+  platforms: string;
+  website: string;
+  trailer_link: string;
+  multiplayer: boolean;
+  download_link: string;
+}
+
+interface ValidationErrors {
+  name?: string;
+  description?: string;
+  price?: string;
+  submit?: string;
+}
+
+interface UploadResponse {
+  hash: string;
+}
+
+interface UpdateGameRequest {
+  name: string;
+  description: string;
+  price: number;
+  showInStore: boolean;
+  iconHash?: string;
+  bannerHash?: string;
+  genre?: string;
+  release_date?: string;
+  developer?: string;
+  publisher?: string;
+  platforms?: string;
+  website?: string;
+  trailer_link?: string;
+  multiplayer?: boolean;
+  download_link?: string;
+}
+
+interface UserSearchResult {
+  id: string;
+  userId?: string;
+  user_id?: string;
+  username: string;
+  displayName?: string;
+  verified?: boolean;
+}
+
+interface ApiErrorResponse {
+  error?: string;
+  message?: string;
+}
+
+interface GamesResponse {
+  games?: Game[];
+}
+
+const endpoint = '/api';
 
 const MyGames = () => {
   const isMobile = useIsMobile();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState<any>(null);
+  const [formData, setFormData] = useState<GameFormData | null>(null);
   const [iconFile, setIconFile] = useState<File | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
-  const [errors, setErrors] = useState<any>({});
+  const [errors, setErrors] = useState<ValidationErrors>({});
   const [success, setSuccess] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [tooltip, setTooltip] = useState<{
@@ -52,7 +116,7 @@ const MyGames = () => {
       try {
         const res = await fetch(endpoint + '/games/@mine');
         if (res.ok) {
-          const data = await res.json();
+          const data: Game[] | GamesResponse = await res.json();
           setGames(Array.isArray(data) ? data : data.games || []);
         }
       } finally {
@@ -116,11 +180,11 @@ const MyGames = () => {
     }
   };
 
-  const validate = () => {
-    const newErrors: any = {};
-    if (!formData.name) newErrors.name = 'Name is required';
-    if (!formData.description) newErrors.description = 'Description is required';
-    if (!formData.price) newErrors.price = 'Price is required';
+  const validate = (): ValidationErrors => {
+    const newErrors: ValidationErrors = {};
+    if (!formData?.name) newErrors.name = 'Name is required';
+    if (!formData?.description) newErrors.description = 'Description is required';
+    if (!formData?.price) newErrors.price = 'Price is required';
     return newErrors;
   };
 
@@ -147,10 +211,10 @@ const MyGames = () => {
           body: iconData,
         });
         if (res.ok) {
-          const data = await res.json();
+          const data: UploadResponse = await res.json();
           iconHash = data.hash;
         } else {
-          const err = await res.json();
+          const err: ApiErrorResponse = await res.json();
           setErrors({ submit: err.error || 'Failed to upload icon.' });
           setSubmitting(false);
           return;
@@ -171,10 +235,10 @@ const MyGames = () => {
           body: bannerData,
         });
         if (res.ok) {
-          const data = await res.json();
+          const data: UploadResponse = await res.json();
           bannerHash = data.hash;
         } else {
-          const err = await res.json();
+          const err: ApiErrorResponse = await res.json();
           setErrors({ submit: err.error || 'Failed to upload banner.' });
           setSubmitting(false);
           return;
@@ -186,7 +250,7 @@ const MyGames = () => {
       }
     }
 
-    const data = {
+    const data: UpdateGameRequest = {
       name: formData.name,
       description: formData.description,
       price: Number(formData.price),
@@ -222,7 +286,7 @@ const MyGames = () => {
         setIconFile(null);
         setBannerFile(null);
       } else {
-        const err = await res.json();
+        const err: ApiErrorResponse = await res.json();
         setErrors({ submit: err.message || 'Failed to update game.' });
       }
     } catch (err: any) {
@@ -236,7 +300,7 @@ const MyGames = () => {
   const [ownershipGame, setOwnershipGame] = useState<Game | null>(null);
   const [ownershipUserId, setOwnershipUserId] = useState('');
   const [ownershipUserSearch, setOwnershipUserSearch] = useState('');
-  const [ownershipUserResults, setOwnershipUserResults] = useState<any[]>([]);
+  const [ownershipUserResults, setOwnershipUserResults] = useState<UserSearchResult[]>([]);
   const [ownershipUserDropdownOpen, setOwnershipUserDropdownOpen] = useState(false);
   const [ownershipError, setOwnershipError] = useState<string | null>(null);
   const [ownershipLoading, setOwnershipLoading] = useState(false);
@@ -250,7 +314,7 @@ const MyGames = () => {
     try {
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(q)}`);
       if (!res.ok) return;
-      const users = await res.json();
+      const users: UserSearchResult[] = await res.json();
       setOwnershipUserResults(users);
     } catch (e) {
       setOwnershipUserResults([]);
@@ -283,7 +347,7 @@ const MyGames = () => {
         body: JSON.stringify({ newOwnerId: ownershipUserId }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data: ApiErrorResponse = await res.json();
         setOwnershipError(data.message || "Erreur lors du transfert d'ownership");
       } else {
         setShowOwnershipModal(false);
@@ -648,11 +712,11 @@ const MyGames = () => {
                         />
                         <span style={{ color: '#fff' }}>{u.username}</span>
                         <Certification
-                          user={u}
+                          user={{ ...u, verified: u.verified || false }}
                           style={{
                             width: 16,
                             height: 16,
-                            verticalAlign: 'middle',
+                            marginLeft: 6,
                           }}
                         />
                       </li>
@@ -704,7 +768,7 @@ export default MyGames;
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }

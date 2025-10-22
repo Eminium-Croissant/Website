@@ -1,20 +1,19 @@
 import { faDesktop, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Trans, useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, Trans, useTranslation } from '../components/utils/CloudflareI18n';
 import useIsMobile from '../hooks/useIsMobile';
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
 function DownloadLauncherDesktop() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const downloadLinks = [
     {
@@ -93,7 +92,7 @@ function DownloadLauncherDesktop() {
 }
 
 function DownloadLauncherMobile() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const downloadLinks = [
     {

@@ -139,8 +139,8 @@
       "title": "Projet Open Source",
       "subtitle": "Contribuez à l'Évolution",
       "description": {
-        "desktop": "Croissant est un projet <strong>open source</strong> où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés et aidez-nous à façonner l'avenir du gaming.",
-        "mobile": "Croissant est un projet <strong>open source</strong> où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés."
+        "desktop": "Croissant est un projet open source où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés et aidez-nous à façonner l'avenir du gaming.",
+        "mobile": "Croissant est un projet open source où chaque contribution compte. Rejoignez notre communauté de développeurs passionnés."
       },
       "development": {
         "title": "Développement",
@@ -316,7 +316,7 @@
     "goHome": "Retour à l’accueil",
     "giftNotFound": "Cadeau introuvable",
     "giftNotFoundDesc": "Ce code cadeau est invalide ou expiré.",
-    "from": "De : <strong>{{username}}</strong>",
+    "from": "De : {{username}}",
     "youReceivedGift": "🎁 Tu as reçu un cadeau !",
     "back": "← Retour",
     "purchaseSuccess": "Achat réussi !",
@@ -557,7 +557,7 @@
   },
   "search": {
     "enterQuery": "Entre une recherche.",
-    "resultsFor": "Résultats pour <strong>{{query}}</strong>",
+    "resultsFor": "Résultats pour {{query}}",
     "users": "Utilisateurs",
     "games": "Jeux",
     "items": "Objets",

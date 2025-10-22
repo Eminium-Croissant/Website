@@ -1,8 +1,7 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
 import useUserCache from '../hooks/useUserCache';
@@ -10,7 +9,7 @@ import useUserCache from '../hooks/useUserCache';
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -33,6 +32,43 @@ export interface EnrichedMarketListing {
   sellerName?: string;
 }
 
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+  credits: number;
+  created_at: string;
+  updated_at: string;
+  last_login?: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
+interface BuyResponse {
+  success: boolean;
+  message?: string;
+}
+
+interface BuyOrderResponse {
+  id: string;
+  message?: string;
+}
+
+interface Item {
+  id: string;
+  itemId: string; // for compatibility
+  name: string;
+  description: string;
+  icon_hash?: string;
+  iconHash?: string; // for compatibility
+  game_id: string;
+  price?: number;
+}
+
 function useMarketplaceLogic() {
   const { user, loading: userLoading } = useAuth();
   const [listings, setListings] = useState<EnrichedMarketListing[]>([]);
@@ -47,9 +83,9 @@ function useMarketplaceLogic() {
     setLoading(true);
     fetch(`/api/market-listings?limit=100`)
       .then(async res => {
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Failed to fetch listings');
-        setListings(data);
+        const data = await res.json() as EnrichedMarketListing[] | ApiErrorResponse;
+        if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to fetch listings');
+        setListings(data as EnrichedMarketListing[]);
         setLoading(false);
       })
       .catch(err => {
@@ -79,8 +115,8 @@ function useMarketplaceLogic() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Purchase failed');
+      const data = await res.json() as BuyResponse | ApiErrorResponse;
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Purchase failed');
       alert('Purchase successful!');
       setListings(listings => listings.filter(l => l.id !== listing.id));
     } catch (e: any) {
@@ -92,7 +128,7 @@ function useMarketplaceLogic() {
   const [buyOrderPrice, setBuyOrderPrice] = useState(1);
   const [placingOrder, setPlacingOrder] = useState(false);
   const [buyOrderItemSearch, setBuyOrderItemSearch] = useState('');
-  const [buyOrderItemResults, setBuyOrderItemResults] = useState<any[]>([]);
+  const [buyOrderItemResults, setBuyOrderItemResults] = useState<Item[]>([]);
   const [buyOrderDropdownOpen, setBuyOrderDropdownOpen] = useState(false);
 
   const handlePlaceBuyOrder = async () => {
@@ -108,8 +144,8 @@ function useMarketplaceLogic() {
           price: buyOrderPrice,
         }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to place buy order');
+      const data = await res.json() as BuyOrderResponse | ApiErrorResponse;
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to place buy order');
       alert('Buy order placed!');
       setShowBuyOrderModal(false);
     } catch (e: any) {
@@ -127,7 +163,7 @@ function useMarketplaceLogic() {
     try {
       const res = await fetch(`/api/items/search?q=${encodeURIComponent(q)}`);
       if (!res.ok) return;
-      const items = await res.json();
+      const items = await res.json() as Item[];
       setBuyOrderItemResults(items);
     } catch {
       setBuyOrderItemResults([]);
@@ -162,7 +198,7 @@ function useMarketplaceLogic() {
 function MarketplaceDesktop(props: ReturnType<typeof useMarketplaceLogic>) {
   const { user, listings, loading, error, showBuyOrderModal, setShowBuyOrderModal, sellerNames, handleBuy, buyOrderItemId, setBuyOrderItemId, buyOrderPrice, setBuyOrderPrice, placingOrder, buyOrderItemSearch, setBuyOrderItemSearch, buyOrderItemResults, buyOrderDropdownOpen, setBuyOrderDropdownOpen, handlePlaceBuyOrder, handleItemSearch } = props;
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   return (
     <div className='min-h-screen bg-glass-gradient'>
@@ -328,7 +364,7 @@ function MarketplaceDesktop(props: ReturnType<typeof useMarketplaceLogic>) {
 function MarketplaceMobile(props: ReturnType<typeof useMarketplaceLogic>) {
   const { user, listings, loading, error, showBuyOrderModal, setShowBuyOrderModal, sellerNames, handleBuy, buyOrderItemId, setBuyOrderItemId, buyOrderPrice, setBuyOrderPrice, placingOrder, buyOrderItemSearch, setBuyOrderItemSearch, buyOrderItemResults, buyOrderDropdownOpen, setBuyOrderDropdownOpen, handlePlaceBuyOrder, handleItemSearch } = props;
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   return (
     <div className='min-h-screen bg-glass-gradient'>

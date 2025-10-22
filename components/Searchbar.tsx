@@ -1,11 +1,11 @@
-import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { useTranslation } from './utils/CloudflareI18n';
 
 export default function Searchbar() {
   const [value, setValue] = useState('');
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
 

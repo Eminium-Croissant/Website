@@ -1,17 +1,61 @@
 import { faEnvelope, faEye, faEyeSlash, faKey, faLock, faSignInAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
 
-export async function getStaticProps({ locale }) {
+interface LoginProps {
+  email: string;
+  setEmail: (email: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  loginLoading: boolean;
+  loginError: string | null;
+  handleLogin: (e: React.FormEvent) => void;
+  handleDiscord: () => void;
+  handleGoogle: () => void;
+  handlePasskeyLogin: () => void;
+  passkeyLoading: boolean;
+  passkeyError: string | null;
+  showAuthenticatorModal: boolean;
+  authenticatorCode: string;
+  setAuthenticatorCode: (code: string) => void;
+  authenticatorError: string | null;
+  handleAuthenticatorSubmit: (e: React.FormEvent) => void;
+  setShowAuthenticatorModal: (show: boolean) => void;
+  setAuthenticatorError: (error: string | null) => void;
+  setPendingUserId: (userId: string | null) => void;
+}
+
+interface ApiResponse {
+  message?: string;
+  token?: string;
+  user?: {
+    userId?: string;
+    user_id?: string;
+  };
+}
+
+interface PasskeyOptions {
+  challenge: string;
+  allowCredentials?: Array<{
+    id: string;
+    type: string;
+  }>;
+}
+
+interface PasskeyCredential {
+  id: string;
+  type: string;
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -33,10 +77,10 @@ const DiscordIcon = () => (
   </svg>
 );
 
-function LoginDesktop(props: any) {
+function LoginDesktop(props: LoginProps) {
   const { email, setEmail, password, setPassword, loginLoading, loginError, handleLogin, handleDiscord, handleGoogle, handlePasskeyLogin, passkeyLoading, passkeyError, showAuthenticatorModal, authenticatorCode, setAuthenticatorCode, authenticatorError, handleAuthenticatorSubmit, setShowAuthenticatorModal, setAuthenticatorError, setPendingUserId } = props;
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
@@ -188,10 +232,10 @@ function LoginDesktop(props: any) {
   );
 }
 
-function LoginMobile(props: any) {
+function LoginMobile(props: LoginProps) {
   const { email, setEmail, password, setPassword, loginLoading, loginError, handleLogin, handleDiscord, handleGoogle, handlePasskeyLogin, passkeyLoading, passkeyError, showAuthenticatorModal, authenticatorCode, setAuthenticatorCode, authenticatorError, handleAuthenticatorSubmit, setShowAuthenticatorModal, setAuthenticatorError, setPendingUserId } = props;
 
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = React.useState(false);
 
   return (
@@ -383,7 +427,7 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json();
+      const data = await res.json() as ApiResponse;
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
       if (data.token) {
@@ -410,19 +454,19 @@ export default function Login() {
         body: JSON.stringify({}),
       });
       if (!res.ok) throw new Error('Failed to get authentication options');
-      const options = await res.json();
+      const options = await res.json() as PasskeyOptions;
 
       const challengeBuffer = Uint8Array.from(atob(options.challenge), c => c.charCodeAt(0));
-      options.challenge = challengeBuffer;
+      (options as any).challenge = challengeBuffer;
 
       if (options.allowCredentials) {
-        options.allowCredentials = options.allowCredentials.map((cred: any) => ({
+        (options as any).allowCredentials = options.allowCredentials.map((cred: any) => ({
           ...cred,
           id: Uint8Array.from(atob(cred.id), c => c.charCodeAt(0)),
         }));
       }
 
-      const assertion = await navigator.credentials.get({ publicKey: options });
+      const assertion = await navigator.credentials.get({ publicKey: options as any });
       if (!assertion) throw new Error('Passkey authentication failed');
 
       const parsedCredential = {
@@ -435,7 +479,7 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ credential: parsedCredential }),
       });
-      const data = await verifyRes.json();
+      const data = await verifyRes.json() as ApiResponse;
       if (!verifyRes.ok) throw new Error(data.message || 'Passkey login failed');
       document.cookie = `token=${data.token}; path=/; max-age=31536000`;
       location.href = '/';
@@ -460,7 +504,7 @@ export default function Login() {
           code: authenticatorCode,
         }),
       });
-      const data = await res.json();
+      const data = await res.json() as ApiResponse;
       if (!res.ok) throw new Error(data.message || 'Invalid code');
       if (data.token) {
         document.cookie = `token=${data.token}; path=/; max-age=31536000`;

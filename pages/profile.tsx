@@ -1,5 +1,3 @@
-import { Trans, useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -7,12 +5,27 @@ import Inventory from '../components/Inventory';
 import TradePanel from '../components/TradePanel';
 import Certification from '../components/common/Certification';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, Trans, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
 import useUserCache from '../hooks/useUserCache';
 
+interface UserFromQuery {
+  id: string;
+  username: string;
+}
+
+interface ApiErrorResponse {
+  message?: string;
+}
+
+
+interface TradeStartResponse {
+  id: string;
+}
+
 export async function getServerSideProps({ locale, query }) {
-  const translations = await serverSideTranslations(locale, ['common']);
+  const translations = await serverSideTranslations(locale);
   let profileFromQuery = null;
   const userId = query?.user || null;
   let ogMeta = null;
@@ -20,7 +33,7 @@ export async function getServerSideProps({ locale, query }) {
     try {
       const res = await fetch(`https://croissant-api.fr/api/users/${userId}`);
       if (res.ok) {
-        const user = await res.json();
+        const user: UserFromQuery = await res.json();
         ogMeta = {
           title: user.username,
           description: `Check out ${user.username}'s profile on Croissant!`,
@@ -59,7 +72,7 @@ function ProfileShopModal({ open, onClose, user, onBuySuccess }) {
 }
 
 function GiveCreditsModal({ open, onClose, onSubmit, maxAmount, username }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [amount, setAmount] = useState(1);
   useEffect(() => {
     if (open) setAmount(1);
@@ -97,9 +110,6 @@ export interface ShopItem {
   iconHash: string;
 }
 
-interface InventoryHandle {
-  reload: () => void;
-}
 
 interface CreatedGame {
   gameId: string;
@@ -163,7 +173,7 @@ const tooltipStyle = (x: number, y: number): React.CSSProperties => ({
 });
 
 function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => void }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [items, setItems] = useState<ShopItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -254,7 +264,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
         body: JSON.stringify({ amount: result.amount }),
       })
         .then(async res => {
-          const data = await res.json();
+          const data: ApiErrorResponse = await res.json();
           if (!res.ok) throw new Error(data.message || 'Failed to buy item');
           return data;
         })
@@ -265,7 +275,7 @@ function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => v
             },
           })
             .then(res => res.json())
-            .then(data => setItems(data.filter((item: any) => item.owner === user.id)))
+            .then((data: ShopItem[]) => setItems(data.filter((item: any) => item.owner === user.id)))
             .finally(() => setLoading(false));
           onBuySuccess();
         })
@@ -518,7 +528,7 @@ function useProfileLogic(userId: string) {
       const res = await fetch(`/api/users/admin/disable/${profile.id}`, {
         method: 'POST',
       });
-      const data = await res.json();
+      const data: ApiErrorResponse = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to disable account');
       reloadProfile(true);
     } catch (e: any) {
@@ -532,7 +542,7 @@ function useProfileLogic(userId: string) {
       const res = await fetch(`/api/users/admin/enable/${profile.id}`, {
         method: 'POST',
       });
-      const data = await res.json();
+      const data: ApiErrorResponse = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to re-enable account');
       reloadProfile(true);
     } catch (e: any) {
@@ -565,7 +575,7 @@ function useProfileLogic(userId: string) {
     const res = await fetch(`/api/trades/start-or-latest/${profile.id}`, {
       method: 'POST',
     });
-    const data = await res.json();
+    const data: TradeStartResponse = await res.json();
     setCurrentTradeId(data.id);
   };
 
@@ -581,7 +591,7 @@ function useProfileLogic(userId: string) {
         },
         body: JSON.stringify({ targetUserId: profile.id, amount }),
       });
-      const data = await res.json();
+      const data: ApiErrorResponse = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to transfer credits');
       setGiveCreditsSuccess('Credits sent!');
       setInventoryReloadFlag(f => f + 1);
@@ -633,10 +643,10 @@ function useProfileLogic(userId: string) {
 }
 
 function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
-  const { profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, search, setIsProfileReloading, reloadProfile, setGiveCreditsError, setGiveCreditsSuccess, setInventoryReloadFlag, setLoading, setShowTradeModal } = props;
+  const { profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, search, setIsProfileReloading, reloadProfile, setGiveCreditsError, setGiveCreditsSuccess, setInventoryReloadFlag, setShowTradeModal } = props;
 
   const { user, token } = useAuth();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isProfileReloading) return;
@@ -746,12 +756,12 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                     ) : null}
                     {profile.createdGames && profile.createdGames.length > 0 ? (
                       <button className='glass-button' onClick={() => props.setCreatedGamesModalOpen(true)} style={{ minWidth: 90 }}>
-                        {t('profile.createdGamesTitle', 'Games ')}
+                        {t('profile.createdGamesTitle') || 'Games '}
                       </button>
                     ) : null}
                     {profile.studios && profile.studios.length > 0 ? (
                       <button className='glass-button' style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
-                        {t('profile.studios', 'Studios')}
+                        {t('profile.studios') || 'Studios'}
                       </button>
                     ) : null}
                   </>
@@ -776,12 +786,12 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                 ) : null}
                 {profile.createdGames && profile.createdGames.length > 0 ? (
                   <button className='glass-button' onClick={() => props.setCreatedGamesModalOpen(true)} style={{ minWidth: 90 }}>
-                    {t('profile.createdGamesTitle', 'Games ')}
+                    {t('profile.createdGamesTitle') || 'Games '}
                   </button>
                 ) : null}
                 {profile.studios && profile.studios.length > 0 ? (
                   <button className='glass-button' style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
-                    {t('profile.studios', 'Studios')}
+                    {t('profile.studios') || 'Studios'}
                   </button>
                 ) : null}
               </div>
@@ -801,6 +811,8 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                       ...item,
                       item_id: item.itemId,
                       icon_hash: item.iconHash,
+                      rarity: item.rarity,
+                      metadataString: '',
                     }))
                   : [],
               }}
@@ -873,7 +885,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
   const { profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, search, setIsProfileReloading, reloadProfile, setGiveCreditsError, setShowTradeModal, setInventoryReloadFlag, setGiveCreditsSuccess } = props;
 
   const { user, token } = useAuth();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isProfileReloading) return;
@@ -996,12 +1008,12 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                     ) : null}
                     {profile.createdGames && profile.createdGames.length > 0 ? (
                       <button className='glass-button' style={{ minWidth: 90 }} onClick={() => props.setCreatedGamesModalOpen(true)}>
-                        {t('profile.createdGamesTitle', 'Games ')}
+                        {t('profile.createdGamesTitle') || 'Games '}
                       </button>
                     ) : null}
                     {profile.studios && profile.studios.length > 0 ? (
                       <button className='glass-button' style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
-                        {t('profile.studios', 'Studios')}
+                        {t('profile.studios') || 'Studios'}
                       </button>
                     ) : null}
                   </>
@@ -1022,12 +1034,12 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                 ) : null}
                 {profile.createdGames && profile.createdGames.length > 0 ? (
                   <button className='glass-button' style={{ minWidth: 90 }} onClick={() => props.setCreatedGamesModalOpen(true)}>
-                    {t('profile.createdGamesTitle', 'Games ')}
+                    {t('profile.createdGamesTitle') || 'Games '}
                   </button>
                 ) : null}
                 {profile.studios && profile.studios.length > 0 ? (
                   <button className='glass-button' style={{ minWidth: 90 }} onClick={() => props.setStudiosModalOpen(true)}>
-                    {t('profile.studios', 'Studios')}
+                    {t('profile.studios') || 'Studios'}
                   </button>
                 ) : null}
               </>
@@ -1051,6 +1063,8 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
                       ...item,
                       item_id: item.itemId,
                       icon_hash: item.iconHash,
+                      rarity: item.rarity,
+                      metadataString: '',
                     }))
                   : [],
               }}
@@ -1123,7 +1137,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
 }
 
 function CreatedGamesModal({ open, onClose, games }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const router = useRouter();
   if (!open) return null;
@@ -1135,7 +1149,7 @@ function CreatedGamesModal({ open, onClose, games }) {
       }}>
       <div className='shop-prompt glass-container trade-panel trade-panel-centered' style={{ minWidth: 400, maxWidth: 600 }}>
         {games.length === 0 ? (
-          <div>{t('profile.noCreatedGames', 'Aucun jeu créé')}</div>
+          <div>{t('profile.noCreatedGames') || 'Aucun jeu créé'}</div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {games.map(game => (
@@ -1169,7 +1183,7 @@ function CreatedGamesModal({ open, onClose, games }) {
 }
 
 function UserStudiosModal({ open, onClose, studios }) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const router = useRouter();
   if (!open) return null;
   return (
@@ -1181,7 +1195,7 @@ function UserStudiosModal({ open, onClose, studios }) {
       }}>
       <div className='shop-prompt glass-container trade-panel trade-panel-centered' style={{ minWidth: 400, maxWidth: 600 }}>
         {studios.length === 0 ? (
-          <div>{t('profile.noStudios', 'Aucun studio')}</div>
+          <div>{t('profile.noStudios') || 'Aucun studio'}</div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {studios.map(studio => (

@@ -1,7 +1,7 @@
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { getServerSideTranslations as serverSideTranslations } from '../utils/CloudflareI18n';
 
 export async function getMetaLinksProps(locale = 'en') {
-  const translations = await serverSideTranslations(locale, ['common']);
+  const translations = await serverSideTranslations(locale);
 
   const common = (await import(`../../public/locales/${locale}/common.json`)).default;
 

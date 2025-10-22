@@ -139,8 +139,8 @@
       "title": "开源项目",
       "subtitle": "参与项目发展",
       "description": {
-        "desktop": "Croissant 是一个 <strong>开源</strong> 项目，每一次贡献都很重要。加入我们的开发者社区，共同塑造游戏的未来。",
-        "mobile": "Croissant 是一个 <strong>开源</strong> 项目，欢迎贡献与参与。"
+        "desktop": "Croissant 是一个 开源 项目，每一次贡献都很重要。加入我们的开发者社区，共同塑造游戏的未来。",
+        "mobile": "Croissant 是一个 开源 项目，欢迎贡献与参与。"
       },
       "development": {
         "title": "开发",
@@ -310,7 +310,7 @@
     "goHome": "返回首页",
     "giftNotFound": "未找到礼物",
     "giftNotFoundDesc": "该礼物代码无效或已过期。",
-    "from": "来自： <strong>{{username}}</strong>",
+    "from": "来自： {{username}}",
     "youReceivedGift": "🎁 你收到了一份礼物！",
     "back": "← 返回",
     "purchaseSuccess": "购买成功！",
@@ -551,7 +551,7 @@
   },
   "search": {
     "enterQuery": "请输入搜索内容。",
-    "resultsFor": "“<strong>{{query}}</strong>” 的搜索结果",
+    "resultsFor": "“{{query}}” 的搜索结果",
     "users": "用户",
     "games": "游戏",
     "items": "物品",

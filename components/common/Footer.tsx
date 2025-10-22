@@ -1,9 +1,9 @@
-import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from '../utils/CloudflareI18n';
 
 export default function Footer() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [show, setShow] = useState('');
   const [footerPosition, setFooterPosition] = useState<'relative' | 'absolute'>('absolute');
 

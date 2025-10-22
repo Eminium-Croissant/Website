@@ -1,10 +1,9 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Certification from '../components/common/Certification';
 import CachedImage from '../components/utils/CachedImage';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
 import useIsMobile from '../hooks/useIsMobile';
 import useUserCache from '../hooks/useUserCache';
@@ -12,7 +11,7 @@ import useUserCache from '../hooks/useUserCache';
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -48,6 +47,16 @@ interface AlertState {
 }
 
 type OwnerInfo = User;
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
+
+interface BuyGameResponse {
+  success: boolean;
+  message?: string;
+}
 
 interface ShopProps {
   games: Game[];
@@ -87,7 +96,7 @@ function useShopLogic() {
     })
       .then(res => {
         if (!res.ok) throw new Error('Failed to fetch games');
-        return res.json();
+        return res.json() as Promise<Game[]>;
       })
       .then(data => {
         setGames(data);
@@ -127,8 +136,8 @@ function useShopLogic() {
           headers: AUTH_HEADER,
         })
           .then(async res => {
-            const data = await res.json();
-            if (!res.ok) throw new Error(data.message || 'Failed to buy game');
+            const data = await res.json() as BuyGameResponse | ApiErrorResponse;
+            if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to buy game');
             return data;
           })
           .then(() => {
@@ -255,7 +264,7 @@ function useShopLogic() {
 }
 
 const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, handleBuyGame, setAlert, ownerInfoMap, handlePromptResult }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -404,7 +413,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
 };
 
 const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, handleBuyGame, setAlert, ownerInfoMap, handlePromptResult }) => {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
 

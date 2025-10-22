@@ -47,8 +47,8 @@
       "title": "Open-Source-Projekt",
       "subtitle": "Gestalte die Zukunft mit",
       "description": {
-        "desktop": "Croissant ist ein <strong>Open-Source</strong>-Projekt, bei dem jeder Beitrag zählt. Werde Teil unserer leidenschaftlichen Entwickler-Community und gestalte die Zukunft des Gamings mit.",
-        "mobile": "Croissant ist ein <strong>Open-Source</strong>-Projekt, bei dem jeder Beitrag zählt. Werde Teil unserer Entwickler-Community."
+        "desktop": "Croissant ist ein Open-Source-Projekt, bei dem jeder Beitrag zählt. Werde Teil unserer leidenschaftlichen Entwickler-Community und gestalte die Zukunft des Gamings mit.",
+        "mobile": "Croissant ist ein Open-Source-Projekt, bei dem jeder Beitrag zählt. Werde Teil unserer Entwickler-Community."
       },
       "development": {
         "title": "Entwicklung",
@@ -316,7 +316,7 @@
     "goHome": "Zurück zur Startseite",
     "giftNotFound": "Geschenk nicht gefunden",
     "giftNotFoundDesc": "Der Geschenkcode ist ungültig oder abgelaufen.",
-    "from": "Von: <strong>{{username}}</strong>",
+    "from": "Von: {{username}}",
     "youReceivedGift": "🎁 Du hast ein Geschenk bekommen!",
     "back": "← Zurück",
     "purchaseSuccess": "Kauf erfolgreich!",
@@ -557,7 +557,7 @@
   },
   "search": {
     "enterQuery": "Suchbegriff eingeben.",
-    "resultsFor": "Ergebnisse für <strong>{{query}}</strong>",
+    "resultsFor": "Ergebnisse für {{query}}",
     "users": "Nutzer",
     "games": "Games",
     "items": "Items",

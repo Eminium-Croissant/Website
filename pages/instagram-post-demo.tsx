@@ -1,10 +1,9 @@
 import { faArrowLeft, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useState } from 'react';
 import InstagramPost from '../components/InstagramPost';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 
 type DemoConfig = {
   name: string;
@@ -21,13 +20,13 @@ type DemoConfig = {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
 
 export default function InstagramPostDemo() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const [selectedConfig, setSelectedConfig] = useState<DemoConfig | null>(null);
   const [copiedConfig, setCopiedConfig] = useState<string | false>(false);
 

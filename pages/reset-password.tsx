@@ -1,13 +1,31 @@
-import { Trans, useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { getServerSideTranslations as serverSideTranslations, Trans, useTranslation } from '../components/utils/CloudflareI18n';
 import useIsMobile from '../hooks/useIsMobile';
+
+interface User {
+  username: string;
+  id?: string;
+}
+
+interface ValidateTokenResponse {
+  user: User;
+  message?: string;
+}
+
+interface ResetPasswordResponse {
+  token: string;
+  message?: string;
+}
+
+interface ApiErrorResponse {
+  message: string;
+}
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -45,7 +63,7 @@ const titleMobileStyle: React.CSSProperties = {
 };
 
 export default function ResetPassword() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const isMobile = useIsMobile();
   const router = useRouter();
   const [newPassword, setNewPassword] = React.useState('');
@@ -53,7 +71,7 @@ export default function ResetPassword() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState<string | null>(null);
-  const [user, setUser] = React.useState<{ username: string } | null>(null);
+  const [user, setUser] = React.useState<User | null>(null);
   const [tokenChecked, setTokenChecked] = React.useState(false);
 
   const resetToken = typeof router.query.token === 'string' ? router.query.token : '';
@@ -68,8 +86,9 @@ export default function ResetPassword() {
     fetch(`/api/users/validate-reset-token?reset_token=${encodeURIComponent(resetToken)}`)
       .then(async res => {
         const data = await res.json();
-        if (!res.ok) throw new Error(data.message || 'Invalid reset token, please try again.');
-        setUser(data.user);
+        if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Invalid reset token, please try again.');
+        const validData = data as ValidateTokenResponse;
+        setUser(validData.user);
         setError(null);
       })
       .catch(() => {
@@ -109,9 +128,10 @@ export default function ResetPassword() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Failed to reset password');
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to reset password');
 
-      const token = data.token;
+      const resetData = data as ResetPasswordResponse;
+      const token = resetData.token;
       document.cookie = `token=${token}; path=/; max-age=31536000`;
       location.href = '/';
     } catch (e: any) {

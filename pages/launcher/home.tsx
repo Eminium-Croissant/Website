@@ -1,4 +1,3 @@
-import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -8,6 +7,7 @@ import remarkGfm from 'remark-gfm';
 import Certification from '../../components/common/Certification';
 import { DiscordRpcManager } from '../../components/discordRpcManager';
 import CachedImage from '../../components/utils/CachedImage';
+import { useTranslation } from '../../components/utils/CloudflareI18n';
 import { useLobby } from '../../hooks/LobbyContext';
 import useAuth from '../../hooks/useAuth';
 import { useDiscordActivity } from '../../hooks/useDiscordActivity';
@@ -15,10 +15,7 @@ import { useGames } from '../../hooks/useGames';
 import useUserCache from '../../hooks/useUserCache';
 import Login from '../../pages/login';
 
-const myUrl = 'http://localhost:3333';
-let discordRpcManager: DiscordRpcManager;
-
-type Game = {
+interface Game {
   id?: number;
   gameId: string;
   name: string;
@@ -42,14 +39,53 @@ type Game = {
   release_date?: string;
   trailer_link?: string;
   website?: string;
-};
+}
+
+interface LobbyResponse {
+  success: boolean;
+  lobbyId: string;
+  users: Array<{ id: string }>;
+  maxUsers: number;
+}
+
+interface UserSearchResult {
+  id: string;
+  userId?: string;
+  user_id?: string;
+  username: string;
+  displayName?: string;
+  verified?: boolean;
+}
+
+interface OwnerInfo {
+  id: string;
+  username: string;
+  verified?: boolean;
+  admin?: boolean;
+  isStudio?: boolean;
+}
+
+interface TransferResponse {
+  message?: string;
+}
+
+interface WebSocketMessage {
+  action: string;
+  gameId?: string;
+  lobbyId?: string;
+  percent?: number;
+  status?: string;
+}
+
+const myUrl = 'http://localhost:3333';
+let discordRpcManager: DiscordRpcManager;
 
 let ws: WebSocket;
 try {
   ws = new WebSocket('ws://localhost:8081');
-  ws.onerror = () => {};
+  ws.onerror = () => { };
   discordRpcManager = new DiscordRpcManager(ws);
-} catch {}
+} catch { }
 
 const ENDPOINT = '/api';
 
@@ -66,7 +102,7 @@ export function LobbyManager() {
     if (showLoading) setLoading(true);
     try {
       const res = await fetch(`${ENDPOINT}/lobbies/user/@me`);
-      const data = await res.json();
+      const data: LobbyResponse = await res.json();
       if (data.success) {
         const users = data.users;
         const usersString = users
@@ -139,7 +175,7 @@ export function LobbyManager() {
 const Library: React.FC = () => {
   const { user, token } = useAuth();
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
 
   const { games, setGames, selected, setSelected, updateGameState, getGame, selectGame } = useGames();
   const { setActivity, createLobby, clearLobby, updateState } = useDiscordActivity(ws);
@@ -149,23 +185,17 @@ const Library: React.FC = () => {
   const [showFetchError, setShowFetchError] = useState(false);
   const [search, setSearch] = useState('');
   const [downloadPercent, setDownloadPercent] = useState<number>(0);
-  const [ownerInfo, setOwnerInfo] = useState<{
-    id: string;
-    username: string;
-    verified?: boolean;
-    admin?: boolean;
-    isStudio?: boolean;
-  } | null>(null);
+  const [ownerInfo, setOwnerInfo] = useState<OwnerInfo | null>(null);
   const [showTransferModal, setShowTransferModal] = useState(false);
   const [transferTarget, setTransferTarget] = useState('');
   const [transferTargetId, setTransferTargetId] = useState('');
-  const [transferUserResults, setTransferUserResults] = useState<any[]>([]);
+  const [transferUserResults, setTransferUserResults] = useState<UserSearchResult[]>([]);
   const [transferUserDropdownOpen, setTransferUserDropdownOpen] = useState(false);
   const [transferLoading, setTransferLoading] = useState(false);
   const [transferError, setTransferError] = useState<string | null>(null);
 
   const { getUser: getUserFromCache } = useUserCache();
-  const { t: commonT } = useTranslation('common');
+  const { t: commonT } = useTranslation();
 
   useEffect(() => {
     if (user && user.id) {
@@ -186,7 +216,7 @@ const Library: React.FC = () => {
         if (!res.ok) throw new Error('Failed to fetch games');
         return res.json();
       })
-      .then(data => {
+      .then((data: Game[]) => {
         setGames(data);
         const lastGameId = localStorage.getItem('lastSelectedGameId');
         const lastGame = data.find((g: Game) => g.gameId === lastGameId);
@@ -204,7 +234,7 @@ const Library: React.FC = () => {
             if (!res.ok) throw new Error('Failed to fetch games from API');
             return res.json();
           })
-          .then(data => {
+          .then((data: Game[]) => {
             setGames(data);
             const lastGameId = localStorage.getItem('lastSelectedGameId');
             const lastGame = data.find((g: Game) => g.gameId === lastGameId);
@@ -220,7 +250,7 @@ const Library: React.FC = () => {
   useEffect(() => {
     ws.onmessage = event => {
       try {
-        const message = JSON.parse(event.data);
+        const message: WebSocketMessage = JSON.parse(event.data);
         console.log('Received message:', message);
         if (message.action === 'joinLobby') {
           const xhr = new XMLHttpRequest();
@@ -269,7 +299,7 @@ const Library: React.FC = () => {
         if (message.action === 'notFound' && message.gameId) {
           setError(`Game ${message.gameId} not found for deletion.`);
         }
-      } catch (e) {}
+      } catch (e) { }
     };
     return () => {
       ws.onmessage = null;
@@ -287,7 +317,7 @@ const Library: React.FC = () => {
     }
   }, [selected, getUserFromCache]);
 
-  function setPlayingGame(game) {
+  function setPlayingGame(game: Game) {
     setActivity({
       details: `Playing ${game.name}`,
       largeImageKey: 'game_icon',
@@ -375,7 +405,7 @@ const Library: React.FC = () => {
     try {
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(query)}`);
       if (!res.ok) return;
-      const users = await res.json();
+      const users: UserSearchResult[] = await res.json();
       setTransferUserResults(users);
       setTransferUserDropdownOpen(true);
     } catch (e) {
@@ -404,7 +434,7 @@ const Library: React.FC = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData: TransferResponse = await response.json();
         throw new Error(errorData.message || 'Transfer failed');
       }
 
@@ -736,9 +766,10 @@ const Library: React.FC = () => {
 };
 
 export async function getServerSideProps({ locale }) {
+  const { getServerSideTranslations } = await import('../../components/utils/CloudflareI18n');
   return {
     props: {
-      ...(await import('next-i18next/serverSideTranslations').then(mod => mod.serverSideTranslations(locale, ['common']))),
+      ...(await getServerSideTranslations(locale)),
       isLauncher: true,
     },
   };

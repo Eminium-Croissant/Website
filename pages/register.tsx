@@ -1,14 +1,34 @@
-import { useTranslation } from 'next-i18next';
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n';
 import useAuth from '../hooks/useAuth';
+
+interface User {
+  id: string;
+  username: string;
+  email: string;
+  avatar?: string;
+  credits: number;
+  created_at: string;
+  updated_at: string;
+  last_login?: string;
+}
+
+interface RegisterResponse {
+  token: string;
+  user: User;
+}
+
+interface ApiErrorResponse {
+  message: string;
+  error?: string;
+}
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common'])),
+      ...(await serverSideTranslations(locale)),
     },
   };
 }
@@ -80,7 +100,7 @@ const infoTextStyle: React.CSSProperties = {
 };
 
 export default function Register() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation();
   const { user, loading } = useAuth();
   const router = useRouter();
   const [email, setEmail] = React.useState('');
@@ -131,10 +151,10 @@ export default function Register() {
           userId: crypto.randomUUID(),
         }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Registration failed');
+      const data = await res.json() as RegisterResponse | ApiErrorResponse;
+      if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Registration failed');
 
-      document.cookie = `token=${data.token}; path=/; max-age=31536000`;
+      document.cookie = `token=${(data as RegisterResponse).token}; path=/; max-age=31536000`;
       location.href = '/';
     } catch (e: any) {
       setRegisterError(e.message);
