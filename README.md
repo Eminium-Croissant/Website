@@ -20,19 +20,22 @@ Croissant is reinventing the gaming marketplace with a community-centric approac
 
 Croissant: Creative and Reusable Open Source Inventory System, Scalable, API-ful, and Network Technology 🥐
 
-Official website: [https://croissant-api.fr](https://croissant-api.fr)
+Official website: [https://croissant-api.eminium.ovh](https://croissant-api.eminium.ovh)
 
 ## Support and Resources
 
 ### Documentation
-- **API Reference**: [croissant-api.fr/api-docs](https://croissant-api.fr/api-docs)
+
+- **API Reference**: [croissant-api.eminium.ovh/api-docs](https://croissant-api.eminium.ovh/api-docs)
 
 ### Community
+
 - **Discord Server**: [discord.gg/PjhRBDYZ3p](https://discord.gg/PjhRBDYZ3p)
 - **Community Forum**: Available on the main website
 - **GitHub Issues**: Report library-specific issues
 
 ### Professional Support
+
 - **Enterprise Support**: Available for commercial applications
 - **Custom Integration**: Professional services available
 - **Priority Support**: Available for verified developers
@@ -40,7 +43,7 @@ Official website: [https://croissant-api.fr](https://croissant-api.fr)
 ### Getting Help
 
 1. **Check Documentation**: Most questions are answered in the API docs
-2. **Search Community**: Check Discord and forums for similar issues  
+2. **Search Community**: Check Discord and forums for similar issues
 3. **Create Support Ticket**: Use the support system on the website
 4. **Report Bugs**: Use appropriate channels for library or API bugs
 
@@ -53,7 +56,7 @@ This library is provided under the Croissant Platform License. By using this lib
 - Follow platform terms of service and community guidelines
 - Respect rate limits and usage guidelines
 
-For complete terms, visit [croissant-api.fr/tos](https://croissant-api.fr/tos).
+For complete terms, visit [croissant-api.eminium.ovh/tos](https://croissant-api.eminium.ovh/tos).
 
 ## Version Information
 
@@ -65,6 +68,7 @@ For complete terms, visit [croissant-api.fr/tos](https://croissant-api.fr/tos).
 ### Changelog
 
 #### v1.0.0 (July 2025)
+
 - Initial release
 - Complete API coverage
 - TypeScript support
@@ -72,4 +76,4 @@ For complete terms, visit [croissant-api.fr/tos](https://croissant-api.fr/tos).
 
 ---
 
-*Built with ❤️ for the Croissant gaming community*
+_Built with ❤️ for the Croissant gaming community_
