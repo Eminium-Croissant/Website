@@ -1,5 +1,5 @@
 import { getServerSideTranslations as serverSideTranslations, useTranslation } from '../components/utils/CloudflareI18n'
-//
+
 export async function getStaticProps({ locale }) {
   return {
     props: {
