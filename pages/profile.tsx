@@ -30,13 +30,13 @@ export async function getServerSideProps({ locale, query }) {
   let ogMeta = null
   if (userId) {
     try {
-      const res = await fetch(`https://croissant-api.fr/api/users/${userId}`)
+      const res = await fetch(`https://croissant-api.eminium.ovh/api/users/${userId}`)
       if (res.ok) {
         const user: UserFromQuery = await res.json()
         ogMeta = {
           title: user.username,
           description: `Check out ${user.username}'s profile on Croissant!`,
-          bannerUrl: `https://croissant-api.fr/avatar/${user.id}`,
+          bannerUrl: `https://croissant-api.eminium.ovh/avatar/${user.id}`,
 
           query: { user: user.id },
           card: false
