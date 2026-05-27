@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://croissant-api.fr/api",
+      "url": "https://croissant-api.eminium.ovh/api",
       "description": "Production API"
     }
   ],
@@ -463,7 +463,9 @@
             "content": {
               "application/json": {
                 "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Item" } },
-                "example": [{ "itemId": "123", "name": "Apple", "description": "A fruit", "owner": "u1", "price": 100, "iconHash": "abc", "showInStore": true }]
+                "example": [
+                  { "itemId": "123", "name": "Apple", "description": "A fruit", "owner": "u1", "price": 100, "iconHash": "abc", "showInStore": true }
+                ]
               }
             }
           },
@@ -515,7 +517,10 @@
             "description": "Invalid itemId parameter",
             "content": {
               "application/json": {
-                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } }
+                },
                 "example": { "message": "Invalid itemId", "errors": ["itemId must be a valid UUID"] }
               }
             }
@@ -579,7 +584,10 @@
             "description": "Invalid item data",
             "content": {
               "application/json": {
-                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } }
+                },
                 "example": { "message": "Invalid item data", "errors": ["name is required"] }
               }
             }
@@ -781,7 +789,10 @@
             "description": "Invalid itemId or update data",
             "content": {
               "application/json": {
-                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } }
+                },
                 "example": { "message": "Invalid update data", "errors": ["price must be a number"] }
               }
             }
@@ -945,7 +956,10 @@
             "description": "Invalid lobbyId parameter",
             "content": {
               "application/json": {
-                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } }
+                },
                 "example": { "message": "Validation failed", "errors": ["lobbyId must be a valid UUID"] }
               }
             }
@@ -982,7 +996,10 @@
             "description": "User lobby status returned",
             "content": {
               "application/json": {
-                "oneOf": [{ "type": "object", "properties": { "success": { "type": "boolean" }, "message": { "type": "string" } } }, { "$ref": "#/components/schemas/Lobby" }],
+                "oneOf": [
+                  { "type": "object", "properties": { "success": { "type": "boolean" }, "message": { "type": "string" } } },
+                  { "$ref": "#/components/schemas/Lobby" }
+                ],
                 "examples": {
                   "notInLobby": { "value": { "success": false, "message": "User is not in any lobby" } },
                   "inLobby": { "value": { "lobbyId": "abc", "users": [{ "user_id": "u1", "username": "bob" }] } }
@@ -1038,7 +1055,10 @@
             "description": "Invalid userId parameter",
             "content": {
               "application/json": {
-                "schema": { "type": "object", "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } } },
+                "schema": {
+                  "type": "object",
+                  "properties": { "message": { "type": "string" }, "errors": { "type": "array", "items": { "type": "string" } } }
+                },
                 "example": { "message": "Validation failed", "errors": ["userId must be a valid UUID"] }
               }
             }
@@ -1222,7 +1242,9 @@
         "summary": "Update an OAuth2 app",
         "description": "Update an OAuth2 app",
         "security": [{ "BearerAuth": [] }],
-        "parameters": [{ "name": "client_id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" }],
+        "parameters": [
+          { "name": "client_id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1282,7 +1304,9 @@
         "summary": "Delete an OAuth2 app",
         "description": "Delete an OAuth2 app",
         "security": [{ "BearerAuth": [] }],
-        "parameters": [{ "name": "client_id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" }],
+        "parameters": [
+          { "name": "client_id", "in": "path", "required": true, "schema": { "type": "string" }, "description": "The client_id of the app" }
+        ],
         "responses": {
           "204": {
             "description": "App deleted (no content)"

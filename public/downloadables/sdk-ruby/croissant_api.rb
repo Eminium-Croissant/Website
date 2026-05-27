@@ -2,7 +2,7 @@ require 'net/http'
 require 'json'
 require 'uri'
 
-CROISSANT_BASE_URL = 'https://croissant-api.fr/api'
+CROISSANT_BASE_URL = 'https://croissant-api.eminium.ovh/api'
 
 # Game represents a game in the Croissant API
 class Game

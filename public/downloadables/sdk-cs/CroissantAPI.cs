@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 public class CroissantAPI
 {
-    private static readonly string CROISSANT_BASE_URL = "https://croissant-api.fr/api";
+    private static readonly string CROISSANT_BASE_URL = "https://croissant-api.eminium.ovh/api";
     private readonly string token;
     private readonly HttpClient http;
 

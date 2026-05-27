@@ -10,7 +10,7 @@ import (
     "net/url"
 )
 
-const croissantBaseUrl = "https://croissant-api.fr/api"
+const croissantBaseUrl = "https://croissant-api.eminium.ovh/api"
 
 // --- Structures ---
 

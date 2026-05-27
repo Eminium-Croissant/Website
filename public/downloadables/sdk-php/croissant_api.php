@@ -12,7 +12,7 @@
  */
 class CroissantAPI {
     private $token;
-    private $baseUrl = 'https://croissant-api.fr/api';
+    private $baseUrl = 'https://croissant-api.eminium.ovh/api';
 
     /**
      * Create a new CroissantAPI client.

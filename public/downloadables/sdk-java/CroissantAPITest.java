@@ -108,7 +108,7 @@ public class CroissantAPITest {
     public void testUrlConstruction() {
         // Test that base URL is correct
         assertEquals("Base URL should be correct", 
-                    "https://croissant-api.fr/api", 
+                    "https://croissant-api.eminium.ovh/api", 
                     apiWithAuth.getBaseUrl());
     }
     

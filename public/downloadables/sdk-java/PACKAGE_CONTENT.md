@@ -5,28 +5,34 @@ This package contains all the necessary files to use the Croissant API in Java.
 ## Main files
 
 ### 📁 Source code
+
 - **CroissantAPI.java** - Main API client class (7KB)
 - **CroissantAPIExample.java** - Complete usage examples (4KB)
 - **CroissantAPITest.java** - Unit tests (6KB)
 
 ### 📁 Documentation
+
 - **README_CroissantAPI_Java.md** - Complete documentation (8KB)
 - **croissant-api-java.json** - Project metadata (1KB)
 
 ### 📁 Build configuration
+
 - **pom.xml** - Maven configuration (2KB)
 - **build.gradle** - Gradle configuration (1KB)
 
 ### 📁 Build scripts
+
 - **build.sh** - Unix/Linux/macOS build script (2KB)
 - **build.bat** - Windows build script (2KB)
 
 ### 📁 Development tools
+
 - **.gitignore** - Git exclusion file (1KB)
 
 ## Quick installation
 
 ### Option 1: Maven
+
 ```bash
 # Copy pom.xml to your project
 mvn clean compile
@@ -34,6 +40,7 @@ mvn exec:java -Dexec.mainClass="CroissantAPIExample"
 ```
 
 ### Option 2: Gradle
+
 ```bash
 # Copy build.gradle to your project
 ./gradlew build
@@ -41,6 +48,7 @@ mvn exec:java -Dexec.mainClass="CroissantAPIExample"
 ```
 
 ### Option 3: Manual compilation
+
 ```bash
 # Unix/Linux/macOS
 chmod +x build.sh
@@ -86,7 +94,7 @@ Map<String, Object> result = api.items.buy("item_id", 1);
 
 ## Support
 
-- 🌐 Official API: https://croissant-api.fr/api
+- 🌐 Official API: https://croissant-api.eminium.ovh/api
 - 📖 TypeScript documentation: croissant-api.ts
 - 🔧 Examples: CroissantAPIExample.java
 - 🧪 Tests: CroissantAPITest.java

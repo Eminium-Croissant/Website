@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>OAuth2 Test</title>
-    <link rel="icon" href="/assets/icons/favicon-32x32.avif" />
+    <link rel="icon" href="https://cdn.eminium.ovh/croissant/images/main.png" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -20,23 +20,15 @@
     </style>
     <script>
       function alertUser(user) {
-        alert(`User data received: ${JSON.stringify(user.username)}`);
+        alert(`User data received: ${JSON.stringify(user.username)}`)
       }
     </script>
   </head>
   <body>
-    <script src="https://croissant-api.fr/oauth2/script.js"></script>
-    <button
-      data-client_id="2b90be46-3fdb-45f1-98bd-081b70cc3d9f"
-      data-callback="alertUser"
-      class="croissant-oauth2-btn"
-    >
-      <img
-        src="https://croissant-api.fr/assets/icons/favicon-32x32.avif"
-        alt="icon"
-      />
+    <script src="https://croissant-api.eminium.ovh/oauth2/script.js"></script>
+    <button data-client_id="2b90be46-3fdb-45f1-98bd-081b70cc3d9f" data-callback="alertUser" class="croissant-oauth2-btn">
+      <img src="https://cdn.eminium.ovh/croissant/images/main.png" alt="icon" />
       Connect with Croissant
     </button>
   </body>
 </html>
-

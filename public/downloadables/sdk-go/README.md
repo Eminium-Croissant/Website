@@ -5,10 +5,13 @@ A comprehensive Go client library for the Croissant gaming platform API. This li
 ## Installation
 
 ### Direct Download
+
 Download the library directly from the Croissant platform:
-- **Go**: [croissantapi.go](https://croissant-api.fr/downloadables/sdk-go/croissantapi.go)
+
+- **Go**: [croissantapi.go](https://croissant-api.eminium.ovh/downloadables/sdk-go/croissantapi.go)
 
 ### Go Module Integration
+
 ```bash
 # Add to your go.mod
 require (
@@ -17,6 +20,7 @@ require (
 ```
 
 ### Import in your project
+
 ```go
 import "croissantapi"
 ```
@@ -53,7 +57,7 @@ func main() {
 
 To perform authenticated operations, you need an API token:
 
-1. **Via Web Dashboard**: Login to [croissant-api.fr](https://croissant-api.fr) and generate a token
+1. **Via Web Dashboard**: Login to [croissant-api.eminium.ovh](https://croissant-api.eminium.ovh) and generate a token
 2. **Via OAuth2**: Implement OAuth2 flow for third-party applications
 3. **Via Bot Token**: Use dedicated bot tokens for automated systems
 
@@ -72,14 +76,17 @@ api := croissantapi.NewCroissantAPI("your_token_here")
 ### Core Structure
 
 #### `CroissantAPI`
+
 Main API client struct providing access to all platform modules.
 
 **Constructor**
+
 ```go
 func NewCroissantAPI(token string) *CroissantAPI
 ```
 
 **Available methods**
+
 - User management
 - Game discovery and management
 - Inventory operations
@@ -94,7 +101,9 @@ func NewCroissantAPI(token string) *CroissantAPI
 ### Users Module
 
 #### `GetMe() (*User, error)`
+
 Retrieve the authenticated user's profile.
+
 ```go
 user, err := api.GetMe() // Requires authentication
 if err != nil {
@@ -104,7 +113,9 @@ fmt.Printf("Welcome, %s!\n", user.Username)
 ```
 
 #### `SearchUsers(query string) ([]User, error)`
+
 Search for users by username.
+
 ```go
 users, err := api.SearchUsers("john")
 if err != nil {
@@ -116,7 +127,9 @@ for _, user := range users {
 ```
 
 #### `GetUser(userId string) (*User, error)`
+
 Get a specific user by ID (supports Croissant ID, Discord ID, Google ID, or Steam ID).
+
 ```go
 user, err := api.GetUser("user_12345")
 if err != nil {
@@ -126,7 +139,9 @@ fmt.Printf("User: %s\n", user.Username)
 ```
 
 #### `TransferCredits(targetUserId string, amount float64) (map[string]string, error)`
+
 Transfer credits to another user.
+
 ```go
 result, err := api.TransferCredits("user_67890", 100.0)
 if err != nil {
@@ -136,7 +151,9 @@ fmt.Printf("Transfer completed: %v\n", result)
 ```
 
 #### `VerifyUser(userId, verificationKey string) (map[string]bool, error)`
+
 Verify a user account.
+
 ```go
 result, err := api.VerifyUser("user_id", "verification_key")
 if err != nil {
@@ -149,7 +166,9 @@ if err != nil {
 ### Games Module
 
 #### `ListGames() ([]Game, error)`
+
 List all available games.
+
 ```go
 games, err := api.ListGames()
 if err != nil {
@@ -159,7 +178,9 @@ fmt.Printf("Available games: %d\n", len(games))
 ```
 
 #### `SearchGames(query string) ([]Game, error)`
+
 Search games by name, genre, or description.
+
 ```go
 games, err := api.SearchGames("adventure platformer")
 if err != nil {
@@ -171,7 +192,9 @@ for _, game := range games {
 ```
 
 #### `GetGame(gameId string) (*Game, error)`
+
 Get detailed information about a specific game.
+
 ```go
 game, err := api.GetGame("game_abc123")
 if err != nil {
@@ -181,7 +204,9 @@ fmt.Printf("Game: %s - Price: %.2f\n", game.Name, game.Price)
 ```
 
 #### `GetMyCreatedGames() ([]Game, error)`
+
 Get games created by the authenticated user.
+
 ```go
 myGames, err := api.GetMyCreatedGames() // Requires authentication
 if err != nil {
@@ -190,7 +215,9 @@ if err != nil {
 ```
 
 #### `GetMyOwnedGames() ([]Game, error)`
+
 Get games owned by the authenticated user.
+
 ```go
 ownedGames, err := api.GetMyOwnedGames() // Requires authentication
 if err != nil {
@@ -203,7 +230,9 @@ if err != nil {
 ### Items Module
 
 #### `ListItems() ([]Item, error)`
+
 List all available items in the marketplace.
+
 ```go
 items, err := api.ListItems()
 if err != nil {
@@ -213,7 +242,9 @@ fmt.Printf("Available items: %d\n", len(items))
 ```
 
 #### `SearchItems(query string) ([]Item, error)`
+
 Search items by name or description.
+
 ```go
 items, err := api.SearchItems("magic sword")
 if err != nil {
@@ -225,7 +256,9 @@ for _, item := range items {
 ```
 
 #### `GetItem(itemId string) (*Item, error)`
+
 Get detailed information about a specific item.
+
 ```go
 item, err := api.GetItem("item_xyz789")
 if err != nil {
@@ -235,7 +268,9 @@ fmt.Printf("Item: %s - %s\n", item.Name, item.Description)
 ```
 
 #### `GetMyItems() ([]Item, error)`
+
 Get items owned by the authenticated user.
+
 ```go
 myItems, err := api.GetMyItems() // Requires authentication
 if err != nil {
@@ -244,7 +279,9 @@ if err != nil {
 ```
 
 #### `CreateItem(itemData map[string]interface{}) (map[string]string, error)`
+
 Create a new item for sale.
+
 ```go
 itemData := map[string]interface{}{
     "name":        "Enchanted Shield",
@@ -260,7 +297,9 @@ if err != nil {
 ```
 
 #### `UpdateItem(itemId string, itemData map[string]interface{}) (map[string]string, error)`
+
 Update an existing item.
+
 ```go
 updates := map[string]interface{}{
     "price":       125.0,
@@ -274,7 +313,9 @@ if err != nil {
 ```
 
 #### `DeleteItem(itemId string) (map[string]string, error)`
+
 Delete an item.
+
 ```go
 result, err := api.DeleteItem("item_xyz789") // Requires authentication
 if err != nil {
@@ -283,7 +324,9 @@ if err != nil {
 ```
 
 #### `BuyItem(itemId string, amount int) (map[string]string, error)`
+
 Purchase items from the marketplace.
+
 ```go
 result, err := api.BuyItem("item_xyz789", 2) // Requires authentication
 if err != nil {
@@ -293,7 +336,9 @@ fmt.Printf("Purchase completed: %v\n", result)
 ```
 
 #### `SellItem(itemId string, amount int) (map[string]string, error)`
+
 Sell items from inventory.
+
 ```go
 result, err := api.SellItem("item_xyz789", 1) // Requires authentication
 if err != nil {
@@ -302,7 +347,9 @@ if err != nil {
 ```
 
 #### `GiveItem(itemId string, amount int, userId string, metadata map[string]interface{}) (map[string]string, error)`
+
 Give items to another user.
+
 ```go
 metadata := map[string]interface{}{
     "enchantment": "fire",
@@ -316,7 +363,9 @@ if err != nil {
 ```
 
 #### `ConsumeItem(itemId string, params map[string]interface{}) (map[string]string, error)`
+
 Consume specific item instances with parameters.
+
 ```go
 params := map[string]interface{}{
     "amount":   1,
@@ -330,7 +379,9 @@ if err != nil {
 ```
 
 #### `DropItem(itemId string, params map[string]interface{}) (map[string]string, error)`
+
 Drop specific item instances with parameters.
+
 ```go
 params := map[string]interface{}{
     "amount":   1,
@@ -344,7 +395,9 @@ if err != nil {
 ```
 
 #### `UpdateItemMetadata(itemId, uniqueId string, metadata map[string]interface{}) (map[string]string, error)`
+
 Update metadata for a specific item instance.
+
 ```go
 metadata := map[string]interface{}{
     "enchantment": "ice",
@@ -362,7 +415,9 @@ if err != nil {
 ### Inventory Module
 
 #### `GetMyInventory() (map[string]interface{}, error)`
+
 Get the authenticated user's inventory.
+
 ```go
 inventory, err := api.GetMyInventory() // Requires authentication
 if err != nil {
@@ -372,7 +427,9 @@ fmt.Printf("Inventory: %v\n", inventory)
 ```
 
 #### `GetInventory(userId string) (map[string]interface{}, error)`
+
 Get another user's public inventory.
+
 ```go
 userInventory, err := api.GetInventory("user_12345")
 if err != nil {
@@ -385,7 +442,9 @@ if err != nil {
 ### Studios Module
 
 #### `CreateStudio(studioName string) (map[string]string, error)`
+
 Create a new development studio.
+
 ```go
 result, err := api.CreateStudio("Awesome Games Studio") // Requires authentication
 if err != nil {
@@ -394,7 +453,9 @@ if err != nil {
 ```
 
 #### `GetStudio(studioId string) (*Studio, error)`
+
 Get information about a specific studio.
+
 ```go
 studio, err := api.GetStudio("studio_abc123")
 if err != nil {
@@ -404,7 +465,9 @@ fmt.Printf("Studio: %s\n", studio.Username)
 ```
 
 #### `GetMyStudios() ([]Studio, error)`
+
 Get studios the authenticated user is part of.
+
 ```go
 myStudios, err := api.GetMyStudios() // Requires authentication
 if err != nil {
@@ -413,7 +476,9 @@ if err != nil {
 ```
 
 #### `AddUserToStudio(studioId, userId string) (map[string]string, error)`
+
 Add a user to a studio team.
+
 ```go
 result, err := api.AddUserToStudio("studio_abc123", "user_67890") // Requires authentication
 if err != nil {
@@ -422,7 +487,9 @@ if err != nil {
 ```
 
 #### `RemoveUserFromStudio(studioId, userId string) (map[string]string, error)`
+
 Remove a user from a studio team.
+
 ```go
 result, err := api.RemoveUserFromStudio("studio_abc123", "user_67890") // Requires authentication
 if err != nil {
@@ -435,7 +502,9 @@ if err != nil {
 ### Lobbies Module
 
 #### `CreateLobby() (map[string]string, error)`
+
 Create a new game lobby.
+
 ```go
 result, err := api.CreateLobby() // Requires authentication
 if err != nil {
@@ -445,7 +514,9 @@ fmt.Printf("Lobby created: %v\n", result)
 ```
 
 #### `GetLobby(lobbyId string) (*Lobby, error)`
+
 Get information about a specific lobby.
+
 ```go
 lobby, err := api.GetLobby("lobby_xyz789")
 if err != nil {
@@ -455,7 +526,9 @@ fmt.Printf("Lobby: %d players\n", len(lobby.Users))
 ```
 
 #### `GetMyLobby() (*Lobby, error)`
+
 Get the authenticated user's current lobby.
+
 ```go
 myLobby, err := api.GetMyLobby() // Requires authentication
 if err != nil {
@@ -464,7 +537,9 @@ if err != nil {
 ```
 
 #### `GetUserLobby(userId string) (*Lobby, error)`
+
 Get the lobby a specific user is in.
+
 ```go
 userLobby, err := api.GetUserLobby("user_12345")
 if err != nil {
@@ -473,7 +548,9 @@ if err != nil {
 ```
 
 #### `JoinLobby(lobbyId string) (map[string]string, error)`
+
 Join an existing lobby.
+
 ```go
 result, err := api.JoinLobby("lobby_xyz789") // Requires authentication
 if err != nil {
@@ -482,7 +559,9 @@ if err != nil {
 ```
 
 #### `LeaveLobby(lobbyId string) (map[string]string, error)`
+
 Leave a lobby.
+
 ```go
 result, err := api.LeaveLobby("lobby_xyz789") // Requires authentication
 if err != nil {
@@ -495,7 +574,9 @@ if err != nil {
 ### Trading Module
 
 #### `StartOrGetPendingTrade(userId string) (*Trade, error)`
+
 Start a new trade or get existing pending trade with a user.
+
 ```go
 trade, err := api.StartOrGetPendingTrade("user_67890") // Requires authentication
 if err != nil {
@@ -505,7 +586,9 @@ fmt.Printf("Trade ID: %s\n", trade.Id)
 ```
 
 #### `GetTrade(tradeId string) (*Trade, error)`
+
 Get information about a specific trade.
+
 ```go
 trade, err := api.GetTrade("trade_abc123")
 if err != nil {
@@ -515,7 +598,9 @@ fmt.Printf("Trade status: %s\n", trade.Status)
 ```
 
 #### `GetUserTrades(userId string) ([]Trade, error)`
+
 Get all trades for a specific user.
+
 ```go
 userTrades, err := api.GetUserTrades("user_12345") // Requires authentication
 if err != nil {
@@ -524,7 +609,9 @@ if err != nil {
 ```
 
 #### `AddItemToTrade(tradeId string, tradeItem TradeItem) (map[string]string, error)`
+
 Add an item to a trade.
+
 ```go
 tradeItem := croissantapi.TradeItem{
     ItemId: "item_xyz789",
@@ -541,7 +628,9 @@ if err != nil {
 ```
 
 #### `RemoveItemFromTrade(tradeId string, tradeItem TradeItem) (map[string]string, error)`
+
 Remove an item from a trade.
+
 ```go
 tradeItem := croissantapi.TradeItem{
     ItemId: "item_xyz789",
@@ -555,7 +644,9 @@ if err != nil {
 ```
 
 #### `ApproveTrade(tradeId string) (map[string]string, error)`
+
 Approve and execute a trade.
+
 ```go
 result, err := api.ApproveTrade("trade_abc123") // Requires authentication
 if err != nil {
@@ -564,7 +655,9 @@ if err != nil {
 ```
 
 #### `CancelTrade(tradeId string) (map[string]string, error)`
+
 Cancel a pending trade.
+
 ```go
 result, err := api.CancelTrade("trade_abc123") // Requires authentication
 if err != nil {
@@ -577,7 +670,9 @@ if err != nil {
 ### OAuth2 Module
 
 #### `CreateOAuth2App(name string, redirectUrls []string) (map[string]string, error)`
+
 Create a new OAuth2 application.
+
 ```go
 redirectUrls := []string{"https://mygame.com/auth/callback"}
 result, err := api.CreateOAuth2App("My Game Client", redirectUrls) // Requires authentication
@@ -587,7 +682,9 @@ if err != nil {
 ```
 
 #### `GetOAuth2App(clientId string) (*OAuth2App, error)`
+
 Get OAuth2 application by client ID.
+
 ```go
 app, err := api.GetOAuth2App("client_12345")
 if err != nil {
@@ -596,7 +693,9 @@ if err != nil {
 ```
 
 #### `GetMyOAuth2Apps() ([]OAuth2App, error)`
+
 Get OAuth2 applications owned by the authenticated user.
+
 ```go
 apps, err := api.GetMyOAuth2Apps() // Requires authentication
 if err != nil {
@@ -605,7 +704,9 @@ if err != nil {
 ```
 
 #### `UpdateOAuth2App(clientId string, data map[string]interface{}) (map[string]bool, error)`
+
 Update an OAuth2 application.
+
 ```go
 updates := map[string]interface{}{
     "name": "Updated App Name",
@@ -617,7 +718,9 @@ if err != nil {
 ```
 
 #### `DeleteOAuth2App(clientId string) (map[string]string, error)`
+
 Delete an OAuth2 application.
+
 ```go
 result, err := api.DeleteOAuth2App("client_12345") // Requires authentication
 if err != nil {
@@ -626,7 +729,9 @@ if err != nil {
 ```
 
 #### `AuthorizeOAuth2(clientId, redirectUri string) (map[string]string, error)`
+
 Authorize a user for an OAuth2 app.
+
 ```go
 result, err := api.AuthorizeOAuth2("client_12345", "https://app.com/callback") // Requires authentication
 if err != nil {
@@ -635,7 +740,9 @@ if err != nil {
 ```
 
 #### `GetUserByOAuth2Code(code, clientId string) (*User, error)`
+
 Get user information using OAuth2 authorization code.
+
 ```go
 userData, err := api.GetUserByOAuth2Code("auth_code", "client_12345")
 if err != nil {
@@ -648,6 +755,7 @@ if err != nil {
 ### Core Types
 
 #### `User`
+
 ```go
 type User struct {
     UserId           string         `json:"userId"`
@@ -674,6 +782,7 @@ type User struct {
 ```
 
 #### `Game`
+
 ```go
 type Game struct {
     GameId      string   `json:"gameId"`
@@ -699,6 +808,7 @@ type Game struct {
 ```
 
 #### `Item`
+
 ```go
 type Item struct {
     ItemId      string  `json:"itemId"`
@@ -713,6 +823,7 @@ type Item struct {
 ```
 
 #### `InventoryItem`
+
 ```go
 type InventoryItem struct {
     UserId     *string                `json:"user_id,omitempty"`
@@ -730,6 +841,7 @@ type InventoryItem struct {
 ```
 
 #### `Trade`
+
 ```go
 type Trade struct {
     Id             string `json:"id"`
@@ -758,6 +870,7 @@ type Trade struct {
 ```
 
 #### `Studio`
+
 ```go
 type Studio struct {
     UserId   string `json:"user_id"`
@@ -776,6 +889,7 @@ type Studio struct {
 ```
 
 #### `Lobby`
+
 ```go
 type Lobby struct {
     LobbyId string `json:"lobbyId"`
@@ -791,6 +905,7 @@ type Lobby struct {
 ```
 
 #### `TradeItem`
+
 ```go
 type TradeItem struct {
     ItemId   string                 `json:"itemId"`
@@ -800,6 +915,7 @@ type TradeItem struct {
 ```
 
 #### `OAuth2App`
+
 ```go
 type OAuth2App struct {
     ClientId     string   `json:"client_id"`
@@ -836,14 +952,14 @@ fmt.Printf("Welcome, %s!\n", user.Username)
 
 ### Common Error Types
 
-| Error Pattern | Description | Solution |
-|---------------|-------------|----------|
-| "Token is required" | Authentication required | Provide valid API token |
-| HTTP 401 | Invalid or expired token | Refresh or regenerate token |
-| HTTP 404 | Resource not found | Verify resource ID |
-| HTTP 400 | Bad request/insufficient balance | Check request parameters |
-| HTTP 429 | Rate limit exceeded | Implement rate limiting |
-| HTTP 403 | Permission denied | Check token permissions |
+| Error Pattern       | Description                      | Solution                    |
+| ------------------- | -------------------------------- | --------------------------- |
+| "Token is required" | Authentication required          | Provide valid API token     |
+| HTTP 401            | Invalid or expired token         | Refresh or regenerate token |
+| HTTP 404            | Resource not found               | Verify resource ID          |
+| HTTP 400            | Bad request/insufficient balance | Check request parameters    |
+| HTTP 429            | Rate limit exceeded              | Implement rate limiting     |
+| HTTP 403            | Permission denied                | Check token permissions     |
 
 ## Platform Integration
 
@@ -872,13 +988,13 @@ func NewServer() *Server {
 
 func (s *Server) handleUser(w http.ResponseWriter, r *http.Request) {
     userID := r.URL.Path[len("/api/user/"):]
-    
+
     user, err := s.api.GetUser(userID)
     if err != nil {
         http.Error(w, err.Error(), http.StatusNotFound)
         return
     }
-    
+
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(user)
 }
@@ -889,7 +1005,7 @@ func (s *Server) handleGames(w http.ResponseWriter, r *http.Request) {
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
-    
+
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(games)
 }
@@ -899,36 +1015,36 @@ func (s *Server) handleBuyItem(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
         return
     }
-    
+
     itemID := r.URL.Path[len("/api/items/"):]
     itemID = itemID[:len(itemID)-len("/buy")]
-    
+
     var request struct {
         Amount int `json:"amount"`
     }
-    
+
     if err := json.NewDecoder(r.Body).Decode(&request); err != nil {
         http.Error(w, "Invalid request body", http.StatusBadRequest)
         return
     }
-    
+
     result, err := s.api.BuyItem(itemID, request.Amount)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-    
+
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(result)
 }
 
 func main() {
     server := NewServer()
-    
+
     http.HandleFunc("/api/user/", server.handleUser)
     http.HandleFunc("/api/games", server.handleGames)
     http.HandleFunc("/api/items/", server.handleBuyItem)
-    
+
     log.Println("Server starting on :8080")
     log.Fatal(http.ListenAndServe(":8080", nil))
 }
@@ -943,7 +1059,7 @@ import (
     "net/http"
     "os"
     "strconv"
-    
+
     "github.com/gin-gonic/gin"
     "croissantapi"
 )
@@ -959,25 +1075,25 @@ func NewGameServer() *GameServer {
 
 func (gs *GameServer) handlePlayerLogin(c *gin.Context) {
     playerID := c.Param("id")
-    
+
     user, err := gs.api.GetUser(playerID)
     if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
         return
     }
-    
+
     inventory, err := gs.api.GetInventory(playerID)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
-    
+
     response := gin.H{
         "username":  user.Username,
         "verified":  user.Verified,
         "inventory": inventory,
     }
-    
+
     c.JSON(http.StatusOK, response)
 }
 
@@ -985,32 +1101,32 @@ func (gs *GameServer) handleGiveReward(c *gin.Context) {
     playerID := c.Param("id")
     itemID := c.PostForm("itemId")
     amountStr := c.PostForm("amount")
-    
+
     amount, err := strconv.Atoi(amountStr)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid amount"})
         return
     }
-    
+
     result, err := gs.api.GiveItem(itemID, amount, playerID, nil)
     if err != nil {
         c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
         return
     }
-    
+
     c.JSON(http.StatusOK, result)
 }
 
 func main() {
     r := gin.Default()
     server := NewGameServer()
-    
+
     api := r.Group("/api")
     {
         api.GET("/player/:id", server.handlePlayerLogin)
         api.POST("/player/:id/reward", server.handleGiveReward)
     }
-    
+
     r.Run(":8080")
 }
 ```
@@ -1051,12 +1167,12 @@ func (gs *GameServer) HandlePlayerJoin(playerID string) error {
     if err != nil {
         return fmt.Errorf("failed to load player %s: %v", playerID, err)
     }
-    
+
     inventory, err := gs.api.GetInventory(playerID)
     if err != nil {
         return fmt.Errorf("failed to load inventory for %s: %v", playerID, err)
     }
-    
+
     // Extract item IDs from inventory
     var items []string
     if inventoryItems, ok := inventory["items"].([]interface{}); ok {
@@ -1068,20 +1184,20 @@ func (gs *GameServer) HandlePlayerJoin(playerID string) error {
             }
         }
     }
-    
+
     gs.players[playerID] = &PlayerData{
         Username: user.Username,
         Verified: user.Verified,
         Items:    items,
     }
-    
+
     fmt.Printf("Player joined: %s\n", user.Username)
     return nil
 }
 
 func (gs *GameServer) GiveQuestReward(playerID, questID string) error {
     rewards := gs.getQuestRewards(questID)
-    
+
     for _, reward := range rewards {
         _, err := gs.api.GiveItem(reward.ItemID, reward.Amount, playerID, nil)
         if err != nil {
@@ -1089,7 +1205,7 @@ func (gs *GameServer) GiveQuestReward(playerID, questID string) error {
         }
         fmt.Printf("Gave %dx %s to %s\n", reward.Amount, reward.ItemID, playerID)
     }
-    
+
     return nil
 }
 
@@ -1098,19 +1214,19 @@ func (gs *GameServer) HandlePlayerTrade(fromPlayerID, toPlayerID string, items [
     if err != nil {
         return "", fmt.Errorf("failed to start trade: %v", err)
     }
-    
+
     for _, item := range items {
         tradeItem := croissantapi.TradeItem{
             ItemId: item.ID,
             Amount: item.Amount,
         }
-        
+
         _, err := gs.api.AddItemToTrade(trade.Id, tradeItem)
         if err != nil {
             return "", fmt.Errorf("failed to add item to trade: %v", err)
         }
     }
-    
+
     fmt.Printf("Trade created: %s\n", trade.Id)
     return trade.Id, nil
 }
@@ -1136,22 +1252,22 @@ func (gs *GameServer) getQuestRewards(questID string) []QuestReward {
             {ItemID: "gold_coin", Amount: 250},
         },
     }
-    
+
     return rewards[questID]
 }
 
 func main() {
     server := NewGameServer()
-    
+
     // Handle events
     if err := server.HandlePlayerJoin("player_123"); err != nil {
         log.Printf("Error: %v", err)
     }
-    
+
     if err := server.GiveQuestReward("player_123", "quest_1"); err != nil {
         log.Printf("Error: %v", err)
     }
-    
+
     tradeID, err := server.HandlePlayerTrade("player_123", "player_456", []TradeItemRequest{
         {ID: "magic_sword", Amount: 1},
     })
@@ -1195,17 +1311,17 @@ func NewGameStore(apiToken string) *GameStore {
 func (gs *GameStore) BrowseGames(options BrowseOptions) ([]croissantapi.Game, error) {
     var games []croissantapi.Game
     var err error
-    
+
     if options.Search != "" {
         games, err = gs.api.SearchGames(options.Search)
     } else {
         games, err = gs.api.ListGames()
     }
-    
+
     if err != nil {
         return nil, fmt.Errorf("failed to browse games: %v", err)
     }
-    
+
     // Apply filters
     if options.MaxPrice != nil {
         filtered := make([]croissantapi.Game, 0)
@@ -1216,7 +1332,7 @@ func (gs *GameStore) BrowseGames(options BrowseOptions) ([]croissantapi.Game, er
         }
         games = filtered
     }
-    
+
     if options.MinRating != nil {
         filtered := make([]croissantapi.Game, 0)
         for _, game := range games {
@@ -1226,7 +1342,7 @@ func (gs *GameStore) BrowseGames(options BrowseOptions) ([]croissantapi.Game, er
         }
         games = filtered
     }
-    
+
     return games, nil
 }
 
@@ -1234,17 +1350,17 @@ func (gs *GameStore) BrowseGames(options BrowseOptions) ([]croissantapi.Game, er
 func (gs *GameStore) BrowseItems(options BrowseOptions) ([]croissantapi.Item, error) {
     var items []croissantapi.Item
     var err error
-    
+
     if options.Search != "" {
         items, err = gs.api.SearchItems(options.Search)
     } else {
         items, err = gs.api.ListItems()
     }
-    
+
     if err != nil {
         return nil, fmt.Errorf("failed to browse items: %v", err)
     }
-    
+
     // Apply filters
     if options.MaxPrice != nil {
         filtered := make([]croissantapi.Item, 0)
@@ -1255,7 +1371,7 @@ func (gs *GameStore) BrowseItems(options BrowseOptions) ([]croissantapi.Item, er
         }
         items = filtered
     }
-    
+
     // Filter out deleted items
     filtered := make([]croissantapi.Item, 0)
     for _, item := range items {
@@ -1263,7 +1379,7 @@ func (gs *GameStore) BrowseItems(options BrowseOptions) ([]croissantapi.Item, er
             filtered = append(filtered, item)
         }
     }
-    
+
     return filtered, nil
 }
 
@@ -1283,25 +1399,25 @@ func (gs *GameStore) PurchaseItem(itemID string, quantity int) (*PurchaseResult,
     if err != nil {
         return nil, fmt.Errorf("failed to get item: %v", err)
     }
-    
+
     // Check user balance
     user, err := gs.api.GetMe()
     if err != nil {
         return nil, fmt.Errorf("failed to get user: %v", err)
     }
-    
+
     totalCost := item.Price * float64(quantity)
-    
+
     if user.Balance == nil || *user.Balance < totalCost {
         return nil, fmt.Errorf("insufficient balance")
     }
-    
+
     // Make purchase
     result, err := gs.api.BuyItem(itemID, quantity)
     if err != nil {
         return nil, fmt.Errorf("purchase failed: %v", err)
     }
-    
+
     return &PurchaseResult{
         Success:    true,
         Item:       item,
@@ -1332,7 +1448,7 @@ func (gs *GameStore) GetInventory() (map[string]interface{}, error) {
 
 func main() {
     store := NewGameStore(os.Getenv("CROISSANT_API_TOKEN"))
-    
+
     // Browse and purchase
     maxPrice := 50.0
     games, err := store.BrowseGames(BrowseOptions{
@@ -1343,7 +1459,7 @@ func main() {
         log.Fatal(err)
     }
     fmt.Printf("Found %d adventure games under 50 credits\n", len(games))
-    
+
     items, err := store.BrowseItems(BrowseOptions{
         Search:   "sword",
         MaxPrice: &maxPrice,
@@ -1352,7 +1468,7 @@ func main() {
         log.Fatal(err)
     }
     fmt.Printf("Found %d swords under 50 credits\n", len(items))
-    
+
     // Purchase item
     purchaseResult, err := store.PurchaseItem("item_123", 1)
     if err != nil {
@@ -1397,7 +1513,7 @@ func (ts *TradingSystem) CreateTradeOffer(targetUserID string, offeredItems []Of
     if err != nil {
         return nil, fmt.Errorf("failed to start trade: %v", err)
     }
-    
+
     // Add items to trade
     for _, item := range offeredItems {
         tradeItem := croissantapi.TradeItem{
@@ -1405,13 +1521,13 @@ func (ts *TradingSystem) CreateTradeOffer(targetUserID string, offeredItems []Of
             Amount:   item.Amount,
             Metadata: item.Metadata,
         }
-        
+
         _, err := ts.api.AddItemToTrade(trade.Id, tradeItem)
         if err != nil {
             return nil, fmt.Errorf("failed to add item to trade: %v", err)
         }
     }
-    
+
     fmt.Printf("Trade offer created: %s\n", trade.Id)
     return trade, nil
 }
@@ -1431,7 +1547,7 @@ func (ts *TradingSystem) AcceptTrade(tradeID string) (map[string]string, error) 
     if err != nil {
         return nil, fmt.Errorf("failed to accept trade: %v", err)
     }
-    
+
     fmt.Printf("Trade accepted: %s\n", tradeID)
     return result, nil
 }
@@ -1442,7 +1558,7 @@ func (ts *TradingSystem) CancelTrade(tradeID string) (map[string]string, error) 
     if err != nil {
         return nil, fmt.Errorf("failed to cancel trade: %v", err)
     }
-    
+
     fmt.Printf("Trade cancelled: %s\n", tradeID)
     return result, nil
 }
@@ -1458,7 +1574,7 @@ func (ts *TradingSystem) GetTradeDetails(tradeID string) (*croissantapi.Trade, e
 
 func main() {
     trading := NewTradingSystem(os.Getenv("CROISSANT_API_TOKEN"))
-    
+
     // Create a trade offer
     trade, err := trading.CreateTradeOffer("other_player_id", []OfferItem{
         {ID: "sword_123", Amount: 1},
@@ -1467,16 +1583,16 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    
+
     fmt.Printf("Trade created: %s\n", trade.Id)
-    
+
     // List my trades
     myTrades, err := trading.GetUserTrades("my_user_id")
     if err != nil {
         log.Fatal(err)
     }
     fmt.Printf("I have %d active trades\n", len(myTrades))
-    
+
     // Accept a trade (example)
     // _, err = trading.AcceptTrade("trade_id_here")
     // if err != nil {
@@ -1488,6 +1604,7 @@ func main() {
 ## Best Practices
 
 ### Rate Limiting
+
 ```go
 package main
 
@@ -1516,12 +1633,12 @@ func NewRateLimitedAPI(apiToken string) *RateLimitedAPI {
 func (r *RateLimitedAPI) throttle() {
     r.mutex.Lock()
     defer r.mutex.Unlock()
-    
+
     timeSinceLastRequest := time.Since(r.lastRequest)
     if timeSinceLastRequest < r.minInterval {
         time.Sleep(r.minInterval - timeSinceLastRequest)
     }
-    
+
     r.lastRequest = time.Now()
 }
 
@@ -1537,6 +1654,7 @@ func (r *RateLimitedAPI) SearchItems(query string) ([]croissantapi.Item, error) 
 ```
 
 ### Caching Strategy
+
 ```go
 package main
 
@@ -1581,53 +1699,53 @@ func (c *CachedCroissantAPI) isExpired(timestamp time.Time) bool {
 
 func (c *CachedCroissantAPI) GetCachedGames() ([]croissantapi.Game, error) {
     key := c.getCacheKey("games", "list")
-    
+
     c.mutex.RLock()
     cached, exists := c.cache[key]
     c.mutex.RUnlock()
-    
+
     if exists && !c.isExpired(cached.Expires) {
         return cached.Data.([]croissantapi.Game), nil
     }
-    
+
     games, err := c.api.ListGames()
     if err != nil {
         return nil, err
     }
-    
+
     c.mutex.Lock()
     c.cache[key] = &CacheEntry{
         Data:    games,
         Expires: time.Now().Add(c.cacheTimeout),
     }
     c.mutex.Unlock()
-    
+
     return games, nil
 }
 
 func (c *CachedCroissantAPI) GetCachedUser(userID string) (*croissantapi.User, error) {
     key := c.getCacheKey("user", userID)
-    
+
     c.mutex.RLock()
     cached, exists := c.cache[key]
     c.mutex.RUnlock()
-    
+
     if exists && !c.isExpired(cached.Expires) {
         return cached.Data.(*croissantapi.User), nil
     }
-    
+
     user, err := c.api.GetUser(userID)
     if err != nil {
         return nil, err
     }
-    
+
     c.mutex.Lock()
     c.cache[key] = &CacheEntry{
         Data:    user,
         Expires: time.Now().Add(c.cacheTimeout),
     }
     c.mutex.Unlock()
-    
+
     return user, nil
 }
 
@@ -1639,6 +1757,7 @@ func (c *CachedCroissantAPI) ClearCache() {
 ```
 
 ### Environment Configuration
+
 ```go
 package main
 
@@ -1663,23 +1782,23 @@ func LoadConfigFromEnv() (*CroissantConfig, error) {
         Timeout:       30 * time.Second,
         RetryAttempts: 3,
     }
-    
+
     if timeoutStr := os.Getenv("CROISSANT_TIMEOUT"); timeoutStr != "" {
         if timeout, err := strconv.Atoi(timeoutStr); err == nil {
             config.Timeout = time.Duration(timeout) * time.Second
         }
     }
-    
+
     if retriesStr := os.Getenv("CROISSANT_RETRY_ATTEMPTS"); retriesStr != "" {
         if retries, err := strconv.Atoi(retriesStr); err == nil {
             config.RetryAttempts = retries
         }
     }
-    
+
     if config.APIToken == "" {
         log.Println("Warning: No Croissant API token found")
     }
-    
+
     return config, nil
 }
 
@@ -1687,7 +1806,7 @@ func (c *CroissantConfig) CreateAPI() *croissantapi.CroissantAPI {
     if c.APIToken == "" {
         log.Fatal("CROISSANT_API_TOKEN environment variable is required")
     }
-    
+
     return croissantapi.NewCroissantAPI(c.APIToken)
 }
 
@@ -1696,19 +1815,20 @@ func main() {
     if err != nil {
         log.Fatal(err)
     }
-    
+
     api := config.CreateAPI()
-    
+
     user, err := api.GetMe()
     if err != nil {
         log.Fatal(err)
     }
-    
+
     fmt.Printf("Logged in as: %s\n", user.Username)
 }
 ```
 
 ### Error Recovery
+
 ```go
 package main
 
@@ -1744,13 +1864,13 @@ func (r *ResilientCroissantAPI) shouldRetry(err error) bool {
 
 func (r *ResilientCroissantAPI) withRetry(operation func() error) error {
     var lastErr error
-    
+
     for attempt := 0; attempt <= r.maxRetries; attempt++ {
         lastErr = operation()
         if lastErr == nil {
             return nil
         }
-        
+
         if attempt < r.maxRetries && r.shouldRetry(lastErr) {
             fmt.Printf("Retry %d/%d after error: %v\n", attempt+1, r.maxRetries, lastErr)
             time.Sleep(r.retryDelay * time.Duration(attempt+1)) // Exponential backoff
@@ -1758,31 +1878,31 @@ func (r *ResilientCroissantAPI) withRetry(operation func() error) error {
             break
         }
     }
-    
+
     return lastErr
 }
 
 func (r *ResilientCroissantAPI) GetUser(userID string) (*croissantapi.User, error) {
     var user *croissantapi.User
     var err error
-    
+
     retryErr := r.withRetry(func() error {
         user, err = r.api.GetUser(userID)
         return err
     })
-    
+
     return user, retryErr
 }
 
 func (r *ResilientCroissantAPI) ListGames() ([]croissantapi.Game, error) {
     var games []croissantapi.Game
     var err error
-    
+
     retryErr := r.withRetry(func() error {
         games, err = r.api.ListGames()
         return err
     })
-    
+
     return games, retryErr
 }
 ```
@@ -1790,16 +1910,19 @@ func (r *ResilientCroissantAPI) ListGames() ([]croissantapi.Game, error) {
 ## Support and Resources
 
 ### Documentation
-- **API Reference**: [croissant-api.fr/api-docs](https://croissant-api.fr/api-docs)
-- **Platform Guide**: [croissant-api.fr/docs](https://croissant-api.fr/docs)
-- **Developer Portal**: [croissant-api.fr/developers](https://croissant-api.fr/developers)
+
+- **API Reference**: [croissant-api.eminium.ovh/api-docs](https://croissant-api.eminium.ovh/api-docs)
+- **Platform Guide**: [croissant-api.eminium.ovh/docs](https://croissant-api.eminium.ovh/docs)
+- **Developer Portal**: [croissant-api.eminium.ovh/developers](https://croissant-api.eminium.ovh/developers)
 
 ### Community
+
 - **Discord Server**: [discord.gg/PjhRBDYZ3p](https://discord.gg/PjhRBDYZ3p)
 - **Community Forum**: Available on the main website
 - **GitHub Issues**: Report library-specific issues
 
 ### Professional Support
+
 - **Enterprise Support**: Available for commercial applications
 - **Custom Integration**: Professional services available
 - **Priority Support**: Available for verified developers
@@ -1820,7 +1943,7 @@ This library is provided under the Croissant Platform License. By using this lib
 - Follow the platform's terms of service and community guidelines
 - Respect rate limits and usage guidelines
 
-For complete terms, visit [croissant-api.fr/terms](https://croissant-api.fr/terms).
+For complete terms, visit [croissant-api.eminium.ovh/terms](https://croissant-api.eminium.ovh/terms).
 
 ## Version Information
 
@@ -1832,6 +1955,7 @@ For complete terms, visit [croissant-api.fr/terms](https://croissant-api.fr/term
 ### Changelog
 
 #### v1.0.0 (July 2025)
+
 - Initial release
 - Complete API coverage
 - Full Go support
@@ -1840,4 +1964,4 @@ For complete terms, visit [croissant-api.fr/terms](https://croissant-api.fr/term
 
 ---
 
-*Built with ❤️ for
+\*Built with ❤️ for

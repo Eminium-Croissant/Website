@@ -42,7 +42,7 @@ import com.google.gson.reflect.TypeToken;
  * Trade trade = api.trades.startOrGetPending("user_id");
  */
 public class CroissantAPI {
-    private static final String CROISSANT_BASE_URL = "https://croissant-api.fr/api";
+    private static final String CROISSANT_BASE_URL = "https://croissant-api.eminium.ovh/api";
     private final String token;
     private final Gson gson = new Gson();
 

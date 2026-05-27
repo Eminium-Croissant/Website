@@ -210,7 +210,7 @@ struct OAuth2App {
 class Client {
 private:
     std::string token;
-    const std::string base_url = "https://croissant-api.fr/api";
+    const std::string base_url = "https://croissant-api.eminium.ovh/api";
     
     // Internal helper methods
     APIResponse makeRequest(const std::string& method, const std::string& endpoint, 

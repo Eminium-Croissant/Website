@@ -5,18 +5,10 @@
   "author": "Croissant Team",
   "license": "MIT",
   "main": "CroissantAPI.java",
-  "files": [
-    "CroissantAPI.java",
-    "CroissantAPIExample.java",
-    "README_CroissantAPI_Java.md",
-    "pom.xml",
-    "build.gradle"
-  ],
+  "files": ["CroissantAPI.java", "CroissantAPIExample.java", "README_CroissantAPI_Java.md", "pom.xml", "build.gradle"],
   "requirements": {
     "java": "8+",
-    "dependencies": [
-      "com.google.code.gson:gson:2.10.1"
-    ]
+    "dependencies": ["com.google.code.gson:gson:2.10.1"]
   },
   "features": [
     "User management",
@@ -29,7 +21,7 @@
     "Global search"
   ],
   "endpoints": {
-    "base_url": "https://croissant-api.fr/api",
+    "base_url": "https://croissant-api.eminium.ovh/api",
     "authentication": "Bearer Token",
     "format": "JSON"
   },

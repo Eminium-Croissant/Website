@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use reqwest::{Client, Error, header::HeaderMap, header::AUTHORIZATION, header::CONTENT_TYPE};
 use std::collections::HashMap;
 
-const CROISSANT_BASE_URL: &str = "https://croissant-api.fr/api";
+const CROISSANT_BASE_URL: &str = "https://croissant-api.eminium.ovh/api";
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Game {

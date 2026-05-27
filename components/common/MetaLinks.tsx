@@ -29,10 +29,10 @@ export default function ({ metaLinksTitle, metaDescription, from }: Props) {
       <meta property="og:title" content={defaultTitle} />
       <meta property="og:description" content={defaultDescription} />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://croissant-api.fr/" />
+      <meta property="og:url" content="https://croissant-api.eminium.ovh/" />
       <meta property="og:image" content="/assets/launcher.png" />
       <meta property="og:image:type" content="image/png" />
-      <meta property="og:image:secure_url" content="https://croissant-api.fr/assets/launcher.png" />
+      <meta property="og:image:secure_url" content="https://croissant-api.eminium.ovh/assets/launcher.png" />
       <meta property="og:site_name" content={defaultTitle} />
 
       <meta name="twitter:card" content="summary_large_image" />

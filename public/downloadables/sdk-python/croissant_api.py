@@ -10,7 +10,7 @@ from typing import List, Optional, Dict, Any, Union, TypeVar, Callable, Awaitabl
 from pydantic import BaseModel, Field, ConfigDict, EmailStr, HttpUrl
 
 # ====== CONFIGURATION ======
-CROISSANT_BASE_URL = os.getenv('CROISSANT_API_URL', 'https://croissant-api.fr/api')
+CROISSANT_BASE_URL = os.getenv('CROISSANT_API_URL', 'https://croissant-api.eminium.ovh/api')
 
 # ====== CUSTOM, GRANULAR EXCEPTIONS ======
 

@@ -1,113 +1,109 @@
-const fs = require('fs');
-const path = require('path');
-const fetch = require('node-fetch');
+const fs = require('fs')
+const path = require('path')
+const fetch = require('node-fetch')
 
-const SWAGGER_PATH = path.join(__dirname, '..', 'public', 'croissant_swagger.json');
+const SWAGGER_PATH = path.join(__dirname, '..', 'public', 'croissant_swagger.json')
 
-const DESCRIBE_URL = 'https://croissant-api.fr/api/describe';
+const DESCRIBE_URL = 'https://croissant-api.eminium.ovh/api/describe'
 
 function ensureObject(obj, key) {
-  if (!obj[key]) obj[key] = {};
-  return obj[key];
+  if (!obj[key]) obj[key] = {}
+  return obj[key]
 }
 
 function methodsFromDesc(desc) {
-  if (!desc) return ['get'];
-  if (Array.isArray(desc.method)) return desc.method.map((m) => String(m).toLowerCase());
+  if (!desc) return ['get']
+  if (Array.isArray(desc.method)) return desc.method.map((m) => String(m).toLowerCase())
   if (typeof desc.method === 'string') {
     return desc.method
       .split(',')
       .map((m) => m.trim())
       .filter(Boolean)
-      .map((m) => m.toLowerCase());
+      .map((m) => m.toLowerCase())
   }
-  return ['get'];
+  return ['get']
 }
 
 function defaultResponsesForMethod(method) {
-  method = method.toLowerCase();
+  method = method.toLowerCase()
   const common = {
-    "400": {
-      description: "Bad Request",
-      content: { "application/json": { schema: { type: "object" } } }
+    400: {
+      description: 'Bad Request',
+      content: { 'application/json': { schema: { type: 'object' } } }
     },
-    "500": {
-      description: "Internal server error",
-      content: { "application/json": { schema: { type: "object" } } }
+    500: {
+      description: 'Internal server error',
+      content: { 'application/json': { schema: { type: 'object' } } }
     }
-  };
+  }
 
   if (method === 'post') {
     return {
-      "201": {
-        description: "Created",
-        content: { "application/json": { schema: { type: "object" } } }
+      201: {
+        description: 'Created',
+        content: { 'application/json': { schema: { type: 'object' } } }
       },
       ...common
-    };
+    }
   }
 
   if (method === 'delete') {
     return {
-      "204": { description: "No Content" },
+      204: { description: 'No Content' },
       ...common
-    };
+    }
   }
 
   if (method === 'put' || method === 'patch') {
     return {
-      "200": {
-        description: "Success",
-        content: { "application/json": { schema: { type: "object" } } }
+      200: {
+        description: 'Success',
+        content: { 'application/json': { schema: { type: 'object' } } }
       },
       ...common
-    };
+    }
   }
 
-  
   return {
-    "200": {
-      description: "Success",
-      content: { "application/json": { schema: { type: "object" } } }
+    200: {
+      description: 'Success',
+      content: { 'application/json': { schema: { type: 'object' } } }
     },
     ...common
-  };
+  }
 }
 
-(async () => {
+;(async () => {
   try {
-    const res = await fetch(DESCRIBE_URL);
-    if (!res.ok) throw new Error(`Failed to fetch ${DESCRIBE_URL}: ${res.status}`);
-    const descriptions = await res.json();
+    const res = await fetch(DESCRIBE_URL)
+    if (!res.ok) throw new Error(`Failed to fetch ${DESCRIBE_URL}: ${res.status}`)
+    const descriptions = await res.json()
 
-    const swaggerRaw = fs.readFileSync(SWAGGER_PATH, 'utf8');
-    const swagger = JSON.parse(swaggerRaw);
+    const swaggerRaw = fs.readFileSync(SWAGGER_PATH, 'utf8')
+    const swagger = JSON.parse(swaggerRaw)
 
     for (const desc of descriptions) {
-      
-      if (desc.requiresAuth === true) continue;
+      if (desc.requiresAuth === true) continue
 
-      const endpoint = desc.endpoint.startsWith('/') ? desc.endpoint : `/${desc.endpoint}`;
-      if (!swagger.paths) swagger.paths = {};
+      const endpoint = desc.endpoint.startsWith('/') ? desc.endpoint : `/${desc.endpoint}`
+      if (!swagger.paths) swagger.paths = {}
 
-      if (!swagger.paths[endpoint]) swagger.paths[endpoint] = {};
+      if (!swagger.paths[endpoint]) swagger.paths[endpoint] = {}
 
-      const methods = methodsFromDesc(desc);
+      const methods = methodsFromDesc(desc)
 
       for (const method of methods) {
-        if (swagger.paths[endpoint][method]) continue; 
+        if (swagger.paths[endpoint][method]) continue
 
-        
         const pathItem = {
           tags: [desc.category || 'Public'],
           summary: desc.description ? String(desc.description).split('\n')[0] : desc.endpoint,
           description: desc.description || '',
           responses: defaultResponsesForMethod(method)
-        };
+        }
 
-        
         if (desc.params) {
-          pathItem.parameters = [];
+          pathItem.parameters = []
           for (const [name, text] of Object.entries(desc.params)) {
             pathItem.parameters.push({
               name,
@@ -115,38 +111,35 @@ function defaultResponsesForMethod(method) {
               required: true,
               schema: { type: 'string' },
               description: typeof text === 'string' ? text : JSON.stringify(text)
-            });
+            })
           }
         }
 
-        
-        const methodHasBody = ['post', 'put', 'patch'].includes(method);
+        const methodHasBody = ['post', 'put', 'patch'].includes(method)
         if (desc.body || methodHasBody) {
           pathItem.requestBody = {
             required: !!desc.body,
             content: {
-              "application/json": {
-                schema: desc.bodySchema || { type: "object", properties: {} }
+              'application/json': {
+                schema: desc.bodySchema || { type: 'object', properties: {} }
               }
             }
-          };
+          }
         }
 
-        
         if (desc.requiresAuth) {
-          pathItem.security = [{ "BearerAuth": [] }];
+          pathItem.security = [{ BearerAuth: [] }]
         }
 
-        swagger.paths[endpoint][method] = pathItem;
-        console.log(`Added ${method.toUpperCase()} ${endpoint}`);
+        swagger.paths[endpoint][method] = pathItem
+        console.log(`Added ${method.toUpperCase()} ${endpoint}`)
       }
     }
 
-    
-    fs.writeFileSync(SWAGGER_PATH, JSON.stringify(swagger, null, 2), 'utf8');
-    console.log('Swagger file updated:', SWAGGER_PATH);
+    fs.writeFileSync(SWAGGER_PATH, JSON.stringify(swagger, null, 2), 'utf8')
+    console.log('Swagger file updated:', SWAGGER_PATH)
   } catch (err) {
-    console.error('Error:', err.message || err);
-    process.exit(1);
+    console.error('Error:', err.message || err)
+    process.exit(1)
   }
-})();
+})()
