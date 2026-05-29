@@ -68,18 +68,24 @@ function isLocalIP(ip: string): boolean {
   return localPatterns.some((pattern) => pattern.test(ip))
 }
 
+function resolveApiBaseUrl(req: NextApiRequest): string {
+  const configuredBaseUrl = process.env.API_BASE_URL
+  if (configuredBaseUrl) {
+    return configuredBaseUrl
+  }
+
+  const host = (req.headers.host || '').toLowerCase()
+  if (host.includes('localhost') || host.includes('127.0.0.1') || host.includes('::1')) {
+    return 'http://localhost:3456'
+  }
+
+  return 'https://croissant-api.eminium.ovh/api'
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug = [], ...query } = req.query
 
-  // Détection du host pour choisir l'API cible
-  const host = req.headers.host || ''
-  let apiBaseUrl: string
-  if (host.includes('croissant-api.eminium.ovh')) {
-    apiBaseUrl = 'http://localhost:3456'
-  } else {
-    apiBaseUrl = 'https://croissant-api.eminium.ovh/api'
-  }
-  // apiBaseUrl = "https://api.croissant-api.eminium.ovh";
+  const apiBaseUrl = resolveApiBaseUrl(req)
 
   let url = `${apiBaseUrl}/${Array.isArray(slug) ? slug.join('/') : slug}`
 

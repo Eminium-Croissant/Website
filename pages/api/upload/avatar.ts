@@ -27,7 +27,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (!authHeader) return res.status(401).json({ error: 'Authorization header missing' });
 
   // Ici, tu dois vérifier l'utilisateur via ton API si besoin
-  const user = await fetch('http://localhost:3456/users/@me', {
+  const apiBase = process.env.API_BASE_URL || 'http://localhost:3456'
+  const user = await fetch(`${apiBase}/users/@me`, {
     method: 'GET',
     headers: {
       cookie: cookies,
