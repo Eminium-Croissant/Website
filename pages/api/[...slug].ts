@@ -74,11 +74,6 @@ function resolveApiBaseUrl(req: NextApiRequest): string {
     return configuredBaseUrl
   }
 
-  // Préférer le backend local en développement pour éviter d'appeler l'API publique
-  if (process.env.NODE_ENV !== 'production') {
-    return 'http://localhost:3456'
-  }
-
   const host = (req.headers.host || '').toLowerCase()
   if (host.includes('localhost') || host.includes('127.0.0.1') || host.includes('::1')) {
     return 'http://localhost:3456'

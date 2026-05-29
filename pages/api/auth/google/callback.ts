@@ -1,30 +1,55 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+function resolveApiBaseUrl(): string {
+  const configuredBaseUrl = process.env.API_BASE_URL
+  if (configuredBaseUrl) {
+    return configuredBaseUrl
+  }
+
+  return process.env.NODE_ENV !== 'production' ? 'https://croissant-api.eminium.ovh/api' : 'https://croissant-api.eminium.ovh/api'
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { code } = req.query;
-  if (!code) return res.status(400).send('Missing code');
+  const { code } = req.query
+  if (!code) return res.status(400).send('Missing code')
 
   try {
     // 1. Envoie simplement le code au backend, il gère tout (échange + userinfo)
-    const apiBase = process.env.API_BASE_URL || 'http://localhost:3456';
+    const apiBase = resolveApiBaseUrl()
     const loginRes = await fetch(`${apiBase}/users/login-oauth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         provider: 'google',
-        code: code as string,
+        code: code as string
         // plus besoin d'envoyer accessToken ici
-      }),
-    });
-    const loginData = await loginRes.json();
+      })
+    })
+    const loginData = await loginRes.json()
     if (!loginRes.ok || !loginData.token) {
-      return res.status(401).send(loginData.message || 'OAuth login failed');
+      const errorMsg = loginData.message || loginData.error || 'OAuth login failed'
+      console.error('[Google OAuth] Backend error:', {
+        status: loginRes.status,
+        message: errorMsg,
+        apiBase
+      })
+      return res
+        .status(loginRes.status || 401)
+        .send(
+          process.env.NODE_ENV === 'development'
+            ? `[DEV] Google OAuth failed: ${errorMsg}. Backend: ${apiBase}`
+            : 'Authentication failed. Please try again.'
+        )
     }
     // 4. Place le token backend en cookie et redirige
-    res.setHeader('Set-Cookie', `token=${loginData.token}; Path=/; Expires=Fri, 31 Dec 9999 23:59:59 GMT`);
-    res.redirect('/');
+    res.setHeader('Set-Cookie', `token=${loginData.token}; Path=/; Expires=Fri, 31 Dec 9999 23:59:59 GMT`)
+    res.redirect('/')
   } catch (error) {
-    console.error(error);
-    res.status(500).send('An error occurred during the Google authentication process.');
+    console.error(error)
+    const isDev = process.env.NODE_ENV === 'development'
+    const msg = error instanceof Error ? error.message : String(error)
+    res
+      .status(500)
+      .send(isDev ? `[DEV] Google OAuth error: ${msg}. Check API_BASE_URL or ensure backend is running.` : 'An error occurred during authentication.')
   }
 }
