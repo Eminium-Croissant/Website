@@ -52,6 +52,14 @@ interface GiftResponse {
   }
 }
 
+function getApiBaseUrl(): string {
+  if (process.env.API_BASE_URL) {
+    return process.env.API_BASE_URL
+  }
+
+  return process.env.NODE_ENV !== 'production' ? 'http://localhost:3456' : 'https://croissant-api.eminium.ovh/api'
+}
+
 export async function getServerSideProps({ locale, query }) {
   const translations = await getServerSideTranslations(locale)
   let ogMeta = null
@@ -59,14 +67,15 @@ export async function getServerSideProps({ locale, query }) {
 
   if (query.gameId) {
     try {
-      const res = await fetch(`https://croissant-api.eminium.ovh/api/games/${query.gameId}`)
+      const apiBaseUrl = getApiBaseUrl()
+      const res = await fetch(`${apiBaseUrl}/games/${query.gameId}`)
       if (res.ok) {
         const game: Game = await res.json()
         ogMeta = {
           title: game.name,
           description: game.description,
           bannerUrl: game.bannerHash
-            ? `https://croissant-api.eminium.ovh/banners-icons/${game.bannerHash}`
+            ? `${apiBaseUrl.replace(/\/api$/, '')}/banners-icons/${game.bannerHash}`
             : 'https://croissant.gg/assets/launcher.png',
           gameUrl: `https://croissant-api.eminium.ovh/game?gameId=${game.gameId}`,
           card: true

@@ -1,87 +1,117 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 type Lobby = {
-  lobbyId: string;
-  users: any[];
-};
+  lobbyId: string
+  users: any[]
+}
+
+type LobbyResponse = {
+  success: boolean
+  lobbyId?: string
+  users?: any[]
+}
+
+type ApiErrorResponse = {
+  message?: string
+}
 
 type LobbyContextType = {
-  lobby: Lobby | null;
-  loading: boolean;
-  error: string | null;
-  rpcStatus: string;
-  createLobby: () => Promise<void>;
-  leaveLobby: () => Promise<void>;
-  refreshLobby: () => Promise<void>;
-  setLobby: React.Dispatch<React.SetStateAction<Lobby | null>>;
-};
+  lobby: Lobby | null
+  loading: boolean
+  error: string | null
+  rpcStatus: string
+  createLobby: () => Promise<void>
+  leaveLobby: () => Promise<void>
+  refreshLobby: () => Promise<void>
+  setLobby: React.Dispatch<React.SetStateAction<Lobby | null>>
+}
 
-const LobbyContext = createContext<LobbyContextType | undefined>(undefined);
+const LobbyContext = createContext<LobbyContextType | undefined>(undefined)
 
-let ws: WebSocket | null = null;
+let ws: WebSocket | null = null
+
+function hasAuthToken(): boolean {
+  if (typeof document === 'undefined') {
+    return false
+  }
+
+  return document.cookie.split('; ').some((cookie) => cookie.startsWith('token='))
+}
 
 export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lobby, setLobby] = useState<Lobby | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [rpcStatus, setRpcStatus] = useState<string>('unknown');
+  const [lobby, setLobby] = useState<Lobby | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [rpcStatus, setRpcStatus] = useState<string>('unknown')
 
   const refreshLobby = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch('/api/lobbies/user/@me');
-      const data = await res.json();
-      if (data.success) {
-        setLobby({ lobbyId: data.lobbyId, users: data.users });
-      } else {
-        setLobby(null);
-      }
-    } catch (e: any) {
-      setError(e.message);
-    } finally {
-      setLoading(false);
+    if (!hasAuthToken()) {
+      setLobby(null)
+      setError(null)
+      setLoading(false)
+      return
     }
-  }, []);
+
+    setLoading(true)
+    setError(null)
+    try {
+      const res = await fetch('/api/lobbies/user/@me')
+      if (res.status === 401 || res.status === 403) {
+        setLobby(null)
+        return
+      }
+
+      const data = (await res.json()) as LobbyResponse
+      if (data.success && data.lobbyId && data.users) {
+        setLobby({ lobbyId: data.lobbyId, users: data.users })
+      } else {
+        setLobby(null)
+      }
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to refresh lobby')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   const createLobby = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+    setLoading(true)
+    setError(null)
     try {
-      const res = await fetch('/api/lobbies', { method: 'POST' });
+      const res = await fetch('/api/lobbies', { method: 'POST' })
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || 'Failed to create lobby');
+        const data = (await res.json().catch(() => ({}))) as ApiErrorResponse
+        throw new Error(data.message || 'Failed to create lobby')
       }
-      await refreshLobby();
-    } catch (e: any) {
-      setError(e.message);
+      await refreshLobby()
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to create lobby')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [refreshLobby]);
+  }, [refreshLobby])
 
   const leaveLobby = useCallback(async () => {
-    if (!lobby) return;
-    setLoading(true);
-    setError(null);
+    if (!lobby) return
+    setLoading(true)
+    setError(null)
     try {
-      const res = await fetch(`/api/lobbies/${lobby.lobbyId}/leave`, { method: 'POST' });
+      const res = await fetch(`/api/lobbies/${lobby.lobbyId}/leave`, { method: 'POST' })
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || 'Failed to leave lobby');
+        const data = (await res.json().catch(() => ({}))) as ApiErrorResponse
+        throw new Error(data.message || 'Failed to leave lobby')
       }
-      setLobby(null);
-    } catch (e: any) {
-      setError(e.message);
+      setLobby(null)
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Failed to leave lobby')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, [lobby]);
+  }, [lobby])
 
   useEffect(() => {
-    refreshLobby();
-  }, [refreshLobby]);
+    refreshLobby()
+  }, [refreshLobby])
 
   return (
     <LobbyContext.Provider
@@ -93,15 +123,16 @@ export const LobbyProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         createLobby,
         leaveLobby,
         refreshLobby,
-        setLobby,
-      }}>
+        setLobby
+      }}
+    >
       {children}
     </LobbyContext.Provider>
-  );
-};
+  )
+}
 
 export function useLobby() {
-  const ctx = useContext(LobbyContext);
-  if (!ctx) throw new Error('useLobby must be used within a LobbyProvider');
-  return ctx;
+  const ctx = useContext(LobbyContext)
+  if (!ctx) throw new Error('useLobby must be used within a LobbyProvider')
+  return ctx
 }

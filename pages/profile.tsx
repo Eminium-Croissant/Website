@@ -23,6 +23,14 @@ interface TradeStartResponse {
   id: string
 }
 
+function getApiBaseUrl(): string {
+  if (process.env.API_BASE_URL) {
+    return process.env.API_BASE_URL
+  }
+
+  return process.env.NODE_ENV !== 'production' ? 'http://localhost:3456' : 'https://croissant-api.eminium.ovh/api'
+}
+
 export async function getServerSideProps({ locale, query }) {
   const translations = await serverSideTranslations(locale)
   let profileFromQuery = null
@@ -30,13 +38,14 @@ export async function getServerSideProps({ locale, query }) {
   let ogMeta = null
   if (userId) {
     try {
-      const res = await fetch(`https://croissant-api.eminium.ovh/api/users/${userId}`)
+      const apiBaseUrl = getApiBaseUrl()
+      const res = await fetch(`${apiBaseUrl}/users/${userId}`)
       if (res.ok) {
         const user: UserFromQuery = await res.json()
         ogMeta = {
           title: user.username,
           description: `Check out ${user.username}'s profile on Croissant!`,
-          bannerUrl: `https://croissant-api.eminium.ovh/avatar/${user.id}`,
+          bannerUrl: `${apiBaseUrl.replace(/\/api$/, '')}/avatar/${user.id}`,
 
           query: { user: user.id },
           card: false
