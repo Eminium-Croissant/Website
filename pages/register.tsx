@@ -151,7 +151,7 @@ export default function Register() {
           userId: crypto.randomUUID(),
         }),
       });
-      const data = await res.json() as RegisterResponse | ApiErrorResponse;
+      const data = (await res.json()) as RegisterResponse | ApiErrorResponse;
       if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Registration failed');
 
       document.cookie = `token=${(data as RegisterResponse).token}; path=/; max-age=31536000`;

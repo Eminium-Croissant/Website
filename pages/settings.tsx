@@ -119,21 +119,7 @@ const steamBtnStyleDef: React.CSSProperties = {
   padding: '0 24px',
 };
 
-function ChangePasswordModal({ 
-  open, 
-  onClose, 
-  onSubmit, 
-  loading, 
-  error, 
-  success 
-}: { 
-  open: boolean; 
-  onClose: () => void; 
-  onSubmit: (data: ChangePasswordData) => void; 
-  loading: boolean; 
-  error: string | null; 
-  success: string | null 
-}) {
+function ChangePasswordModal({ open, onClose, onSubmit, loading, error, success }: { open: boolean; onClose: () => void; onSubmit: (data: ChangePasswordData) => void; loading: boolean; error: string | null; success: string | null }) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -181,15 +167,7 @@ function ChangePasswordModal({
   );
 }
 
-function GoogleAuthenticatorSetupModal({ 
-  open, 
-  onClose, 
-  user 
-}: { 
-  open: boolean; 
-  onClose: (success: boolean) => void; 
-  user: User | null 
-}) {
+function GoogleAuthenticatorSetupModal({ open, onClose, user }: { open: boolean; onClose: (success: boolean) => void; user: User | null }) {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState<'generate' | 'validate'>('generate');
   const [key, setKey] = useState<any>(null);
@@ -698,7 +676,7 @@ function LanguageSelector() {
       setDropdownPosition({
         top: rect.bottom + window.scrollY + 4,
         left: rect.left + window.scrollX,
-        width: rect.width
+        width: rect.width,
       });
     }
     setIsOpen(!isOpen);
@@ -712,66 +690,60 @@ function LanguageSelector() {
   return (
     <>
       <div className='mb-6'>
-        <button 
+        <button
           ref={buttonRef}
           onClick={handleToggleOpen}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-glass-accent border border-glass-border text-glass-text hover:bg-glass-secondary transition-all duration-200 w-full justify-between"
+          className='flex items-center gap-2 px-3 py-2 rounded-lg bg-glass-accent border border-glass-border text-glass-text hover:bg-glass-secondary transition-all duration-200 w-full justify-between'
           style={{
             minWidth: 120,
             background: 'rgba(255,255,255,0.05)',
             border: '1px solid rgba(255,255,255,0.1)',
             color: '#fff',
-          }}
-        >
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">{currentLanguage.label}</span>
+          }}>
+          <div className='flex items-center gap-2'>
+            <span className='text-sm font-medium'>{currentLanguage.label}</span>
           </div>
-          <span className="text-xs text-gray-400">{isOpen ? '▲' : '▼'}</span>
+          <span className='text-xs text-gray-400'>{isOpen ? '▲' : '▼'}</span>
         </button>
       </div>
 
-      {isOpen && typeof document !== 'undefined' && createPortal(
-        <>
-          {/* Backdrop */}
-          <div 
-            className="fixed inset-0 z-40" 
-            onClick={() => setIsOpen(false)}
-          />
-          
-          {/* Dropdown */}
-          <div 
-            className="fixed rounded-lg shadow-lg max-h-64 overflow-y-auto"
-            style={{
-              top: dropdownPosition.top,
-              left: dropdownPosition.left,
-              width: dropdownPosition.width,
-              background: '#222',
-              border: '1px solid rgba(255,255,255,0.1)',
-              zIndex: 9999,
-              boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
-            }}
-          >
-            {availableLanguages.map((language) => (
-              <button
-                key={language.code}
-                onClick={() => handleLanguageChange(language.code)}
-                className={`w-full flex items-center gap-3 px-4 py-2 text-left hover:bg-opacity-10 hover:bg-white transition-colors duration-200 ${
-                  language.code === locale ? 'bg-opacity-10 bg-white border-l-2 border-l-blue-400' : ''
-                }`}
-                style={{
-                  color: '#fff',
-                }}
-              >
-                <div>
-                  <div className="text-sm font-medium">{language.label}</div>
-                  <div className="text-xs text-gray-400">{language.code.toUpperCase()}</div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </>,
-        document.body
-      )}
+      {isOpen &&
+        typeof document !== 'undefined' &&
+        createPortal(
+          <>
+            {/* Backdrop */}
+            <div className='fixed inset-0 z-40' onClick={() => setIsOpen(false)} />
+
+            {/* Dropdown */}
+            <div
+              className='fixed rounded-lg shadow-lg max-h-64 overflow-y-auto'
+              style={{
+                top: dropdownPosition.top,
+                left: dropdownPosition.left,
+                width: dropdownPosition.width,
+                background: '#222',
+                border: '1px solid rgba(255,255,255,0.1)',
+                zIndex: 9999,
+                boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+              }}>
+              {availableLanguages.map(language => (
+                <button
+                  key={language.code}
+                  onClick={() => handleLanguageChange(language.code)}
+                  className={`w-full flex items-center gap-3 px-4 py-2 text-left hover:bg-opacity-10 hover:bg-white transition-colors duration-200 ${language.code === locale ? 'bg-opacity-10 bg-white border-l-2 border-l-blue-400' : ''}`}
+                  style={{
+                    color: '#fff',
+                  }}>
+                  <div>
+                    <div className='text-sm font-medium'>{language.label}</div>
+                    <div className='text-xs text-gray-400'>{language.code.toUpperCase()}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </>,
+          document.body
+        )}
     </>
   );
 }
@@ -804,7 +776,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         },
         body: JSON.stringify({ username }),
       });
-      const data = await res.json() as ApiErrorResponse;
+      const data = (await res.json()) as ApiErrorResponse;
       if (!res.ok) throw new Error(data.message || 'Failed to update username');
       setUsernameSuccess('Username updated!');
       if (setUser) setUser({ ...user, username });
@@ -889,7 +861,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         },
         body: JSON.stringify({ oldPassword, newPassword, confirmPassword }),
       });
-      const data = await res.json() as ApiErrorResponse;
+      const data = (await res.json()) as ApiErrorResponse;
       if (!res.ok) throw new Error(data.message || 'Erreur lors du changement de mot de passe');
       setPasswordSuccess('Mot de passe mis à jour !');
       setShowPasswordModal(false);

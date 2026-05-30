@@ -1,6 +1,5 @@
 // Cloudflare-compatible file system operations
 export class CloudflareFS {
-  
   // Simulated file operations for Cloudflare Workers
   static async readFile(path: string): Promise<Buffer | null> {
     try {

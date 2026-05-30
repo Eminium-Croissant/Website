@@ -19,7 +19,7 @@ export const useTranslation = () => {
       t: (key: string, values?: Record<string, any>) => key,
       i18n: { language: 'en' },
       locale: 'en',
-      changeLocale: (newLocale: string) => {}
+      changeLocale: (newLocale: string) => {},
     };
   }
   return {
@@ -34,29 +34,19 @@ export const useTranslation = () => {
     },
     i18n: { language: context.locale },
     locale: context.locale,
-    changeLocale: context.changeLocale
+    changeLocale: context.changeLocale,
   };
 };
 
 // Simple Trans component for Cloudflare compatibility
-export const Trans = ({ 
-  children, 
-  i18nKey, 
-  values, 
-  ...props 
-}: { 
-  children?: ReactNode; 
-  i18nKey?: string;
-  values?: Record<string, any>;
-  [key: string]: any;
-}) => {
+export const Trans = ({ children, i18nKey, values, ...props }: { children?: ReactNode; i18nKey?: string; values?: Record<string, any>; [key: string]: any }) => {
   const { t } = useTranslation();
-  
+
   if (i18nKey) {
     const translation = t(i18nKey, values);
     return <>{translation}</>;
   }
-  
+
   return <>{children}</>;
 };
 
@@ -66,11 +56,7 @@ interface I18nProviderProps {
   translations?: Record<string, any>;
 }
 
-export const I18nProvider = ({ 
-  children, 
-  locale = 'en', 
-  translations = {} 
-}: I18nProviderProps) => {
+export const I18nProvider = ({ children, locale = 'en', translations = {} }: I18nProviderProps) => {
   const [currentLocale, setCurrentLocale] = useState(locale);
   const [loadedTranslations, setLoadedTranslations] = useState(translations);
   const [isLoading, setIsLoading] = useState(false);
@@ -134,16 +120,16 @@ export const I18nProvider = ({
     if (!isClient && Object.keys(loadedTranslations).length === 0) {
       return key;
     }
-    
+
     // Si on charge et qu'on n'a pas de traductions, retourner la clé temporairement
     if (isLoading && Object.keys(loadedTranslations).length === 0) {
       return key;
     }
-    
+
     // Navigate through nested object using dot notation
     const keys = key.split('.');
     let result: any = loadedTranslations;
-    
+
     for (const k of keys) {
       if (result && typeof result === 'object' && k in result) {
         result = result[k];
@@ -151,21 +137,17 @@ export const I18nProvider = ({
         return key; // Return key if translation not found
       }
     }
-    
+
     return typeof result === 'string' ? result : key;
   };
 
-  return (
-    <I18nContext.Provider value={{ t, locale: currentLocale, changeLocale }}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={{ t, locale: currentLocale, changeLocale }}>{children}</I18nContext.Provider>;
 };
 
 // Helper function to get translations on server side
 export const getServerSideTranslations = async (locale?: string) => {
   const safeLocale = locale || 'en';
-  
+
   try {
     // In a Cloudflare environment, we need to handle translations differently
     // For now, return empty translations to avoid errors
@@ -179,9 +161,9 @@ export const getServerSideTranslations = async (locale?: string) => {
             defaultLocale: 'en',
             locales: ['en', 'fr', 'de', 'es', 'it', 'ja', 'ko', 'tr', 'zh', 'ar', 'ru'],
           },
-          use: []
-        }
-      }
+          use: [],
+        },
+      },
     };
   } catch (error) {
     console.warn('Translation loading failed:', error);
@@ -195,9 +177,9 @@ export const getServerSideTranslations = async (locale?: string) => {
             defaultLocale: 'en',
             locales: ['en', 'fr', 'de', 'es', 'it', 'ja', 'ko', 'tr', 'zh', 'ar', 'ru'],
           },
-          use: []
-        }
-      }
+          use: [],
+        },
+      },
     };
   }
 };

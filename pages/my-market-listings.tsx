@@ -101,7 +101,7 @@ export default function MyMarketListingsPage() {
     setLoading(true);
     fetch(`/api/market-listings/user/${user.id}`)
       .then(async res => {
-        const data = await res.json() as EnrichedMarketListing[] | ApiErrorResponse;
+        const data = (await res.json()) as EnrichedMarketListing[] | ApiErrorResponse;
         if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to fetch listings');
         setListings(data as EnrichedMarketListing[]);
         setLoading(false);
@@ -183,7 +183,7 @@ export default function MyMarketListingsPage() {
                                     method: 'PUT',
                                   });
                                   if (!res.ok) {
-                                    const errorData = await res.json() as ApiErrorResponse;
+                                    const errorData = (await res.json()) as ApiErrorResponse;
                                     throw new Error(errorData.message);
                                   }
                                   setListings(listings => listings.filter(l => l.id !== listing.id));

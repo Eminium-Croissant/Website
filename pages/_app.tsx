@@ -1,6 +1,5 @@
 import 'github-markdown-css/github-markdown.css';
 
-
 import '../styles/main.css';
 
 import '../styles/atom-one-dark.min.css';
@@ -101,10 +100,9 @@ export function App(props: AppProps) {
       const storedLocale = typeof window !== 'undefined' ? localStorage.getItem('locale') : null;
       const browserLocale = typeof window !== 'undefined' ? navigator.language.split('-')[0] : 'en';
       const supportedLocales = ['en', 'fr', 'de', 'es', 'it', 'ja', 'ko', 'tr', 'zh', 'ar', 'ru'];
-      
-      const detectedLocale = storedLocale || 
-        (supportedLocales.includes(browserLocale) ? browserLocale : 'en');
-      
+
+      const detectedLocale = storedLocale || (supportedLocales.includes(browserLocale) ? browserLocale : 'en');
+
       setLocale(detectedLocale);
 
       // Pré-charger les traductions
@@ -127,36 +125,43 @@ export function App(props: AppProps) {
   // Afficher un loader pendant le chargement initial pour éviter l'oscillation
   if (isLoading) {
     return (
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'var(--dark-primary, #0a0a0a)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 9999
-      }}>
-        <div style={{
-          width: '40px',
-          height: '40px',
-          border: '4px solid rgba(255, 255, 255, 0.1)',
-          borderTop: '4px solid #00bfff',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'var(--dark-primary, #0a0a0a)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+        }}>
+        <div
+          style={{
+            width: '40px',
+            height: '40px',
+            border: '4px solid rgba(255, 255, 255, 0.1)',
+            borderTop: '4px solid #00bfff',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+          }}
+        />
         <style jsx>{`
           @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
           }
         `}</style>
       </div>
     );
   }
-  
+
   return (
     <I18nProvider locale={locale} translations={translations}>
       <ImageCacheProvider>

@@ -65,7 +65,7 @@ const BuyCredits: React.FC = () => {
   const handlePurchase = async (tier: Tier) => {
     try {
       const response = await fetch(`/api/stripe/checkout?tier=${tier.id}`);
-      const data = await response.json() as CheckoutResponse | ApiErrorResponse;
+      const data = (await response.json()) as CheckoutResponse | ApiErrorResponse;
       if ('url' in data && data.url) {
         window.location.href = data.url;
       } else {

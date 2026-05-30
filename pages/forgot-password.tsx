@@ -233,7 +233,7 @@ export default function ForgotPassword() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json() as ForgotPasswordResponse | ApiErrorResponse;
+      const data = (await res.json()) as ForgotPasswordResponse | ApiErrorResponse;
       if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to send reset email');
       setSuccess('Password reset email sent.');
     } catch (e: any) {

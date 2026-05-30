@@ -427,7 +427,7 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-      const data = await res.json() as ApiResponse;
+      const data = (await res.json()) as ApiResponse;
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
       if (data.token) {
@@ -454,7 +454,7 @@ export default function Login() {
         body: JSON.stringify({}),
       });
       if (!res.ok) throw new Error('Failed to get authentication options');
-      const options = await res.json() as PasskeyOptions;
+      const options = (await res.json()) as PasskeyOptions;
 
       const challengeBuffer = Uint8Array.from(atob(options.challenge), c => c.charCodeAt(0));
       (options as any).challenge = challengeBuffer;
@@ -479,7 +479,7 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ credential: parsedCredential }),
       });
-      const data = await verifyRes.json() as ApiResponse;
+      const data = (await verifyRes.json()) as ApiResponse;
       if (!verifyRes.ok) throw new Error(data.message || 'Passkey login failed');
       document.cookie = `token=${data.token}; path=/; max-age=31536000`;
       location.href = '/';
@@ -504,7 +504,7 @@ export default function Login() {
           code: authenticatorCode,
         }),
       });
-      const data = await res.json() as ApiResponse;
+      const data = (await res.json()) as ApiResponse;
       if (!res.ok) throw new Error(data.message || 'Invalid code');
       if (data.token) {
         document.cookie = `token=${data.token}; path=/; max-age=31536000`;

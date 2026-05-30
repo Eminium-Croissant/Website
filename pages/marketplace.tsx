@@ -83,7 +83,7 @@ function useMarketplaceLogic() {
     setLoading(true);
     fetch(`/api/market-listings?limit=100`)
       .then(async res => {
-        const data = await res.json() as EnrichedMarketListing[] | ApiErrorResponse;
+        const data = (await res.json()) as EnrichedMarketListing[] | ApiErrorResponse;
         if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to fetch listings');
         setListings(data as EnrichedMarketListing[]);
         setLoading(false);
@@ -115,7 +115,7 @@ function useMarketplaceLogic() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
       });
-      const data = await res.json() as BuyResponse | ApiErrorResponse;
+      const data = (await res.json()) as BuyResponse | ApiErrorResponse;
       if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Purchase failed');
       alert('Purchase successful!');
       setListings(listings => listings.filter(l => l.id !== listing.id));
@@ -144,7 +144,7 @@ function useMarketplaceLogic() {
           price: buyOrderPrice,
         }),
       });
-      const data = await res.json() as BuyOrderResponse | ApiErrorResponse;
+      const data = (await res.json()) as BuyOrderResponse | ApiErrorResponse;
       if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to place buy order');
       alert('Buy order placed!');
       setShowBuyOrderModal(false);
@@ -163,7 +163,7 @@ function useMarketplaceLogic() {
     try {
       const res = await fetch(`/api/items/search?q=${encodeURIComponent(q)}`);
       if (!res.ok) return;
-      const items = await res.json() as Item[];
+      const items = (await res.json()) as Item[];
       setBuyOrderItemResults(items);
     } catch {
       setBuyOrderItemResults([]);

@@ -139,7 +139,7 @@ const GameForm = () => {
           method: 'POST',
           body: iconData,
         });
-        const data = await res.json() as UploadResponse;
+        const data = (await res.json()) as UploadResponse;
         if (data.hash) {
           iconHash = data.hash;
         } else {
@@ -168,7 +168,7 @@ const GameForm = () => {
           method: 'POST',
           body: bannerData,
         });
-        const data = await res.json() as UploadResponse;
+        const data = (await res.json()) as UploadResponse;
         if (data.hash) {
           bannerHash = data.hash;
         } else {
@@ -242,7 +242,7 @@ const GameForm = () => {
         router.push('/dev-zone/my-games');
         return;
       } else {
-        const err = await res.json() as ApiErrorResponse;
+        const err = (await res.json()) as ApiErrorResponse;
         setErrors({ submit: err.message || t('createGame.error.submit') });
       }
     } catch (err: any) {

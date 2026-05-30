@@ -13,32 +13,32 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // Extensions possibles par ordre de préférence
   const extensions = ['.avif', '.webp', '.png', '.jpg', '.jpeg'];
-  
+
   // D'abord, essayer le CDN R2 public
   const cdnBaseUrl = process.env.R2_PUBLIC_URL || 'https://cdn.croissant-api.fr';
-  
+
   for (const ext of extensions) {
     const cdnUrl = `${cdnBaseUrl}/bannersIcons/${hash}${ext}`;
     console.log(`[Banners API] Trying CDN URL: ${cdnUrl}`);
-    
+
     try {
       const response = await fetch(cdnUrl);
       if (response.ok) {
         console.log(`[Banners API] Found on CDN: ${cdnUrl}`);
-        
+
         // Copier les headers de la réponse CDN
         res.setHeader('Content-Type', response.headers.get('content-type') || getContentTypeFromExtension(ext));
         res.setHeader('Cache-Control', 'public, max-age=300');
         res.setHeader('X-Image-Source', 'cdn-r2'); // Source de l'image
-        
+
         if (response.headers.get('etag')) {
           res.setHeader('ETag', response.headers.get('etag')!);
         }
-        
+
         if (response.headers.get('content-length')) {
           res.setHeader('Content-Length', response.headers.get('content-length')!);
         }
-        
+
         // Stream la réponse (convertir le ReadableStream WHATWG en stream Node.js)
         if (response.body) {
           const nodeStream = require('stream').Readable.fromWeb(response.body);
@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // Fallback: recherche locale - utiliser le dossier uploads global si pas dans un environnement worker
   const bannersDir = path.join(process.cwd(), 'uploads', 'bannersIcons');
-  
+
   for (const ext of extensions) {
     const localPath = path.join(bannersDir, `${hash}${ext}`);
     if (fs.existsSync(localPath)) {

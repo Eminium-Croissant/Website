@@ -64,7 +64,6 @@ interface UserDetailsResponse {
   isOnline?: boolean;
 }
 
-
 interface User {
   verified: boolean;
   id: string;
@@ -102,11 +101,14 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const processedItems = (profile.inventory || []).map((item: any) => ({
-      ...item,
-      uniqueId: item.metadata?._unique_id as string | undefined,
-      sellable: item.sellable ?? false,
-    } as Item));
+    const processedItems = (profile.inventory || []).map(
+      (item: any) =>
+        ({
+          ...item,
+          uniqueId: item.metadata?._unique_id as string | undefined,
+          sellable: item.sellable ?? false,
+        }) as Item
+    );
     setItems(processedItems);
     setLoading(false);
   }, [profile.inventory]);
@@ -121,12 +123,15 @@ export default function Inventory({ profile, isMe, reloadFlag }: Props) {
     })
       .then(res => (res.ok ? res.json() : Promise.reject(new Error('Failed to fetch inventory'))))
       .then((data: InventoryResponse) => {
-        const processedItems = (data.items || []).map((item: any) => ({
-          ...item,
-          uniqueId: item.metadata?._unique_id as string | undefined,
-          sellable: item.sellable ?? false,
-          iconHash: item.iconHash || item.item_id,
-        } as Item));
+        const processedItems = (data.items || []).map(
+          (item: any) =>
+            ({
+              ...item,
+              uniqueId: item.metadata?._unique_id as string | undefined,
+              sellable: item.sellable ?? false,
+              iconHash: item.iconHash || item.item_id,
+            }) as Item
+        );
         setItems(processedItems);
         setLoading(false);
       })

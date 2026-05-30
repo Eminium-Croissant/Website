@@ -136,7 +136,7 @@ function useShopLogic() {
           headers: AUTH_HEADER,
         })
           .then(async res => {
-            const data = await res.json() as BuyGameResponse | ApiErrorResponse;
+            const data = (await res.json()) as BuyGameResponse | ApiErrorResponse;
             if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to buy game');
             return data;
           })
@@ -284,10 +284,7 @@ const Desktop: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, ha
         description: game.description ? stripMarkdown(game.description) : game.description,
       }))
       .filter(game => {
-        const matchesSearch =
-          searchTerm === '' ||
-          game.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          (game.description && game.description.toLowerCase().includes(searchTerm.toLowerCase()));
+        const matchesSearch = searchTerm === '' || game.name.toLowerCase().includes(searchTerm.toLowerCase()) || (game.description && game.description.toLowerCase().includes(searchTerm.toLowerCase()));
         const matchesGenre = !selectedGenre || game.genre === selectedGenre;
         return matchesSearch && matchesGenre;
       });
@@ -433,10 +430,7 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
         description: game.description ? stripMarkdown(game.description) : game.description,
       }))
       .filter(game => {
-        const matchesSearch =
-          searchTerm === '' ||
-          game.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          (game.description && game.description.toLowerCase().includes(searchTerm.toLowerCase()));
+        const matchesSearch = searchTerm === '' || game.name.toLowerCase().includes(searchTerm.toLowerCase()) || (game.description && game.description.toLowerCase().includes(searchTerm.toLowerCase()));
         const matchesGenre = !selectedGenre || game.genre === selectedGenre;
         return matchesSearch && matchesGenre;
       });

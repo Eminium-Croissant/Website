@@ -8,9 +8,9 @@ export function handleCloudflareError(error: any, context: string): void {
     message: error?.message,
     stack: error?.stack,
     name: error?.name,
-    cause: error?.cause
+    cause: error?.cause,
   });
-  
+
   // Log environment info for debugging
   if (isCloudflareEnvironment()) {
     console.log('[Environment]: Running in Cloudflare Workers');
@@ -25,18 +25,12 @@ export function createCloudflareCompatibleResponse(data: any, status: number = 2
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     });
 
-    return new Response(
-      JSON.stringify(data),
-      { status, headers }
-    );
+    return new Response(JSON.stringify(data), { status, headers });
   } catch (error) {
     handleCloudflareError(error, 'createCloudflareCompatibleResponse');
-    return new Response(
-      JSON.stringify({ error: 'Internal Server Error' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
-    );
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 }

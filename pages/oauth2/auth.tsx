@@ -83,12 +83,12 @@ export default function OAuth2Auth() {
         },
       });
       if (!res.ok) {
-        const data = await res.json() as ApiErrorResponse;
+        const data = (await res.json()) as ApiErrorResponse;
         setError(data.message || 'Authorization error.');
         setLoading(false);
         return;
       }
-      const data = await res.json() as AuthorizeResponse;
+      const data = (await res.json()) as AuthorizeResponse;
       window.location.href = `${params.redirect_uri}?code=${encodeURIComponent(data.code)}`;
     } catch (e) {
       setError('Network error.');

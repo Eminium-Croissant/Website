@@ -162,7 +162,7 @@ function useOAuth2AppsLogic() {
         }),
       });
       if (res.ok) {
-        const data = await res.json() as CreateAppResponse;
+        const data = (await res.json()) as CreateAppResponse;
         setApps([
           ...apps,
           {

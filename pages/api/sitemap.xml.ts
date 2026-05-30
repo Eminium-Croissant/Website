@@ -113,13 +113,13 @@ const actuaSitemap = `
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
     </url>
-`
+`;
 
 const genGameItem = (games: { gameId: string }[]) => {
-  const today = new Date().toISOString().slice(0, 10)
+  const today = new Date().toISOString().slice(0, 10);
   return games
     .map(
-      (game) => `
+      game => `
         <url>
             <loc>https://croissant-api.eminium.ovh/game?gameId=${game.gameId}</loc>
             <lastmod>${today}</lastmod>
@@ -128,28 +128,28 @@ const genGameItem = (games: { gameId: string }[]) => {
         </url>
     `
     )
-    .join('')
-}
+    .join('');
+};
 
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'GET') return res.status(405).end('Method Not Allowed')
+  if (req.method !== 'GET') return res.status(405).end('Method Not Allowed');
 
   const games = fetch('https://croissant-api.eminium.ovh/api/games')
-    .then((response) => response.json())
-    .then((data) => data.map((game: { gameId: string }) => ({ gameId: game.gameId })))
-    .catch(() => [])
+    .then(response => response.json())
+    .then(data => data.map((game: { gameId: string }) => ({ gameId: game.gameId })))
+    .catch(() => []);
 
-  const gameItems = await games
+  const gameItems = await games;
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     ${actuaSitemap}
     ${genGameItem(gameItems)}
 </urlset>
-`
+`;
 
-  res.setHeader('Content-Type', 'application/xml')
-  res.write(sitemap)
-  res.end()
+  res.setHeader('Content-Type', 'application/xml');
+  res.write(sitemap);
+  res.end();
 }

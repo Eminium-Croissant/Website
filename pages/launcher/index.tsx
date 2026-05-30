@@ -36,7 +36,6 @@ const LauncherPage: React.FC = () => {
   return <></>;
 };
 
-
 export async function getServerSideProps({ locale }) {
   return {
     props: {

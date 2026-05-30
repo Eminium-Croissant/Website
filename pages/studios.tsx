@@ -50,19 +50,7 @@ export async function getStaticProps({ locale }) {
   };
 }
 
-function StudioCard({ 
-  studio, 
-  onRemoveUser, 
-  onAddUser, 
-  onToggleApiKey, 
-  apiKeySpoilers 
-}: {
-  studio: Studio;
-  onRemoveUser: (studioId: string, userId: string) => void;
-  onAddUser: (studio: Studio) => void;
-  onToggleApiKey: (studioId: string) => void;
-  apiKeySpoilers: { [key: string]: boolean };
-}) {
+function StudioCard({ studio, onRemoveUser, onAddUser, onToggleApiKey, apiKeySpoilers }: { studio: Studio; onRemoveUser: (studioId: string, userId: string) => void; onAddUser: (studio: Studio) => void; onToggleApiKey: (studioId: string) => void; apiKeySpoilers: { [key: string]: boolean } }) {
   const { t } = useTranslation();
 
   return (
@@ -177,7 +165,7 @@ export default function StudiosPage() {
         body: JSON.stringify({ studioName }),
       });
       if (!res.ok) {
-        const data = await res.json() as ApiErrorResponse;
+        const data = (await res.json()) as ApiErrorResponse;
         setError(data.message || 'Error creating studio');
       } else {
         refreshStudiosList();
@@ -219,7 +207,7 @@ export default function StudiosPage() {
         body: JSON.stringify({ userId }),
       });
       if (!res.ok) {
-        const data = await res.json() as ApiErrorResponse;
+        const data = (await res.json()) as ApiErrorResponse;
         alert(data.message || t('studios.errorRemoveUser'));
       } else {
         refreshStudiosList();
@@ -239,7 +227,7 @@ export default function StudiosPage() {
     try {
       const res = await fetch(`/api/users/search?q=${encodeURIComponent(q)}`);
       if (!res.ok) return;
-      const users = await res.json() as UserSearchResult[];
+      const users = (await res.json()) as UserSearchResult[];
       setAddUserResults(users.filter((u: UserSearchResult) => !u.isStudio));
     } catch (e) {
       setAddUserResults([]);
@@ -259,7 +247,7 @@ export default function StudiosPage() {
         body: JSON.stringify({ userId }),
       });
       if (!res.ok) {
-        const data = await res.json() as ApiErrorResponse;
+        const data = (await res.json()) as ApiErrorResponse;
         setAddUserError(data.message || 'Error adding user');
       } else {
         setShowAddUserModal(false);

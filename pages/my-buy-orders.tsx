@@ -55,7 +55,7 @@ function useMyBuyOrdersLogic() {
     setLoading(true);
     fetch(`/api/buy-orders/user/${user.id}`)
       .then(async res => {
-        const data = await res.json() as BuyOrder[] | ApiErrorResponse;
+        const data = (await res.json()) as BuyOrder[] | ApiErrorResponse;
         if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to fetch buy orders');
         setOrders(data as BuyOrder[]);
         setLoading(false);
@@ -73,7 +73,7 @@ function useMyBuyOrdersLogic() {
     Promise.all(
       missing.map(id =>
         fetch(`/api/items/${id}`)
-          .then(res => (res.ok ? res.json() as Promise<ItemResponse> : null))
+          .then(res => (res.ok ? (res.json() as Promise<ItemResponse>) : null))
           .catch(() => null)
       )
     ).then(items => {
@@ -98,7 +98,7 @@ function useMyBuyOrdersLogic() {
         method: 'PUT',
       });
       if (!res.ok) {
-        const errorData = await res.json() as ApiErrorResponse;
+        const errorData = (await res.json()) as ApiErrorResponse;
         throw new Error(errorData.message);
       }
       setOrders(orders => orders.filter(o => o.id !== order.id));

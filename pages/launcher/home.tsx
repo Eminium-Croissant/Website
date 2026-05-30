@@ -83,9 +83,9 @@ let discordRpcManager: DiscordRpcManager;
 let ws: WebSocket;
 try {
   ws = new WebSocket('ws://localhost:8081');
-  ws.onerror = () => { };
+  ws.onerror = () => {};
   discordRpcManager = new DiscordRpcManager(ws);
-} catch { }
+} catch {}
 
 const ENDPOINT = '/api';
 
@@ -299,7 +299,7 @@ const Library: React.FC = () => {
         if (message.action === 'notFound' && message.gameId) {
           setError(`Game ${message.gameId} not found for deletion.`);
         }
-      } catch (e) { }
+      } catch (e) {}
     };
     return () => {
       ws.onmessage = null;

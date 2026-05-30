@@ -114,7 +114,7 @@ const GiftPage: React.FC = () => {
         body: JSON.stringify({ giftCode }),
       });
 
-      const data = await res.json() as ClaimGiftResponse | ApiErrorResponse;
+      const data = (await res.json()) as ClaimGiftResponse | ApiErrorResponse;
       if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to claim gift');
 
       setAlert('Gift claimed successfully! The game has been added to your library.');
