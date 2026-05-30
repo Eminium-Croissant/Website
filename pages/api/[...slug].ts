@@ -118,8 +118,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     duplex: !['GET', 'HEAD'].includes(req.method || '') ? 'half' : undefined // Important pour Node.js 18+ et fetch streaming
   }
 
-  // Forward la requête
-  const apiRes = await fetch(url, fetchOptions)
+  // Forward la requête avec gestion d'erreur réseau
+  let apiRes: Response
+  try {
+    apiRes = await fetch(url, fetchOptions)
+  } catch (err: any) {
+    console.error('Error fetching upstream API:', { url, err })
+
+    const isConnRefused = err && ((err.cause && err.cause.code === 'ECONNREFUSED') || err.code === 'ECONNREFUSED')
+    const message = isConnRefused
+      ? `Connection refused when reaching API at ${url}. Verify API_BASE_URL and ensure the backend is reachable from this runtime.`
+      : `Fetch to upstream API failed: ${err && err.message ? err.message : String(err)}`
+
+    return res.status(isConnRefused ? 502 : 500).json({ error: message })
+  }
 
   // Forward le status et les headers
   res.status(apiRes.status)

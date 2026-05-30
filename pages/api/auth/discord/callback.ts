@@ -1,5 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+type LoginOAuthResponse = {
+  token?: string
+  message?: string
+  error?: string
+}
+
 function resolveApiBaseUrl(): string {
   const configuredBaseUrl = process.env.API_BASE_URL
   if (configuredBaseUrl) {
@@ -25,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // plus besoin d'envoyer accessToken ici
       })
     })
-    const loginData = await loginRes.json()
+    const loginData = (await loginRes.json()) as LoginOAuthResponse
     if (!loginRes.ok || !loginData.token) {
       const errorMsg = loginData.message || loginData.error || 'OAuth login failed'
       console.error('[Discord OAuth] Backend error:', {
@@ -45,13 +51,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.setHeader('Set-Cookie', `token=${loginData.token}; Path=/; Expires=Fri, 31 Dec 9999 23:59:59 GMT`)
     res.redirect('/')
   } catch (error) {
-    console.error(error)
+    console.error('[Discord OAuth] Error during fetch to backend:', error)
     const isDev = process.env.NODE_ENV === 'development'
-    const msg = error instanceof Error ? error.message : String(error)
-    res
-      .status(500)
-      .send(
-        isDev ? `[DEV] Discord OAuth error: ${msg}. Check API_BASE_URL or ensure backend is running.` : 'An error occurred during authentication.'
-      )
+    const err: any = error
+    const isConnRefused = err && ((err.cause && err.cause.code === 'ECONNREFUSED') || err.code === 'ECONNREFUSED')
+    const status = isConnRefused ? 502 : 500
+    const baseMsg = isConnRefused
+      ? `Connection refused when contacting backend. Verify API_BASE_URL and that the backend is running and reachable from this runtime.`
+      : (err && err.message) || String(err)
+
+    return res.status(status).send(isDev ? `[DEV] Discord OAuth error: ${baseMsg}` : 'An error occurred during authentication.')
   }
 }
