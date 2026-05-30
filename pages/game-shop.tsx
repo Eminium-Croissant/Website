@@ -530,6 +530,8 @@ const Mobile: React.FC<ShopProps> = ({ games, loading, error, prompt, alert, han
 };
 
 function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null }) {
+  const router = useRouter();
+
   return (
     <Link href={`/game?gameId=${game.gameId}`} className='glass-card rounded-xl overflow-hidden flex flex-col shadow-glass transform transition-transform hover:scale-[1.02] hover:shadow-glass-glow cursor-pointer'>
       <div className='relative h-40' style={{ backgroundColor: 'var(--dark-secondary)' }}>
@@ -557,7 +559,14 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
         </div>
 
         {ownerInfo && (
-          <Link href={`/profile?user=${ownerInfo.id}`} className='flex items-center gap-3 glass-card rounded-lg p-2 hover:bg-glass-accent transition-colors w-fit relative z-10' onClick={e => e.stopPropagation()}>
+          <button
+            type='button'
+            className='flex items-center gap-3 glass-card rounded-lg p-2 hover:bg-glass-accent transition-colors w-fit relative z-10 text-left'
+            onClick={e => {
+              e.stopPropagation();
+              router.push(`/profile?user=${ownerInfo.id}`);
+            }}
+          >
             <CachedImage src={`/avatar/${ownerInfo.id}`} alt={ownerInfo.username} className='w-8 h-8 rounded-full object-cover border-2 border-glass-border' />
             <div className='flex items-center gap-2'>
               <span className='text-sm font-medium' style={{ color: 'var(--glass-text)' }}>
@@ -565,7 +574,7 @@ function GameCard({ game, ownerInfo }: { game: Game; ownerInfo: OwnerInfo | null
               </span>
               <Certification user={ownerInfo} className='w-4 h-4 relative -top-0.5' />
             </div>
-          </Link>
+          </button>
         )}
 
         <p className='text-sm line-clamp-3 glass-card p-3 rounded-lg' style={{ color: 'var(--glass-text-secondary)' }}>
