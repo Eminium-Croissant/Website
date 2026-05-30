@@ -28,25 +28,27 @@ export const ImageCacheProvider: React.FC<{ children: ReactNode }> = ({ children
       return loadingPromises.get(src)!;
     }
 
-    const loadingPromise = new Promise<string>(async (resolve, reject) => {
-      try {
-        const response = await fetch(src);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    const loadingPromise = new Promise<string>((resolve, reject) => {
+      (async () => {
+        try {
+          const response = await fetch(src);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const blob = await response.blob();
+
+          const blobUrl = URL.createObjectURL(blob);
+
+          imageCache.set(src, blobUrl);
+          loadingPromises.delete(src);
+
+          resolve(blobUrl);
+        } catch (error) {
+          loadingPromises.delete(src);
+          reject(error);
         }
-
-        const blob = await response.blob();
-
-        const blobUrl = URL.createObjectURL(blob);
-
-        imageCache.set(src, blobUrl);
-        loadingPromises.delete(src);
-
-        resolve(blobUrl);
-      } catch (error) {
-        loadingPromises.delete(src);
-        reject(error);
-      }
+      })();
     });
 
     loadingPromises.set(src, loadingPromise);

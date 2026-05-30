@@ -58,7 +58,7 @@ function OAuth2DemoDesktop() {
           onClick={e => {
             const clientId = e.currentTarget.getAttribute('data-client_id');
             const redirectUri = location.origin;
-            let page = window.open(`/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}`, '_oauth2', 'width=600,height=600');
+            const page = window.open(`/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}`, '_oauth2', 'width=600,height=600');
 
             function lookForCode() {
               requestAnimationFrame(lookForCode);
@@ -133,7 +133,7 @@ function OAuth2DemoMobile() {
           onClick={e => {
             const clientId = e.currentTarget.getAttribute('data-client_id');
             const redirectUri = location.origin;
-            let page = window.open(`/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}`, '_oauth2', 'width=600,height=600');
+            const page = window.open(`/oauth2/auth?client_id=${clientId}&redirect_uri=${redirectUri}`, '_oauth2', 'width=600,height=600');
 
             function lookForCode() {
               requestAnimationFrame(lookForCode);

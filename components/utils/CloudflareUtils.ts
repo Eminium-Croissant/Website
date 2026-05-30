@@ -1,9 +1,6 @@
 // Cloudflare environment detection and error handling
 export function isCloudflareEnvironment(): boolean {
-  if (typeof globalThis !== 'undefined') {
-    return !!(globalThis as any).caches || !!(globalThis as any).Request;
-  }
-  return false;
+  return typeof globalThis !== 'undefined' && (!!(globalThis as any).caches || !!(globalThis as any).Request);
 }
 
 export function handleCloudflareError(error: any, context: string): void {

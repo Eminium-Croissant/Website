@@ -40,20 +40,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.setHeader('Content-Length', response.headers.get('content-length')!);
           }
           
-          // Stream la réponse
-          const reader = response.body?.getReader();
-          if (reader) {
-            try {
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                res.write(Buffer.from(value));
-              }
-              res.end();
-              return;
-            } finally {
-              reader.releaseLock();
-            }
+          // Stream la réponse (convertir le ReadableStream WHATWG en stream Node.js)
+          if (response.body) {
+            const nodeStream = require('stream').Readable.fromWeb(response.body);
+            nodeStream.pipe(res);
+            return;
           }
         }
       } catch (error) {

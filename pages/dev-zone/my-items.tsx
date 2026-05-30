@@ -107,7 +107,7 @@ const MyItems = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    let abortController = new AbortController();
+    const abortController = new AbortController();
     let debounceTimer: NodeJS.Timeout;
 
     const fetchItems = async () => {

@@ -89,7 +89,7 @@ export default function Home() {
             {(() => {
               const getStarted = t('index.overview.creators.getstarted')
               const [label, rest] = getStarted.split(':')
-              let content = rest || ''
+              const content = rest || ''
               const parts = content.split(/(settings|documentation)/g)
               return (
                 <>

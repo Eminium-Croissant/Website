@@ -508,7 +508,7 @@ function useSettingsLogic() {
       const data = await res.json();
       if (!res.ok) throw new Error((data as ApiErrorResponse).message || 'Failed to update username');
       setUsernameSuccess('Username updated!');
-      setUser && setUser({ ...user, username });
+      if (setUser) setUser({ ...user, username });
     } catch (e: any) {
       setUsernameError(e.message);
     } finally {
@@ -587,11 +587,10 @@ function useSettingsLogic() {
         const cred = await navigator.credentials.create({ publicKey: options });
         if (!cred) throw new Error('Passkey creation failed');
 
-        function bufferToBase64url(buf: ArrayBuffer): string {
-          let str = btoa(String.fromCharCode(...new Uint8Array(buf)));
-
+        const bufferToBase64url = (buf: ArrayBuffer): string => {
+          const str = btoa(String.fromCharCode(...new Uint8Array(buf)));
           return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        }
+        };
 
         const publicKeyCred = cred as PublicKeyCredential;
         const credential = {
@@ -808,7 +807,7 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
       const data = await res.json() as ApiErrorResponse;
       if (!res.ok) throw new Error(data.message || 'Failed to update username');
       setUsernameSuccess('Username updated!');
-      setUser && setUser({ ...user, username });
+      if (setUser) setUser({ ...user, username });
     } catch (e: any) {
       setUsernameError(e.message);
     } finally {
@@ -943,11 +942,10 @@ function SettingsDesktop(props: ReturnType<typeof useSettingsLogic>) {
         const cred = await navigator.credentials.create({ publicKey: options });
         if (!cred) throw new Error('Passkey creation failed');
 
-        function bufferToBase64url(buf: ArrayBuffer): string {
-          let str = btoa(String.fromCharCode(...new Uint8Array(buf)));
-
+        const bufferToBase64url = (buf: ArrayBuffer): string => {
+          const str = btoa(String.fromCharCode(...new Uint8Array(buf)));
           return str.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        }
+        };
 
         const publicKeyCred = cred as PublicKeyCredential;
         const credential = {

@@ -28,7 +28,7 @@ type LobbyContextType = {
 
 const LobbyContext = createContext<LobbyContextType | undefined>(undefined)
 
-let ws: WebSocket | null = null
+const ws: WebSocket | null = null
 
 function hasAuthToken(): boolean {
   if (typeof document === 'undefined') {

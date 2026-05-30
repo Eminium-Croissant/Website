@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
   // Detect if running in Cloudflare Workers
-  const isCloudflare = request.headers.has('cf-ray') || request.headers.has('cf-connecting-ip') || typeof (globalThis as any).caches !== 'undefined'
+  const isCloudflare = request.headers.has('cf-ray') || request.headers.has('cf-connecting-ip')
 
   if (isCloudflare) {
     console.log('[Middleware] Running in Cloudflare Workers environment')
