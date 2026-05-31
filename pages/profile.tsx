@@ -718,27 +718,42 @@ function useProfileLogic(userId: string) {
     setStatusError(null)
 
     try {
-      const payload = { status: effectiveStatus, userId: targetUser.id, targetUserId: targetUser.id }
-      const attempts: Array<{ url: string; method: 'POST' | 'PUT'; body: any }> = [
+      const payload = {
+        status: effectiveStatus,
+        apiStatus: effectiveStatus,
+        userId: targetUser.id,
+        targetUserId: targetUser.id
+      }
+      const attempts: Array<{ url: string; method: 'POST' | 'PUT' | 'PATCH'; body: any }> = [
+        { url: '/api/users/admin/' + targetUser.id, method: 'PATCH', body: { status: effectiveStatus } },
+        { url: '/api/users/admin/' + targetUser.id, method: 'PUT', body: { status: effectiveStatus } },
+        { url: '/api/users/admin/' + targetUser.id, method: 'PATCH', body: { apiStatus: effectiveStatus } },
+        { url: '/api/users/admin/' + targetUser.id, method: 'PUT', body: { apiStatus: effectiveStatus } },
         { url: '/api/users/admin/status/' + targetUser.id, method: 'POST', body: { status: effectiveStatus } },
         { url: '/api/users/admin/status/' + targetUser.id, method: 'PUT', body: { status: effectiveStatus } },
         { url: '/api/users/admin/status', method: 'POST', body: payload }
       ]
 
       let updated = false
+      let lastErrorMessage = 'Impossible de mettre a jour ce status'
+
       for (const attempt of attempts) {
         const res = await fetch(attempt.url, {
           method: attempt.method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(attempt.body)
         })
+
         if (res.ok) {
           updated = true
           break
         }
+
+        const apiMessage = await resolveApiMessage(res, `${attempt.method} ${attempt.url} -> ${res.status}`)
+        lastErrorMessage = apiMessage
       }
 
-      if (!updated) throw new Error('Impossible de mettre a jour ce status')
+      if (!updated) throw new Error(lastErrorMessage)
 
       setAdminStatusUsers((prev) => prev.map((entry) => (entry.id === targetUser.id ? { ...entry, status: effectiveStatus } : entry)))
       setProfile((prev) => (prev && prev.id === targetUser.id ? { ...prev, status: effectiveStatus } : prev))
