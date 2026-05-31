@@ -4,6 +4,7 @@ export interface UserCacheUser {
   id: string;
   studios: any[];
   username: string;
+  created_at?: string | Date;
   verified: boolean;
   isStudio?: boolean;
   admin?: boolean;
@@ -60,3 +61,4 @@ export function useUserCacheContext() {
   if (!ctx) throw new Error('useUserCacheContext must be used within a UserCacheProvider');
   return ctx;
 }
+

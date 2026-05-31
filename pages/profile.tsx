@@ -544,7 +544,7 @@ function useProfileLogic(userId: string) {
       setIsProfileReloading(false);
     }, 250);
     return () => clearTimeout(handler);
-  }, [search, isProfileReloading, reloadProfile]);
+  }, [search, isProfileReloading, reloadProfile, user]);
 
   const handleDisableAccount = async () => {
     if (!user?.admin || !token || !profile) return;
@@ -679,7 +679,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
       setIsProfileReloading(false);
     }, 250);
     return () => clearTimeout(handler);
-  }, [search, isProfileReloading, reloadProfile]);
+  }, [search, isProfileReloading, reloadProfile, user]);
 
   if (loading)
     return (
@@ -919,7 +919,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
       setIsProfileReloading(false);
     }, 250);
     return () => clearTimeout(handler);
-  }, [search, isProfileReloading, reloadProfile]);
+  }, [search, isProfileReloading, reloadProfile, user]);
 
   if (loading)
     return (
@@ -1404,3 +1404,4 @@ export default function Profile({ userId }: ProfileProps) {
   const logic = useProfileLogic(userId);
   return isMobile ? <ProfileMobile {...logic} /> : <ProfileDesktop {...logic} />;
 }
+
