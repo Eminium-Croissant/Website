@@ -145,6 +145,7 @@ interface User {
   verified: boolean;
   id: string;
   username: string;
+  created_at?: string | Date;
   disabled?: boolean;
   admin?: boolean;
   isStudio?: boolean;
@@ -178,6 +179,22 @@ const tooltipStyle = (x: number, y: number): React.CSSProperties => ({
   position: 'fixed',
   zIndex: 1000,
 });
+
+function formatCreatedAt(createdAt: string | Date | undefined, locale: string): string | null {
+  if (!createdAt) return null;
+
+  const date = createdAt instanceof Date ? createdAt : new Date(createdAt);
+  if (Number.isNaN(date.getTime())) return null;
+
+  const label = locale.startsWith('fr') ? 'Créé le' : 'Created on';
+  const formattedDate = new Intl.DateTimeFormat(locale || 'en', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(date);
+
+  return `${label} ${formattedDate}`;
+}
 
 function ProfileShop({ user, onBuySuccess }: { user: User; onBuySuccess: () => void }) {
   const { t } = useTranslation();
@@ -653,7 +670,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
   const { profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, search, setIsProfileReloading, reloadProfile, setGiveCreditsError, setGiveCreditsSuccess, setInventoryReloadFlag, setShowTradeModal } = props;
 
   const { user, token } = useAuth();
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
 
   useEffect(() => {
     if (isProfileReloading) return;
@@ -724,6 +741,7 @@ function ProfileDesktop(props: ReturnType<typeof useProfileLogic>) {
                   {profile.disabled ? <span style={{ color: 'red', marginLeft: 8 }}>{t('profile.disabledLabel')}</span> : null}
                 </div>
                 <BadgesBox badges={profile.badges || []} studio={profile.isStudio} />
+                <ProfileCreatedAt createdAt={profile.created_at} locale={locale} />
               </div>
             </div>
           </div>
@@ -892,7 +910,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
   const { profile, loading, error, giveCreditsOpen, giveCreditsLoading, giveCreditsError, giveCreditsSuccess, currentTradeId, inventoryReloadFlag, isProfileReloading, setGiveCreditsOpen, setCurrentTradeId, reloadInventory, handleDisableAccount, handleReenableAccount, handleProfilePictureChange, handleStartTrade, handleGiveCredits, search, setIsProfileReloading, reloadProfile, setGiveCreditsError, setShowTradeModal, setInventoryReloadFlag, setGiveCreditsSuccess } = props;
 
   const { user, token } = useAuth();
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
 
   useEffect(() => {
     if (isProfileReloading) return;
@@ -972,6 +990,7 @@ function ProfileMobile(props: ReturnType<typeof useProfileLogic>) {
             {profile.disabled ? <span style={{ color: 'red' }}>{t('profile.disabledLabel')}</span> : null}
           </div>
           <BadgesBox badges={profile.badges || []} studio={profile.isStudio} />
+          <ProfileCreatedAt createdAt={profile.created_at} locale={locale} />
           <div
             style={{
               display: 'inline-flex',
@@ -1359,6 +1378,23 @@ function BadgesBox({ badges, studio }: { badges: string[]; studio?: boolean }) {
           </Link>
         );
       })}
+    </div>
+  );
+}
+
+function ProfileCreatedAt({ createdAt, locale }: { createdAt?: string | Date; locale: string }) {
+  const createdAtText = formatCreatedAt(createdAt, locale);
+  if (!createdAtText) return null;
+
+  return (
+    <div
+      style={{
+        marginTop: 8,
+        color: '#aeb6bf',
+        fontSize: 13,
+        lineHeight: 1.4,
+      }}>
+      {createdAtText}
     </div>
   );
 }
