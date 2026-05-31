@@ -599,7 +599,7 @@ function useProfileLogic(userId: string) {
 
   const { user, token } = useAuth()
   const router = useRouter()
-  const { getUser: getUserFromCache } = useUserCache()
+  const { getUser: getUserFromCache, cacheUser } = useUserCache()
 
   const reloadProfile = useCallback(
     (reloadCache: boolean = false) => {
@@ -607,8 +607,33 @@ function useProfileLogic(userId: string) {
       setIsProfileReloading(true)
       const selectedUserId = search || '@me'
       if (selectedUserId === '@me' || selectedUserId === user?.id) {
-        setProfile(user)
-        setLoading(false)
+        if (!token) {
+          setProfile(null)
+          setLoading(false)
+          return
+        }
+
+        fetch('/api/users/@me', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          credentials: 'include'
+        })
+          .then(async (res) => {
+            if (!res.ok) throw new Error('Failed to fetch current profile')
+            const freshUser: User = await res.json()
+            setProfile(freshUser)
+            cacheUser(freshUser)
+          })
+          .catch((e) => {
+            setError(e.message)
+            if (!token) {
+              router.push('/login')
+            }
+          })
+          .finally(() => {
+            setLoading(false)
+          })
         return
       }
       getUserFromCache(selectedUserId, !reloadCache, user?.admin)
@@ -718,7 +743,7 @@ function useProfileLogic(userId: string) {
     setStatusError(null)
 
     try {
-            // Use only routes that are confirmed to exist in production API.
+      // Use only routes that are confirmed to exist in production API.
       const attempts: Array<{ url: string; method: 'POST'; body?: any }> =
         effectiveStatus === 5
           ? [
@@ -782,10 +807,6 @@ function useProfileLogic(userId: string) {
       })
       const data: ApiErrorResponse = await res.json()
       if (!res.ok) throw new Error(data.message || 'Failed to disable account')
-      setProfile((prev) => (prev ? { ...prev, disabled: true, status: 5 } : prev))
-      if (profile?.id) {
-        updateUserStatus({ id: profile.id, username: profile.username || 'Unknown', disabled: true, status: 5 }, 5).catch(() => null)
-      }
       reloadProfile(true)
     } catch (e: any) {
       setError(e.message)
@@ -800,7 +821,6 @@ function useProfileLogic(userId: string) {
       })
       const data: ApiErrorResponse = await res.json()
       if (!res.ok) throw new Error(data.message || 'Failed to re-enable account')
-      setProfile((prev) => (prev ? { ...prev, disabled: false } : prev))
       reloadProfile(true)
     } catch (e: any) {
       setError(e.message)
@@ -1786,133 +1806,8 @@ function ProfileStatusModal({
             </span>
           </div>
           <div style={{ color: '#d7deea', fontSize: 14 }}>{currentInfo.descriptionFr}</div>
-
-          {isAdmin ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <label style={{ color: '#aeb7c7', fontSize: 13 }}>Modifier ce compte:</label>
-              <select
-                value={String(currentStatus)}
-                disabled={profile.disabled || statusActionLoadingId === profile.id}
-                onChange={(e) =>
-                  onUpdateStatus(
-                    { id: profile.id, username: profile.username, status: profile.status, disabled: profile.disabled },
-                    Number(e.target.value)
-                  )
-                }
-                style={{
-                  minWidth: 160,
-                  borderRadius: 10,
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  background: 'rgba(13,18,25,0.8)',
-                  color: '#f4f7ff',
-                  padding: '8px 10px'
-                }}
-              >
-                {STATUS_LEVELS.map((level) => (
-                  <option key={level.level} value={level.level}>
-                    {level.level} - {level.labelFr}
-                  </option>
-                ))}
-              </select>
-              {profile.disabled ? <span style={{ color: '#ffb8b8', fontSize: 12 }}>Disabled actif: niveau 5 force</span> : null}
-            </div>
-          ) : (
-            <div style={{ color: '#9bb5ff', fontSize: 13 }}>Mode lecture seule: vous ne pouvez pas modifier votre niveau.</div>
-          )}
+          <div style={{ color: '#9bb5ff', fontSize: 13 }}>Mode lecture seule: affichage du statut uniquement.</div>
         </div>
-
-        {isAdmin ? (
-          <div style={{ marginTop: 18 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
-              <h3 style={{ margin: 0, fontSize: 18 }}>Gestion globale des comptes</h3>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                <input
-                  value={statusSearchInput}
-                  onChange={(e) => setStatusSearchInput(e.target.value)}
-                  placeholder="Rechercher un utilisateur..."
-                  style={{
-                    minWidth: 220,
-                    padding: '8px 10px',
-                    borderRadius: 10,
-                    border: '1px solid rgba(255,255,255,0.2)',
-                    background: 'rgba(10,14,22,0.8)',
-                    color: '#fff'
-                  }}
-                />
-                <button className="glass-button" onClick={() => onSearch(statusSearchInput)}>
-                  Rechercher
-                </button>
-                <button className="glass-button" onClick={() => onSearch('')}>
-                  Voir tous
-                </button>
-              </div>
-            </div>
-
-            {statusError ? <div style={{ color: '#ff8d8d', marginTop: 10 }}>{statusError}</div> : null}
-            {statusLoading ? <div style={{ color: '#c7d3eb', marginTop: 10 }}>Chargement des statuts...</div> : null}
-
-            <div style={{ marginTop: 12, display: 'grid', gap: 8 }}>
-              {adminStatusUsers.map((entry) => {
-                const effectiveStatus = getEffectiveStatus(entry)
-                const info = getStatusInfo(effectiveStatus)
-                const isBusy = statusActionLoadingId === entry.id
-
-                return (
-                  <div
-                    key={entry.id}
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'minmax(130px, 1fr) minmax(210px, 1fr) auto',
-                      gap: 10,
-                      alignItems: 'center',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                      borderRadius: 12,
-                      padding: '10px 12px',
-                      background: 'rgba(15,21,31,0.72)'
-                    }}
-                  >
-                    <div style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      <div style={{ fontWeight: 600 }}>{entry.username}</div>
-                      <div style={{ color: '#94a1bb', fontSize: 12 }}>{entry.id}</div>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                      <span style={{ color: info.color, fontWeight: 700, fontSize: 13 }}>
-                        N{effectiveStatus} - {info.labelFr}
-                      </span>
-                      <span style={{ color: '#a7b5ca', fontSize: 12 }}>{info.descriptionFr}</span>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <select
-                        disabled={entry.disabled || isBusy}
-                        value={String(effectiveStatus)}
-                        onChange={(e) => onUpdateStatus(entry, Number(e.target.value))}
-                        style={{
-                          borderRadius: 8,
-                          border: '1px solid rgba(255,255,255,0.2)',
-                          background: 'rgba(9,13,20,0.85)',
-                          color: '#fff',
-                          padding: '6px 8px',
-                          minWidth: 130
-                        }}
-                      >
-                        {STATUS_LEVELS.map((level) => (
-                          <option key={level.level} value={level.level}>
-                            {level.level} - {level.labelFr}
-                          </option>
-                        ))}
-                      </select>
-                      {entry.disabled ? <span style={{ color: '#ffb3b3', fontSize: 11 }}>Disabled</span> : null}
-                    </div>
-                  </div>
-                )
-              })}
-
-              {!statusLoading && adminStatusUsers.length === 0 ? (
-                <div style={{ color: '#b9c4db' }}>Aucun compte charge. Utilisez la recherche ou le bouton Voir tous.</div>
-              ) : null}
-            </div>
-          </div>
-        ) : null}
       </div>
     </div>
   )
