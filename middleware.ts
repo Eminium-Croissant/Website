@@ -15,6 +15,18 @@ export function middleware(request: NextRequest) {
     return response
   }
 
+  // Admin route protection
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    const token = request.cookies.get('token')?.value
+
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    // Note: The actual admin check is done on the page level
+    // This middleware just ensures the user is logged in
+  }
+
   return NextResponse.next()
 }
 
