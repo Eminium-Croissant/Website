@@ -718,21 +718,18 @@ function useProfileLogic(userId: string) {
     setStatusError(null)
 
     try {
-      const payload = {
-        status: effectiveStatus,
-        apiStatus: effectiveStatus,
-        userId: targetUser.id,
-        targetUserId: targetUser.id
-      }
-      const attempts: Array<{ url: string; method: 'POST' | 'PUT' | 'PATCH'; body: any }> = [
-        { url: '/api/users/admin/' + targetUser.id, method: 'PATCH', body: { status: effectiveStatus } },
-        { url: '/api/users/admin/' + targetUser.id, method: 'PUT', body: { status: effectiveStatus } },
-        { url: '/api/users/admin/' + targetUser.id, method: 'PATCH', body: { apiStatus: effectiveStatus } },
-        { url: '/api/users/admin/' + targetUser.id, method: 'PUT', body: { apiStatus: effectiveStatus } },
-        { url: '/api/users/admin/status/' + targetUser.id, method: 'POST', body: { status: effectiveStatus } },
-        { url: '/api/users/admin/status/' + targetUser.id, method: 'PUT', body: { status: effectiveStatus } },
-        { url: '/api/users/admin/status', method: 'POST', body: payload }
-      ]
+            // Use only routes that are confirmed to exist in production API.
+      const attempts: Array<{ url: string; method: 'POST'; body?: any }> =
+        effectiveStatus === 5
+          ? [
+              { url: '/api/users/admin/disable/' + targetUser.id, method: 'POST' },
+              { url: '/api/users/admin/disable/' + targetUser.id, method: 'POST', body: { status: 5, apiStatus: 5 } }
+            ]
+          : [
+              { url: '/api/users/admin/enable/' + targetUser.id, method: 'POST', body: { status: effectiveStatus } },
+              { url: '/api/users/admin/enable/' + targetUser.id, method: 'POST', body: { apiStatus: effectiveStatus } },
+              { url: '/api/users/admin/enable/' + targetUser.id, method: 'POST', body: { status: effectiveStatus, disabled: false } }
+            ]
 
       let updated = false
       let lastErrorMessage = 'Impossible de mettre a jour ce status'
